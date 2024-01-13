@@ -18,7 +18,7 @@ namespace MLS.Application.Features.Review.Commands.DeleteReviewCommand
             var reviewToDelete = await _reviewRepository.GetById(request.Id);
 
             if (reviewToDelete == null)
-                throw new NotFoundException(nameof(Domain.Review), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Review), request.Id);
 
             await _reviewRepository.Delete(reviewToDelete);
 

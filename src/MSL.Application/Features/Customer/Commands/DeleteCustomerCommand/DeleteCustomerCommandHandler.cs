@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Customer.Commands.DeleteCustomerCommand
 
             if (customerToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Customer), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Customer), request.Id);
             }
 
             await _customerRepository.Delete(customerToDelete);

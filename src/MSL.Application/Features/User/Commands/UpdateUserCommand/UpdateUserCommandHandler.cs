@@ -17,7 +17,7 @@ namespace MLS.Application.Features.User.Commands.UpdateUserCommand
 
         public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var userToUpdate = _mapper.Map<Domain.User>(request);
+            var userToUpdate = _mapper.Map<Domain.Entities.User>(request);
             await _userRepository.Update(userToUpdate);
 
             return Unit.Value;

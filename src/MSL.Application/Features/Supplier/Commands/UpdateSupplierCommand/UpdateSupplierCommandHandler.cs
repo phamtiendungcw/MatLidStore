@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Supplier.Commands.UpdateSupplierCommand
 
         public async Task<Unit> Handle(UpdateSupplierCommand request, CancellationToken cancellationToken)
         {
-            var supplierToUpdate = _mapper.Map<Domain.Supplier>(request);
+            var supplierToUpdate = _mapper.Map<Domain.Entities.Supplier>(request);
             await _supplierRepository.Update(supplierToUpdate);
 
             return Unit.Value;

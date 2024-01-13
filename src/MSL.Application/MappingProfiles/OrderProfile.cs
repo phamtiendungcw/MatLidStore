@@ -3,12 +3,7 @@ using MLS.Application.DTO.Order;
 using MLS.Application.Features.Order.Commands.CreateOrderCommand;
 using MLS.Application.Features.Order.Commands.DeleteOrderCommand;
 using MLS.Application.Features.Order.Commands.UpdateOrderCommand;
-using MLS.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

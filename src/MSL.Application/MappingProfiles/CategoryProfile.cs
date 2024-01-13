@@ -3,12 +3,7 @@ using MLS.Application.DTO.Category;
 using MLS.Application.Features.Category.Commands.CreateCategoryCommand;
 using MLS.Application.Features.Category.Commands.DeleteCategoryCommand;
 using MLS.Application.Features.Category.Commands.UpdateCategoryCommand;
-using MLS.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Supplier.Commands.DeleteSupplierCommand
 
             if (supplierToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Supplier), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Supplier), request.Id);
             }
 
             await _supplierRepository.Delete(supplierToDelete);

@@ -17,7 +17,7 @@ namespace MLS.Application.Features.User.Commands.CreateUserCommand
 
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var userToCreate = _mapper.Map<Domain.User>(request);
+            var userToCreate = _mapper.Map<Domain.Entities.User>(request);
             await _userRepository.Create(userToCreate);
 
             return userToCreate.Id;

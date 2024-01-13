@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Payment.Queries.GetPaymentDetail
 
             if (payment == null)
             {
-                throw new NotFoundException(nameof(Domain.Payment), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Payment), request.Id);
             }
 
             var data = _mapper.Map<PaymentDetailDto>(payment);

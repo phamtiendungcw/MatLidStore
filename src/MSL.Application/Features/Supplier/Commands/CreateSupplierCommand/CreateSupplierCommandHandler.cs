@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Supplier.Commands.CreateSupplierCommand
 
         public async Task<int> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
         {
-            var supplierToCreate = _mapper.Map<Domain.Supplier>(request);
+            var supplierToCreate = _mapper.Map<Domain.Entities.Supplier>(request);
 
             await _supplierRepository.Create(supplierToCreate);
 

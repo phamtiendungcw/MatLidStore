@@ -18,7 +18,7 @@ namespace MLS.Application.Features.WishList.Commands.DeleteWishListCommand
             var wishListToDelete = await _wishListRepository.GetById(request.Id);
             if (wishListToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.WishList), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.WishList), request.Id);
             }
 
             await _wishListRepository.Delete(wishListToDelete);

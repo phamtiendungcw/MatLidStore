@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Promotion.Queries.GetPromotionDetail
 
             if (promotion == null)
             {
-                throw new NotFoundException(nameof(Domain.Promotion), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Promotion), request.Id);
             }
 
             var data = _mapper.Map<PromotionDetailDto>(promotion);

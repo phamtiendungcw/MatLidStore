@@ -3,12 +3,7 @@ using MLS.Application.DTO.Product;
 using MLS.Application.Features.Product.Commands.CreateProductCommand;
 using MLS.Application.Features.Product.Commands.DeleteProductCommand;
 using MLS.Application.Features.Product.Commands.UpdateProductCommand;
-using MLS.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Order.Commands.DeleteOrderCommand
 
             if (orderToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Order), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Order), request.Id);
             }
 
             await _orderRepository.Delete(orderToDelete);

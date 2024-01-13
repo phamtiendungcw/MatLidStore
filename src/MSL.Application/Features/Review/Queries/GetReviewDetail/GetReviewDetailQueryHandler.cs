@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Review.Queries.GetReviewDetail
 
             if (review == null)
             {
-                throw new NotFoundException(nameof(Domain.Review), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Review), request.Id);
             }
 
             var data = _mapper.Map<ReviewDetailDto>(review);

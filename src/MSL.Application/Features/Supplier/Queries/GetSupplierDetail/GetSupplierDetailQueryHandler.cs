@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Supplier.Queries.GetSupplierDetail
 
             if (supplier == null)
             {
-                throw new NotFoundException(nameof(Domain.Supplier), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Supplier), request.Id);
             }
 
             var data = _mapper.Map<SupplierDetailDto>(supplier);

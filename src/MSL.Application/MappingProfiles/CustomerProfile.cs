@@ -3,12 +3,7 @@ using MLS.Application.DTO.Customer;
 using MLS.Application.Features.Customer.Commands.CreateCustomerCommand;
 using MLS.Application.Features.Customer.Commands.DeleteCustomerCommand;
 using MLS.Application.Features.Customer.Commands.UpdateCustomerCommand;
-using MLS.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Invoice.Queries.GetInvoiceDetail
 
             if (invoice == null)
             {
-                throw new NotFoundException(nameof(Domain.Invoice), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Invoice), request.Id);
             }
 
             var data = _mapper.Map<InvoiceDetailDto>(invoice);

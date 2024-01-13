@@ -3,7 +3,7 @@ using MLS.Application.DTO.Product;
 using MLS.Application.Features.Product.Commands.CreateProductImageCommand;
 using MLS.Application.Features.Product.Commands.DeleteProductImageCommand;
 using MLS.Application.Features.Product.Commands.UpdateProductImageCommand;
-using MLS.Domain;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

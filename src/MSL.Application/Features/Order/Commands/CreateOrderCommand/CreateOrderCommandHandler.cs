@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Order.Commands.CreateOrderCommand
 
         public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var orderToCreate = _mapper.Map<Domain.Order>(request);
+            var orderToCreate = _mapper.Map<Domain.Entities.Order>(request);
             await _orderRepository.Create(orderToCreate);
 
             return orderToCreate.Id;

@@ -17,7 +17,7 @@ namespace MLS.Application.Features.CartItem.Commands.CreateCartItemCommand
 
         public async Task<int> Handle(CreateCartItemCommand request, CancellationToken cancellationToken)
         {
-            var cartItemToCreate = _mapper.Map<Domain.CartItem>(request);
+            var cartItemToCreate = _mapper.Map<Domain.Entities.CartItem>(request);
             await _cartItemRepository.Create(cartItemToCreate);
 
             return cartItemToCreate.Id;

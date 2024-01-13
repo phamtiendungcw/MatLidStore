@@ -19,7 +19,7 @@ namespace MLS.Application.Features.CartItem.Commands.DeleteCartItemCommand
 
             if (cartItemToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.CartItem), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.CartItem), request.Id);
             }
 
             await _cartItemRepository.Delete(cartItemToDelete);

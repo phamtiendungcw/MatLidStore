@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Promotion.Commands.CreatePromotionCommand
 
         public async Task<int> Handle(CreatePromotionCommand request, CancellationToken cancellationToken)
         {
-            var promotionToCreate = _mapper.Map<Domain.Promotion>(request);
+            var promotionToCreate = _mapper.Map<Domain.Entities.Promotion>(request);
             await _promotionRepository.Create(promotionToCreate);
 
             return promotionToCreate.Id;

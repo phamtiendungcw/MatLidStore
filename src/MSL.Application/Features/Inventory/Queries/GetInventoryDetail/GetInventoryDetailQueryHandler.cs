@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Inventory.Queries.GetInventoryDetail
 
             if (inventory == null)
             {
-                throw new NotFoundException(nameof(Domain.Inventory), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Inventory), request.Id);
             }
 
             var data = _mapper.Map<InventoryDetailDto>(inventory);

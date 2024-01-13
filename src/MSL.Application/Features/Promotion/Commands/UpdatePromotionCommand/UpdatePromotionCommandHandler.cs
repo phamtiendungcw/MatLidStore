@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Promotion.Commands.UpdatePromotionCommand
 
         public async Task<Unit> Handle(UpdatePromotionCommand request, CancellationToken cancellationToken)
         {
-            var promotionToUpdate = _mapper.Map<Domain.Promotion>(request);
+            var promotionToUpdate = _mapper.Map<Domain.Entities.Promotion>(request);
             await _promotionRepository.Update(promotionToUpdate);
 
             return Unit.Value;

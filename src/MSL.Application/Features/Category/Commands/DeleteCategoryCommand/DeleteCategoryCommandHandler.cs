@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Category.Commands.DeleteCategoryCommand
 
             if (categoryToDelete == null)
             {
-                throw new NotFoundException(nameof(Category), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Category), request.Id);
             }
 
             await _categoryRepository.Delete(categoryToDelete);

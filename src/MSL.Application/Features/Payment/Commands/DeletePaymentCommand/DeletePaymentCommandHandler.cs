@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Payment.Commands.DeletePaymentCommand
 
             if (paymentToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Payment), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Payment), request.Id);
             }
 
             await _paymentRepository.Delete(paymentToDelete);

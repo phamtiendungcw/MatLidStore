@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Invoice.Commands.DeleteInvoiceCommand
 
             if (invoiceToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Invoice), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Invoice), request.Id);
             }
 
             await _invoiceRepository.Delete(invoiceToDelete);

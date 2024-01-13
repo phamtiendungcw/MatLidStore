@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Product.Commands.UpdateProductCommand
 
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var productToUpdate = _mapper.Map<Domain.Product>(request);
+            var productToUpdate = _mapper.Map<Domain.Entities.Product>(request);
             await _productRepository.Update(productToUpdate);
 
             return Unit.Value;

@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Order.Queries.GetOrderDetail
 
             if (order == null)
             {
-                throw new NotFoundException(nameof(Domain.Order), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Order), request.Id);
             }
 
             var data = _mapper.Map<OrderDetailDto>(order);

@@ -1,5 +1,5 @@
 ﻿using MLS.Application.Contracts.Persistence;
-using MLS.Domain;
+using MLS.Domain.Entities;
 using MLS.Persistence.DatabaseContext;
 using MLS.Persistence.Repository.Common;
 

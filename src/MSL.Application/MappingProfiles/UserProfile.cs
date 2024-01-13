@@ -3,12 +3,7 @@ using MLS.Application.DTO.User;
 using MLS.Application.Features.User.Commands.CreateUserCommand;
 using MLS.Application.Features.User.Commands.DeleteUserCommand;
 using MLS.Application.Features.User.Commands.UpdateUserCommand;
-using MLS.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

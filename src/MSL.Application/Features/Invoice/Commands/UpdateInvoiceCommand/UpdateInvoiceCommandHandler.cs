@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Invoice.Commands.UpdateInvoiceCommand
 
         public async Task<Unit> Handle(UpdateInvoiceCommand request, CancellationToken cancellationToken)
         {
-            var invoiceToUpdate = _mapper.Map<Domain.Invoice>(request);
+            var invoiceToUpdate = _mapper.Map<Domain.Entities.Invoice>(request);
             await _invoiceRepository.Update(invoiceToUpdate);
 
             return Unit.Value;

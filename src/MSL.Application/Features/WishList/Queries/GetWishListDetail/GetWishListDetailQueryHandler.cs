@@ -22,7 +22,7 @@ namespace MLS.Application.Features.WishList.Queries.GetWishListDetail
             var wishList = await _wishListRepository.GetById(request.Id);
             if (wishList == null)
             {
-                throw new NotFoundException(nameof(Domain.WishList), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.WishList), request.Id);
             }
 
             var data = _mapper.Map<WishListDetailDto>(wishList);

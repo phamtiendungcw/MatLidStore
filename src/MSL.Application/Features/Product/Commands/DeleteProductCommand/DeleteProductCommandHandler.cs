@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Product.Commands.DeleteProductCommand
 
             if (productToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Product), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Product), request.Id);
             }
 
             await _productRepository.Delete(productToDelete);

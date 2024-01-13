@@ -17,7 +17,7 @@ namespace MLS.Application.Features.WishList.Commands.CreateWishListCommand
 
         public async Task<int> Handle(CreateWishListCommand request, CancellationToken cancellationToken)
         {
-            var wishListToCreate = _mapper.Map<Domain.WishList>(request);
+            var wishListToCreate = _mapper.Map<Domain.Entities.WishList>(request);
             await _wishListRepository.Create(wishListToCreate);
 
             return wishListToCreate.Id;

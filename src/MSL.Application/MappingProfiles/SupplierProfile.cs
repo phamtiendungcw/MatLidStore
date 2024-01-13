@@ -3,12 +3,7 @@ using MLS.Application.DTO.Supplier;
 using MLS.Application.Features.Supplier.Commands.CreateSupplierCommand;
 using MLS.Application.Features.Supplier.Commands.DeleteSupplierCommand;
 using MLS.Application.Features.Supplier.Commands.UpdateSupplierCommand;
-using MLS.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

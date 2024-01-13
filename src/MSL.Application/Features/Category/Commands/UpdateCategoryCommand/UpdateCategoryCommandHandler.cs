@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Category.Commands.UpdateCategoryCommand
 
         public async Task<Unit> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var categoryToUpdate = _mapper.Map<Domain.Category>(request);
+            var categoryToUpdate = _mapper.Map<Domain.Entities.Category>(request);
             await _categoryRepository.Update(categoryToUpdate);
 
             return Unit.Value;

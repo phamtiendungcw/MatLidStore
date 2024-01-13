@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Inventory.Commands.DeleteInventoryCommand
 
             if (inventoryToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Inventory), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Inventory), request.Id);
             }
 
             await _inventoryRepository.Delete(inventoryToDelete);

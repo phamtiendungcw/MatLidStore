@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Product.Queries.GetProductDetail
 
             if (product == null)
             {
-                throw new NotFoundException(nameof(Domain.Product), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Product), request.Id);
             }
 
             var data = _mapper.Map<ProductDetailDto>(product);

@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Review.Commands.UpdateReviewCommand
 
         public async Task<Unit> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
         {
-            var reviewToUpdate = _mapper.Map<Domain.Review>(request);
+            var reviewToUpdate = _mapper.Map<Domain.Entities.Review>(request);
             await _reviewRepository.Update(reviewToUpdate);
 
             return Unit.Value;

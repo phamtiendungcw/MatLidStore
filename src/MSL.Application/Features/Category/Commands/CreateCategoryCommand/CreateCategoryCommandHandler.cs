@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Category.Commands.CreateCategoryCommand
 
         public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var categoryToCreate = _mapper.Map<Domain.Category>(request);
+            var categoryToCreate = _mapper.Map<Domain.Entities.Category>(request);
             await _categoryRepository.Create(categoryToCreate);
 
             return categoryToCreate.Id;
