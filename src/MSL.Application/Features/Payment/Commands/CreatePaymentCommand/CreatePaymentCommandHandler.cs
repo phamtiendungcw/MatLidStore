@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Payment.Commands.CreatePaymentCommand
 
         public async Task<int> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
         {
-            var paymentToCreate = _mapper.Map<Domain.Payment>(request);
+            var paymentToCreate = _mapper.Map<Domain.Entities.Payment>(request);
             await _paymentRepository.Create(paymentToCreate);
 
             return paymentToCreate.Id;

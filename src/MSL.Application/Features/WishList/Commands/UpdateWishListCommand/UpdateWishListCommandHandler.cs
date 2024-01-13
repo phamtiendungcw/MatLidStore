@@ -17,7 +17,7 @@ namespace MLS.Application.Features.WishList.Commands.UpdateWishListCommand
 
         public async Task<Unit> Handle(UpdateWishListCommand request, CancellationToken cancellationToken)
         {
-            var wishListToUpdate = _mapper.Map<Domain.WishList>(request);
+            var wishListToUpdate = _mapper.Map<Domain.Entities.WishList>(request);
             await _wishListRepository.Update(wishListToUpdate);
 
             return Unit.Value;

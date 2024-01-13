@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using MLS.Application.Contracts.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MLS.Application.Features.Product.Commands.CreateProductImageCommand
 {
@@ -22,7 +17,7 @@ namespace MLS.Application.Features.Product.Commands.CreateProductImageCommand
 
         public async Task<int> Handle(CreateProductImageCommand request, CancellationToken cancellationToken)
         {
-            var productImageToCreate = _mapper.Map<Domain.ProductImage>(request);
+            var productImageToCreate = _mapper.Map<Domain.Entities.ProductImage>(request);
             await _productImageRepository.Create(productImageToCreate);
 
             return productImageToCreate.Id;

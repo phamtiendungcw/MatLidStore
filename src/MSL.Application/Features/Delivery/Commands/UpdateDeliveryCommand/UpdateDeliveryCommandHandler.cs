@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Delivery.Commands.UpdateDeliveryCommand
 
         public async Task<Unit> Handle(UpdateDeliveryCommand request, CancellationToken cancellationToken)
         {
-            var deliveryToUpdate = _mapper.Map<Domain.Delivery>(request);
+            var deliveryToUpdate = _mapper.Map<Domain.Entities.Delivery>(request);
             await _deliveryRepository.Update(deliveryToUpdate);
 
             return Unit.Value;

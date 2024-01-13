@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Delivery.Commands.CreateDeliveryCommand
 
         public async Task<int> Handle(CreateDeliveryCommand request, CancellationToken cancellationToken)
         {
-            var deliveryToCreate = _mapper.Map<Domain.Delivery>(request);
+            var deliveryToCreate = _mapper.Map<Domain.Entities.Delivery>(request);
             await _deliveryRepository.Create(deliveryToCreate);
 
             return deliveryToCreate.Id;

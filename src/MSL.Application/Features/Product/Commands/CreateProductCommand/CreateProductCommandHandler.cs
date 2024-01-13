@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Product.Commands.CreateProductCommand
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var productToCreate = _mapper.Map<Domain.Product>(request);
+            var productToCreate = _mapper.Map<Domain.Entities.Product>(request);
             await _productRepository.Create(productToCreate);
 
             return productToCreate.Id;

@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Inventory.Commands.UpdateInventoryCommand
 
         public async Task<Unit> Handle(UpdateInventoryCommand request, CancellationToken cancellationToken)
         {
-            var inventoryToUpdate = _mapper.Map<Domain.Inventory>(request);
+            var inventoryToUpdate = _mapper.Map<Domain.Entities.Inventory>(request);
             await _inventoryRepository.Update(inventoryToUpdate);
 
             return Unit.Value;

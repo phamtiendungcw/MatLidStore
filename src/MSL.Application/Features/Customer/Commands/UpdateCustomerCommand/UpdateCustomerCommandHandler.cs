@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Customer.Commands.UpdateCustomerCommand
 
         public async Task<Unit> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customerToUpdate = _mapper.Map<Domain.Customer>(request);
+            var customerToUpdate = _mapper.Map<Domain.Entities.Customer>(request);
             await _customerRepository.Update(customerToUpdate);
 
             return Unit.Value;

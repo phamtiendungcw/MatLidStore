@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Delivery.Commands.DeleteDeliveryCommand
 
             if (deliveryToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Delivery), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Delivery), request.Id);
             }
 
             await _deliveryRepository.Delete(deliveryToDelete);

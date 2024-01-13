@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Promotion.Commands.DeletePromotionCommand
 
             if (promotionToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Promotion), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Promotion), request.Id);
             }
 
             await _promotionRepository.Delete(promotionToDelete);

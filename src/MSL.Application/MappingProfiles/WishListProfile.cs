@@ -3,13 +3,7 @@ using MLS.Application.DTO.WishList;
 using MLS.Application.Features.WishList.Commands.CreateWishListCommand;
 using MLS.Application.Features.WishList.Commands.DeleteWishListCommand;
 using MLS.Application.Features.WishList.Commands.UpdateWishListCommand;
-using MLS.Domain;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

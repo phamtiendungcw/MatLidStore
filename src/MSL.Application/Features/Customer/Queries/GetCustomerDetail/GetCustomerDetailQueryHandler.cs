@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Customer.Queries.GetCustomerDetail
 
             if (customer == null)
             {
-                throw new NotFoundException(nameof(Domain.Customer), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Customer), request.Id);
             }
 
             var data = _mapper.Map<CustomerDetailDto>(customer);

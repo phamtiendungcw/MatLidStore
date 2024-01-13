@@ -29,7 +29,7 @@ namespace MLS.Application.Features.Address.Commands.CreateAddressCommand
                 throw new BadRequestException("Invalid Address", validatorResult);
             }
 
-            var addressToCreate = _mapper.Map<Domain.Address>(request);
+            var addressToCreate = _mapper.Map<Domain.Entities.Address>(request);
             await _addressRepository.Create(addressToCreate);
 
             _logger.LogInformation("Created address successfully.");

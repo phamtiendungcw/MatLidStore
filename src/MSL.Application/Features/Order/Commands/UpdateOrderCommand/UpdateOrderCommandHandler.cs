@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Order.Commands.UpdateOrderCommand
 
         public async Task<Unit> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
-            var orderToUpdate = _mapper.Map<Domain.Order>(request);
+            var orderToUpdate = _mapper.Map<Domain.Entities.Order>(request);
             await _orderRepository.Update(orderToUpdate);
 
             return Unit.Value;

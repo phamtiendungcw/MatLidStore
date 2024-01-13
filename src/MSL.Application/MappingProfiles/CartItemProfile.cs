@@ -3,12 +3,7 @@ using MLS.Application.DTO.CartItem;
 using MLS.Application.Features.CartItem.Commands.CreateCartItemCommand;
 using MLS.Application.Features.CartItem.Commands.DeleteCartItemCommand;
 using MLS.Application.Features.CartItem.Commands.UpdateCartItemCommand;
-using MLS.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

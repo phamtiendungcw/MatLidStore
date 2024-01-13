@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Invoice.Commands.CreateInvoiceCommand
 
         public async Task<int> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
         {
-            var invoiceToCreate = _mapper.Map<Domain.Invoice>(request);
+            var invoiceToCreate = _mapper.Map<Domain.Entities.Invoice>(request);
             await _invoiceRepository.Create(invoiceToCreate);
 
             return invoiceToCreate.Id;

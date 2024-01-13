@@ -3,12 +3,7 @@ using MLS.Application.DTO.Inventory;
 using MLS.Application.Features.Inventory.Commands.CreateInventoryCommand;
 using MLS.Application.Features.Inventory.Commands.DeleteInventoryCommand;
 using MLS.Application.Features.Inventory.Commands.UpdateInventoryCommand;
-using MLS.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {

@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Inventory.Commands.CreateInventoryCommand
 
         public async Task<int> Handle(CreateInventoryCommand request, CancellationToken cancellationToken)
         {
-            var inventoryToCreate = _mapper.Map<Domain.Inventory>(request);
+            var inventoryToCreate = _mapper.Map<Domain.Entities.Inventory>(request);
             await _inventoryRepository.Create(inventoryToCreate);
 
             return inventoryToCreate.Id;

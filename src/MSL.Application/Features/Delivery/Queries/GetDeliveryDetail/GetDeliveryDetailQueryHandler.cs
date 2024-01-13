@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Delivery.Queries.GetDeliveryDetail
 
             if (delivery == null)
             {
-                throw new NotFoundException(nameof(Domain.Delivery), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Delivery), request.Id);
             }
 
             var data = _mapper.Map<DeliveryDetailDto>(delivery);

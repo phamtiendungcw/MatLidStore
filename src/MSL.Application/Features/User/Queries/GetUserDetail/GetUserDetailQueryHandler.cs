@@ -23,7 +23,7 @@ namespace MLS.Application.Features.User.Queries.GetUserDetail
 
             if (user == null)
             {
-                throw new NotFoundException(nameof(Domain.User), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.User), request.Id);
             }
 
             var data = _mapper.Map<UserDetailDto>(user);

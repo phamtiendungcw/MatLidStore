@@ -17,7 +17,7 @@ namespace MLS.Application.Features.CartItem.Commands.UpdateCartItemCommand
 
         public async Task<Unit> Handle(UpdateCartItemCommand request, CancellationToken cancellationToken)
         {
-            var cartItemToUpdate = _mapper.Map<Domain.CartItem>(request);
+            var cartItemToUpdate = _mapper.Map<Domain.Entities.CartItem>(request);
             await _cartItemRepository.Update(cartItemToUpdate);
 
             return Unit.Value;

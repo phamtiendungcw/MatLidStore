@@ -22,7 +22,7 @@ public class GetProductImageDetailQueryHandler : IRequestHandler<GetProductImage
         var productImage = await _productImageRepository.GetById(request.Id);
 
         if (productImage == null)
-            throw new NotFoundException(nameof(Domain.ProductImage), request.Id);
+            throw new NotFoundException(nameof(Domain.Entities.ProductImage), request.Id);
 
         var data = _mapper.Map<ProductImageDetailDto>(productImage);
 

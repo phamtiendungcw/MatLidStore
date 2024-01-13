@@ -26,11 +26,11 @@ namespace MLS.Application.Features.Address.Commands.UpdateAddressCommand
 
             if (validationResult.Errors.Any())
             {
-                _logger.LogWarning("Validation errors in update request for {0} - {1}", nameof(Domain.Address), request.Id);
+                _logger.LogWarning("Validation errors in update request for {0} - {1}", nameof(Domain.Entities.Address), request.Id);
                 throw new BadRequestException("Invalid address", validationResult);
             }
 
-            var addressToUpdate = _mapper.Map<Domain.Address>(request);
+            var addressToUpdate = _mapper.Map<Domain.Entities.Address>(request);
             await _addressRepository.Update(addressToUpdate);
 
             _logger.LogInformation("Update address successfully.", request);

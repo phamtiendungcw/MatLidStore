@@ -23,7 +23,7 @@ namespace MLS.Application.Features.Address.Queries.GetAddressDetail
 
             if (address == null)
             {
-                throw new NotFoundException(nameof(Domain.Address), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Address), request.Id);
             }
 
             var data = _mapper.Map<AddressDetailDto>(address);

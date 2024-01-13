@@ -19,7 +19,7 @@ namespace MLS.Application.Features.Address.Commands.DeleteAddressCommand
 
             if (addressToDelete == null)
             {
-                throw new NotFoundException(nameof(Domain.Address), request.Id);
+                throw new NotFoundException(nameof(Domain.Entities.Address), request.Id);
             }
 
             await _addressRepository.Delete(addressToDelete);

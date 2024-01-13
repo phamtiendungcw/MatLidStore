@@ -17,7 +17,7 @@ namespace MLS.Application.Features.Review.Commands.CreateReviewCommand
 
         public async Task<int> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
-            var reviewToCreate = _mapper.Map<Domain.Review>(request);
+            var reviewToCreate = _mapper.Map<Domain.Entities.Review>(request);
             await _reviewRepository.Create(reviewToCreate);
 
             return reviewToCreate.Id;
