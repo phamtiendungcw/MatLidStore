@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MLS.Domain.Common;
+using MLS.Domain.Entities;
 
 namespace MLS.Persistence.DatabaseContext
 {
@@ -9,27 +10,27 @@ namespace MLS.Persistence.DatabaseContext
         {
         }
 
-        public DbSet<Domain.Entities.Address> Addresses { get; set; }
-        public DbSet<Domain.Entities.CartItem> CartItems { get; set; }
-        public DbSet<Domain.Entities.Category> Categories { get; set; }
-        public DbSet<Domain.Entities.Customer> Customers { get; set; }
-        public DbSet<Domain.Entities.Delivery> Deliveries { get; set; }
-        public DbSet<Domain.Entities.Feedback> Feedbacks { get; set; }
-        public DbSet<Domain.Entities.Inventory> Inventories { get; set; }
-        public DbSet<Domain.Entities.Invoice> Invoices { get; set; }
-        public DbSet<Domain.Entities.News> News { get; set; }
-        public DbSet<Domain.Entities.Order> Orders { get; set; }
-        public DbSet<Domain.Entities.OrderDetail> OrderDetails { get; set; }
-        public DbSet<Domain.Entities.OrderStatus> OrderStatus { get; set; }
-        public DbSet<Domain.Entities.Payment> Payments { get; set; }
-        public DbSet<Domain.Entities.PaymentMethod> PaymentMethods { get; set; }
-        public DbSet<Domain.Entities.Product> Products { get; set; }
-        public DbSet<Domain.Entities.ProductImage> ProductImages { get; set; }
-        public DbSet<Domain.Entities.Promotion> Promotions { get; set; }
-        public DbSet<Domain.Entities.Review> Reviews { get; set; }
-        public DbSet<Domain.Entities.Supplier> Suppliers { get; set; }
-        public DbSet<Domain.Entities.User> Users { get; set; }
-        public DbSet<Domain.Entities.WishList> WishLists { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<News> News { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<WishList> WishLists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

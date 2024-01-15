@@ -4,7 +4,6 @@ namespace MLS.Domain.Entities
 {
     public class Order : BaseEntity
     {
-        public int OrderId { get; set; }
         public Entities.Customer Customer { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
