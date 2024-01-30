@@ -6,6 +6,6 @@ namespace MLS.Domain.Entities
     {
         public string Comment { get; set; } = string.Empty;
         public DateTime Date { get; set; }
-        public Entities.Customer? Customer { get; set; }
+        public Customer? Customer { get; set; }
     }
 }

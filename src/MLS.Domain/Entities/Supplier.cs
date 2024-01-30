@@ -5,7 +5,7 @@ namespace MLS.Domain.Entities
     public class Supplier : BaseEntity
     {
         public string Name { get; set; } = string.Empty;
-        public Entities.Address? Address { get; set; }
+        public Address? Address { get; set; }
         public string Phone { get; set; } = string.Empty;
     }
 }
