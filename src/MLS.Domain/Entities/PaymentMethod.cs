@@ -4,6 +4,6 @@ namespace MLS.Domain.Entities
 {
     public class PaymentMethod : BaseEntity
     {
-        public string MethodName { get; set; }
+        public string MethodName { get; set; } = string.Empty;
     }
 }
