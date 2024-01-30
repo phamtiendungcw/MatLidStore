@@ -1,5 +1,3 @@
-using MLS.Application;
-using MLS.Infrastructure;
 using MLS.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
