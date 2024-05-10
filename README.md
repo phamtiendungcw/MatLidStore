@@ -28,6 +28,5 @@ We welcome contributions from designers, artists, and enthusiasts passionate abo
 
 - **Website:** [www.matlid.com](https://www.matlid.com)
 - **Email:** info@matlid.com
-- **Social Media:** [Twitter](https://twitter.com/matlid) | [Instagram](https://www.instagram.com/matlid) | [Facebook](https://www.facebook.com/matlid)
 
 Thank you for visiting MATLID - Where Art Meets Lifestyle!
