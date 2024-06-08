@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MLS.Application.DTO.Order
+﻿namespace MLS.Application.DTO.Order
 {
     public class OrderHistoryDetailDto
     {
