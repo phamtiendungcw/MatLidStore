@@ -4,10 +4,10 @@ namespace MLS.Domain.Entities
 {
     public class Order : BaseEntity
     {
-        public Entities.Customer? Customer { get; set; }
+        public Customer? Customer { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
-        public Entities.OrderStatus? Status { get; set; }
-        public List<Entities.OrderDetail>? OrderDetails { get; set; }
+        public OrderStatus? Status { get; set; }
+        public List<OrderDetail>? OrderDetails { get; set; }
     }
 }

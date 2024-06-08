@@ -1,10 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using MLS.Application.Contracts.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MLS.Infrastructure.Logging
 {
