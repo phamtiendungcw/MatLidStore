@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class Order
+    public class Order : BaseEntity
     {
-        public int OrderId { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
         public DateTime OrderDate { get; set; }

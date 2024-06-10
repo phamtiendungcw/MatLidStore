@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class Shipment
+    public class Shipment : BaseEntity
     {
-        public int ShipmentId { get; set; }
         public int OrderId { get; set; }
         public Order Order { get; set; }
         public string TrackingNumber { get; set; }

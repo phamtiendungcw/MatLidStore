@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class Payment
+    public class Payment : BaseEntity
     {
-        public int PaymentId { get; set; }
         public int OrderId { get; set; }
         public Order Order { get; set; }
         public decimal Amount { get; set; }
