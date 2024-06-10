@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class Supply
+    public class Supply : BaseEntity
     {
-        public int SupplyId { get; set; }
         public int SupplierId { get; set; }
         public Supplier Supplier { get; set; }
         public int ProductId { get; set; }

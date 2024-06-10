@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class Product
+    public class Product : BaseEntity
     {
-        public int ProductId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

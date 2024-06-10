@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class Comment
+    public class Comment : BaseEntity
     {
-        public int CommentId { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public int UserId { get; set; }

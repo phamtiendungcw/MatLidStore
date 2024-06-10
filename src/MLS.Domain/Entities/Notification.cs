@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class Notification
+    public class Notification : BaseEntity
     {
-        public int NotificationId { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
         public string Message { get; set; }

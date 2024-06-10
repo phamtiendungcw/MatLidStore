@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class OrderDetail
+    public class OrderDetail : BaseEntity
     {
-        public int OrderDetailId { get; set; }
         public int OrderId { get; set; }
         public Order Order { get; set; }
         public int ProductId { get; set; }

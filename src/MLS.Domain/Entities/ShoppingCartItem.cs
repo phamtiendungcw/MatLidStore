@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class ShoppingCartItem
+    public class ShoppingCartItem : BaseEntity
     {
-        public int ShoppingCartItemId { get; set; }
         public int ShoppingCartId { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
         public int ProductId { get; set; }

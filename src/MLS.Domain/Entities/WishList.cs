@@ -1,8 +1,9 @@
-﻿namespace MLS.Domain.Entities
+﻿using MLS.Domain.Common;
+
+namespace MLS.Domain.Entities
 {
-    public class Wishlist
+    public class Wishlist : BaseEntity
     {
-        public int WishlistId { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
         public ICollection<WishlistItem> WishlistItems { get; set; }
