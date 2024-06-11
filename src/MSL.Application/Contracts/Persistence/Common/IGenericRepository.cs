@@ -4,14 +4,14 @@ namespace MLS.Application.Contracts.Persistence.Common
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {
-        Task<IReadOnlyList<T>> GetAll();
+        Task<IReadOnlyList<T>> GetAllAsync();
 
-        Task<T> GetById(int id);
+        Task<T> GetByIdAsync(int id);
 
-        Task Create(T entity);
+        Task CreateAsync(T entity);
 
-        Task Update(T entity);
+        Task UpdateAsync(T entity);
 
-        Task Delete(T entity);
+        Task DeleteAsync(T entity);
     }
 }

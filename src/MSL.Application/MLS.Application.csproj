@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Address\Commands\" />
     <Folder Include="Features\Address\Queries\" />
     <Folder Include="Features\Article\Commands\" />
     <Folder Include="Features\Article\Queries\" />
@@ -46,8 +45,6 @@
     <Folder Include="Features\ProductReview\Queries\" />
     <Folder Include="Features\ProductTag\Commands\" />
     <Folder Include="Features\ProductTag\Queries\" />
-    <Folder Include="Features\Product\Commands\" />
-    <Folder Include="Features\Product\Queries\" />
     <Folder Include="Features\Shipment\Commands\" />
     <Folder Include="Features\Shipment\Queries\" />
     <Folder Include="Features\ShoppingCartItem\Commands\" />

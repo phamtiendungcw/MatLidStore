@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MLS.Application.DTO.Product;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {
@@ -6,6 +8,8 @@ namespace MLS.Application.MappingProfiles
     {
         public ProductProfile()
         {
+            CreateMap<ProductDto, Product>().ReverseMap();
+            CreateMap<Product, ProductDetailsDto>();
         }
     }
 }
