@@ -2,6 +2,7 @@
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
 using MLS.Application.DTO.Product;
+using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.Product.Queries.GetProductDetails
 {
@@ -20,6 +21,9 @@ namespace MLS.Application.Features.Product.Queries.GetProductDetails
         {
             // Query the database
             var product = await _productRepository.GetByIdAsync(request.Id);
+
+            if (product is null)
+                throw new NotFoundException(nameof(Domain.Entities.Product), request.Id);
 
             // Convert data obj to DTO obj
             var data = _mapper.Map<ProductDetailsDto>(product);

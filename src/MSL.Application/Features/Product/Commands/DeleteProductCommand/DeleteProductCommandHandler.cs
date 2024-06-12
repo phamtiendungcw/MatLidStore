@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.Product.Commands.DeleteProductCommand
 {
@@ -18,6 +19,8 @@ namespace MLS.Application.Features.Product.Commands.DeleteProductCommand
             var productToDelete = await _productRepository.GetByIdAsync(request.Id);
 
             // Verify that record exists
+            if (productToDelete is null)
+                throw new NotFoundException(nameof(Domain.Entities.Product), request.Id);
 
             // Remove in database
             await _productRepository.DeleteAsync(productToDelete);

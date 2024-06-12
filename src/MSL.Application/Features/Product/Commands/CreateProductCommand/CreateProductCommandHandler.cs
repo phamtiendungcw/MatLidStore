@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.Product.Commands.CreateProductCommand
 {
@@ -18,6 +19,11 @@ namespace MLS.Application.Features.Product.Commands.CreateProductCommand
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             // Validate data
+            var validator = new CreateProductCommandValidator(_productRepository);
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+                throw new BadRequestException("Invalid Product", validationResult);
 
             // Convert to domain entity obj
             var productToCreate = _mapper.Map<Domain.Entities.Product>(request);

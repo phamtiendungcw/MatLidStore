@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Address\Commands\" />
     <Folder Include="Features\Address\Queries\" />
     <Folder Include="Features\Article\Commands\" />
     <Folder Include="Features\Article\Queries\" />
@@ -31,8 +32,6 @@
     <Folder Include="Features\Notification\Queries\" />
     <Folder Include="Features\OrderDetail\Commands\" />
     <Folder Include="Features\OrderDetail\Queries\" />
-    <Folder Include="Features\Order\Commands\" />
-    <Folder Include="Features\Order\Queries\" />
     <Folder Include="Features\Payment\Commands\" />
     <Folder Include="Features\Payment\Queries\" />
     <Folder Include="Features\ProductColor\Commands\" />
