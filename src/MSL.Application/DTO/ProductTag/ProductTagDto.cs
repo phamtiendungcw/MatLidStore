@@ -1,10 +1,13 @@
-﻿namespace MLS.Application.DTO.ProductTag
+﻿using MLS.Application.DTO.Product;
+using MLS.Application.DTO.Tag;
+
+namespace MLS.Application.DTO.ProductTag
 {
     public class ProductTagDto
     {
-        public int ProductTagId { get; set; }
-        public string TagName { get; set; }
-        public int ProductId { get; set; } // Product ID (for foreign key reference)
-        public int TagId { get; set; } // Tag ID (for foreign key reference)
+        public int ProductId { get; set; }
+        public ProductDto Product { get; set; }
+        public int TagId { get; set; }
+        public TagDto Tag { get; set; }
     }
 }

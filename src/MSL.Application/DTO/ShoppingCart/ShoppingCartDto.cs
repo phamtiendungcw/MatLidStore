@@ -1,8 +1,13 @@
-﻿namespace MLS.Application.DTO.ShoppingCart
+﻿using MLS.Application.DTO.ShoppingCartItem;
+using MLS.Application.DTO.User;
+
+namespace MLS.Application.DTO.ShoppingCart
 {
     public class ShoppingCartDto
     {
-        public int ShoppingCartId { get; set; }
-        public int UserId { get; set; } // User ID (for foreign key reference)
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public UserDto User { get; set; }
+        public List<ShoppingCartItemDto> ShoppingCartItems { get; set; }
     }
 }

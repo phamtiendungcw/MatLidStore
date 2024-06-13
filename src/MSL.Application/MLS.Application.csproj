@@ -28,6 +28,12 @@
     <Folder Include="Features\Comment\Queries\" />
     <Folder Include="Features\Discount\Commands\" />
     <Folder Include="Features\Discount\Queries\" />
+    <Folder Include="Features\Address\" />
+    <Folder Include="Features\Category\" />
+    <Folder Include="Features\WishList\" />
+    <Folder Include="Features\User\" />
+    <Folder Include="Features\Supplier\" />
+    <Folder Include="Features\Payment\" />
     <Folder Include="Features\Notification\Commands\" />
     <Folder Include="Features\Notification\Queries\" />
     <Folder Include="Features\OrderDetail\Commands\" />

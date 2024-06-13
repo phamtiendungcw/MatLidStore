@@ -1,6 +1,6 @@
-﻿namespace MLS.Application.DTO.Wishlist
+﻿namespace MLS.Application.DTO.WishList
 {
-    public class WishlistDetailsDto
+    public class WishListDetailsDto
     {
     }
 }

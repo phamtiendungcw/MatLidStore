@@ -1,12 +1,16 @@
-﻿namespace MLS.Application.DTO.Comment
+﻿using MLS.Application.DTO.Article;
+using MLS.Application.DTO.User;
+
+namespace MLS.Application.DTO.Comment
 {
     public class CommentDto
     {
-        public int CommentId { get; set; }
-        public string Text { get; set; }
-        public string Author { get; set; }
-        public DateTime Timestamp { get; set; }
-        public int ArticleId { get; set; } // Article ID (for foreign key reference)
-        public int UserId { get; set; } // User ID (for foreign key reference)
+        public int Id { get; set; }
+        public string Content { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int UserId { get; set; }
+        public UserDto User { get; set; }
+        public int ArticleId { get; set; }
+        public ArticleDto Article { get; set; }
     }
 }
