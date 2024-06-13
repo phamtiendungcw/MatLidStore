@@ -4,8 +4,10 @@ namespace MLS.Domain.Entities
 {
     public class ProductImage : BaseEntity
     {
-        public int ProductId { get; set; }
-        public Product Product { get; set; }
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } // URL of the product image
+        public string ImageDescription { get; set; } // Optional image description
+
+        public int ProductId { get; set; } // Foreign key referencing Product
+        public Product Product { get; set; } // Navigation property for Product
     }
 }

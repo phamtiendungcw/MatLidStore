@@ -4,10 +4,10 @@ namespace MLS.Domain.Entities
 {
     public class Notification : BaseEntity
     {
-        public int UserId { get; set; }
-        public User User { get; set; }
-        public string Message { get; set; }
-        public DateTime Date { get; set; }
-        public bool IsRead { get; set; }
+        public string Message { get; set; } // Notification message content
+        public DateTime Timestamp { get; set; } // Date and time notification was sent
+
+        public int UserId { get; set; } // Foreign key referencing User
+        public User User { get; set; } // Navigation property for User
     }
 }

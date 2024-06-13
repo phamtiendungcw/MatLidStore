@@ -4,16 +4,14 @@ namespace MLS.Domain.Entities
 {
     public class User : BaseEntity
     {
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
-        public ICollection<Order> Orders { get; set; }
-        public ICollection<ProductReview> Reviews { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<Address> Addresses { get; set; }
-        public ICollection<Wishlist> Wishlists { get; set; }
-        public ICollection<ShoppingCart> ShoppingCarts { get; set; }
-        public ICollection<Notification> Notifications { get; set; }
+        public string Username { get; set; } // Unique username for login
+        public string Email { get; set; } // User's email address
+        public string PasswordHash { get; set; } // Hashed password for security
+
+        public ICollection<Order> Orders { get; set; } // One-to-Many relationship with Order
+        public ICollection<ProductReview> ProductReviews { get; set; } // One-to-Many relationship with ProductReview
+        public ICollection<WishList> WishLists { get; set; } // One-to-Many relationship with WishList
+        public ICollection<Comment> Comments { get; set; } // One-to-Many relationship with Comment
+        public ICollection<Notification> Notifications { get; set; } // One-to-Many relationship with Notification
     }
 }

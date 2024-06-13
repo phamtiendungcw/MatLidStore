@@ -4,9 +4,10 @@ namespace MLS.Domain.Entities
 {
     public class ProductOption : BaseEntity
     {
-        public int ProductId { get; set; }
-        public Product Product { get; set; }
-        public string OptionName { get; set; }
-        public string OptionValue { get; set; }
+        public string Name { get; set; } // Option name (e.g., "Size", "Color")
+        public decimal PriceAdjustment { get; set; } // Price adjustment for the option
+
+        public int ProductId { get; set; } // Foreign key referencing Product
+        public Product Product { get; set; } // Navigation property for Product
     }
 }

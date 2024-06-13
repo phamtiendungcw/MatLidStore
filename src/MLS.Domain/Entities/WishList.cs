@@ -2,10 +2,13 @@
 
 namespace MLS.Domain.Entities
 {
-    public class Wishlist : BaseEntity
+    public class WishList : BaseEntity
     {
-        public int UserId { get; set; }
-        public User User { get; set; }
-        public ICollection<WishlistItem> WishlistItems { get; set; }
+        public string Name { get; set; } // Wish list name (optional)
+
+        public int UserId { get; set; } // Foreign key referencing User
+        public User User { get; set; } // Navigation property for User
+
+        public ICollection<WishListItem> WishListItems { get; set; } // One-to-Many relationship with WishListItem
     }
 }

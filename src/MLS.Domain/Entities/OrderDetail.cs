@@ -4,11 +4,13 @@ namespace MLS.Domain.Entities
 {
     public class OrderDetail : BaseEntity
     {
-        public int OrderId { get; set; }
-        public Order Order { get; set; }
-        public int ProductId { get; set; }
-        public Product Product { get; set; }
-        public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
+        public int ProductId { get; set; } // Foreign key referencing Product
+        public Product Product { get; set; } // Navigation property for Product
+
+        public int Quantity { get; set; } // Quantity of the product ordered
+        public decimal Price { get; set; } // Price of the product at the time of order
+
+        public int OrderId { get; set; } // Foreign key referencing Order
+        public Order Order { get; set; } // Navigation property for Order
     }
 }
