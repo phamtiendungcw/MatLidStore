@@ -27,8 +27,8 @@ namespace MLS.Persistence.DatabaseContext
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<Discount> Discounts { get; set; }
-        public DbSet<Wishlist> Wishlists { get; set; }
-        public DbSet<WishlistItem> WishlistItems { get; set; }
+        public DbSet<WishList> WishLists { get; set; }
+        public DbSet<WishListItem> WishListItems { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         public DbSet<Shipment> Shipments { get; set; }

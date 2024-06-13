@@ -4,17 +4,17 @@ namespace MLS.Domain.Entities
 {
     public class Product : BaseEntity
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public int StockQuantity { get; set; }
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
-        public ICollection<ProductImage> ProductImages { get; set; }
-        public ICollection<ProductColor> ProductColors { get; set; }
-        public ICollection<ProductOption> ProductOptions { get; set; }
-        public ICollection<OrderDetail> OrderDetails { get; set; }
-        public ICollection<ProductReview> Reviews { get; set; }
-        public ICollection<ProductTag> ProductTags { get; set; }
+        public string Name { get; set; } // Product name
+        public string Description { get; set; } // Product description
+        public decimal Price { get; set; } // Product price
+        public int CategoryId { get; set; } // Foreign key referencing Category
+
+        public Category Category { get; set; } // Navigation property for Category
+
+        public ICollection<ProductOption> ProductOptions { get; set; } // One-to-Many relationship with ProductOption
+        public ICollection<ProductColor> ProductColors { get; set; } // One-to-Many relationship with ProductColor
+        public ICollection<ProductImage> ProductImages { get; set; } // One-to-Many relationship with ProductImage
+        public ICollection<ProductReview> ProductReviews { get; set; } // One-to-Many relationship with ProductReview
+        public ICollection<OrderDetail> OrderDetails { get; set; } // One-to-Many relationship with OrderDetail
     }
 }

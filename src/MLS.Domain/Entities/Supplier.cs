@@ -4,8 +4,9 @@ namespace MLS.Domain.Entities
 {
     public class Supplier : BaseEntity
     {
-        public string Name { get; set; }
-        public string ContactInformation { get; set; }
-        public ICollection<Supply> Supplies { get; set; }
+        public string Name { get; set; } // Supplier name
+        public string ContactInformation { get; set; } // Contact details (email, phone)
+
+        public ICollection<Product> Products { get; set; } // One-to-Many relationship with Product
     }
 }

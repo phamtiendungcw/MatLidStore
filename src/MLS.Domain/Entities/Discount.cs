@@ -4,10 +4,9 @@ namespace MLS.Domain.Entities
 {
     public class Discount : BaseEntity
     {
-        public string DiscountCode { get; set; }
-        public decimal DiscountAmount { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public string Name { get; set; } // Discount name
+        public decimal DiscountPercentage { get; set; } // Percentage discount off the price
+        public DateTime StartDate { get; set; } // Start date of the discount
+        public DateTime EndDate { get; set; } // End date of the discount
     }
 }
