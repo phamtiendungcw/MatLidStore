@@ -1,11 +1,16 @@
-﻿namespace MLS.Application.DTO.OrderDetail
+﻿using MLS.Application.DTO.Order;
+using MLS.Application.DTO.Product;
+
+namespace MLS.Application.DTO.OrderDetail
 {
     public class OrderDetailDto
     {
-        public int OrderDetailId { get; set; }
-        public int ProductId { get; set; } // Product ID (for foreign key reference)
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public OrderDto Order { get; set; }
+        public int ProductId { get; set; }
+        public ProductDto Product { get; set; }
         public int Quantity { get; set; }
-        public decimal Price { get; set; }
-        public int OrderId { get; set; } // Order ID (for foreign key reference)
+        public decimal UnitPrice { get; set; }
     }
 }

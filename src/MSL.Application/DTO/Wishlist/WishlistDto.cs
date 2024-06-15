@@ -1,9 +1,14 @@
-﻿namespace MLS.Application.DTO.Wishlist
+﻿using MLS.Application.DTO.User;
+using MLS.Application.DTO.WishListItem;
+
+namespace MLS.Application.DTO.WishList
 {
-    public class WishlistDto
+    public class WishListDto
     {
-        public int WishListId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public int UserId { get; set; } // User ID (for foreign key reference)
+        public int UserId { get; set; }
+        public UserDto User { get; set; }
+        public List<WishListItemDto> WishListItems { get; set; }
     }
 }

@@ -1,11 +1,14 @@
-﻿namespace MLS.Application.DTO.Payment
+﻿using MLS.Application.DTO.Order;
+
+namespace MLS.Application.DTO.Payment
 {
     public class PaymentDto
     {
-        public int PaymentId { get; set; }
+        public int Id { get; set; }
         public string PaymentMethod { get; set; }
         public decimal AmountPaid { get; set; }
         public DateTime PaymentDate { get; set; }
-        public int OrderId { get; set; } // Order ID (for foreign key reference)
+        public int OrderId { get; set; }
+        public OrderDto Order { get; set; }
     }
 }

@@ -1,10 +1,13 @@
-﻿namespace MLS.Application.DTO.ProductImage
+﻿using MLS.Application.DTO.Product;
+
+namespace MLS.Application.DTO.ProductImage
 {
     public class ProductImageDto
     {
-        public int ProductImageId { get; set; }
+        public int Id { get; set; }
         public string ImageUrl { get; set; }
         public string ImageDescription { get; set; }
-        public int ProductId { get; set; } // Product ID (for foreign key reference)
+        public int ProductId { get; set; }
+        public ProductDto Product { get; set; }
     }
 }

@@ -7,8 +7,8 @@ namespace MLS.Domain.Entities
         public string Name { get; set; } // Product name
         public string Description { get; set; } // Product description
         public decimal Price { get; set; } // Product price
-        public int CategoryId { get; set; } // Foreign key referencing Category
 
+        public int CategoryId { get; set; } // Foreign key referencing Category
         public Category Category { get; set; } // Navigation property for Category
 
         public ICollection<ProductOption> ProductOptions { get; set; } // One-to-Many relationship with ProductOption

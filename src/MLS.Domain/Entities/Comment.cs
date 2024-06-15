@@ -4,7 +4,7 @@ namespace MLS.Domain.Entities
 {
     public class Comment : BaseEntity
     {
-        public string Text { get; set; } // Comment content
+        public string Content { get; set; } // Comment content
         public string Author { get; set; } // Comment author name (optional)
         public DateTime Timestamp { get; set; } // Date and time comment was posted
 
