@@ -8,6 +8,6 @@ namespace MLS.Application.DTO.Order
         public decimal TotalPrice { get; set; }
         public string OrderStatus { get; set; }
         public int UserId { get; set; }
-        public ICollection<OrderDetailDto> OrderDetails { get; set; }
+        public ICollection<CreateOrderDetailDto> OrderDetails { get; set; }
     }
 }

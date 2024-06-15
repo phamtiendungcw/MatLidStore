@@ -14,9 +14,9 @@ namespace MLS.Application.DTO.Product
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
         public CategoryDto Category { get; set; }
-        public ICollection<ProductImageDto> ProductImages { get; set; }
-        public ICollection<ProductOptionDto> ProductOptions { get; set; }
-        public ICollection<ProductColorDto> ProductColors { get; set; }
-        public ICollection<ProductReviewDto> ProductReviews { get; set; }
+        public List<ProductImageDto> ProductImages { get; set; }
+        public List<ProductOptionDto> ProductOptions { get; set; }
+        public List<ProductColorDto> ProductColors { get; set; }
+        public List<ProductReviewDto> ProductReviews { get; set; }
     }
 }

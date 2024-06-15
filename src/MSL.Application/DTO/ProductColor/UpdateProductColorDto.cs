@@ -1,6 +1,6 @@
 ﻿namespace MLS.Application.DTO.ProductColor
 {
-    public class UpdateProductColor
+    public class UpdateProductColorDto
     {
         public int Id { get; set; }
         public string ColorName { get; set; }

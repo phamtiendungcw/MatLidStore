@@ -1,8 +1,11 @@
-﻿namespace MLS.Application.DTO.WishList
+﻿using MLS.Application.DTO.WishListItem;
+
+namespace MLS.Application.DTO.WishList
 {
-    public class CreateWishlistDto
+    public class CreateWishListDto
     {
         public string Name { get; set; }
         public int UserId { get; set; }
+        public List<CreateWishListItemDto> WishListItems { get; set; }
     }
 }
