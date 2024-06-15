@@ -1,6 +1,6 @@
 ﻿namespace MLS.Application.DTO.WishListItem
 {
-    public class UpdateWishlistItemDto
+    public class UpdateWishListItemDto
     {
         public int Id { get; set; }
         public int ProductId { get; set; }

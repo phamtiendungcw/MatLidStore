@@ -1,6 +1,6 @@
 ﻿namespace MLS.Application.DTO.ProductColor
 {
-    public class CreateProductColor
+    public class CreateProductColorDto
     {
         public string ColorName { get; set; }
         public string ColorHexCode { get; set; }

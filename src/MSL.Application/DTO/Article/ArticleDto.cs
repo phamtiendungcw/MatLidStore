@@ -1,4 +1,5 @@
-﻿using MLS.Application.DTO.User;
+﻿using MLS.Application.DTO.Comment;
+using MLS.Application.DTO.User;
 
 namespace MLS.Application.DTO.Article
 {
@@ -9,7 +10,8 @@ namespace MLS.Application.DTO.Article
         public string Content { get; set; }
         public string Author { get; set; }
         public DateTime PublicationDate { get; set; }
-        public int UserId { get; set; }
+        public int AuthorId { get; set; }
         public UserDto AuthorUser { get; set; }
+        public List<CommentDto> Comments { get; set; }
     }
 }
