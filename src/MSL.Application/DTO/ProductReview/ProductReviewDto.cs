@@ -6,8 +6,8 @@ namespace MLS.Application.DTO.ProductReview
     public class ProductReviewDto
     {
         public int Id { get; set; }
-        public string ReviewContent { get; set; }
         public int Rating { get; set; }
+        public string ReviewText { get; set; }
         public DateTime ReviewDate { get; set; }
         public int ProductId { get; set; }
         public ProductDto Product { get; set; }

@@ -9,6 +9,7 @@ namespace MLS.Application.DTO.User
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Phone { get; set; }
         public List<AddressDto> Addresses { get; set; }
     }
 }
