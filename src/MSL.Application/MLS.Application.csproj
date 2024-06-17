@@ -18,38 +18,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Address\Commands\" />
-    <Folder Include="Features\Address\Queries\" />
-    <Folder Include="Features\Category\Commands\" />
-    <Folder Include="Features\Category\Queries\" />
-    <Folder Include="Features\Discount\Commands\" />
-    <Folder Include="Features\Discount\Queries\" />
     <Folder Include="Features\Address\" />
-    <Folder Include="Features\Category\" />
-    <Folder Include="Features\WishList\" />
+    <Folder Include="Features\Discount\" />
+    <Folder Include="Features\Notification\" />
+    <Folder Include="Features\ProductColor\" />
+    <Folder Include="Features\ProductImage\" />
+    <Folder Include="Features\ProductOption\" />
+    <Folder Include="Features\ProductTag\" />
     <Folder Include="Features\Supplier\" />
-    <Folder Include="Features\Notification\Commands\" />
-    <Folder Include="Features\Notification\Queries\" />
-    <Folder Include="Features\ProductColor\Commands\" />
-    <Folder Include="Features\ProductColor\Queries\" />
-    <Folder Include="Features\ProductImage\Commands\" />
-    <Folder Include="Features\ProductImage\Queries\" />
-    <Folder Include="Features\ProductOption\Commands\" />
-    <Folder Include="Features\ProductOption\Queries\" />
-    <Folder Include="Features\ProductReview\Commands\" />
-    <Folder Include="Features\ProductReview\Queries\" />
-    <Folder Include="Features\ProductTag\Commands\" />
-    <Folder Include="Features\ProductTag\Queries\" />
-    <Folder Include="Features\Supplier\Commands\" />
-    <Folder Include="Features\Supplier\Queries\" />
-    <Folder Include="Features\Supply\Commands\" />
-    <Folder Include="Features\Supply\Queries\" />
-    <Folder Include="Features\Tag\Commands\" />
-    <Folder Include="Features\Tag\Queries\" />
-    <Folder Include="Features\WishlistItem\Commands\" />
-    <Folder Include="Features\WishlistItem\Queries\" />
-    <Folder Include="Features\Wishlist\Commands\" />
-    <Folder Include="Features\Wishlist\Queries\" />
+    <Folder Include="Features\Supply\" />
+    <Folder Include="Features\Tag\" />
+    <Folder Include="Features\WishlistItem\" />
+    <Folder Include="Features\Wishlist\Commands\CreateWishListCommand\" />
+    <Folder Include="Features\Wishlist\Commands\DeleteWishListCommand\" />
+    <Folder Include="Features\Wishlist\Commands\UpdateWishListCommand\" />
+    <Folder Include="Features\Wishlist\Queries\GetAllWishLists\" />
+    <Folder Include="Features\Wishlist\Queries\GetWishListDetails\" />
   </ItemGroup>
 
 </Project>

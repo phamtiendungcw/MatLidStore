@@ -3,6 +3,6 @@ using MLS.Domain.Entities;
 
 namespace MLS.Application.Contracts.Persistence.IRepositories;
 
-public interface IWishlistItemRepository : IGenericRepository<WishListItem>
+public interface IWishListItemRepository : IGenericRepository<WishListItem>
 {
 }

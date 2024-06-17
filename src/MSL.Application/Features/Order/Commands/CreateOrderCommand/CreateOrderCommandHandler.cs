@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.Order.Commands.CreateOrderCommand
 {
@@ -20,6 +21,8 @@ namespace MLS.Application.Features.Order.Commands.CreateOrderCommand
             // Validate data
             var validator = new CreateOrderCommandValidator(_orderRepository);
             var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+                throw new BadRequestException("Invalid Order", validationResult);
 
             var orderToCreate = _mapper.Map<Domain.Entities.Order>(request);
             await _orderRepository.CreateAsync(orderToCreate);

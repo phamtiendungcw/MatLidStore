@@ -1,6 +1,7 @@
-﻿namespace MLS.Application.Features.Shipment.Queries.GetAllShipments
+﻿using MediatR;
+using MLS.Application.DTO.Shipment;
+
+namespace MLS.Application.Features.Shipment.Queries.GetAllShipments
 {
-    public class GetAllShipmentsQuery
-    {
-    }
+    public abstract record GetAllShipmentsQuery : IRequest<List<ShipmentDto>>;
 }

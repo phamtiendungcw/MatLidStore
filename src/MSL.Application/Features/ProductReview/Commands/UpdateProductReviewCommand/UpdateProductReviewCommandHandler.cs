@@ -1,0 +1,26 @@
+﻿using AutoMapper;
+using MediatR;
+using MLS.Application.Contracts.Persistence.IRepositories;
+
+namespace MLS.Application.Features.ProductReview.Commands.UpdateProductReviewCommand
+{
+    public class UpdateProductReviewCommandHandler : IRequestHandler<UpdateProductReviewCommand, Unit>
+    {
+        private readonly IProductReviewRepository _productReviewRepository;
+        private readonly IMapper _mapper;
+
+        public UpdateProductReviewCommandHandler(IProductReviewRepository productReviewRepository, IMapper mapper)
+        {
+            _productReviewRepository = productReviewRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<Unit> Handle(UpdateProductReviewCommand request, CancellationToken cancellationToken)
+        {
+            var productReviewToUpdate = _mapper.Map<Domain.Entities.ProductReview>(request.ProductReview);
+            await _productReviewRepository.UpdateAsync(productReviewToUpdate);
+
+            return Unit.Value;
+        }
+    }
+}

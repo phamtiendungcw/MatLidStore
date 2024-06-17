@@ -1,6 +1,9 @@
-﻿namespace MLS.Application.Features.Shipment.Commands.DeleteShipmentCommand
+﻿using MediatR;
+
+namespace MLS.Application.Features.Shipment.Commands.DeleteShipmentCommand
 {
-    public class DeleteShipmentCommand
+    public abstract class DeleteShipmentCommand : IRequest<Unit>
     {
+        public int Id { get; set; }
     }
 }

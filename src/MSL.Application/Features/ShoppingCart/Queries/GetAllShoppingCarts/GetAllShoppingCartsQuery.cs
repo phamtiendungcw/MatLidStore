@@ -1,6 +1,7 @@
-﻿namespace MLS.Application.Features.ShoppingCart.Queries.GetAllShoppingCarts
+﻿using MediatR;
+using MLS.Application.DTO.ShoppingCart;
+
+namespace MLS.Application.Features.ShoppingCart.Queries.GetAllShoppingCarts
 {
-    public class GetAllShoppingCartsQuery
-    {
-    }
+    public abstract record GetAllShoppingCartsQuery : IRequest<List<ShoppingCartDto>>;
 }

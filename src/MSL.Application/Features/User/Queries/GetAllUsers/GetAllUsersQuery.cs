@@ -1,6 +1,7 @@
-﻿namespace MLS.Application.Features.User.Queries.GetAllUsers
+﻿using MediatR;
+using MLS.Application.DTO.User;
+
+namespace MLS.Application.Features.User.Queries.GetAllUsers
 {
-    public class GetAllUsersQuery
-    {
-    }
+    public abstract record GetAllUsersQuery : IRequest<List<UserDto>>;
 }

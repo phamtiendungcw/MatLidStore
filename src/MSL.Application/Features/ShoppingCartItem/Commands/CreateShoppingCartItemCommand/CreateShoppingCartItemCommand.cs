@@ -1,6 +1,10 @@
-﻿namespace MLS.Application.Features.ShoppingCartItem.Commands.CreateShoppingCartItemCommand
+﻿using MediatR;
+using MLS.Application.DTO.ShoppingCartItem;
+
+namespace MLS.Application.Features.ShoppingCartItem.Commands.CreateShoppingCartItemCommand
 {
-    public class CreateShoppingCartItemCommand
+    public abstract class CreateShoppingCartItemCommand : IRequest<int>
     {
+        public CreateShoppingCartItemDto CartItem { get; set; }
     }
 }

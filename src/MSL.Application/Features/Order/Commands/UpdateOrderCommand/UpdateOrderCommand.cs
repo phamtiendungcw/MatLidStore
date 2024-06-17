@@ -1,6 +1,10 @@
-﻿namespace MLS.Application.Features.Order.Commands.UpdateOrderCommand
+﻿using MediatR;
+using MLS.Application.DTO.Order;
+
+namespace MLS.Application.Features.Order.Commands.UpdateOrderCommand
 {
-    public class UpdateOrderCommand
+    public abstract class UpdateOrderCommand : IRequest<Unit>
     {
+        public UpdateOrderDto Order { get; set; }
     }
 }

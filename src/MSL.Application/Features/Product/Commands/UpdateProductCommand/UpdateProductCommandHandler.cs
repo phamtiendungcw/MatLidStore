@@ -19,15 +19,14 @@ namespace MLS.Application.Features.Product.Commands.UpdateProductCommand
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             // Validate data
-            // Validate data
             var validator = new UpdateProductCommandValidator();
-            var validationResult = await validator.ValidateAsync(request);
+            var validationResult = await validator.ValidateAsync(request.Product);
 
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Product", validationResult);
 
             // Convert to domain entity obj
-            var productToUpdate = _mapper.Map<Domain.Entities.Product>(request);
+            var productToUpdate = _mapper.Map<Domain.Entities.Product>(request.Product);
 
             // Add to database
             await _productRepository.UpdateAsync(productToUpdate);

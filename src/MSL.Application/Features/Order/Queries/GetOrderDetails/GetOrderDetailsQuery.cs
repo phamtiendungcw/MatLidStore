@@ -3,5 +3,5 @@ using MLS.Application.DTO.Order;
 
 namespace MLS.Application.Features.Order.Queries.GetOrderDetails
 {
-    public record GetOrderDetailsQuery(int Id) : IRequest<OrderDetailsDto>;
+    public abstract record GetOrderDetailsQuery(int Id) : IRequest<OrderDetailsDto>;
 }

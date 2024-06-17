@@ -20,13 +20,13 @@ namespace MLS.Application.Features.Product.Commands.CreateProductCommand
         {
             // Validate data
             var validator = new CreateProductCommandValidator(_productRepository);
-            var validationResult = await validator.ValidateAsync(request);
+            var validationResult = await validator.ValidateAsync(request.Product);
 
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Product", validationResult);
 
             // Convert to domain entity obj
-            var productToCreate = _mapper.Map<Domain.Entities.Product>(request);
+            var productToCreate = _mapper.Map<Domain.Entities.Product>(request.Product);
 
             // Add to database
             await _productRepository.CreateAsync(productToCreate);

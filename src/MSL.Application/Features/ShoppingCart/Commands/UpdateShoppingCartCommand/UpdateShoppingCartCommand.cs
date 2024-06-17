@@ -1,6 +1,10 @@
-﻿namespace MLS.Application.Features.ShoppingCart.Commands.UpdateShoppingCartCommand
+﻿using MediatR;
+using MLS.Application.DTO.ShoppingCart;
+
+namespace MLS.Application.Features.ShoppingCart.Commands.UpdateShoppingCartCommand
 {
-    public class UpdateShoppingCartCommand
+    public abstract class UpdateShoppingCartCommand : IRequest<Unit>
     {
+        public UpdateShoppingCartDto ShoppingCart { get; set; }
     }
 }
