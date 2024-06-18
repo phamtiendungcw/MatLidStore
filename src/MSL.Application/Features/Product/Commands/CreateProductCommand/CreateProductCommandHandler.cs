@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Application.DTO.Product;
 using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.Product.Commands.CreateProductCommand
@@ -19,7 +20,7 @@ namespace MLS.Application.Features.Product.Commands.CreateProductCommand
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             // Validate data
-            var validator = new CreateProductCommandValidator(_productRepository);
+            var validator = new CreateProductValidator();
             var validationResult = await validator.ValidateAsync(request.Product);
 
             if (!validationResult.IsValid)
