@@ -1,6 +1,7 @@
-﻿namespace MLS.Application.Features.Payment.Queries.GetPaymentDetails
+﻿using MediatR;
+using MLS.Application.DTO.Payment;
+
+namespace MLS.Application.Features.Payment.Queries.GetPaymentDetails
 {
-    public class GetPaymentDetailsQuery
-    {
-    }
+    public abstract record GetPaymentDetailsQuery(int Id) : IRequest<PaymentDetailsDto>;
 }

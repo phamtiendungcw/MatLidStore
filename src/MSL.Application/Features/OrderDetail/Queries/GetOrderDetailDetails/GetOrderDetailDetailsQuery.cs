@@ -1,6 +1,7 @@
-﻿namespace MLS.Application.Features.OrderDetail.Queries.GetOrderDetailDetails
+﻿using MediatR;
+using MLS.Application.DTO.OrderDetail;
+
+namespace MLS.Application.Features.OrderDetail.Queries.GetOrderDetailDetails
 {
-    public class GetOrderDetailDetailsQuery
-    {
-    }
+    public abstract record GetOrderDetailDetailsQuery(int Id) : IRequest<OrderDetailDetailsDto>;
 }

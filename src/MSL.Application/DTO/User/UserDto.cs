@@ -11,13 +11,14 @@ namespace MLS.Application.DTO.User
         public int Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
+        public string PasswordHash { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
-        public List<AddressDto> Addresses { get; set; }
-        public List<OrderDto> Orders { get; set; }
-        public List<NotificationDto> Notifications { get; set; }
-        public List<ArticleDto> Articles { get; set; }
-        public List<CommentDto> Comments { get; set; }
+        public ICollection<AddressDto> Addresses { get; set; }
+        public ICollection<OrderDto> Orders { get; set; }
+        public ICollection<NotificationDto> Notifications { get; set; }
+        public ICollection<ArticleDto> Articles { get; set; }
+        public ICollection<CommentDto> Comments { get; set; }
     }
 }

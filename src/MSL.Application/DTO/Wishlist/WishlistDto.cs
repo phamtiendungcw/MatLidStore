@@ -9,6 +9,6 @@ namespace MLS.Application.DTO.WishList
         public string Name { get; set; }
         public int UserId { get; set; }
         public UserDto User { get; set; }
-        public List<WishListItemDto> WishListItems { get; set; }
+        public ICollection<WishListItemDto> WishListItems { get; set; }
     }
 }

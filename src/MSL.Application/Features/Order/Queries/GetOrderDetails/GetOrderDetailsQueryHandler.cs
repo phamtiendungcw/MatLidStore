@@ -2,6 +2,7 @@
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
 using MLS.Application.DTO.Order;
+using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.Order.Queries.GetOrderDetails
 {
@@ -19,6 +20,10 @@ namespace MLS.Application.Features.Order.Queries.GetOrderDetails
         public async Task<OrderDetailsDto> Handle(GetOrderDetailsQuery request, CancellationToken cancellationToken)
         {
             var orderDetails = await _orderRepository.GetByIdAsync(request.Id);
+
+            if (orderDetails is null)
+                throw new NotFoundException(nameof(Domain.Entities.Order), request.Id);
+
             var data = _mapper.Map<OrderDetailsDto>(orderDetails);
 
             return data;

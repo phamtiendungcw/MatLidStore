@@ -1,6 +1,7 @@
-﻿namespace MLS.Application.Features.Comment.Queries.GetAllComments
+﻿using MediatR;
+using MLS.Application.DTO.Comment;
+
+namespace MLS.Application.Features.Comment.Queries.GetAllComments
 {
-    public class GetAllCommentsQuery
-    {
-    }
+    public abstract record GetAllCommentsQuery : IRequest<List<CommentDto>>;
 }

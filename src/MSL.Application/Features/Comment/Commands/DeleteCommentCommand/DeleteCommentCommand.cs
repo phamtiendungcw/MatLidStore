@@ -1,6 +1,9 @@
-﻿namespace MLS.Application.Features.Comment.Commands.DeleteCommentCommand
+﻿using MediatR;
+
+namespace MLS.Application.Features.Comment.Commands.DeleteCommentCommand
 {
-    public class DeleteCommentCommand
+    public abstract class DeleteCommentCommand : IRequest<Unit>
     {
+        public int Id { get; set; }
     }
 }
