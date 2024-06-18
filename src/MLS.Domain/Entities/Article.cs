@@ -12,6 +12,6 @@ namespace MLS.Domain.Entities
         public int UserId { get; set; } // Foreign key referencing User (author)
         public User AuthorUser { get; set; } // Navigation property for User
 
-        public ICollection<Comment> Comments { get; set; } // One-to-Many relationship with Comment
+        public List<Comment> Comments { get; set; } // One-to-Many relationship with Comment
     }
 }
