@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MLS.Application.DTO.ProductReview;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {
@@ -6,6 +8,10 @@ namespace MLS.Application.MappingProfiles
     {
         public ProductReviewProfile()
         {
+            CreateMap<ProductReviewDto, ProductReview>();
+            CreateMap<ProductReview, ProductReviewDetailsDto>();
+            CreateMap<ProductReview, CreateProductReviewDto>();
+            CreateMap<ProductReview, UpdateProductReviewDto>();
         }
     }
 }

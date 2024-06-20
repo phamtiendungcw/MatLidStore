@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MLS.Application.DTO.ProductOption;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {
@@ -6,6 +8,10 @@ namespace MLS.Application.MappingProfiles
     {
         public ProductOptionProfile()
         {
+            CreateMap<ProductOptionDto, ProductOption>().ReverseMap();
+            CreateMap<ProductOption, ProductOptionDetailsDto>();
+            CreateMap<ProductOption, CreateProductOptionDto>();
+            CreateMap<ProductOption, UpdateProductOptionDto>();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MLS.Application.DTO.ShoppingCart;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {
@@ -6,6 +8,10 @@ namespace MLS.Application.MappingProfiles
     {
         public ShoppingCartProfile()
         {
+            CreateMap<ShoppingCartDto, ShoppingCart>().ReverseMap();
+            CreateMap<ShoppingCart, ShoppingCartDetailsDto>();
+            CreateMap<ShoppingCart, CreateShoppingCartDto>();
+            CreateMap<ShoppingCart, UpdateShoppingCartDto>();
         }
     }
 }

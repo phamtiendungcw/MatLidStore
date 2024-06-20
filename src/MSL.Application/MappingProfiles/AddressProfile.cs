@@ -9,6 +9,9 @@ namespace MLS.Application.MappingProfiles
         public AddressProfile()
         {
             CreateMap<AddressDto, Address>().ReverseMap();
+            CreateMap<Address, AddressDetailsDto>();
+            CreateMap<Address, CreateAddressDto>();
+            CreateMap<Address, UpdateAddressDto>();
         }
     }
 }

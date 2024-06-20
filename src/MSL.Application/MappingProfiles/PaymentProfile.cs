@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MLS.Application.DTO.Payment;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {
@@ -6,6 +8,10 @@ namespace MLS.Application.MappingProfiles
     {
         public PaymentProfile()
         {
+            CreateMap<PaymentDto, Payment>().ReverseMap();
+            CreateMap<Payment, PaymentDetailsDto>();
+            CreateMap<Payment, CreatePaymentDto>();
+            CreateMap<Payment, UpdatePaymentDto>();
         }
     }
 }
