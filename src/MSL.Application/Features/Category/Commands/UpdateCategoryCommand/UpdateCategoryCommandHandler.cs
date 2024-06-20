@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Application.DTO.Category;
+using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.Category.Commands.UpdateCategoryCommand
 {
@@ -17,6 +19,13 @@ namespace MLS.Application.Features.Category.Commands.UpdateCategoryCommand
 
         public async Task<Unit> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
+            // Validate data
+            var validator = new UpdateCategoryDtoValidator();
+            var validationResult = await validator.ValidateAsync(request.Category);
+
+            if (!validationResult.IsValid)
+                throw new BadRequestException("Invalid Category", validationResult);
+
             var categoryToUpdate = _mapper.Map<Domain.Entities.Category>(request.Category);
             await _categoryRepository.UpdateAsync(categoryToUpdate);
 

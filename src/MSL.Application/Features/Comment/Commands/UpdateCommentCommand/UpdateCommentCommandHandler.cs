@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Application.DTO.Comment;
+using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.Comment.Commands.UpdateCommentCommand
 {
@@ -17,6 +19,13 @@ namespace MLS.Application.Features.Comment.Commands.UpdateCommentCommand
 
         public async Task<Unit> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
         {
+            // Validate data
+            var validator = new UpdateCommentDtoValidator();
+            var validationResult = await validator.ValidateAsync(request.Comment);
+
+            if (!validationResult.IsValid)
+                throw new BadRequestException("Invalid Comment", validationResult);
+
             var commentToUpdate = _mapper.Map<Domain.Entities.Comment>(request.Comment);
             await _commentRepository.UpdateAsync(commentToUpdate);
 

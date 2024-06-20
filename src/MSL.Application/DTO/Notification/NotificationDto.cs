@@ -1,6 +1,4 @@
-﻿using MLS.Application.DTO.User;
-
-namespace MLS.Application.DTO.Notification
+﻿namespace MLS.Application.DTO.Notification
 {
     public class NotificationDto
     {
@@ -9,6 +7,5 @@ namespace MLS.Application.DTO.Notification
         public DateTime Timestamp { get; set; }
         public bool IsRead { get; set; }
         public int UserId { get; set; }
-        public UserDto User { get; set; }
     }
 }

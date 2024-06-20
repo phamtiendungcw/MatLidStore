@@ -1,8 +1,8 @@
-﻿using MLS.Application.DTO.Address;
-using MLS.Application.DTO.Article;
-using MLS.Application.DTO.Comment;
+﻿using MLS.Application.DTO.Comment;
 using MLS.Application.DTO.Notification;
 using MLS.Application.DTO.Order;
+using MLS.Application.DTO.ProductReview;
+using MLS.Application.DTO.WishList;
 
 namespace MLS.Application.DTO.User
 {
@@ -15,10 +15,10 @@ namespace MLS.Application.DTO.User
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
-        public ICollection<AddressDto> Addresses { get; set; }
         public ICollection<OrderDto> Orders { get; set; }
-        public ICollection<NotificationDto> Notifications { get; set; }
-        public ICollection<ArticleDto> Articles { get; set; }
+        public ICollection<ProductReviewDto> ProductReviews { get; set; }
+        public ICollection<WishListDto> WishLists { get; set; }
         public ICollection<CommentDto> Comments { get; set; }
+        public ICollection<NotificationDto> Notifications { get; set; }
     }
 }

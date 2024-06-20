@@ -1,6 +1,4 @@
-﻿using MLS.Application.DTO.Order;
-
-namespace MLS.Application.DTO.Payment
+﻿namespace MLS.Application.DTO.Payment
 {
     public class PaymentDto
     {
@@ -9,6 +7,5 @@ namespace MLS.Application.DTO.Payment
         public decimal AmountPaid { get; set; }
         public DateTime PaymentDate { get; set; }
         public int OrderId { get; set; }
-        public OrderDto Order { get; set; }
     }
 }

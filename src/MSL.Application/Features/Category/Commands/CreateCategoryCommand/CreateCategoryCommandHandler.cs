@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Application.DTO.Category;
+using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.Category.Commands.CreateCategoryCommand
 {
@@ -17,6 +19,13 @@ namespace MLS.Application.Features.Category.Commands.CreateCategoryCommand
 
         public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
+            // Validate data
+            var validator = new CreateCategoryDtoValidator();
+            var validationResult = await validator.ValidateAsync(request.Category);
+
+            if (!validationResult.IsValid)
+                throw new BadRequestException("Invalid Category", validationResult);
+
             var categoryToCreate = _mapper.Map<Domain.Entities.Category>(request.Category);
             await _categoryRepository.CreateAsync(categoryToCreate);
 

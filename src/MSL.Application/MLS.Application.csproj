@@ -28,7 +28,7 @@
     <Folder Include="Features\Supplier\" />
     <Folder Include="Features\Supply\" />
     <Folder Include="Features\Tag\" />
-    <Folder Include="Features\WishlistItem\" />
+    <Folder Include="Features\WishListItem\" />
     <Folder Include="Features\Wishlist\Commands\CreateWishListCommand\" />
     <Folder Include="Features\Wishlist\Commands\DeleteWishListCommand\" />
     <Folder Include="Features\Wishlist\Commands\UpdateWishListCommand\" />

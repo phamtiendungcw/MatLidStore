@@ -1,6 +1,4 @@
-﻿using MLS.Application.DTO.Order;
-
-namespace MLS.Application.DTO.Shipment
+﻿namespace MLS.Application.DTO.Shipment
 {
     public class ShipmentDto
     {
@@ -9,6 +7,5 @@ namespace MLS.Application.DTO.Shipment
         public string TrackingNumber { get; set; }
         public DateTime EstimatedDeliveryDate { get; set; }
         public int OrderId { get; set; }
-        public OrderDto Order { get; set; }
     }
 }
