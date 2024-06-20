@@ -5,6 +5,6 @@ namespace MLS.Application.Features.User.Commands.CreateUserCommand
 {
     public abstract class CreateUserCommand : IRequest<int>
     {
-        public UserDto User { get; set; }
+        public CreateUserDto User { get; set; }
     }
 }

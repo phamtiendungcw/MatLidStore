@@ -1,5 +1,4 @@
 ﻿using MLS.Application.DTO.OrderDetail;
-using MLS.Application.DTO.User;
 
 namespace MLS.Application.DTO.Order
 {
@@ -10,7 +9,6 @@ namespace MLS.Application.DTO.Order
         public decimal TotalPrice { get; set; }
         public string OrderStatus { get; set; }
         public int UserId { get; set; }
-        public UserDto User { get; set; }
         public ICollection<OrderDetailDto> OrderDetails { get; set; }
     }
 }

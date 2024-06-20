@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Application.DTO.ShoppingCartItem;
+using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.ShoppingCartItem.Commands.UpdateShoppingCartItemCommand
 {
@@ -17,6 +19,12 @@ namespace MLS.Application.Features.ShoppingCartItem.Commands.UpdateShoppingCartI
 
         public async Task<Unit> Handle(UpdateShoppingCartItemCommand request, CancellationToken cancellationToken)
         {
+            // Validate data
+            var validator = new UpdateShoppingCartItemDtoValidator();
+            var validationResult = await validator.ValidateAsync(request.ShoppingCartItem);
+            if (!validationResult.IsValid)
+                throw new BadRequestException("Invalid Shopping Cart Item", validationResult);
+
             var shoppingCartItemToUpdate = _mapper.Map<Domain.Entities.ShoppingCartItem>(request.ShoppingCartItem);
             await _shoppingCartItemRepository.UpdateAsync(shoppingCartItemToUpdate);
 

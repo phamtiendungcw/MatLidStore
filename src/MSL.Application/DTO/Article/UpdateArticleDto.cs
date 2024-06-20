@@ -1,4 +1,6 @@
-﻿namespace MLS.Application.DTO.Article
+﻿using MLS.Application.DTO.Comment;
+
+namespace MLS.Application.DTO.Article
 {
     public class UpdateArticleDto
     {
@@ -8,5 +10,6 @@
         public string Author { get; set; }
         public DateTime PublicationDate { get; set; }
         public int AuthorId { get; set; }
+        public List<UpdateCommentDto> Comments { get; set; }
     }
 }

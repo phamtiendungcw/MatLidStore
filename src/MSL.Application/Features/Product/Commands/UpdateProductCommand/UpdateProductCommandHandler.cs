@@ -20,7 +20,7 @@ namespace MLS.Application.Features.Product.Commands.UpdateProductCommand
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             // Validate data
-            var validator = new UpdateProductValidator();
+            var validator = new UpdateProductDtoValidator();
             var validationResult = await validator.ValidateAsync(request.Product);
 
             if (!validationResult.IsValid)

@@ -1,6 +1,4 @@
-﻿using MLS.Application.DTO.Product;
-
-namespace MLS.Application.DTO.ProductColor
+﻿namespace MLS.Application.DTO.ProductColor
 {
     public class ProductColorDto
     {
@@ -8,6 +6,5 @@ namespace MLS.Application.DTO.ProductColor
         public string ColorName { get; set; }
         public string ColorHexCode { get; set; }
         public int ProductId { get; set; }
-        public ProductDto Product { get; set; }
     }
 }

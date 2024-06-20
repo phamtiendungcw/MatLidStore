@@ -20,7 +20,7 @@ namespace MLS.Application.Features.Product.Commands.CreateProductCommand
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             // Validate data
-            var validator = new CreateProductValidator();
+            var validator = new CreateProductDtoValidator();
             var validationResult = await validator.ValidateAsync(request.Product);
 
             if (!validationResult.IsValid)

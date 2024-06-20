@@ -1,6 +1,4 @@
-﻿using MLS.Application.DTO.Product;
-
-namespace MLS.Application.DTO.ProductOption
+﻿namespace MLS.Application.DTO.ProductOption
 {
     public class ProductOptionDto
     {
@@ -8,6 +6,5 @@ namespace MLS.Application.DTO.ProductOption
         public string Name { get; set; }
         public decimal Value { get; set; }
         public int ProductId { get; set; }
-        public ProductDto Product { get; set; }
     }
 }

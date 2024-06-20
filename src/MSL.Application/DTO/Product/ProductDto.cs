@@ -1,4 +1,4 @@
-﻿using MLS.Application.DTO.Category;
+﻿using MLS.Application.DTO.OrderDetail;
 using MLS.Application.DTO.ProductColor;
 using MLS.Application.DTO.ProductImage;
 using MLS.Application.DTO.ProductOption;
@@ -13,10 +13,10 @@ namespace MLS.Application.DTO.Product
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
-        public CategoryDto Category { get; set; }
-        public List<ProductImageDto> ProductImages { get; set; }
         public List<ProductOptionDto> ProductOptions { get; set; }
         public List<ProductColorDto> ProductColors { get; set; }
+        public List<ProductImageDto> ProductImages { get; set; }
         public List<ProductReviewDto> ProductReviews { get; set; }
+        public List<OrderDetailDto> OrderDetails { get; set; }
     }
 }

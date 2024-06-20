@@ -1,6 +1,4 @@
-﻿using MLS.Application.DTO.Product;
-
-namespace MLS.Application.DTO.ProductImage
+﻿namespace MLS.Application.DTO.ProductImage
 {
     public class ProductImageDto
     {
@@ -8,6 +6,5 @@ namespace MLS.Application.DTO.ProductImage
         public string ImageUrl { get; set; }
         public string ImageDescription { get; set; }
         public int ProductId { get; set; }
-        public ProductDto Product { get; set; }
     }
 }

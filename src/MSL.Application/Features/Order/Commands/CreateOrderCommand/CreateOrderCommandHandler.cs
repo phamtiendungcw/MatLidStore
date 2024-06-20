@@ -20,7 +20,7 @@ namespace MLS.Application.Features.Order.Commands.CreateOrderCommand
         public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             // Validate data
-            var validator = new CreateOrderValidator();
+            var validator = new CreateOrderDtoValidator();
             var validationResult = await validator.ValidateAsync(request.Order);
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Order", validationResult);

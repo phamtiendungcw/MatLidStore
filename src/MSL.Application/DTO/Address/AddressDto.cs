@@ -1,6 +1,4 @@
-﻿using MLS.Application.DTO.User;
-
-namespace MLS.Application.DTO.Address
+﻿namespace MLS.Application.DTO.Address
 {
     public class AddressDto
     {
@@ -11,6 +9,5 @@ namespace MLS.Application.DTO.Address
         public string Country { get; set; }
         public string PostalCode { get; set; }
         public int UserId { get; set; }
-        public UserDto User { get; set; }
     }
 }
