@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MLS.Application.DTO.ProductColor;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {
@@ -6,6 +8,10 @@ namespace MLS.Application.MappingProfiles
     {
         public ProductColorProfile()
         {
+            CreateMap<ProductColorDto, ProductColor>().ReverseMap();
+            CreateMap<ProductColor, ProductColorDetailsDto>();
+            CreateMap<ProductColor, CreateProductColorDto>();
+            CreateMap<ProductColor, UpdateProductColorDto>();
         }
     }
 }

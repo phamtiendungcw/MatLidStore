@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MLS.Application.DTO.Tag;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {
@@ -6,6 +8,10 @@ namespace MLS.Application.MappingProfiles
     {
         public TagProfile()
         {
+            CreateMap<TagDto, Tag>().ReverseMap();
+            CreateMap<Tag, TagDetailsDto>();
+            CreateMap<Tag, CreateTagDto>();
+            CreateMap<Tag, UpdateTagDto>();
         }
     }
 }

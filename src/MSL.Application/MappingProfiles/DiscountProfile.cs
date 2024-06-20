@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MLS.Application.DTO.Discount;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {
@@ -6,6 +8,10 @@ namespace MLS.Application.MappingProfiles
     {
         public DiscountProfile()
         {
+            CreateMap<DiscountDto, Discount>().ReverseMap();
+            CreateMap<Discount, DiscountDetailsDto>();
+            CreateMap<Discount, CreateDiscountDto>();
+            CreateMap<Discount, UpdateDiscountDto>();
         }
     }
 }

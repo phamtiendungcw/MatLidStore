@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MLS.Application.DTO.Supplier;
+using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
 {
@@ -6,6 +8,10 @@ namespace MLS.Application.MappingProfiles
     {
         public SupplierProfile()
         {
+            CreateMap<SupplierDto, Supplier>().ReverseMap();
+            CreateMap<Supplier, SupplierDetailsDto>();
+            CreateMap<Supplier, CreateSupplierDto>();
+            CreateMap<Supplier, UpdateSupplierDto>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MLS.Application.DTO.Order;
+using MLS.Application.DTO.OrderDetail;
 using MLS.Domain.Entities;
 
 namespace MLS.Application.MappingProfiles
@@ -10,6 +11,8 @@ namespace MLS.Application.MappingProfiles
         {
             CreateMap<OrderDto, Order>().ReverseMap();
             CreateMap<Order, OrderDetailsDto>();
+            CreateMap<Order, CreateOrderDetailDto>();
+            CreateMap<Order, UpdateOrderDetailDto>();
         }
     }
 }
