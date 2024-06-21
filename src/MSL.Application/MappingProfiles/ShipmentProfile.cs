@@ -10,8 +10,8 @@ namespace MLS.Application.MappingProfiles
         {
             CreateMap<ShipmentDto, Shipment>().ReverseMap();
             CreateMap<Shipment, ShipmentDetailsDto>();
-            CreateMap<Shipment, CreateShipmentDto>();
-            CreateMap<Shipment, UpdateShipmentDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<CreateShipmentDto, Shipment>();
+            CreateMap<UpdateShipmentDto, Shipment>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }
