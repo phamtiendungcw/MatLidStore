@@ -1,9 +1,13 @@
+using MLS.Application;
+using MLS.Infrastructure;
+using MLS.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Services.AddApplicationServices();
-//builder.Services.AddInfrastructureServices();
-//builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddPersistenceServices(builder.Configuration);
 
 builder.Services.AddControllers();
 
