@@ -14,7 +14,7 @@ namespace MLS.Persistence.Repository.Common
             _context = context;
         }
 
-        public async Task CreateAsync(T entity)
+        public virtual async Task CreateAsync(T entity)
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -43,7 +43,7 @@ namespace MLS.Persistence.Repository.Common
             return entity;
         }
 
-        public async Task UpdateAsync(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();

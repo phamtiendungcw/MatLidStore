@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IPaymentRepository : IGenericRepository<Payment>
 {
+    Task<IEnumerable<Payment>> GetPaymentsByOrderIdAsync(int orderId);
 }

@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IDiscountRepository : IGenericRepository<Discount>
 {
+    Task<Discount?> GetDiscountByCodeAsync(string code);
 }

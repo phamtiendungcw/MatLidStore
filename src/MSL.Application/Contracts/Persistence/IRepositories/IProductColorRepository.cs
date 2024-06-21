@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IProductColorRepository : IGenericRepository<ProductColor>
 {
+    Task<bool> IsColorNameUniqueAsync(string colorName);
 }

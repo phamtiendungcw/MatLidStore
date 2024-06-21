@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IAddressRepository : IGenericRepository<Address>
 {
+    Task<bool> IsAddressDuplicateAsync(Address address);
 }
