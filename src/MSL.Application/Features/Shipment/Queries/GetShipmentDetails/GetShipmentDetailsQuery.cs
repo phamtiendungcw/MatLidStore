@@ -3,5 +3,5 @@ using MLS.Application.DTO.Shipment;
 
 namespace MLS.Application.Features.Shipment.Queries.GetShipmentDetails
 {
-    public abstract record GetShipmentDetailsQuery(int Id) : IRequest<ShipmentDetailsDto>;
+    public record GetShipmentDetailsQuery(int Id) : IRequest<ShipmentDetailsDto>;
 }

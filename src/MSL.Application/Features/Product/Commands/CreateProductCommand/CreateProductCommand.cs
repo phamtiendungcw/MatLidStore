@@ -3,7 +3,7 @@ using MLS.Application.DTO.Product;
 
 namespace MLS.Application.Features.Product.Commands.CreateProductCommand
 {
-    public abstract class CreateProductCommand : IRequest<int>
+    public class CreateProductCommand : IRequest<int>
     {
         public CreateProductDto Product { get; set; } = new();
     }

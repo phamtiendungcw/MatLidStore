@@ -3,5 +3,5 @@ using MLS.Application.DTO.WishList;
 
 namespace MLS.Application.Features.WishList.Queries.GetAllWishLists
 {
-    public abstract record GetAllWishListsQuery : IRequest<List<WishListDto>>;
+    public record GetAllWishListsQuery : IRequest<List<WishListDto>>;
 }

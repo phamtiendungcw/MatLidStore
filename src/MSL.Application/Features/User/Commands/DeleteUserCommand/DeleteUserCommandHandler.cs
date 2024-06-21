@@ -20,7 +20,7 @@ namespace MLS.Application.Features.User.Commands.DeleteUserCommand
             if (userToDelete is null)
                 throw new NotFoundException(nameof(Domain.Entities.User), request.Id);
 
-            await _userRepository.CreateAsync(userToDelete);
+            await _userRepository.DeleteAsync(userToDelete);
 
             return Unit.Value;
         }

@@ -3,5 +3,5 @@ using MLS.Application.DTO.Product;
 
 namespace MLS.Application.Features.Product.Queries.GetAllProducts
 {
-    public abstract record GetAllProductsQuery : IRequest<List<ProductDto>>;
+    public record GetAllProductsQuery : IRequest<List<ProductDto>>;
 }

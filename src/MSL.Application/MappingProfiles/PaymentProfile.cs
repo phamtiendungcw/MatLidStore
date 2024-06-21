@@ -10,8 +10,8 @@ namespace MLS.Application.MappingProfiles
         {
             CreateMap<PaymentDto, Payment>().ReverseMap();
             CreateMap<Payment, PaymentDetailsDto>();
-            CreateMap<Payment, CreatePaymentDto>();
-            CreateMap<Payment, UpdatePaymentDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<CreatePaymentDto, Payment>();
+            CreateMap<UpdatePaymentDto, Payment>();
         }
     }
 }

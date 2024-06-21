@@ -3,5 +3,5 @@ using MLS.Application.DTO.Comment;
 
 namespace MLS.Application.Features.Comment.Queries.GetAllComments
 {
-    public abstract record GetAllCommentsQuery : IRequest<List<CommentDto>>;
+    public record GetAllCommentsQuery : IRequest<List<CommentDto>>;
 }

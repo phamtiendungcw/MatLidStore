@@ -3,5 +3,5 @@ using MLS.Application.DTO.Payment;
 
 namespace MLS.Application.Features.Payment.Queries.GetPaymentDetails
 {
-    public abstract record GetPaymentDetailsQuery(int Id) : IRequest<PaymentDetailsDto>;
+    public record GetPaymentDetailsQuery(int Id) : IRequest<PaymentDetailsDto>;
 }
