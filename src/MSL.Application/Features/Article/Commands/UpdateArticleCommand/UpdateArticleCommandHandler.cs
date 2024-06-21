@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using MLS.Application.Contracts.Logging;
 using MLS.Application.Contracts.Persistence.IRepositories;
 using MLS.Application.DTO.Article;
 using MLS.Application.Exceptions;
@@ -10,11 +11,13 @@ namespace MLS.Application.Features.Article.Commands.UpdateArticleCommand
     {
         private readonly IMapper _mapper;
         private readonly IArticleRepository _articleRepository;
+        private readonly IAppLogger<UpdateArticleCommandHandler> _logger;
 
-        public UpdateArticleCommandHandler(IMapper mapper, IArticleRepository articleRepository)
+        public UpdateArticleCommandHandler(IMapper mapper, IArticleRepository articleRepository, IAppLogger<UpdateArticleCommandHandler> logger)
         {
             _mapper = mapper;
             _articleRepository = articleRepository;
+            _logger = logger;
         }
 
         public async Task<Unit> Handle(UpdateArticleCommand request, CancellationToken cancellationToken)
@@ -24,7 +27,10 @@ namespace MLS.Application.Features.Article.Commands.UpdateArticleCommand
             var validationResult = await validator.ValidateAsync(request.Article);
 
             if (!validationResult.IsValid)
+            {
+                _logger.LogWarning($"Validation errors in update request for {0} - {1}", nameof(Domain.Entities.Article), request.Article.Id);
                 throw new BadRequestException("Invalid Article", validationResult);
+            }
 
             var articleToUpdate = _mapper.Map<Domain.Entities.Article>(request.Article);
             await _articleRepository.UpdateAsync(articleToUpdate);

@@ -1,4 +1,5 @@
 ﻿using MLS.Domain.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MLS.Domain.Entities
 {
@@ -6,7 +7,7 @@ namespace MLS.Domain.Entities
     {
         public string Name { get; set; } = string.Empty; // Product name
         public string Description { get; set; } = string.Empty; // Product description
-        public decimal Price { get; set; } // Product price
+        [Column(TypeName = "decimal(18,4)")] public decimal Price { get; set; } // Product price
 
         public int CategoryId { get; set; } // Foreign key referencing Category
         public Category Category { get; set; } = null!; // Navigation property for Category

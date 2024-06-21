@@ -7,6 +7,7 @@ namespace MLS.Persistence.DatabaseContext
     public class MatLidStoreDatabaseContext : DbContext
     {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+
         public MatLidStoreDatabaseContext(DbContextOptions<MatLidStoreDatabaseContext> options) : base(options)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         {
@@ -42,6 +43,28 @@ namespace MLS.Persistence.DatabaseContext
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MatLidStoreDatabaseContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
+
+            // Configure the relationship between Comment and User
+            modelBuilder.Entity<Comment>()
+                        .HasOne(c => c.Commenter)
+                        .WithMany(u => u.Comments)
+                        .HasForeignKey(c => c.UserId)
+                        .OnDelete(DeleteBehavior.Restrict); // Or use DeleteBehavior.NoAction
+
+            // Configure the relationship between Comment and Article
+            modelBuilder.Entity<Comment>()
+                        .HasOne(c => c.Article)
+                        .WithMany(a => a.Comments)
+                        .HasForeignKey(c => c.ArticleId)
+                        .OnDelete(DeleteBehavior.Restrict); // Or use DeleteBehavior.NoAction
+
+            // Configure other entities similarly if necessary
+            // For example, Order and User relationship
+            modelBuilder.Entity<Order>()
+                        .HasOne(o => o.User)
+                        .WithMany(u => u.Orders)
+                        .HasForeignKey(o => o.UserId)
+                        .OnDelete(DeleteBehavior.Restrict); // Or use DeleteBehavior.NoAction
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
