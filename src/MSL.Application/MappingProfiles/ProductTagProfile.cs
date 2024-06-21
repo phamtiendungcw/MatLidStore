@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<ProductTagDto, ProductTag>().ReverseMap();
             CreateMap<ProductTag, ProductTagDetailsDto>();
             CreateMap<CreateProductTagDto, ProductTag>();
-            CreateMap<UpdateProductTagDto, ProductTag>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateProductTagDto, ProductTag>();
         }
     }
 }

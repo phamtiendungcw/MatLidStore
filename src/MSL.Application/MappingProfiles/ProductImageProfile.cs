@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<ProductImageDto, ProductImage>().ReverseMap();
             CreateMap<ProductImage, ProductImageDetailsDto>();
             CreateMap<CreateProductImageDto, ProductImage>();
-            CreateMap<UpdateProductImageDto, ProductImage>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateProductImageDto, ProductImage>();
         }
     }
 }

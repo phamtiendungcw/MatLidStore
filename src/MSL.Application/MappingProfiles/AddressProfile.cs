@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<AddressDto, Address>().ReverseMap();
             CreateMap<Address, AddressDetailsDto>();
             CreateMap<CreateAddressDto, Address>();
-            CreateMap<UpdateAddressDto, Address>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateAddressDto, Address>();
         }
     }
 }

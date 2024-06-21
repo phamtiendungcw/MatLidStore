@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<CommentDto, Comment>().ReverseMap();
             CreateMap<Comment, CommentDetailsDto>();
             CreateMap<CreateCommentDto, Comment>();
-            CreateMap<UpdateCommentDto, Comment>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateCommentDto, Comment>();
         }
     }
 }

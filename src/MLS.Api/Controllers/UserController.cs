@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MLS.Application.Contracts.Persistence.IRepositories;
 using MLS.Application.DTO.User;
 using MLS.Application.Features.User.Commands.CreateUserCommand;
 using MLS.Application.Features.User.Commands.DeleteUserCommand;
@@ -16,10 +17,12 @@ namespace MLS.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(IMediator mediator)
+        public UserController(IMediator mediator, IUserRepository userRepository)
         {
             _mediator = mediator;
+            _userRepository = userRepository;
         }
 
         // GET: api/<UserController>
@@ -49,7 +52,7 @@ namespace MLS.Api.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         [ProducesResponseType(400)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

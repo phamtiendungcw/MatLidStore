@@ -60,8 +60,6 @@ namespace MLS.Application.DTO.User
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email cannot be empty.")
                 .EmailAddress().WithMessage("Invalid email address.");
-            RuleFor(x => x.PasswordHash)
-                .NotEmpty().WithMessage("PasswordHash cannot be empty.");
             RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("FirstName cannot be empty.")
                 .MaximumLength(50).WithMessage("FirstName must be less than 50 characters.");

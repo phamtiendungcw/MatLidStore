@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<UserDto, User>().ReverseMap();
             CreateMap<User, UserDetailsDto>();
             CreateMap<CreateUserDto, User>();
-            CreateMap<UpdateUserDto, User>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateUserDto, User>();
         }
     }
 }

@@ -3,8 +3,8 @@ using MLS.Application.DTO.User;
 
 namespace MLS.Application.Features.User.Commands.UpdateUserCommand
 {
-    public abstract class UpdateUserCommand : IRequest<Unit>
+    public class UpdateUserCommand : IRequest<Unit>
     {
-        public UpdateUserDto User { get; set; } = null!;
+        public UpdateUserDto? User { get; set; }
     }
 }

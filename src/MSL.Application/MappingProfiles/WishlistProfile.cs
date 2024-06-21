@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<WishListDto, WishList>().ReverseMap();
             CreateMap<WishList, WishListDetailsDto>();
             CreateMap<CreateWishListDto, WishList>();
-            CreateMap<UpdateWishListDto, WishList>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateWishListDto, WishList>();
         }
     }
 }
