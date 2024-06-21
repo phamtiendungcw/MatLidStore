@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Comment.Commands.CreateCommentCommand
 {
     public abstract class CreateCommentCommand : IRequest<int>
     {
-        public CreateCommentDto Comment { get; set; }
+        public CreateCommentDto Comment { get; set; } = new();
     }
 }

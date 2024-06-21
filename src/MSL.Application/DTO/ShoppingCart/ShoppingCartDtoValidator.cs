@@ -22,8 +22,6 @@ namespace MLS.Application.DTO.ShoppingCart
         {
             RuleFor(x => x.UserId)
                 .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.ShoppingCartItems)
-                .SetValidator(new CreateShoppingCartItemDtoValidator());
         }
     }
 
@@ -35,8 +33,6 @@ namespace MLS.Application.DTO.ShoppingCart
                 .GreaterThan(0).WithMessage("Id must be greater than 0.");
             RuleFor(x => x.UserId)
                 .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.ShoppingCartItems)
-                .SetValidator(new UpdateShoppingCartItemDtoValidator());
         }
     }
 }

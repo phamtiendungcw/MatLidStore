@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<ProductColorDto, ProductColor>().ReverseMap();
             CreateMap<ProductColor, ProductColorDetailsDto>();
             CreateMap<ProductColor, CreateProductColorDto>();
-            CreateMap<ProductColor, UpdateProductColorDto>();
+            CreateMap<ProductColor, UpdateProductColorDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<ShoppingCartDto, ShoppingCart>().ReverseMap();
             CreateMap<ShoppingCart, ShoppingCartDetailsDto>();
             CreateMap<ShoppingCart, CreateShoppingCartDto>();
-            CreateMap<ShoppingCart, UpdateShoppingCartDto>();
+            CreateMap<ShoppingCart, UpdateShoppingCartDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

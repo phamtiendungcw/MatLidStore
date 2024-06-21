@@ -5,6 +5,6 @@ namespace MLS.Application.Features.WishList.Commands.CreateWishListCommand
 {
     public abstract class CreateWishListCommand : IRequest<int>
     {
-        public CreateWishListDto WishList { get; set; }
+        public CreateWishListDto WishList { get; set; } = new();
     }
 }

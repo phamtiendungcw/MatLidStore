@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MLS.Application.DTO.Comment;
 
 namespace MLS.Application.DTO.Article
 {
@@ -19,10 +18,6 @@ namespace MLS.Application.DTO.Article
                 .MaximumLength(100).WithMessage("Author must be less than 100 characters.");
             RuleFor(x => x.PublicationDate)
                 .LessThanOrEqualTo(DateTime.Now).WithMessage("Publication Date cannot be in the future.");
-            RuleFor(x => x.AuthorId)
-                .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.Comments)
-                .SetValidator(new CommentDtoValidator());
         }
     }
 
@@ -40,10 +35,6 @@ namespace MLS.Application.DTO.Article
                 .MaximumLength(100).WithMessage("Author cannot be empty and must be less than 100 characters.");
             RuleFor(x => x.PublicationDate)
                 .LessThanOrEqualTo(DateTime.Now).WithMessage("Publication Date cannot be in the future.");
-            RuleFor(x => x.AuthorId)
-                .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.Comments)
-                .SetValidator(new CreateCommentDtoValidator());
         }
     }
 
@@ -63,10 +54,6 @@ namespace MLS.Application.DTO.Article
                 .MaximumLength(100).WithMessage("Author cannot be empty and must be less than 100 characters.");
             RuleFor(x => x.PublicationDate)
                 .LessThanOrEqualTo(DateTime.Now).WithMessage("Publication Date cannot be in the future.");
-            RuleFor(x => x.AuthorId)
-                .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.Comments)
-                .SetValidator(new UpdateCommentDtoValidator());
         }
     }
 }

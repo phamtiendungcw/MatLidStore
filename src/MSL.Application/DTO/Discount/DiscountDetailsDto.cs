@@ -1,6 +1,6 @@
 ﻿namespace MLS.Application.DTO.Discount
 {
-    public class DiscountDetailsDto
+    public class DiscountDetailsDto : DiscountDto
     {
     }
 }

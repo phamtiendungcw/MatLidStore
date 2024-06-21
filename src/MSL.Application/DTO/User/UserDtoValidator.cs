@@ -1,9 +1,4 @@
 ﻿using FluentValidation;
-using MLS.Application.DTO.Comment;
-using MLS.Application.DTO.Notification;
-using MLS.Application.DTO.Order;
-using MLS.Application.DTO.ProductReview;
-using MLS.Application.DTO.WishList;
 
 namespace MLS.Application.DTO.User
 {
@@ -19,8 +14,6 @@ namespace MLS.Application.DTO.User
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email cannot be empty.")
                 .EmailAddress().WithMessage("Invalid email address.");
-            RuleFor(x => x.PasswordHash)
-                .NotEmpty().WithMessage("PasswordHash cannot be empty.");
             RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("FirstName cannot be empty.")
                 .MaximumLength(50).WithMessage("FirstName must be less than 50 characters.");
@@ -30,16 +23,6 @@ namespace MLS.Application.DTO.User
             RuleFor(x => x.Phone)
                 .NotEmpty().WithMessage("Phone cannot be empty.")
                 .MaximumLength(20).WithMessage("Phone must be less than 20 characters.");
-            RuleForEach(x => x.Orders)
-                .SetValidator(new OrderDtoValidator());
-            RuleForEach(x => x.ProductReviews)
-                .SetValidator(new ProductReviewDtoValidator());
-            RuleForEach(x => x.WishLists)
-                .SetValidator(new WishListDtoValidator());
-            RuleForEach(x => x.Comments)
-                .SetValidator(new CommentDtoValidator());
-            RuleForEach(x => x.Notifications)
-                .SetValidator(new NotificationDtoValidator());
         }
     }
 
@@ -53,8 +36,6 @@ namespace MLS.Application.DTO.User
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email cannot be empty.")
                 .EmailAddress().WithMessage("Invalid email address.");
-            RuleFor(x => x.PasswordHash)
-                .NotEmpty().WithMessage("PasswordHash cannot be empty.");
             RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("FirstName cannot be empty.")
                 .MaximumLength(50).WithMessage("FirstName must be less than 50 characters.");
@@ -64,16 +45,6 @@ namespace MLS.Application.DTO.User
             RuleFor(x => x.Phone)
                 .NotEmpty().WithMessage("Phone cannot be empty.")
                 .MaximumLength(20).WithMessage("Phone must be less than 20 characters.");
-            RuleForEach(x => x.Orders)
-                .SetValidator(new CreateOrderDtoValidator());
-            RuleForEach(x => x.ProductReviews)
-                .SetValidator(new CreateProductReviewDtoValidator());
-            RuleForEach(x => x.WishLists)
-                .SetValidator(new CreateWishListDtoValidator());
-            RuleForEach(x => x.Comments)
-                .SetValidator(new CreateCommentDtoValidator());
-            RuleForEach(x => x.Notifications)
-                .SetValidator(new CreateNotificationDtoValidator());
         }
     }
 
@@ -100,16 +71,6 @@ namespace MLS.Application.DTO.User
             RuleFor(x => x.Phone)
                 .NotEmpty().WithMessage("Phone cannot be empty.")
                 .MaximumLength(20).WithMessage("Phone must be less than 20 characters.");
-            RuleForEach(x => x.Orders)
-                .SetValidator(new UpdateOrderDtoValidator());
-            RuleForEach(x => x.ProductReviews)
-                .SetValidator(new UpdateProductReviewDtoValidator());
-            RuleForEach(x => x.WishLists)
-                .SetValidator(new UpdateWishListDtoValidator());
-            RuleForEach(x => x.Comments)
-                .SetValidator(new UpdateCommentDtoValidator());
-            RuleForEach(x => x.Notifications)
-                .SetValidator(new UpdateNotificationDtoValidator());
         }
     }
 }

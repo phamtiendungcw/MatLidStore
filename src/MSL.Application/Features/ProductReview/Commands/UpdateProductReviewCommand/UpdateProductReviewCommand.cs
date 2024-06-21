@@ -5,6 +5,6 @@ namespace MLS.Application.Features.ProductReview.Commands.UpdateProductReviewCom
 {
     public abstract class UpdateProductReviewCommand : IRequest<Unit>
     {
-        public UpdateProductReviewDto ProductReview { get; set; }
+        public UpdateProductReviewDto ProductReview { get; set; } = null!;
     }
 }

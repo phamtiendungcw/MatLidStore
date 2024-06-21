@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<SupplyDto, Supply>().ReverseMap();
             CreateMap<Supply, SupplyDetailsDto>();
             CreateMap<Supply, CreateSupplyDto>();
-            CreateMap<Supply, UpdateSupplyDto>();
+            CreateMap<Supply, UpdateSupplyDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

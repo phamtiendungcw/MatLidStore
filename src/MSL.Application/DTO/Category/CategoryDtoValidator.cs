@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MLS.Application.DTO.Product;
 
 namespace MLS.Application.DTO.Category
 {
@@ -14,8 +13,6 @@ namespace MLS.Application.DTO.Category
                 .MaximumLength(100).WithMessage("Name must be less than 100 characters.");
             RuleFor(x => x.Description)
                 .MaximumLength(500).WithMessage("Description must be less than 500 characters.");
-            RuleForEach(x => x.Products)
-                .SetValidator(new ProductDtoValidator());
         }
     }
 
@@ -28,8 +25,6 @@ namespace MLS.Application.DTO.Category
                 .MaximumLength(100).WithMessage("Name must be less than 100 characters.");
             RuleFor(x => x.Description)
                 .MaximumLength(500).WithMessage("Description must be less than 500 characters.");
-            RuleForEach(x => x.Products)
-                .SetValidator(new CreateProductDtoValidator());
         }
     }
 
@@ -43,8 +38,6 @@ namespace MLS.Application.DTO.Category
                 .NotEmpty().WithMessage("Name cannot be empty.").MaximumLength(100).WithMessage("Name must be less than 100 characters.");
             RuleFor(x => x.Description)
                 .MaximumLength(500).WithMessage("Description must be less than 500 characters.");
-            RuleForEach(x => x.Products)
-                .SetValidator(new UpdateProductDtoValidator());
         }
     }
 }

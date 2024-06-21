@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using MLS.Application.DTO.Article;
-using MLS.Application.DTO.ProductTag;
 
 namespace MLS.Application.DTO.Tag
 {
@@ -13,10 +11,6 @@ namespace MLS.Application.DTO.Tag
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name cannot be empty.")
                 .MaximumLength(100).WithMessage("Name must be less than 100 characters.");
-            RuleForEach(x => x.ProductTags)
-                .SetValidator(new ProductTagDtoValidator());
-            RuleForEach(x => x.Articles)
-                .SetValidator(new ArticleDtoValidator());
         }
     }
 
@@ -27,9 +21,6 @@ namespace MLS.Application.DTO.Tag
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name cannot be empty.")
                 .MaximumLength(100).WithMessage("Name must be less than 100 characters.");
-            RuleForEach(x => x.ProductTags)
-                .SetValidator(new CreateProductTagDtoValidator());
-            RuleForEach(x => x.Articles).SetValidator(new CreateArticleDtoValidator());
         }
     }
 
@@ -42,10 +33,6 @@ namespace MLS.Application.DTO.Tag
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name cannot be empty.")
                 .MaximumLength(100).WithMessage("Name must be less than 100 characters.");
-            RuleForEach(x => x.ProductTags)
-                .SetValidator(new UpdateProductTagDtoValidator());
-            RuleForEach(x => x.Articles)
-                .SetValidator(new UpdateArticleDtoValidator());
         }
     }
 }

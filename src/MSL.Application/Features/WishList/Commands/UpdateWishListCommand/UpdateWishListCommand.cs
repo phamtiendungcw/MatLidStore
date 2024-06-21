@@ -5,6 +5,6 @@ namespace MLS.Application.Features.WishList.Commands.UpdateWishListCommand
 {
     public abstract class UpdateWishListCommand : IRequest<Unit>
     {
-        public UpdateWishListDto WishList { get; set; }
+        public UpdateWishListDto WishList { get; set; } = null!;
     }
 }

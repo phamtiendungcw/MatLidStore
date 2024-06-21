@@ -5,6 +5,6 @@ namespace MLS.Application.Features.OrderDetail.Commands.CreateOrderDetailCommand
 {
     public abstract class CreateOrderDetailCommand : IRequest<int>
     {
-        public CreateOrderDetailDto OrderDetail { get; set; }
+        public CreateOrderDetailDto OrderDetail { get; set; } = new();
     }
 }

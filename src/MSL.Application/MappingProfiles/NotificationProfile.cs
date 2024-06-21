@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<NotificationDto, Notification>().ReverseMap();
             CreateMap<Notification, NotificationDetailsDto>();
             CreateMap<Notification, CreateNotificationDto>();
-            CreateMap<Notification, UpdateNotificationDto>();
+            CreateMap<Notification, UpdateNotificationDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

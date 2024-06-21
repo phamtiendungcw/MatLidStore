@@ -11,6 +11,6 @@ namespace MLS.Domain.Entities
         public int UserId { get; set; } // Foreign key referencing User
         public User User { get; set; } = null!; // Navigation property for User
 
-        public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>(); // One-to-Many relationship with OrderDetail
+        public List<OrderDetail> OrderDetails { get; set; } = new(); // One-to-Many relationship with OrderDetail
     }
 }

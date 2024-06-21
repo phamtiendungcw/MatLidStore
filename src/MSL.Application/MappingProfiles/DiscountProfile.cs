@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<DiscountDto, Discount>().ReverseMap();
             CreateMap<Discount, DiscountDetailsDto>();
             CreateMap<Discount, CreateDiscountDto>();
-            CreateMap<Discount, UpdateDiscountDto>();
+            CreateMap<Discount, UpdateDiscountDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

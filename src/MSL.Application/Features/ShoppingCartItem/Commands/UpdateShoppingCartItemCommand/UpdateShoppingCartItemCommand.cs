@@ -5,6 +5,6 @@ namespace MLS.Application.Features.ShoppingCartItem.Commands.UpdateShoppingCartI
 {
     public abstract class UpdateShoppingCartItemCommand : IRequest<Unit>
     {
-        public UpdateShoppingCartItemDto ShoppingCartItem { get; set; }
+        public UpdateShoppingCartItemDto ShoppingCartItem { get; set; } = null!;
     }
 }
