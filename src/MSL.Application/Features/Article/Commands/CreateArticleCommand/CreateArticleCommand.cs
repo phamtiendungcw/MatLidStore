@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Article.Commands.CreateArticleCommand
 {
     public abstract class CreateArticleCommand : IRequest<int>
     {
-        public CreateArticleDto Article { get; set; }
+        public CreateArticleDto Article { get; set; } = new();
     }
 }

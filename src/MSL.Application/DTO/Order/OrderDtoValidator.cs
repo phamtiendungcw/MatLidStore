@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MLS.Application.DTO.OrderDetail;
 
 namespace MLS.Application.DTO.Order
 {
@@ -18,8 +17,6 @@ namespace MLS.Application.DTO.Order
                 .MaximumLength(50).WithMessage("Order Status must be less than 50 characters.");
             RuleFor(x => x.UserId)
                 .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.OrderDetails)
-                .SetValidator(new OrderDetailDtoValidator());
         }
     }
 
@@ -36,8 +33,6 @@ namespace MLS.Application.DTO.Order
                 .MaximumLength(50).WithMessage("Order Status must be less than 50 characters.");
             RuleFor(x => x.UserId)
                 .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.OrderDetails)
-                .SetValidator(new CreateOrderDetailDtoValidator());
         }
     }
 
@@ -56,8 +51,6 @@ namespace MLS.Application.DTO.Order
                 .MaximumLength(50).WithMessage("Order Status must be less than 50 characters.");
             RuleFor(x => x.UserId)
                 .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.OrderDetails)
-                .SetValidator(new UpdateOrderDetailDtoValidator());
         }
     }
 }

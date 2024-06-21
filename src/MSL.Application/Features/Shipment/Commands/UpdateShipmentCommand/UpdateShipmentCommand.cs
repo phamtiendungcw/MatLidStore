@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Shipment.Commands.UpdateShipmentCommand
 {
     public abstract class UpdateShipmentCommand : IRequest<Unit>
     {
-        public UpdateShipmentDto Shipment { get; set; }
+        public UpdateShipmentDto Shipment { get; set; } = null!;
     }
 }

@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Category.Commands.UpdateCategoryCommand
 {
     public abstract class UpdateCategoryCommand : IRequest<Unit>
     {
-        public UpdateCategoryDto Category { get; set; }
+        public UpdateCategoryDto Category { get; set; } = null!;
     }
 }

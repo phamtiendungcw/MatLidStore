@@ -5,6 +5,6 @@ namespace MLS.Application.Features.User.Commands.UpdateUserCommand
 {
     public abstract class UpdateUserCommand : IRequest<Unit>
     {
-        public UpdateUserDto User { get; set; }
+        public UpdateUserDto User { get; set; } = null!;
     }
 }

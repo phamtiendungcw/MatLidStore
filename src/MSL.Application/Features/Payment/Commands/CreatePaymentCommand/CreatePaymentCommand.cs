@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Payment.Commands.CreatePaymentCommand
 {
     public abstract class CreatePaymentCommand : IRequest<int>
     {
-        public CreatePaymentDto Payment { get; set; }
+        public CreatePaymentDto Payment { get; set; } = new();
     }
 }

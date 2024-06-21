@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MLS.Application.DTO.Product;
 
 namespace MLS.Application.DTO.Supplier
 {
@@ -18,8 +17,6 @@ namespace MLS.Application.DTO.Supplier
             RuleFor(x => x.ContactPhone)
                 .NotEmpty().WithMessage("ContactPhone cannot be empty.")
                 .MaximumLength(20).WithMessage("ContactPhone must be less than 20 characters.");
-            RuleForEach(x => x.Products)
-                .SetValidator(new ProductDtoValidator());
         }
     }
 
@@ -36,8 +33,6 @@ namespace MLS.Application.DTO.Supplier
             RuleFor(x => x.ContactPhone)
                 .NotEmpty().WithMessage("ContactPhone cannot be empty.")
                 .MaximumLength(20).WithMessage("ContactPhone must be less than 20 characters.");
-            RuleForEach(x => x.Products)
-                .SetValidator(new CreateProductDtoValidator());
         }
     }
 
@@ -56,8 +51,6 @@ namespace MLS.Application.DTO.Supplier
             RuleFor(x => x.ContactPhone)
                 .NotEmpty().WithMessage("ContactPhone cannot be empty.")
                 .MaximumLength(20).WithMessage("ContactPhone must be less than 20 characters.");
-            RuleForEach(x => x.Products)
-                .SetValidator(new UpdateProductDtoValidator());
         }
     }
 }

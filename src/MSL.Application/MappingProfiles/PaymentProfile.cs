@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<PaymentDto, Payment>().ReverseMap();
             CreateMap<Payment, PaymentDetailsDto>();
             CreateMap<Payment, CreatePaymentDto>();
-            CreateMap<Payment, UpdatePaymentDto>();
+            CreateMap<Payment, UpdatePaymentDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

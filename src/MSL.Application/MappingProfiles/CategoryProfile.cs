@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<CategoryDto, Category>().ReverseMap();
             CreateMap<Category, CategoryDetailsDto>();
             CreateMap<Category, CreateCategoryDto>();
-            CreateMap<Category, UpdateCategoryDto>();
+            CreateMap<Category, UpdateCategoryDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

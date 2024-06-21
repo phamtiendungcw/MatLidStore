@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MLS.Application.DTO.WishListItem;
 
 namespace MLS.Application.DTO.WishList
 {
@@ -13,8 +12,6 @@ namespace MLS.Application.DTO.WishList
                 .MaximumLength(100).WithMessage("Name must be less than 100 characters.");
             RuleFor(x => x.UserId)
                 .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.WishListItems)
-                .SetValidator(new WishListItemDtoValidator());
         }
     }
 
@@ -26,8 +23,6 @@ namespace MLS.Application.DTO.WishList
                 .MaximumLength(100).WithMessage("Name must be less than 100 characters.");
             RuleFor(x => x.UserId)
                 .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.WishListItems)
-                .SetValidator(new CreateWishListItemDtoValidator());
         }
     }
 
@@ -41,8 +36,6 @@ namespace MLS.Application.DTO.WishList
                 .MaximumLength(100).WithMessage("Name must be less than 100 characters.");
             RuleFor(x => x.UserId)
                 .GreaterThan(0).WithMessage("UserId must be greater than 0.");
-            RuleForEach(x => x.WishListItems)
-                .SetValidator(new UpdateWishListItemDtoValidator());
         }
     }
 }

@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Order.Commands.UpdateOrderCommand
 {
     public abstract class UpdateOrderCommand : IRequest<Unit>
     {
-        public UpdateOrderDto Order { get; set; }
+        public UpdateOrderDto Order { get; set; } = null!;
     }
 }

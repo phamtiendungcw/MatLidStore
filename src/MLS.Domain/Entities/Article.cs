@@ -4,14 +4,14 @@ namespace MLS.Domain.Entities
 {
     public class Article : BaseEntity
     {
-        public string Title { get; set; } // Article title
-        public string Content { get; set; } // Article content
-        public string Author { get; set; } // Author name
+        public string Title { get; set; } = string.Empty; // Article title
+        public string Content { get; set; } = string.Empty; // Article content
+        public string Author { get; set; } = string.Empty; // Author name
         public DateTime PublicationDate { get; set; } // Date and time of publication
 
         public int UserId { get; set; } // Foreign key referencing User (author)
-        public User AuthorUser { get; set; } // Navigation property for User
+        public User AuthorUser { get; set; } = null!; // Navigation property for User
 
-        public List<Comment> Comments { get; set; } // One-to-Many relationship with Comment
+        public List<Comment> Comments { get; set; } = new(); // One-to-Many relationship with Comment
     }
 }

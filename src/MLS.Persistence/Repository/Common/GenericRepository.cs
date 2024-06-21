@@ -33,7 +33,14 @@ namespace MLS.Persistence.Repository.Common
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+
+            if (entity is null)
+            {
+                throw new KeyNotFoundException($"{nameof(T)} with id {id} not found.");
+            }
+
+            return entity;
         }
 
         public async Task UpdateAsync(T entity)

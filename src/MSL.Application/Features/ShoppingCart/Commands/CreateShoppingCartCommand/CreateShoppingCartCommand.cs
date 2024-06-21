@@ -5,6 +5,6 @@ namespace MLS.Application.Features.ShoppingCart.Commands.CreateShoppingCartComma
 {
     public abstract class CreateShoppingCartCommand : IRequest<int>
     {
-        public CreateShoppingCartDto ShoppingCart { get; set; }
+        public CreateShoppingCartDto ShoppingCart { get; set; } = new();
     }
 }

@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Product.Commands.UpdateProductCommand
 {
     public abstract class UpdateProductCommand : IRequest<Unit>
     {
-        public UpdateProductDto Product { get; set; }
+        public UpdateProductDto Product { get; set; } = null!;
     }
 }

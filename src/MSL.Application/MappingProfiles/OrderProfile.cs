@@ -12,7 +12,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<OrderDto, Order>().ReverseMap();
             CreateMap<Order, OrderDetailsDto>();
             CreateMap<Order, CreateOrderDetailDto>();
-            CreateMap<Order, UpdateOrderDetailDto>();
+            CreateMap<Order, UpdateOrderDetailDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

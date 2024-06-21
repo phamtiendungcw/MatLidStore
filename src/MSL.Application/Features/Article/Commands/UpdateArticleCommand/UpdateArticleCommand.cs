@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Article.Commands.UpdateArticleCommand
 {
     public abstract class UpdateArticleCommand : IRequest<Unit>
     {
-        public UpdateArticleDto Article { get; set; }
+        public UpdateArticleDto Article { get; set; } = null!;
     }
 }

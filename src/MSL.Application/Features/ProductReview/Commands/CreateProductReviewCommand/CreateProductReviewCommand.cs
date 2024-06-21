@@ -5,6 +5,6 @@ namespace MLS.Application.Features.ProductReview.Commands.CreateProductReviewCom
 {
     public abstract class CreateProductReviewCommand : IRequest<int>
     {
-        public CreateProductReviewDto ProductReview { get; set; }
+        public CreateProductReviewDto ProductReview { get; set; } = new();
     }
 }

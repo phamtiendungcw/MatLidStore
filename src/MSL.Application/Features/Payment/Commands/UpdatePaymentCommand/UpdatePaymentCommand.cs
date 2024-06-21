@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Payment.Commands.UpdatePaymentCommand
 {
     public class UpdatePaymentCommand : IRequest<Unit>
     {
-        public UpdatePaymentDto Payment { get; set; }
+        public UpdatePaymentDto Payment { get; set; } = null!;
     }
 }

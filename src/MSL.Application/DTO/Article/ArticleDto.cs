@@ -1,17 +1,12 @@
-﻿using MLS.Application.DTO.Comment;
-using MLS.Application.DTO.User;
-
-namespace MLS.Application.DTO.Article
+﻿namespace MLS.Application.DTO.Article
 {
     public class ArticleDto
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Author { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
+        public string Author { get; set; } = string.Empty;
         public DateTime PublicationDate { get; set; }
-        public int AuthorId { get; set; }
-        public UserDto AuthorUser { get; set; }
-        public List<CommentDto> Comments { get; set; }
+        public int UserId { get; set; }
     }
 }

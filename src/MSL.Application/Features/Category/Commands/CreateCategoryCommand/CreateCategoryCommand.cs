@@ -5,6 +5,6 @@ namespace MLS.Application.Features.Category.Commands.CreateCategoryCommand
 {
     public abstract class CreateCategoryCommand : IRequest<int>
     {
-        public CreateCategoryDto Category { get; set; }
+        public CreateCategoryDto Category { get; set; } = new();
     }
 }

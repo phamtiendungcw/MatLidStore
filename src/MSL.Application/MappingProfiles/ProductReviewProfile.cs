@@ -11,7 +11,7 @@ namespace MLS.Application.MappingProfiles
             CreateMap<ProductReviewDto, ProductReview>();
             CreateMap<ProductReview, ProductReviewDetailsDto>();
             CreateMap<ProductReview, CreateProductReviewDto>();
-            CreateMap<ProductReview, UpdateProductReviewDto>();
+            CreateMap<ProductReview, UpdateProductReviewDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }
