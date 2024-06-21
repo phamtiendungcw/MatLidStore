@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IShoppingCartItemRepository : IGenericRepository<ShoppingCartItem>
 {
+    Task<IEnumerable<ShoppingCartItem>> GetItemsByCartIdAsync(int cartId);
 }

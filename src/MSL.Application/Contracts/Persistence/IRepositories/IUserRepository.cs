@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IUserRepository : IGenericRepository<User>
 {
+    Task<User?> GetUserByUsernameAsync(string username);
 }

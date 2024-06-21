@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IOrderDetailRepository : IGenericRepository<OrderDetail>
 {
+    Task<IEnumerable<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId);
 }

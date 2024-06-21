@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IWishListItemRepository : IGenericRepository<WishListItem>
 {
+    Task<IEnumerable<WishListItem>> GetItemsByWishListIdAsync(int wishListId);
 }

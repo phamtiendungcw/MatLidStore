@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IShipmentRepository : IGenericRepository<Shipment>
 {
+    Task<IEnumerable<Shipment>> GetShipmentsByOrderIdAsync(int orderId);
 }

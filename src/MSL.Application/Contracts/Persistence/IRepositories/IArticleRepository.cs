@@ -5,4 +5,6 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IArticleRepository : IGenericRepository<Article>
 {
+    Task<IEnumerable<Article>> GetArticlesByAuthorAsync(string author);
+    Task<bool> IsTitleUniqueAsync(string title);
 }

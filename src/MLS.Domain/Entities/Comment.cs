@@ -5,7 +5,7 @@ namespace MLS.Domain.Entities
     public class Comment : BaseEntity
     {
         public string Content { get; set; } = string.Empty; // Comment content
-        public string? Author { get; set; } // Comment author name (optional)
+        public string Author { get; set; } = string.Empty; // Comment author name (optional)
         public DateTime Timestamp { get; set; } // Date and time comment was posted
 
         public int ArticleId { get; set; } // Foreign key referencing Article (optional)

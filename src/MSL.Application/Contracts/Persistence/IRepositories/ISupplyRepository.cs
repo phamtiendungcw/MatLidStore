@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface ISupplyRepository : IGenericRepository<Supply>
 {
+    Task<IEnumerable<Supply>> GetSuppliesByProductIdAsync(int productId);
 }

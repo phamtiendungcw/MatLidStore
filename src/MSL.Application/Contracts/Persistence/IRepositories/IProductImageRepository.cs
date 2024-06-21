@@ -5,4 +5,5 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IProductImageRepository : IGenericRepository<ProductImage>
 {
+    Task<bool> IsImageUrlUniqueAsync(string imageUrl);
 }
