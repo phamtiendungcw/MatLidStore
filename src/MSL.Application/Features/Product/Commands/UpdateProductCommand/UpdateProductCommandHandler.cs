@@ -21,7 +21,7 @@ namespace MLS.Application.Features.Product.Commands.UpdateProductCommand
         {
             // Validate data
             var validator = new UpdateProductDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.Product);
+            var validationResult = await validator.ValidateAsync(request.Product, cancellationToken);
 
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Product", validationResult);

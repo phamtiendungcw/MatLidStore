@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MLS.Application.Contracts.Persistence.Common;
+using MLS.Application.Exceptions;
 using MLS.Domain.Common;
 using MLS.Persistence.DatabaseContext;
 
@@ -37,7 +38,7 @@ namespace MLS.Persistence.Repository.Common
 
             if (entity is null)
             {
-                throw new KeyNotFoundException($"{nameof(T)} with id {id} not found.");
+                throw new NotFoundException(typeof(T).ToString(), id);
             }
 
             return entity;

@@ -21,7 +21,7 @@ namespace MLS.Application.Features.ShoppingCart.Commands.CreateShoppingCartComma
         {
             // Validate data
             var validator = new CreateShoppingCartDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.ShoppingCart);
+            var validationResult = await validator.ValidateAsync(request.ShoppingCart, cancellationToken);
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Shopping Cart", validationResult);
 

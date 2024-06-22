@@ -21,7 +21,7 @@ namespace MLS.Application.Features.User.Commands.UpdateUserCommand
         {
             // Validate data
             var validator = new UpdateUserDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.User);
+            var validationResult = await validator.ValidateAsync(request.User, cancellationToken);
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid User", validationResult);
 

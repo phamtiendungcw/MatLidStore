@@ -24,7 +24,7 @@ namespace MLS.Application.Features.Article.Commands.UpdateArticleCommand
         {
             // Validate data
             var validator = new UpdateArticleDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.Article);
+            var validationResult = await validator.ValidateAsync(request.Article, cancellationToken);
 
             if (!validationResult.IsValid)
             {

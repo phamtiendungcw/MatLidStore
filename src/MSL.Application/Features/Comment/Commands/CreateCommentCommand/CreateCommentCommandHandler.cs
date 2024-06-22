@@ -21,7 +21,7 @@ namespace MLS.Application.Features.Comment.Commands.CreateCommentCommand
         {
             // Validate data
             var validator = new CreateCommentDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.Comment);
+            var validationResult = await validator.ValidateAsync(request.Comment, cancellationToken);
 
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Comment", validationResult);

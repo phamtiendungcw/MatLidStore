@@ -21,7 +21,7 @@ namespace MLS.Application.Features.Shipment.Commands.UpdateShipmentCommand
         {
             // Validate data
             var validator = new UpdateShipmentDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.Shipment);
+            var validationResult = await validator.ValidateAsync(request.Shipment, cancellationToken);
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Shipment", validationResult);
 
