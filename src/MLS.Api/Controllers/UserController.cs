@@ -27,7 +27,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<UserController>
         [HttpGet]
-        public async Task<List<UserDto>> Get()
+        public async Task<List<UserDto>> GetAllUser()
         {
             var users = await _mediator.Send(new GetAllUsersQuery());
             return users;
@@ -35,7 +35,7 @@ namespace MLS.Api.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDetailsDto>> Get(int id)
+        public async Task<ActionResult<UserDetailsDto>> GetUser(int id)
         {
             var user = await _mediator.Send(new GetUserDetailsQuery(id));
             return Ok(user);
@@ -45,10 +45,10 @@ namespace MLS.Api.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult> Post([FromBody] CreateUserCommand user)
+        public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand user)
         {
             var response = await _mediator.Send(user);
-            return CreatedAtAction(nameof(Get), new { id = response });
+            return CreatedAtAction(nameof(CreateUser), new { id = response });
         }
 
         // PUT api/<UserController>/5
@@ -57,7 +57,7 @@ namespace MLS.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Put([FromBody] UpdateUserCommand user)
+        public async Task<ActionResult> UpdateUser([FromBody] UpdateUserCommand user)
         {
             await _mediator.Send(user);
             return NoContent();
@@ -68,7 +68,7 @@ namespace MLS.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> DeleteUser(int id)
         {
             var command = new DeleteUserCommand() { Id = id };
             await _mediator.Send(command);
