@@ -22,7 +22,7 @@ namespace MLS.Application.Features.User.Commands.CreateUserCommand
         {
             // Validate data
             var validator = new CreateUserDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.User);
+            var validationResult = await validator.ValidateAsync(request.User, cancellationToken);
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid User", validationResult);
 

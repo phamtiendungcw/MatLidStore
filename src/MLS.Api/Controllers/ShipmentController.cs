@@ -1,43 +1,74 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using MLS.Api.Controllers.BaseController;
+using MLS.Application.DTO.Shipment;
+using MLS.Application.Features.Shipment.Commands.CreateShipmentCommand;
+using MLS.Application.Features.Shipment.Commands.DeleteShipmentCommand;
+using MLS.Application.Features.Shipment.Commands.UpdateShipmentCommand;
+using MLS.Application.Features.Shipment.Queries.GetAllShipments;
+using MLS.Application.Features.Shipment.Queries.GetShipmentDetails;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MLS.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ShipmentController : ControllerBase
+    public class ShipmentController : MatLidStoreBaseController
     {
+        private readonly IMediator _mediator;
+
+        public ShipmentController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         // GET: api/<ShipmentController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<List<ShipmentDto>> GetAllShipments()
         {
-            return new string[] { "value1", "value2" };
+            var shipments = await _mediator.Send(new GetAllShipmentsQuery());
+            return shipments;
         }
 
         // GET api/<ShipmentController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<ShipmentDetailsDto>> GetShipment(int id)
         {
-            return "value";
+            var shipment = await _mediator.Send(new GetShipmentDetailsQuery(id));
+            return Ok(shipment);
         }
 
         // POST api/<ShipmentController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult> CreateShipment([FromBody] CreateShipmentCommand shipment)
         {
+            var response = await _mediator.Send(shipment);
+            return CreatedAtAction(nameof(CreateShipment), new { id = response });
         }
 
         // PUT api/<ShipmentController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateShipment([FromBody] UpdateShipmentCommand shipment)
         {
+            await _mediator.Send(shipment);
+            return NoContent();
         }
 
         // DELETE api/<ShipmentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteShipment(int id)
         {
+            var command = new DeleteShipmentCommand { Id = id };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Api.Controllers.BaseController;
 using MLS.Application.DTO.User;
 using MLS.Application.Features.User.Commands.CreateUserCommand;
 using MLS.Application.Features.User.Commands.DeleteUserCommand;
@@ -12,22 +12,18 @@ using MLS.Application.Features.User.Queries.GetUserDetails;
 
 namespace MLS.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : MatLidStoreBaseController
     {
         private readonly IMediator _mediator;
-        private readonly IUserRepository _userRepository;
 
-        public UserController(IMediator mediator, IUserRepository userRepository)
+        public UserController(IMediator mediator)
         {
             _mediator = mediator;
-            _userRepository = userRepository;
         }
 
         // GET: api/<UserController>
         [HttpGet]
-        public async Task<List<UserDto>> GetAllUser()
+        public async Task<List<UserDto>> GetAllUsers()
         {
             var users = await _mediator.Send(new GetAllUsersQuery());
             return users;
@@ -70,7 +66,7 @@ namespace MLS.Api.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            var command = new DeleteUserCommand() { Id = id };
+            var command = new DeleteUserCommand { Id = id };
             await _mediator.Send(command);
             return NoContent();
         }

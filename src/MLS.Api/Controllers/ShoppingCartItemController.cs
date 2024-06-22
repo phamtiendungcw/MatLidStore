@@ -1,43 +1,74 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using MLS.Api.Controllers.BaseController;
+using MLS.Application.DTO.ShoppingCartItem;
+using MLS.Application.Features.ShoppingCartItem.Commands.CreateShoppingCartItemCommand;
+using MLS.Application.Features.ShoppingCartItem.Commands.DeleteShoppingCartItemCommand;
+using MLS.Application.Features.ShoppingCartItem.Commands.UpdateShoppingCartItemCommand;
+using MLS.Application.Features.ShoppingCartItem.Queries.GetAllShoppingCartItems;
+using MLS.Application.Features.ShoppingCartItem.Queries.GetShoppingCartItemDetails;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MLS.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ShoppingCartItemController : ControllerBase
+    public class ShoppingCartItemController : MatLidStoreBaseController
     {
+        private readonly IMediator _mediator;
+
+        public ShoppingCartItemController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         // GET: api/<ShoppingCartItemController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<List<ShoppingCartItemDto>> GetAllShoppingCartItems()
         {
-            return new string[] { "value1", "value2" };
+            var shoppingCartItems = await _mediator.Send(new GetAllShoppingCartItemsQuery());
+            return shoppingCartItems;
         }
 
         // GET api/<ShoppingCartItemController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<ShoppingCartItemDetailsDto>> GetShoppingCartItem(int id)
         {
-            return "value";
+            var shoppingCartItem = await _mediator.Send(new GetShoppingCartItemDetailsQuery(id));
+            return Ok(shoppingCartItem);
         }
 
         // POST api/<ShoppingCartItemController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult> CreateShoppingCartItem([FromBody] CreateShoppingCartItemCommand shoppingCartItem)
         {
+            var response = await _mediator.Send(shoppingCartItem);
+            return CreatedAtAction(nameof(CreateShoppingCartItem), new { id = response });
         }
 
         // PUT api/<ShoppingCartItemController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateShoppingCartItem([FromBody] UpdateShoppingCartItemCommand shoppingCartItem)
         {
+            await _mediator.Send(shoppingCartItem);
+            return NoContent();
         }
 
         // DELETE api/<ShoppingCartItemController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteShoppingCartItem(int id)
         {
+            var command = new DeleteShoppingCartItemCommand { Id = id };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

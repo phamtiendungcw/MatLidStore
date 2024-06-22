@@ -1,43 +1,74 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using MLS.Api.Controllers.BaseController;
+using MLS.Application.DTO.ProductReview;
+using MLS.Application.Features.ProductReview.Commands.CreateProductReviewCommand;
+using MLS.Application.Features.ProductReview.Commands.DeleteProductReviewCommand;
+using MLS.Application.Features.ProductReview.Commands.UpdateProductReviewCommand;
+using MLS.Application.Features.ProductReview.Queries.GetAllProductReviews;
+using MLS.Application.Features.ProductReview.Queries.GetProductReviewDetails;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MLS.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductReviewController : ControllerBase
+    public class ProductReviewController : MatLidStoreBaseController
     {
+        private readonly IMediator _mediator;
+
+        public ProductReviewController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         // GET: api/<ProductReviewController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<List<ProductReviewDto>> GetAllProductReviews()
         {
-            return new string[] { "value1", "value2" };
+            var productReviews = await _mediator.Send(new GetAllProductReviewsQuery());
+            return productReviews;
         }
 
         // GET api/<ProductReviewController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<ProductReviewDetailsDto>> GetProductReview(int id)
         {
-            return "value";
+            var productReview = await _mediator.Send(new GetProductReviewDetailsQuery(id));
+            return Ok(productReview);
         }
 
         // POST api/<ProductReviewController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult> CreateProductReview([FromBody] CreateProductReviewCommand productReview)
         {
+            var response = await _mediator.Send(productReview);
+            return CreatedAtAction(nameof(CreateProductReview), new { id = response });
         }
 
         // PUT api/<ProductReviewController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateProductReview([FromBody] UpdateProductReviewCommand productReview)
         {
+            await _mediator.Send(productReview);
+            return NoContent();
         }
 
         // DELETE api/<ProductReviewController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteProductReview(int id)
         {
+            var command = new DeleteProductReviewCommand { Id = id };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace MLS.Application.Features.OrderDetail.Commands.UpdateOrderDetailCommand
         {
             // Validate data
             var validator = new UpdateOrderDetailDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.OrderDetail);
+            var validationResult = await validator.ValidateAsync(request.OrderDetail, cancellationToken);
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Order Detail", validationResult);
 

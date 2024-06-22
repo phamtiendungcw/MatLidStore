@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Api.Controllers.BaseController;
 using MLS.Application.DTO.Product;
+using MLS.Application.Features.Product.Commands.CreateProductCommand;
 using MLS.Application.Features.Product.Commands.DeleteProductCommand;
+using MLS.Application.Features.Product.Commands.UpdateProductCommand;
 using MLS.Application.Features.Product.Queries.GetAllProducts;
 using MLS.Application.Features.Product.Queries.GetProductDetails;
 
@@ -10,22 +12,18 @@ using MLS.Application.Features.Product.Queries.GetProductDetails;
 
 namespace MLS.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : MatLidStoreBaseController
     {
         private readonly IMediator _mediator;
-        private readonly IProductRepository _productRepository;
 
-        public ProductController(IMediator mediator, IProductRepository productRepository)
+        public ProductController(IMediator mediator)
         {
             _mediator = mediator;
-            _productRepository = productRepository;
         }
 
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<List<ProductDto>> GetAllProduct()
+        public async Task<List<ProductDto>> GetAllProducts()
         {
             var products = await _mediator.Send(new GetAllProductsQuery());
             return products;
@@ -43,7 +41,7 @@ namespace MLS.Api.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult> CreateProduct([FromBody] CreateProductDto product)
+        public async Task<ActionResult> CreateProduct([FromBody] CreateProductCommand product)
         {
             var response = await _mediator.Send(product);
             return CreatedAtAction(nameof(CreateProduct), new { id = response });
@@ -55,7 +53,7 @@ namespace MLS.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductDto product)
+        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductCommand product)
         {
             await _mediator.Send(product);
             return NoContent();
@@ -68,7 +66,7 @@ namespace MLS.Api.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult> DeleteProduct(int id)
         {
-            var command = new DeleteProductCommand() { Id = id };
+            var command = new DeleteProductCommand { Id = id };
             await _mediator.Send(command);
             return NoContent();
         }

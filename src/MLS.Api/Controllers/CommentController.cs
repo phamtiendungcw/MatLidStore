@@ -1,43 +1,74 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using MLS.Api.Controllers.BaseController;
+using MLS.Application.DTO.Comment;
+using MLS.Application.Features.Comment.Commands.CreateCommentCommand;
+using MLS.Application.Features.Comment.Commands.DeleteCommentCommand;
+using MLS.Application.Features.Comment.Commands.UpdateCommentCommand;
+using MLS.Application.Features.Comment.Queries.GetAllComments;
+using MLS.Application.Features.Comment.Queries.GetCommentDetails;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MLS.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CommentController : ControllerBase
+    public class CommentController : MatLidStoreBaseController
     {
+        private readonly IMediator _mediator;
+
+        public CommentController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         // GET: api/<CommentController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<List<CommentDto>> GetAllComments()
         {
-            return new string[] { "value1", "value2" };
+            var comments = await _mediator.Send(new GetAllCommentsQuery());
+            return comments;
         }
 
         // GET api/<CommentController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<CommentDetailsDto>> GetComment(int id)
         {
-            return "value";
+            var comment = await _mediator.Send(new GetCommentDetailsQuery(id));
+            return Ok(comment);
         }
 
         // POST api/<CommentController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult> CreateComment([FromBody] CreateCommentCommand comment)
         {
+            var response = await _mediator.Send(comment);
+            return CreatedAtAction(nameof(CreateComment), new { id = response });
         }
 
         // PUT api/<CommentController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateComment([FromBody] UpdateCommentCommand comment)
         {
+            await _mediator.Send(comment);
+            return NoContent();
         }
 
         // DELETE api/<CommentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteComment(int id)
         {
+            var command = new DeleteCommentCommand { Id = id };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

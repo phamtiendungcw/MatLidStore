@@ -1,43 +1,74 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using MLS.Api.Controllers.BaseController;
+using MLS.Application.DTO.Payment;
+using MLS.Application.Features.Payment.Commands.CreatePaymentCommand;
+using MLS.Application.Features.Payment.Commands.DeletePaymentCommand;
+using MLS.Application.Features.Payment.Commands.UpdatePaymentCommand;
+using MLS.Application.Features.Payment.Queries.GetAllPayments;
+using MLS.Application.Features.Payment.Queries.GetPaymentDetails;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MLS.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PaymentController : ControllerBase
+    public class PaymentController : MatLidStoreBaseController
     {
+        private readonly IMediator _mediator;
+
+        public PaymentController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         // GET: api/<PaymentController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<List<PaymentDto>> GetAllPayments()
         {
-            return new string[] { "value1", "value2" };
+            var payments = await _mediator.Send(new GetAllPaymentsQuery());
+            return payments;
         }
 
         // GET api/<PaymentController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<PaymentDetailsDto>> GetPayment(int id)
         {
-            return "value";
+            var payment = await _mediator.Send(new GetPaymentDetailsQuery(id));
+            return Ok(payment);
         }
 
         // POST api/<PaymentController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult> CreatePayment([FromBody] CreatePaymentCommand payment)
         {
+            var response = await _mediator.Send(payment);
+            return CreatedAtAction(nameof(CreatePayment), new { id = response });
         }
 
         // PUT api/<PaymentController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdatePayment([FromBody] UpdatePaymentCommand payment)
         {
+            await _mediator.Send(payment);
+            return NoContent();
         }
 
         // DELETE api/<PaymentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeletePayment(int id)
         {
+            var command = new DeletePaymentCommand { Id = id };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

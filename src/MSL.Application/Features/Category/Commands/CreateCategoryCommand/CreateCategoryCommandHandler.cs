@@ -21,7 +21,7 @@ namespace MLS.Application.Features.Category.Commands.CreateCategoryCommand
         {
             // Validate data
             var validator = new CreateCategoryDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.Category);
+            var validationResult = await validator.ValidateAsync(request.Category, cancellationToken);
 
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Category", validationResult);

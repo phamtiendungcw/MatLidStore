@@ -21,7 +21,7 @@ namespace MLS.Application.Features.WishList.Commands.CreateWishListCommand
         {
             // Validate data
             var validator = new CreateWishListDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.WishList);
+            var validationResult = await validator.ValidateAsync(request.WishList, cancellationToken);
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Wish List", validationResult);
 

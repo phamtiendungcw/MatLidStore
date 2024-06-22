@@ -21,7 +21,7 @@ namespace MLS.Application.Features.ProductReview.Commands.UpdateProductReviewCom
         {
             // Validate data
             var validator = new UpdateProductReviewDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.ProductReview);
+            var validationResult = await validator.ValidateAsync(request.ProductReview, cancellationToken);
             if (!validationResult.IsValid)
                 throw new BadRequestException("Invalid Product Review", validationResult);
 
