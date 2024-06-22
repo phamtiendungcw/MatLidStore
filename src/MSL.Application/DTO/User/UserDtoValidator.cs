@@ -55,19 +55,19 @@ namespace MLS.Application.DTO.User
             RuleFor(x => x.Id)
                 .GreaterThan(0).WithMessage("Id must be greater than 0.");
             RuleFor(x => x.Username)
-                .NotEmpty().WithMessage("Username cannot be empty.")
+                .NotEmpty().When(x => x.Username != null).WithMessage("Username cannot be empty.")
                 .MaximumLength(50).WithMessage("Username must be less than 50 characters.");
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email cannot be empty.")
+                .NotEmpty().When(x => x.Email != null).WithMessage("Email cannot be empty.")
                 .EmailAddress().WithMessage("Invalid email address.");
             RuleFor(x => x.FirstName)
-                .NotEmpty().WithMessage("FirstName cannot be empty.")
+                .NotEmpty().When(x => x.FirstName != null).WithMessage("FirstName cannot be empty.")
                 .MaximumLength(50).WithMessage("FirstName must be less than 50 characters.");
             RuleFor(x => x.LastName)
-                .NotEmpty().WithMessage("LastName cannot be empty.")
+                .NotEmpty().When(x => x.LastName != null).WithMessage("LastName cannot be empty.")
                 .MaximumLength(50).WithMessage("LastName must be less than 50 characters.");
             RuleFor(x => x.Phone)
-                .NotEmpty().WithMessage("Phone cannot be empty.")
+                .NotEmpty().When(x => x.Phone != null).WithMessage("Phone cannot be empty.")
                 .MaximumLength(20).WithMessage("Phone must be less than 20 characters.");
         }
     }

@@ -47,7 +47,7 @@ namespace MLS.Application.DTO.Order
             RuleFor(x => x.TotalPrice)
                 .GreaterThan(0).WithMessage("Total Price must be greater than 0.");
             RuleFor(x => x.OrderStatus)
-                .NotEmpty().WithMessage("Order Status cannot be empty.")
+                .NotEmpty().When(x => x.OrderStatus != null).WithMessage("Order Status cannot be empty.")
                 .MaximumLength(50).WithMessage("Order Status must be less than 50 characters.");
             RuleFor(x => x.UserId)
                 .GreaterThan(0).WithMessage("UserId must be greater than 0.");

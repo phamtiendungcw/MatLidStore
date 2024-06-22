@@ -45,7 +45,7 @@ namespace MLS.Application.DTO.Comment
             RuleFor(x => x.Id)
                 .GreaterThan(0).WithMessage("Id must be greater than 0.");
             RuleFor(x => x.Content)
-                .NotEmpty().WithMessage("Content cannot be empty.");
+                .NotEmpty().When(x => x.Content != null).WithMessage("Content cannot be empty.");
             RuleFor(x => x.Author)
                 .MaximumLength(100).WithMessage("Author must be less than 100 characters.");
             RuleFor(x => x.Timestamp)

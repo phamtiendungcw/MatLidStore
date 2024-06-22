@@ -39,7 +39,7 @@ namespace MLS.Application.DTO.ProductImage
             RuleFor(x => x.Id)
                 .GreaterThan(0).WithMessage("Id must be greater than 0.");
             RuleFor(x => x.ImageUrl)
-                .NotEmpty().WithMessage("ImageUrl cannot be empty.")
+                .NotEmpty().When(x => x.ImageUrl != null).WithMessage("ImageUrl cannot be empty.")
                 .MaximumLength(200).WithMessage("ImageUrl must be less than 200 characters.");
             RuleFor(x => x.ImageDescription)
                 .MaximumLength(500).WithMessage("ImageDescription must be less than 500 characters.");

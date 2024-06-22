@@ -43,13 +43,13 @@ namespace MLS.Application.DTO.Supplier
             RuleFor(x => x.Id)
                 .GreaterThan(0).WithMessage("Id must be greater than 0.");
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Name cannot be empty.")
+                .NotEmpty().When(x => x.Name != null).WithMessage("Name cannot be empty.")
                 .MaximumLength(100).WithMessage("Name must be less than 100 characters.");
             RuleFor(x => x.ContactEmail)
-                .NotEmpty().WithMessage("ContactEmail cannot be empty.")
+                .NotEmpty().When(x => x.ContactEmail != null).WithMessage("ContactEmail cannot be empty.")
                 .EmailAddress().WithMessage("Invalid email address.");
             RuleFor(x => x.ContactPhone)
-                .NotEmpty().WithMessage("ContactPhone cannot be empty.")
+                .NotEmpty().When(x => x.ContactPhone != null).WithMessage("ContactPhone cannot be empty.")
                 .MaximumLength(20).WithMessage("ContactPhone must be less than 20 characters.");
         }
     }

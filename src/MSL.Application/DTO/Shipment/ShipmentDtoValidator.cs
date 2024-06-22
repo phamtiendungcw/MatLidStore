@@ -45,10 +45,10 @@ namespace MLS.Application.DTO.Shipment
             RuleFor(x => x.Id)
                 .GreaterThan(0).WithMessage("Id must be greater than 0.");
             RuleFor(x => x.ShippingMethod)
-                .NotEmpty().WithMessage("Shipping Method cannot be empty.")
+                .NotEmpty().When(x => x.ShippingMethod != null).WithMessage("Shipping Method cannot be empty.")
                 .MaximumLength(100).WithMessage("Shipping Method must be less than 100 characters.");
             RuleFor(x => x.TrackingNumber)
-                .NotEmpty().WithMessage("Tracking Number cannot be empty.")
+                .NotEmpty().When(x => x.TrackingNumber != null).WithMessage("Tracking Number cannot be empty.")
                 .MaximumLength(50).WithMessage("Tracking Number must be less than 50 characters.");
             RuleFor(x => x.EstimatedDeliveryDate)
                 .GreaterThanOrEqualTo(DateTime.Now).WithMessage("Estimated Delivery Date cannot be in the past.");
