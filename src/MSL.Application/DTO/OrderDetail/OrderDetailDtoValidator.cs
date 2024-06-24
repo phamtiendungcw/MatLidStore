@@ -29,8 +29,6 @@ namespace MLS.Application.DTO.OrderDetail
                 .GreaterThan(0).WithMessage("Quantity must be greater than 0.");
             RuleFor(x => x.UnitPrice)
                 .GreaterThan(0).WithMessage("Unit Price must be greater than 0.");
-            RuleFor(x => x.OrderId)
-                .GreaterThan(0).WithMessage("OrderId must be greater than 0.");
         }
     }
 

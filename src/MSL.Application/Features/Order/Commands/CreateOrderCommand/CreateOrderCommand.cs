@@ -5,6 +5,11 @@ namespace MLS.Application.Features.Order.Commands.CreateOrderCommand
 {
     public class CreateOrderCommand : IRequest<int>
     {
-        public CreateOrderDto Order { get; set; } = new();
+        public CreateOrderDto Order { get; set; }
+
+        public CreateOrderCommand(CreateOrderDto order)
+        {
+            Order = order;
+        }
     }
 }
