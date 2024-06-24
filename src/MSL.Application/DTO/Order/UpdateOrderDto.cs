@@ -1,4 +1,6 @@
-﻿namespace MLS.Application.DTO.Order
+﻿using MLS.Application.DTO.OrderDetail;
+
+namespace MLS.Application.DTO.Order
 {
     public class UpdateOrderDto
     {
@@ -7,5 +9,6 @@
         public decimal? TotalPrice { get; set; }
         public string? OrderStatus { get; set; }
         public int? UserId { get; set; }
+        public List<UpdateOrderDetailDto>? OrderDetails { get; set; } = new();
     }
 }
