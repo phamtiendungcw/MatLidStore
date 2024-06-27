@@ -23,7 +23,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<ProductReviewController>
         [HttpGet]
-        public async Task<List<ProductReviewDto>> GetAllProductReviews()
+        public async Task<IReadOnlyList<ProductReviewDto>> GetAllProductReviews()
         {
             var productReviews = await _mediator.Send(new GetAllProductReviewsQuery());
             return productReviews;

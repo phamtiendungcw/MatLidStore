@@ -8,6 +8,8 @@ namespace MLS.Domain.Entities
         public string Name { get; set; } = string.Empty; // Product name
         public string Description { get; set; } = string.Empty; // Product description
         [Column(TypeName = "decimal(18,4)")] public decimal Price { get; set; } // Product price
+        public int StockQuantity { get; set; }
+        public string Sku { get; set; } = string.Empty;
 
         public int CategoryId { get; set; } // Foreign key referencing Category
         public Category Category { get; set; } = null!; // Navigation property for Category

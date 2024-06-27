@@ -23,7 +23,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<CategoryController>
         [HttpGet]
-        public async Task<List<CategoryDto>> GetAllCategories()
+        public async Task<IReadOnlyList<CategoryDto>> GetAllCategories()
         {
             var categories = await _mediator.Send(new GetAllCategoriesQuery());
             return categories;

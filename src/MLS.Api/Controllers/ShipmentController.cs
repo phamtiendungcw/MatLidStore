@@ -23,7 +23,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<ShipmentController>
         [HttpGet]
-        public async Task<List<ShipmentDto>> GetAllShipments()
+        public async Task<IReadOnlyList<ShipmentDto>> GetAllShipments()
         {
             var shipments = await _mediator.Send(new GetAllShipmentsQuery());
             return shipments;

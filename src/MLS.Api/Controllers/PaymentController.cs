@@ -23,7 +23,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<PaymentController>
         [HttpGet]
-        public async Task<List<PaymentDto>> GetAllPayments()
+        public async Task<IReadOnlyList<PaymentDto>> GetAllPayments()
         {
             var payments = await _mediator.Send(new GetAllPaymentsQuery());
             return payments;

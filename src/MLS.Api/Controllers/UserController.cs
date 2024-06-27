@@ -23,7 +23,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<UserController>
         [HttpGet]
-        public async Task<List<UserDto>> GetAllUsers()
+        public async Task<IReadOnlyList<UserDto>> GetAllUsers()
         {
             var users = await _mediator.Send(new GetAllUsersQuery());
             return users;
