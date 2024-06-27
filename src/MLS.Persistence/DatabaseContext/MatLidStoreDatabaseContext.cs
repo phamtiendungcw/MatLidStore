@@ -223,12 +223,24 @@ namespace MLS.Persistence.DatabaseContext
 
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.IsDeleted = false;
                     entry.Entity.CreatedAt = DateTime.UtcNow;
                 }
             }
 
+            SoftDeleteEntities();
             return base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void SoftDeleteEntities()
+        {
+            foreach (var entry in ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted))
+            {
+                if (entry.Entity is BaseEntity entity)
+                {
+                    entry.State = EntityState.Modified;
+                    entity.IsDeleted = true;
+                }
+            }
         }
     }
 }

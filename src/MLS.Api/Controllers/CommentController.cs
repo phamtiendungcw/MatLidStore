@@ -23,7 +23,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<CommentController>
         [HttpGet]
-        public async Task<List<CommentDto>> GetAllComments()
+        public async Task<IReadOnlyList<CommentDto>> GetAllComments()
         {
             var comments = await _mediator.Send(new GetAllCommentsQuery());
             return comments;

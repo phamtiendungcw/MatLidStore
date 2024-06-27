@@ -23,13 +23,18 @@ namespace MLS.Persistence.Repository.Common
 
         public async Task DeleteAsync(T entity)
         {
+            // Config soft deletion
+            //entity.IsDeleted = true;
+            //_context.Set<T>().Update(entity);
+            //await _context.SaveChangesAsync();
+
             _context.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
-            return await _context.Set<T>().AsNoTracking().ToListAsync();
+            return await _context.Set<T>().Where(x => x.IsDeleted == false).AsNoTracking().ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)

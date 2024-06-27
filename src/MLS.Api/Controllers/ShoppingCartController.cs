@@ -23,7 +23,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<ShoppingCartController>
         [HttpGet]
-        public async Task<List<ShoppingCartDto>> GetAllShoppingCarts()
+        public async Task<IReadOnlyList<ShoppingCartDto>> GetAllShoppingCarts()
         {
             var shoppingCarts = await _mediator.Send(new GetAllShoppingCartsQuery());
             return shoppingCarts;

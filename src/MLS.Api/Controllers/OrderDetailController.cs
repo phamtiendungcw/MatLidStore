@@ -23,7 +23,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<OrderDetailController>
         [HttpGet]
-        public async Task<List<OrderDetailDto>> GetAllOrderDetails()
+        public async Task<IReadOnlyList<OrderDetailDto>> GetAllOrderDetails()
         {
             var orderDetails = await _mediator.Send(new GetAllOrderDetailsQuery());
             return orderDetails;

@@ -23,7 +23,7 @@ namespace MLS.Api.Controllers
 
         // GET: api/<WishListController>
         [HttpGet]
-        public async Task<List<WishListDto>> GetAllWishLists()
+        public async Task<IReadOnlyList<WishListDto>> GetAllWishLists()
         {
             var wishLists = await _mediator.Send(new GetAllWishListsQuery());
             return wishLists;

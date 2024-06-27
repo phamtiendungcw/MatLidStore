@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using MLS.Api.Controllers.BaseController;
+using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Application.DTO.Supplier;
+using MLS.Application.Exceptions;
+using MLS.Domain.Entities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -7,36 +12,75 @@ namespace MLS.Api.Controllers
 {
     public class SupplierController : MatLidStoreBaseController
     {
+        private readonly ISupplierRepository _supplierRepository;
+        private readonly IMapper _mapper;
+
+        public SupplierController(ISupplierRepository supplierRepository, IMapper mapper)
+        {
+            _supplierRepository = supplierRepository;
+            _mapper = mapper;
+        }
+
         // GET: api/<SupplierController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IReadOnlyList<SupplierDto>> GetAllSuppliers()
         {
-            return new string[] { "value1", "value2" };
+            var suppliers = await _supplierRepository.GetAllAsync();
+            var data = _mapper.Map<List<SupplierDto>>(suppliers);
+            return data;
         }
 
         // GET api/<SupplierController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<SupplierDetailsDto>> GetSupplier(int id)
         {
-            return "value";
+            var supplier = await _supplierRepository.GetByIdAsync(id);
+
+            if (supplier is null)
+                throw new NotFoundException(nameof(Supplier), id);
+
+            var data = _mapper.Map<SupplierDetailsDto>(supplier);
+            return Ok(data);
         }
 
         // POST api/<SupplierController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult> CreateSupplier([FromBody] CreateSupplierDto supplier)
         {
+            var supplierToCreate = _mapper.Map<Supplier>(supplier);
+            await _supplierRepository.CreateAsync(supplierToCreate);
+            return CreatedAtAction(nameof(CreateSupplier), supplierToCreate.Id);
         }
 
         // PUT api/<SupplierController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateSupplier([FromBody] UpdateSupplierDto supplier)
         {
+            var supplierToUpdate = _mapper.Map<Supplier>(supplier);
+            await _supplierRepository.UpdateAsync(supplierToUpdate);
+            return NoContent();
         }
 
         // DELETE api/<SupplierController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteSupplier(int id)
         {
+            var supplierToDelete = await _supplierRepository.GetByIdAsync(id);
+
+            if (supplierToDelete is null)
+                throw new NotFoundException(nameof(Supplier), id);
+
+            await _supplierRepository.DeleteAsync(supplierToDelete);
+            return NoContent();
         }
     }
 }
