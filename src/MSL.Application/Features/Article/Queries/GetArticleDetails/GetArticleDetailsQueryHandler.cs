@@ -22,7 +22,7 @@ namespace MLS.Application.Features.Article.Queries.GetArticleDetails
 
         public async Task<ArticleDetailsDto> Handle(GetArticleDetailsQuery request, CancellationToken cancellationToken)
         {
-            var article = await _articleRepository.GetByIdAsync(request.Id);
+            var article = await _articleRepository.GetByIdAsync(request.Id, i => i.Comments);
 
             if (article is null)
                 throw new NotFoundException(nameof(Domain.Entities.Article), request.Id);
