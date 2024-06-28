@@ -3,16 +3,19 @@ using MLS.Application.Contracts.Persistence.Common;
 using MLS.Application.Exceptions;
 using MLS.Domain.Common;
 using MLS.Persistence.DatabaseContext;
+using System.Linq.Expressions;
 
 namespace MLS.Persistence.Repository.Common
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private readonly MatLidStoreDatabaseContext _context;
+        private readonly DbSet<T> _entities;
 
         public GenericRepository(MatLidStoreDatabaseContext context)
         {
             _context = context;
+            _entities = _context.Set<T>();
         }
 
         public virtual async Task CreateAsync(T entity)
@@ -32,14 +35,27 @@ namespace MLS.Persistence.Repository.Common
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IReadOnlyList<T>> GetAllAsync()
+        public async Task<IReadOnlyList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)
         {
-            return await _context.Set<T>().Where(x => x.IsDeleted == false).AsNoTracking().ToListAsync();
+            //return await _entities.Where(x => !x.IsDeleted).AsNoTracking().ToListAsync();
+            IQueryable<T> query = _entities.Where(e => !e.IsDeleted);
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.AsNoTracking().ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
         {
-            var entity = await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            IQueryable<T> query = _entities;
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            var entity = await query.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id && !e.IsDeleted);
 
             if (entity is null)
             {
@@ -47,6 +63,14 @@ namespace MLS.Persistence.Repository.Common
             }
 
             return entity;
+            //var entity = await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+
+            //if (entity is null)
+            //{
+            //    throw new NotFoundException(typeof(T).ToString(), id);
+            //}
+
+            //return entity;
         }
 
         public virtual async Task UpdateAsync(T entity)
