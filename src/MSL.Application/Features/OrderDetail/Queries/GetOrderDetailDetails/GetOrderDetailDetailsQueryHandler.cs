@@ -4,29 +4,28 @@ using MLS.Application.Contracts.Persistence.IRepositories;
 using MLS.Application.DTO.OrderDetail;
 using MLS.Application.Exceptions;
 
-namespace MLS.Application.Features.OrderDetail.Queries.GetOrderDetailDetails
+namespace MLS.Application.Features.OrderDetail.Queries.GetOrderDetailDetails;
+
+public class GetOrderDetailDetailsQueryHandler : IRequestHandler<GetOrderDetailDetailsQuery, OrderDetailDetailsDto>
 {
-    public class GetOrderDetailDetailsQueryHandler : IRequestHandler<GetOrderDetailDetailsQuery, OrderDetailDetailsDto>
+    private readonly IMapper _mapper;
+    private readonly IOrderDetailRepository _orderDetailRepository;
+
+    public GetOrderDetailDetailsQueryHandler(IOrderDetailRepository orderDetailRepository, IMapper mapper)
     {
-        private readonly IOrderDetailRepository _orderDetailRepository;
-        private readonly IMapper _mapper;
+        _orderDetailRepository = orderDetailRepository;
+        _mapper = mapper;
+    }
 
-        public GetOrderDetailDetailsQueryHandler(IOrderDetailRepository orderDetailRepository, IMapper mapper)
-        {
-            _orderDetailRepository = orderDetailRepository;
-            _mapper = mapper;
-        }
+    public async Task<OrderDetailDetailsDto> Handle(GetOrderDetailDetailsQuery request, CancellationToken cancellationToken)
+    {
+        var orderDetail = await _orderDetailRepository.GetByIdAsync(request.Id);
 
-        public async Task<OrderDetailDetailsDto> Handle(GetOrderDetailDetailsQuery request, CancellationToken cancellationToken)
-        {
-            var orderDetail = await _orderDetailRepository.GetByIdAsync(request.Id);
+        if (orderDetail is null)
+            throw new NotFoundException(nameof(Domain.Entities.OrderDetail), request.Id);
 
-            if (orderDetail is null)
-                throw new NotFoundException(nameof(Domain.Entities.OrderDetail), request.Id);
+        var data = _mapper.Map<OrderDetailDetailsDto>(orderDetail);
 
-            var data = _mapper.Map<OrderDetailDetailsDto>(orderDetail);
-
-            return data;
-        }
+        return data;
     }
 }

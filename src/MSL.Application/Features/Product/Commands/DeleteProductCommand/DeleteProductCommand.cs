@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace MLS.Application.Features.Product.Commands.DeleteProductCommand
+namespace MLS.Application.Features.Product.Commands.DeleteProductCommand;
+
+public class DeleteProductCommand : IRequest<Unit>
 {
-    public class DeleteProductCommand : IRequest<Unit>
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

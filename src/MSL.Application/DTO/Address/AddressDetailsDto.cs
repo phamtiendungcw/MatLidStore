@@ -1,9 +1,8 @@
 ﻿using MLS.Application.DTO.User;
 
-namespace MLS.Application.DTO.Address
+namespace MLS.Application.DTO.Address;
+
+public class AddressDetailsDto : AddressDto
 {
-    public class AddressDetailsDto : AddressDto
-    {
-        public UserDto User { get; set; } = new();
-    }
+    public UserDto User { get; set; } = new();
 }

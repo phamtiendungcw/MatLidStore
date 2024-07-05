@@ -2,16 +2,15 @@
 using MLS.Application.DTO.Order;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class OrderProfile : Profile
 {
-    public class OrderProfile : Profile
+    public OrderProfile()
     {
-        public OrderProfile()
-        {
-            CreateMap<OrderDto, Order>().ReverseMap();
-            CreateMap<Order, OrderDetailsDto>();
-            CreateMap<CreateOrderDto, Order>();
-            CreateMap<UpdateOrderDto, Order>();
-        }
+        CreateMap<OrderDto, Order>().ReverseMap();
+        CreateMap<Order, OrderDetailsDto>();
+        CreateMap<CreateOrderDto, Order>();
+        CreateMap<UpdateOrderDto, Order>();
     }
 }

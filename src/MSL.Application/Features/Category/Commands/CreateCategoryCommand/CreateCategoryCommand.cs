@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using MLS.Application.DTO.Category;
 
-namespace MLS.Application.Features.Category.Commands.CreateCategoryCommand
+namespace MLS.Application.Features.Category.Commands.CreateCategoryCommand;
+
+public class CreateCategoryCommand : IRequest<int>
 {
-    public class CreateCategoryCommand : IRequest<int>
-    {
-        public CreateCategoryDto Category { get; set; } = new();
-    }
+    public CreateCategoryDto Category { get; set; } = new();
 }

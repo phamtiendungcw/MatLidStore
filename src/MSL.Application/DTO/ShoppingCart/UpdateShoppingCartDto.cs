@@ -1,8 +1,7 @@
-﻿namespace MLS.Application.DTO.ShoppingCart
+﻿namespace MLS.Application.DTO.ShoppingCart;
+
+public class UpdateShoppingCartDto
 {
-    public class UpdateShoppingCartDto
-    {
-        public int Id { get; set; }
-        public int? UserId { get; set; }
-    }
+    public int Id { get; set; }
+    public int? UserId { get; set; }
 }

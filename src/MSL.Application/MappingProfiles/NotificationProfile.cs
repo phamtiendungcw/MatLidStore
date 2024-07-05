@@ -2,16 +2,15 @@
 using MLS.Application.DTO.Notification;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class NotificationProfile : Profile
 {
-    public class NotificationProfile : Profile
+    public NotificationProfile()
     {
-        public NotificationProfile()
-        {
-            CreateMap<NotificationDto, Notification>().ReverseMap();
-            CreateMap<Notification, NotificationDetailsDto>();
-            CreateMap<CreateNotificationDto, Notification>();
-            CreateMap<UpdateNotificationDto, Notification>();
-        }
+        CreateMap<NotificationDto, Notification>().ReverseMap();
+        CreateMap<Notification, NotificationDetailsDto>();
+        CreateMap<CreateNotificationDto, Notification>();
+        CreateMap<UpdateNotificationDto, Notification>();
     }
 }

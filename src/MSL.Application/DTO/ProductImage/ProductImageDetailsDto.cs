@@ -1,9 +1,8 @@
 ﻿using MLS.Application.DTO.Product;
 
-namespace MLS.Application.DTO.ProductImage
+namespace MLS.Application.DTO.ProductImage;
+
+public class ProductImageDetailsDto : ProductImageDto
 {
-    public class ProductImageDetailsDto : ProductImageDto
-    {
-        public ProductDto Product { get; set; } = new();
-    }
+    public ProductDto Product { get; set; } = new();
 }

@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace MLS.Application.Features.ShoppingCart.Commands.DeleteShoppingCartCommand
+namespace MLS.Application.Features.ShoppingCart.Commands.DeleteShoppingCartCommand;
+
+public class DeleteShoppingCartCommand : IRequest<Unit>
 {
-    public class DeleteShoppingCartCommand : IRequest<Unit>
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

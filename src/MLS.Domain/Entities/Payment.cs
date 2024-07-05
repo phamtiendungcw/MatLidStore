@@ -1,15 +1,14 @@
-﻿using MLS.Domain.Common;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using MLS.Domain.Common;
 
-namespace MLS.Domain.Entities
+namespace MLS.Domain.Entities;
+
+public class Payment : BaseEntity
 {
-    public class Payment : BaseEntity
-    {
-        public string PaymentMethod { get; set; } = string.Empty; // Payment method (e.g., "Credit Card", "PayPal")
-        [Column(TypeName = "decimal(18,4)")] public decimal AmountPaid { get; set; } // Amount paid
-        public DateTime PaymentDate { get; set; } // Date and time payment was made
+    public string PaymentMethod { get; set; } = string.Empty; // Payment method (e.g., "Credit Card", "PayPal")
+    [Column(TypeName = "decimal(18,4)")] public decimal AmountPaid { get; set; } // Amount paid
+    public DateTime PaymentDate { get; set; } // Date and time payment was made
 
-        public int OrderId { get; set; } // Foreign key referencing Order
-        public Order Order { get; set; } = null!; // Navigation property for Order
-    }
+    public int OrderId { get; set; } // Foreign key referencing Order
+    public Order Order { get; set; } = null!; // Navigation property for Order
 }
