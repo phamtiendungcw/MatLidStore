@@ -1,9 +1,8 @@
-﻿namespace MLS.Application.DTO.WishList
+﻿namespace MLS.Application.DTO.WishList;
+
+public class UpdateWishListDto
 {
-    public class UpdateWishListDto
-    {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public int? UserId { get; set; }
-    }
+    public int Id { get; set; }
+    public string? Name { get; set; }
+    public int? UserId { get; set; }
 }

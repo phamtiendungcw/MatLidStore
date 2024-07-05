@@ -2,16 +2,15 @@
 using MLS.Application.DTO.Discount;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class DiscountProfile : Profile
 {
-    public class DiscountProfile : Profile
+    public DiscountProfile()
     {
-        public DiscountProfile()
-        {
-            CreateMap<DiscountDto, Discount>().ReverseMap();
-            CreateMap<Discount, DiscountDetailsDto>();
-            CreateMap<CreateDiscountDto, Discount>();
-            CreateMap<UpdateDiscountDto, Discount>();
-        }
+        CreateMap<DiscountDto, Discount>().ReverseMap();
+        CreateMap<Discount, DiscountDetailsDto>();
+        CreateMap<CreateDiscountDto, Discount>();
+        CreateMap<UpdateDiscountDto, Discount>();
     }
 }

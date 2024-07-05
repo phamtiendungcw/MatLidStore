@@ -1,9 +1,8 @@
-﻿namespace MLS.Application.DTO.WishListItem
+﻿namespace MLS.Application.DTO.WishListItem;
+
+public class WishListItemDto
 {
-    public class WishListItemDto
-    {
-        public int Id { get; set; }
-        public int ProductId { get; set; }
-        public int WishListId { get; set; }
-    }
+    public int Id { get; set; }
+    public int ProductId { get; set; }
+    public int WishListId { get; set; }
 }

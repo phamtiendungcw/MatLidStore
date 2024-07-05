@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace MLS.Application.Features.User.Commands.DeleteUserCommand
+namespace MLS.Application.Features.User.Commands.DeleteUserCommand;
+
+public class DeleteUserCommand : IRequest<Unit>
 {
-    public class DeleteUserCommand : IRequest<Unit>
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

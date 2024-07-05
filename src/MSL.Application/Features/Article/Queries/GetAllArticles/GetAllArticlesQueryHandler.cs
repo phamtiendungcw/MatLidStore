@@ -4,28 +4,27 @@ using MLS.Application.Contracts.Logging;
 using MLS.Application.Contracts.Persistence.IRepositories;
 using MLS.Application.DTO.Article;
 
-namespace MLS.Application.Features.Article.Queries.GetAllArticles
+namespace MLS.Application.Features.Article.Queries.GetAllArticles;
+
+public class GetAllArticlesQueryHandler : IRequestHandler<GetAllArticlesQuery, List<ArticleDto>>
 {
-    public class GetAllArticlesQueryHandler : IRequestHandler<GetAllArticlesQuery, List<ArticleDto>>
+    private readonly IArticleRepository _articleRepository;
+    private readonly IAppLogger<GetAllArticlesQueryHandler> _logger;
+    private readonly IMapper _mapper;
+
+    public GetAllArticlesQueryHandler(IMapper mapper, IArticleRepository articleRepository, IAppLogger<GetAllArticlesQueryHandler> logger)
     {
-        private readonly IMapper _mapper;
-        private readonly IArticleRepository _articleRepository;
-        private readonly IAppLogger<GetAllArticlesQueryHandler> _logger;
+        _mapper = mapper;
+        _articleRepository = articleRepository;
+        _logger = logger;
+    }
 
-        public GetAllArticlesQueryHandler(IMapper mapper, IArticleRepository articleRepository, IAppLogger<GetAllArticlesQueryHandler> logger)
-        {
-            _mapper = mapper;
-            _articleRepository = articleRepository;
-            _logger = logger;
-        }
+    public async Task<List<ArticleDto>> Handle(GetAllArticlesQuery request, CancellationToken cancellationToken)
+    {
+        var articles = await _articleRepository.GetAllAsync();
+        var data = _mapper.Map<List<ArticleDto>>(articles);
 
-        public async Task<List<ArticleDto>> Handle(GetAllArticlesQuery request, CancellationToken cancellationToken)
-        {
-            var articles = await _articleRepository.GetAllAsync();
-            var data = _mapper.Map<List<ArticleDto>>(articles);
-
-            _logger.LogInformation("Article were retrieved successfully!");
-            return data;
-        }
+        _logger.LogInformation("Article were retrieved successfully!");
+        return data;
     }
 }

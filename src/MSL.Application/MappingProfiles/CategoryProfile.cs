@@ -2,16 +2,15 @@
 using MLS.Application.DTO.Category;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class CategoryProfile : Profile
 {
-    public class CategoryProfile : Profile
+    public CategoryProfile()
     {
-        public CategoryProfile()
-        {
-            CreateMap<CategoryDto, Category>().ReverseMap();
-            CreateMap<Category, CategoryDetailsDto>();
-            CreateMap<CreateCategoryDto, Category>();
-            CreateMap<UpdateCategoryDto, Category>();
-        }
+        CreateMap<CategoryDto, Category>().ReverseMap();
+        CreateMap<Category, CategoryDetailsDto>();
+        CreateMap<CreateCategoryDto, Category>();
+        CreateMap<UpdateCategoryDto, Category>();
     }
 }

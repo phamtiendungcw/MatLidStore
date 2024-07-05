@@ -1,7 +1,6 @@
-﻿namespace MLS.Application.DTO.Tag
+﻿namespace MLS.Application.DTO.Tag;
+
+public class CreateTagDto
 {
-    public class CreateTagDto
-    {
-        public string Name { get; set; } = string.Empty;
-    }
+    public string Name { get; set; } = string.Empty;
 }

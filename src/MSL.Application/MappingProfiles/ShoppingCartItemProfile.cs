@@ -2,16 +2,15 @@
 using MLS.Application.DTO.ShoppingCartItem;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class ShoppingCartItemProfile : Profile
 {
-    public class ShoppingCartItemProfile : Profile
+    public ShoppingCartItemProfile()
     {
-        public ShoppingCartItemProfile()
-        {
-            CreateMap<ShoppingCartItemDto, ShoppingCartItem>().ReverseMap();
-            CreateMap<ShoppingCartItem, ShoppingCartItemDetailsDto>();
-            CreateMap<CreateShoppingCartItemDto, ShoppingCartItem>();
-            CreateMap<UpdateShoppingCartItemDto, ShoppingCartItem>();
-        }
+        CreateMap<ShoppingCartItemDto, ShoppingCartItem>().ReverseMap();
+        CreateMap<ShoppingCartItem, ShoppingCartItemDetailsDto>();
+        CreateMap<CreateShoppingCartItemDto, ShoppingCartItem>();
+        CreateMap<UpdateShoppingCartItemDto, ShoppingCartItem>();
     }
 }

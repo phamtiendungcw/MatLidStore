@@ -1,11 +1,10 @@
-﻿namespace MLS.Application.DTO.Product
+﻿namespace MLS.Application.DTO.Product;
+
+public class ProductDto
 {
-    public class ProductDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public decimal Price { get; set; }
-        public int CategoryId { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public int CategoryId { get; set; }
 }

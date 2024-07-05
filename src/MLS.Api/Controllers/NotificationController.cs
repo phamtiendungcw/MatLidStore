@@ -8,84 +8,83 @@ using MLS.Domain.Entities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace MLS.Api.Controllers
+namespace MLS.Api.Controllers;
+
+public class NotificationController : MatLidStoreBaseController
 {
-    public class NotificationController : MatLidStoreBaseController
+    private readonly IMapper _mapper;
+    private readonly INotificationRepository _notificationRepository;
+
+    public NotificationController(INotificationRepository notificationRepository, IMapper mapper)
     {
-        private readonly INotificationRepository _notificationRepository;
-        private readonly IMapper _mapper;
+        _notificationRepository = notificationRepository;
+        _mapper = mapper;
+    }
 
-        public NotificationController(INotificationRepository notificationRepository, IMapper mapper)
-        {
-            _notificationRepository = notificationRepository;
-            _mapper = mapper;
-        }
+    // GET: api/<NotificationController>
+    [HttpGet]
+    public async Task<IReadOnlyList<NotificationDto>> GetAllNotifications()
+    {
+        var notifications = await _notificationRepository.GetAllAsync();
+        var data = _mapper.Map<List<NotificationDto>>(notifications);
 
-        // GET: api/<NotificationController>
-        [HttpGet]
-        public async Task<IReadOnlyList<NotificationDto>> GetAllNotifications()
-        {
-            var notifications = await _notificationRepository.GetAllAsync();
-            var data = _mapper.Map<List<NotificationDto>>(notifications);
+        return data;
+    }
 
-            return data;
-        }
+    // GET api/<NotificationController>/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<NotificationDetailsDto>> GetNotification(int id)
+    {
+        var notification = await _notificationRepository.GetByIdAsync(id);
 
-        // GET api/<NotificationController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<NotificationDetailsDto>> GetNotification(int id)
-        {
-            var notification = await _notificationRepository.GetByIdAsync(id);
+        if (notification is null)
+            throw new NotFoundException(nameof(Notification), id);
 
-            if (notification is null)
-                throw new NotFoundException(nameof(Notification), id);
+        var data = _mapper.Map<NotificationDetailsDto>(notification);
 
-            var data = _mapper.Map<NotificationDetailsDto>(notification);
+        return data;
+    }
 
-            return data;
-        }
+    // POST api/<NotificationController>
+    [HttpPost]
+    [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult> CreateNotification([FromBody] CreateNotificationDto notification)
+    {
+        var notificationToCreate = _mapper.Map<Notification>(notification);
+        await _notificationRepository.CreateAsync(notificationToCreate);
 
-        // POST api/<NotificationController>
-        [HttpPost]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public async Task<ActionResult> CreateNotification([FromBody] CreateNotificationDto notification)
-        {
-            var notificationToCreate = _mapper.Map<Notification>(notification);
-            await _notificationRepository.CreateAsync(notificationToCreate);
+        return CreatedAtAction(nameof(CreateNotification), notificationToCreate.Id);
+    }
 
-            return CreatedAtAction(nameof(CreateNotification), notificationToCreate.Id);
-        }
+    // PUT api/<NotificationController>/5
+    [HttpPut]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> UpdateNotification([FromBody] UpdateNotificationDto notification)
+    {
+        var notificationToUpdate = _mapper.Map<Notification>(notification);
+        await _notificationRepository.UpdateAsync(notificationToUpdate);
 
-        // PUT api/<NotificationController>/5
-        [HttpPut]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public async Task<ActionResult> UpdateNotification([FromBody] UpdateNotificationDto notification)
-        {
-            var notificationToUpdate = _mapper.Map<Notification>(notification);
-            await _notificationRepository.UpdateAsync(notificationToUpdate);
+        return NoContent();
+    }
 
-            return NoContent();
-        }
+    // DELETE api/<NotificationController>/5
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> DeleteNotification(int id)
+    {
+        var notificationToDelete = await _notificationRepository.GetByIdAsync(id);
 
-        // DELETE api/<NotificationController>/5
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public async Task<ActionResult> DeleteNotification(int id)
-        {
-            var notificationToDelete = await _notificationRepository.GetByIdAsync(id);
+        if (notificationToDelete is null)
+            throw new NotFoundException(nameof(Notification), id);
 
-            if (notificationToDelete is null)
-                throw new NotFoundException(nameof(Notification), id);
+        await _notificationRepository.DeleteAsync(notificationToDelete);
 
-            await _notificationRepository.DeleteAsync(notificationToDelete);
-
-            return NoContent();
-        }
+        return NoContent();
     }
 }

@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using MLS.Application.DTO.Article;
 
-namespace MLS.Application.Features.Article.Commands.CreateArticleCommand
+namespace MLS.Application.Features.Article.Commands.CreateArticleCommand;
+
+public class CreateArticleCommand : IRequest<int>
 {
-    public class CreateArticleCommand : IRequest<int>
-    {
-        public CreateArticleDto Article { get; set; } = new();
-    }
+    public CreateArticleDto Article { get; set; } = new();
 }

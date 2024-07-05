@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace MLS.Application.Features.OrderDetail.Commands.DeleteOrderDetailCommand
+namespace MLS.Application.Features.OrderDetail.Commands.DeleteOrderDetailCommand;
+
+public class DeleteOrderDetailCommand : IRequest<Unit>
 {
-    public class DeleteOrderDetailCommand : IRequest<Unit>
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

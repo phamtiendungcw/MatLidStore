@@ -2,16 +2,15 @@
 using MLS.Application.DTO.Article;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class ArticleProfile : Profile
 {
-    public class ArticleProfile : Profile
+    public ArticleProfile()
     {
-        public ArticleProfile()
-        {
-            CreateMap<ArticleDto, Article>().ReverseMap();
-            CreateMap<Article, ArticleDetailsDto>();
-            CreateMap<CreateArticleDto, Article>();
-            CreateMap<UpdateArticleDto, Article>();
-        }
+        CreateMap<ArticleDto, Article>().ReverseMap();
+        CreateMap<Article, ArticleDetailsDto>();
+        CreateMap<CreateArticleDto, Article>();
+        CreateMap<UpdateArticleDto, Article>();
     }
 }

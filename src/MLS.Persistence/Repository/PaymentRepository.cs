@@ -4,20 +4,19 @@ using MLS.Domain.Entities;
 using MLS.Persistence.DatabaseContext;
 using MLS.Persistence.Repository.Common;
 
-namespace MLS.Persistence.Repository
+namespace MLS.Persistence.Repository;
+
+public class PaymentRepository : GenericRepository<Payment>, IPaymentRepository
 {
-    public class PaymentRepository : GenericRepository<Payment>, IPaymentRepository
+    private readonly MatLidStoreDatabaseContext _context;
+
+    public PaymentRepository(MatLidStoreDatabaseContext context) : base(context)
     {
-        private readonly MatLidStoreDatabaseContext _context;
+        _context = context;
+    }
 
-        public PaymentRepository(MatLidStoreDatabaseContext context) : base(context)
-        {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<Payment>> GetPaymentsByOrderIdAsync(int orderId)
-        {
-            return await _context.Payments.Where(p => p.OrderId == orderId).ToListAsync();
-        }
+    public async Task<IEnumerable<Payment>> GetPaymentsByOrderIdAsync(int orderId)
+    {
+        return await _context.Payments.Where(p => p.OrderId == orderId).ToListAsync();
     }
 }

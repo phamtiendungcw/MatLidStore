@@ -4,31 +4,30 @@ using MLS.Application.Contracts.Persistence.IRepositories;
 using MLS.Application.DTO.OrderDetail;
 using MLS.Application.Exceptions;
 
-namespace MLS.Application.Features.OrderDetail.Commands.CreateOrderDetailCommand
+namespace MLS.Application.Features.OrderDetail.Commands.CreateOrderDetailCommand;
+
+public class CreateOrderDetailCommandHandler : IRequestHandler<CreateOrderDetailCommand, int>
 {
-    public class CreateOrderDetailCommandHandler : IRequestHandler<CreateOrderDetailCommand, int>
+    private readonly IMapper _mapper;
+    private readonly IOrderDetailRepository _orderDetailRepository;
+
+    public CreateOrderDetailCommandHandler(IOrderDetailRepository orderDetailRepository, IMapper mapper)
     {
-        private readonly IOrderDetailRepository _orderDetailRepository;
-        private readonly IMapper _mapper;
+        _orderDetailRepository = orderDetailRepository;
+        _mapper = mapper;
+    }
 
-        public CreateOrderDetailCommandHandler(IOrderDetailRepository orderDetailRepository, IMapper mapper)
-        {
-            _orderDetailRepository = orderDetailRepository;
-            _mapper = mapper;
-        }
+    public async Task<int> Handle(CreateOrderDetailCommand request, CancellationToken cancellationToken)
+    {
+        // Validate data
+        var validator = new CreateOrderDetailDtoValidator();
+        var validationResult = await validator.ValidateAsync(request.OrderDetail, cancellationToken);
+        if (!validationResult.IsValid)
+            throw new BadRequestException("Invalid Order Detail", validationResult);
 
-        public async Task<int> Handle(CreateOrderDetailCommand request, CancellationToken cancellationToken)
-        {
-            // Validate data
-            var validator = new CreateOrderDetailDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.OrderDetail, cancellationToken);
-            if (!validationResult.IsValid)
-                throw new BadRequestException("Invalid Order Detail", validationResult);
+        var orderDetailToCreate = _mapper.Map<Domain.Entities.OrderDetail>(request.OrderDetail);
+        await _orderDetailRepository.CreateAsync(orderDetailToCreate);
 
-            var orderDetailToCreate = _mapper.Map<Domain.Entities.OrderDetail>(request.OrderDetail);
-            await _orderDetailRepository.CreateAsync(orderDetailToCreate);
-
-            return orderDetailToCreate.Id;
-        }
+        return orderDetailToCreate.Id;
     }
 }

@@ -2,16 +2,15 @@
 using MLS.Application.DTO.Comment;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class CommentProfile : Profile
 {
-    public class CommentProfile : Profile
+    public CommentProfile()
     {
-        public CommentProfile()
-        {
-            CreateMap<CommentDto, Comment>().ReverseMap();
-            CreateMap<Comment, CommentDetailsDto>();
-            CreateMap<CreateCommentDto, Comment>();
-            CreateMap<UpdateCommentDto, Comment>();
-        }
+        CreateMap<CommentDto, Comment>().ReverseMap();
+        CreateMap<Comment, CommentDetailsDto>();
+        CreateMap<CreateCommentDto, Comment>();
+        CreateMap<UpdateCommentDto, Comment>();
     }
 }

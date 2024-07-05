@@ -2,16 +2,15 @@
 using MLS.Application.DTO.User;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class UserProfile : Profile
 {
-    public class UserProfile : Profile
+    public UserProfile()
     {
-        public UserProfile()
-        {
-            CreateMap<UserDto, User>().ReverseMap();
-            CreateMap<User, UserDetailsDto>();
-            CreateMap<CreateUserDto, User>();
-            CreateMap<UpdateUserDto, User>();
-        }
+        CreateMap<UserDto, User>().ReverseMap();
+        CreateMap<User, UserDetailsDto>();
+        CreateMap<CreateUserDto, User>();
+        CreateMap<UpdateUserDto, User>();
     }
 }

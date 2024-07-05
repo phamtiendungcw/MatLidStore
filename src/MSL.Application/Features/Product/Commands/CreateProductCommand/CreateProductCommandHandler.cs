@@ -4,36 +4,35 @@ using MLS.Application.Contracts.Persistence.IRepositories;
 using MLS.Application.DTO.Product;
 using MLS.Application.Exceptions;
 
-namespace MLS.Application.Features.Product.Commands.CreateProductCommand
+namespace MLS.Application.Features.Product.Commands.CreateProductCommand;
+
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+    private readonly IMapper _mapper;
+    private readonly IProductRepository _productRepository;
+
+    public CreateProductCommandHandler(IMapper mapper, IProductRepository productRepository)
     {
-        private readonly IMapper _mapper;
-        private readonly IProductRepository _productRepository;
+        _mapper = mapper;
+        _productRepository = productRepository;
+    }
 
-        public CreateProductCommandHandler(IMapper mapper, IProductRepository productRepository)
-        {
-            _mapper = mapper;
-            _productRepository = productRepository;
-        }
+    public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    {
+        // Validate data
+        var validator = new CreateProductDtoValidator();
+        var validationResult = await validator.ValidateAsync(request.Product, cancellationToken);
 
-        public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
-        {
-            // Validate data
-            var validator = new CreateProductDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.Product, cancellationToken);
+        if (!validationResult.IsValid)
+            throw new BadRequestException("Invalid Product", validationResult);
 
-            if (!validationResult.IsValid)
-                throw new BadRequestException("Invalid Product", validationResult);
+        // Convert to domain entity obj
+        var productToCreate = _mapper.Map<Domain.Entities.Product>(request.Product);
 
-            // Convert to domain entity obj
-            var productToCreate = _mapper.Map<Domain.Entities.Product>(request.Product);
+        // Add to database
+        await _productRepository.CreateAsync(productToCreate);
 
-            // Add to database
-            await _productRepository.CreateAsync(productToCreate);
-
-            // Return record ID
-            return productToCreate.Id;
-        }
+        // Return record ID
+        return productToCreate.Id;
     }
 }

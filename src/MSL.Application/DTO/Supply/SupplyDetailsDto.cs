@@ -1,6 +1,5 @@
-﻿namespace MLS.Application.DTO.Supply
+﻿namespace MLS.Application.DTO.Supply;
+
+public class SupplyDetailsDto : SupplyDto
 {
-    public class SupplyDetailsDto : SupplyDto
-    {
-    }
 }

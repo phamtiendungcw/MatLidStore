@@ -2,16 +2,15 @@
 using MLS.Application.DTO.ProductTag;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class ProductTagProfile : Profile
 {
-    public class ProductTagProfile : Profile
+    public ProductTagProfile()
     {
-        public ProductTagProfile()
-        {
-            CreateMap<ProductTagDto, ProductTag>().ReverseMap();
-            CreateMap<ProductTag, ProductTagDetailsDto>();
-            CreateMap<CreateProductTagDto, ProductTag>();
-            CreateMap<UpdateProductTagDto, ProductTag>();
-        }
+        CreateMap<ProductTagDto, ProductTag>().ReverseMap();
+        CreateMap<ProductTag, ProductTagDetailsDto>();
+        CreateMap<CreateProductTagDto, ProductTag>();
+        CreateMap<UpdateProductTagDto, ProductTag>();
     }
 }

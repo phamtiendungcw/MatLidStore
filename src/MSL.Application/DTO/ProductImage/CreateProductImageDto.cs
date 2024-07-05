@@ -1,9 +1,8 @@
-﻿namespace MLS.Application.DTO.ProductImage
+﻿namespace MLS.Application.DTO.ProductImage;
+
+public class CreateProductImageDto
 {
-    public class CreateProductImageDto
-    {
-        public string ImageUrl { get; set; } = string.Empty;
-        public string? ImageDescription { get; set; }
-        public int ProductId { get; set; }
-    }
+    public string ImageUrl { get; set; } = string.Empty;
+    public string? ImageDescription { get; set; }
+    public int ProductId { get; set; }
 }

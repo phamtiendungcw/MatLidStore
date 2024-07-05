@@ -2,16 +2,15 @@
 using MLS.Application.DTO.WishList;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class WishListProfile : Profile
 {
-    public class WishListProfile : Profile
+    public WishListProfile()
     {
-        public WishListProfile()
-        {
-            CreateMap<WishListDto, WishList>().ReverseMap();
-            CreateMap<WishList, WishListDetailsDto>();
-            CreateMap<CreateWishListDto, WishList>();
-            CreateMap<UpdateWishListDto, WishList>();
-        }
+        CreateMap<WishListDto, WishList>().ReverseMap();
+        CreateMap<WishList, WishListDetailsDto>();
+        CreateMap<CreateWishListDto, WishList>();
+        CreateMap<UpdateWishListDto, WishList>();
     }
 }

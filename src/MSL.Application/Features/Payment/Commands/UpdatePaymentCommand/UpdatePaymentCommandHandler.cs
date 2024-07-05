@@ -2,25 +2,24 @@
 using MediatR;
 using MLS.Application.Contracts.Persistence.IRepositories;
 
-namespace MLS.Application.Features.Payment.Commands.UpdatePaymentCommand
+namespace MLS.Application.Features.Payment.Commands.UpdatePaymentCommand;
+
+public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand, Unit>
 {
-    public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand, Unit>
+    private readonly IMapper _mapper;
+    private readonly IPaymentRepository _paymentRepository;
+
+    public UpdatePaymentCommandHandler(IMapper mapper, IPaymentRepository paymentRepository)
     {
-        private readonly IMapper _mapper;
-        private readonly IPaymentRepository _paymentRepository;
+        _mapper = mapper;
+        _paymentRepository = paymentRepository;
+    }
 
-        public UpdatePaymentCommandHandler(IMapper mapper, IPaymentRepository paymentRepository)
-        {
-            _mapper = mapper;
-            _paymentRepository = paymentRepository;
-        }
+    public async Task<Unit> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
+    {
+        var paymentToUpdate = _mapper.Map<Domain.Entities.Payment>(request.Payment);
+        await _paymentRepository.UpdateAsync(paymentToUpdate);
 
-        public async Task<Unit> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
-        {
-            var paymentToUpdate = _mapper.Map<Domain.Entities.Payment>(request.Payment);
-            await _paymentRepository.UpdateAsync(paymentToUpdate);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

@@ -2,16 +2,15 @@
 using MLS.Application.DTO.Address;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class AddressProfile : Profile
 {
-    public class AddressProfile : Profile
+    public AddressProfile()
     {
-        public AddressProfile()
-        {
-            CreateMap<AddressDto, Address>().ReverseMap();
-            CreateMap<Address, AddressDetailsDto>();
-            CreateMap<CreateAddressDto, Address>();
-            CreateMap<UpdateAddressDto, Address>();
-        }
+        CreateMap<AddressDto, Address>().ReverseMap();
+        CreateMap<Address, AddressDetailsDto>();
+        CreateMap<CreateAddressDto, Address>();
+        CreateMap<UpdateAddressDto, Address>();
     }
 }

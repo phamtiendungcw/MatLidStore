@@ -1,9 +1,8 @@
-﻿namespace MLS.Application.Models.Email
+﻿namespace MLS.Application.Models.Email;
+
+public class EmailSetting
 {
-    public class EmailSetting
-    {
-        public string ApiKey { get; set; } = string.Empty;
-        public string FromAddress { get; set; } = string.Empty;
-        public string FromName { get; set; } = string.Empty;
-    }
+    public string ApiKey { get; set; } = string.Empty;
+    public string FromAddress { get; set; } = string.Empty;
+    public string FromName { get; set; } = string.Empty;
 }

@@ -2,16 +2,15 @@
 using MLS.Application.DTO.ProductReview;
 using MLS.Domain.Entities;
 
-namespace MLS.Application.MappingProfiles
+namespace MLS.Application.MappingProfiles;
+
+public class ProductReviewProfile : Profile
 {
-    public class ProductReviewProfile : Profile
+    public ProductReviewProfile()
     {
-        public ProductReviewProfile()
-        {
-            CreateMap<ProductReviewDto, ProductReview>();
-            CreateMap<ProductReview, ProductReviewDetailsDto>();
-            CreateMap<CreateProductReviewDto, ProductReview>();
-            CreateMap<UpdateProductReviewDto, ProductReview>();
-        }
+        CreateMap<ProductReviewDto, ProductReview>();
+        CreateMap<ProductReview, ProductReviewDetailsDto>();
+        CreateMap<CreateProductReviewDto, ProductReview>();
+        CreateMap<UpdateProductReviewDto, ProductReview>();
     }
 }

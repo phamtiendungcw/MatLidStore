@@ -4,20 +4,19 @@ using MLS.Domain.Entities;
 using MLS.Persistence.DatabaseContext;
 using MLS.Persistence.Repository.Common;
 
-namespace MLS.Persistence.Repository
+namespace MLS.Persistence.Repository;
+
+public class ShipmentRepository : GenericRepository<Shipment>, IShipmentRepository
 {
-    public class ShipmentRepository : GenericRepository<Shipment>, IShipmentRepository
+    private readonly MatLidStoreDatabaseContext _context;
+
+    public ShipmentRepository(MatLidStoreDatabaseContext context) : base(context)
     {
-        private readonly MatLidStoreDatabaseContext _context;
+        _context = context;
+    }
 
-        public ShipmentRepository(MatLidStoreDatabaseContext context) : base(context)
-        {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<Shipment>> GetShipmentsByOrderIdAsync(int orderId)
-        {
-            return await _context.Shipments.Where(s => s.OrderId == orderId).ToListAsync();
-        }
+    public async Task<IEnumerable<Shipment>> GetShipmentsByOrderIdAsync(int orderId)
+    {
+        return await _context.Shipments.Where(s => s.OrderId == orderId).ToListAsync();
     }
 }

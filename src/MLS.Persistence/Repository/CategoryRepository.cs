@@ -3,12 +3,11 @@ using MLS.Domain.Entities;
 using MLS.Persistence.DatabaseContext;
 using MLS.Persistence.Repository.Common;
 
-namespace MLS.Persistence.Repository
+namespace MLS.Persistence.Repository;
+
+public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
 {
-    public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
+    public CategoryRepository(MatLidStoreDatabaseContext context) : base(context)
     {
-        public CategoryRepository(MatLidStoreDatabaseContext context) : base(context)
-        {
-        }
     }
 }
