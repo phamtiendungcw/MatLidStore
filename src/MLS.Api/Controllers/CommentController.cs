@@ -7,6 +7,7 @@ using MLS.Application.Features.Comment.Commands.DeleteCommentCommand;
 using MLS.Application.Features.Comment.Commands.UpdateCommentCommand;
 using MLS.Application.Features.Comment.Queries.GetAllComments;
 using MLS.Application.Features.Comment.Queries.GetCommentDetails;
+using MLS.Application.Features.Comment.Queries.GetCommentsByArticleId;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -35,6 +36,14 @@ namespace MLS.Api.Controllers
         {
             var comment = await _mediator.Send(new GetCommentDetailsQuery(id));
             return Ok(comment);
+        }
+
+        // GET api/<CommentController>/article/5
+        [HttpGet("article/{articleId}")]
+        public async Task<IReadOnlyList<CommentDto>> GetAllCommentsByArticleId(int articleId)
+        {
+            var comments = await _mediator.Send(new GetCommentsByArticleIdQuery(articleId));
+            return comments;
         }
 
         // POST api/<CommentController>

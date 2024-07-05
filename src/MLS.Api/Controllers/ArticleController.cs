@@ -6,6 +6,7 @@ using MLS.Application.Features.Article.Commands.CreateArticleCommand;
 using MLS.Application.Features.Article.Commands.DeleteArticleCommand;
 using MLS.Application.Features.Article.Commands.UpdateArticleCommand;
 using MLS.Application.Features.Article.Queries.GetAllArticles;
+using MLS.Application.Features.Article.Queries.GetAllArticlesByAuthor;
 using MLS.Application.Features.Article.Queries.GetArticleDetails;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -35,6 +36,14 @@ namespace MLS.Api.Controllers
         {
             var article = await _mediator.Send(new GetArticleDetailsQuery(id));
             return Ok(article);
+        }
+
+        // GET api/<ArticleController>/Author/5
+        [HttpGet("AuthorName/{authorName}")]
+        public async Task<IReadOnlyList<ArticleDto>> GetArticle(string authorName)
+        {
+            var articles = await _mediator.Send(new GetAllArticlesByAuthorQuery(authorName));
+            return articles;
         }
 
         // POST api/<ArticleController>

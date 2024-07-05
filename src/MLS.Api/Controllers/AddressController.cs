@@ -55,7 +55,7 @@ namespace MLS.Api.Controllers
         }
 
         // PUT api/<AddressController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         [ProducesResponseType(400)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
