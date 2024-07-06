@@ -42,6 +42,18 @@ public class DiscountController : MatLidStoreBaseController
         return Ok(discount);
     }
 
+    // GET api/<DiscountController>/code/5
+    [HttpGet("code/{code}")]
+    public async Task<ActionResult<DiscountDto>> GetDiscountByCode(string code)
+    {
+        var discount = await _discountRepository.GetDiscountByCodeAsync(code);
+
+        if (discount is null)
+            throw new NotFoundException(nameof(Discount), code);
+
+        return Ok(discount);
+    }
+
     // POST api/<DiscountController>
     [HttpPost]
     [ProducesResponseType(201)]

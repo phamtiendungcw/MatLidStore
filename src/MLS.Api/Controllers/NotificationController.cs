@@ -42,7 +42,21 @@ public class NotificationController : MatLidStoreBaseController
 
         var data = _mapper.Map<NotificationDetailsDto>(notification);
 
-        return data;
+        return Ok(data);
+    }
+
+    // GET api/<NotificationController>/5
+    [HttpGet("user/{userId}")]
+    public async Task<ActionResult<List<NotificationDto>>> GetUnreadNotificationsByUserId(int userId)
+    {
+        var notification = await _notificationRepository.GetUnreadNotificationsByUserIdAsync(userId);
+
+        if (notification is null)
+            throw new NotFoundException(nameof(Notification), userId);
+
+        var data = _mapper.Map<List<NotificationDto>>(notification);
+
+        return Ok(data);
     }
 
     // POST api/<NotificationController>
