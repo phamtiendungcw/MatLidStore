@@ -2,13 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PagesRoutingModule } from './pages-routing.module';
-
+import { WelcomeComponent } from './welcome/welcome.component';
+import { UserInfoComponent } from './user-info/user-info.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    PagesRoutingModule
-  ]
+  declarations: [WelcomeComponent, UserInfoComponent, MenuComponent],
+  imports: [CommonModule, PagesRoutingModule],
 })
-export class PagesModule { }
+export class PagesModule {}
