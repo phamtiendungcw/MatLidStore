@@ -9,5 +9,6 @@ import { MenuComponent } from './menu/menu.component';
 @NgModule({
   declarations: [WelcomeComponent, UserInfoComponent, MenuComponent],
   imports: [CommonModule, PagesRoutingModule],
+  exports: [WelcomeComponent],
 })
 export class PagesModule {}
