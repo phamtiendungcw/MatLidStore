@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MLS.Persistence.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,13 +13,13 @@ namespace MLS.Persistence.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Name = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Description = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,15 +30,15 @@ namespace MLS.Persistence.Migrations
                 name: "Discounts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Code = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     Percentage = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    StartDate = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,14 +49,14 @@ namespace MLS.Persistence.Migrations
                 name: "Suppliers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Name = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    ContactEmail = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    ContactPhone = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,12 +67,12 @@ namespace MLS.Persistence.Migrations
                 name: "Tags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Name = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,17 +83,17 @@ namespace MLS.Persistence.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Username = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Email = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    FirstName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    LastName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Phone = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,18 +104,18 @@ namespace MLS.Persistence.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Name = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Description = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    StockQuantity = table.Column<int>(type: "int", nullable: false),
-                    Sku = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    SupplierId = table.Column<int>(type: "int", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    StockQuantity = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    Sku = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    CategoryId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    SupplierId = table.Column<int>(type: "NUMBER(10)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,17 +137,17 @@ namespace MLS.Persistence.Migrations
                 name: "Addresses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Street = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    City = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    State = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Country = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    PostalCode = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -164,17 +164,17 @@ namespace MLS.Persistence.Migrations
                 name: "Articles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AuthorUserId = table.Column<int>(type: "int", nullable: false),
-                    TagId = table.Column<int>(type: "int", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Title = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Content = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Author = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    PublicationDate = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    AuthorUserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    TagId = table.Column<int>(type: "NUMBER(10)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,15 +196,15 @@ namespace MLS.Persistence.Migrations
                 name: "Notifications",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsRead = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Message = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    IsRead = table.Column<bool>(type: "NUMBER(1)", nullable: false),
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -221,15 +221,15 @@ namespace MLS.Persistence.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    OrderDate = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    OrderStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    OrderStatus = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,12 +246,12 @@ namespace MLS.Persistence.Migrations
                 name: "ShoppingCarts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -268,13 +268,13 @@ namespace MLS.Persistence.Migrations
                 name: "WishLists",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Name = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -291,14 +291,14 @@ namespace MLS.Persistence.Migrations
                 name: "ProductColors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ColorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ColorHexCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    ColorName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    ColorHexCode = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    ProductId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -315,14 +315,14 @@ namespace MLS.Persistence.Migrations
                 name: "ProductImages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    ImageUrl = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    ImageDescription = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    ProductId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -339,14 +339,14 @@ namespace MLS.Persistence.Migrations
                 name: "ProductOptions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Name = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     Value = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    ProductId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -363,16 +363,16 @@ namespace MLS.Persistence.Migrations
                 name: "ProductReviews",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(type: "int", nullable: false),
-                    ReviewText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Rating = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    ReviewText = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    ReviewDate = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    ProductId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -395,14 +395,14 @@ namespace MLS.Persistence.Migrations
                 name: "ProductTags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TagName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    TagId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    TagName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    ProductId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    TagId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -425,15 +425,15 @@ namespace MLS.Persistence.Migrations
                 name: "Supplies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    SupplierId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    ProductId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    SupplierId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    Quantity = table.Column<int>(type: "NUMBER(10)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -456,16 +456,16 @@ namespace MLS.Persistence.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ArticleId = table.Column<int>(type: "int", nullable: true),
-                    CommenterId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Content = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Author = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    ArticleId = table.Column<int>(type: "NUMBER(10)", nullable: true),
+                    CommenterId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -488,15 +488,15 @@ namespace MLS.Persistence.Migrations
                 name: "OrderDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    ProductId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    Quantity = table.Column<int>(type: "NUMBER(10)", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    OrderId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -519,15 +519,15 @@ namespace MLS.Persistence.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    PaymentMethod = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     AmountPaid = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    PaymentDate = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    OrderId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -544,15 +544,15 @@ namespace MLS.Persistence.Migrations
                 name: "Shipments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ShippingMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TrackingNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EstimatedDeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    ShippingMethod = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    TrackingNumber = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    EstimatedDeliveryDate = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    OrderId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -569,15 +569,15 @@ namespace MLS.Persistence.Migrations
                 name: "ShoppingCartItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    ProductId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    Quantity = table.Column<int>(type: "NUMBER(10)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    ShoppingCartId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    ShoppingCartId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -600,13 +600,13 @@ namespace MLS.Persistence.Migrations
                 name: "WishListItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    WishListId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    ProductId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    WishListId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
