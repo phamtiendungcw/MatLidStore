@@ -12,14 +12,14 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace MLS.Persistence.Migrations
 {
     [DbContext(typeof(MatLidStoreDatabaseContext))]
-    [Migration("20240723085850_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240727153938_InitialEntity")]
+    partial class InitialEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.25")
+                .HasAnnotation("ProductVersion", "6.0.32")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -816,12 +816,17 @@ namespace MLS.Persistence.Migrations
 
                     OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("NUMBER(1)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -834,19 +839,38 @@ namespace MLS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("NVARCHAR2(2000)");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("NUMBER(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TIMESTAMP(7) WITH TIME ZONE");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("NVARCHAR2(2000)");
+
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("NVARCHAR2(2000)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("NVARCHAR2(2000)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("NUMBER(1)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("NUMBER(1)");
+
+                    b.Property<string>("UserName")
                         .HasColumnType("NVARCHAR2(2000)");
 
                     b.HasKey("Id");

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MLS.Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -85,15 +85,24 @@ namespace MLS.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
                         .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    Username = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
-                    Email = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     FirstName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     LastName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     Phone = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false),
+                    UserName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    Email = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "NUMBER(1)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "NUMBER(1)", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "NUMBER(1)", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "TIMESTAMP(7) WITH TIME ZONE", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "NUMBER(1)", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "NUMBER(10)", nullable: false)
                 },
                 constraints: table =>
                 {
