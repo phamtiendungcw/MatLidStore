@@ -10,59 +10,60 @@ namespace MLS.Persistence.Repository;
 public class UserRepository : IUserRepository
 {
     private readonly MatLidStoreDatabaseContext _context;
-    private readonly DbSet<User> _entities;
+    private readonly DbSet<AppUser> _entities;
 
     public UserRepository(MatLidStoreDatabaseContext context)
     {
         _context = context;
-        _entities = _context.Set<User>();
+        _entities = _context.Set<AppUser>();
     }
 
-    public async Task<IReadOnlyList<User>> GetAllAsync(params Expression<Func<User, object>>[] includes)
+    public virtual async Task<IReadOnlyList<AppUser>> GetAllAsync(params Expression<Func<AppUser, object>>[] includes)
     {
         var query = _entities.Where(e => !e.IsDeleted);
         foreach (var include in includes) query = query.Include(include);
 
-        return await query.AsNoTracking().ToListAsync();
+        return await query.ToListAsync();
     }
 
-    public async Task<User> GetByIdAsync(int id, params Expression<Func<User, object>>[] includes)
+    public virtual async Task<AppUser> GetByIdAsync(int id, params Expression<Func<AppUser, object>>[] includes)
     {
-        IQueryable<User> query = _entities;
+        IQueryable<AppUser> query = _entities;
         foreach (var include in includes) query = query.Include(include);
 
         var entity = await query.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id && !e.IsDeleted);
 
-        if (entity is null) throw new NotFoundException(typeof(User).ToString(), id);
+        if (entity is null) throw new NotFoundException(typeof(AppUser).ToString(), id);
 
         return entity;
     }
 
-    public async Task CreateAsync(User entity)
+    public virtual async Task CreateAsync(AppUser entity)
     {
         await _context.AddAsync(entity);
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(User entity)
+    public virtual async Task UpdateAsync(AppUser entity)
     {
-        throw new NotImplementedException();
+        _context.Entry(entity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(User entity)
+    public virtual async Task DeleteAsync(AppUser entity)
     {
         _context.Remove(entity);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<User?> GetUserByUsernameAsync(string username, params Expression<Func<User, object>>[] includes)
+    public virtual async Task<AppUser?> GetUserByUsernameAsync(string username, params Expression<Func<AppUser, object>>[] includes)
     {
-        IQueryable<User> query = _entities;
+        IQueryable<AppUser> query = _entities;
         foreach (var include in includes) query = query.Include(include);
 
         var entity = await query.AsNoTracking().FirstOrDefaultAsync(e => e.UserName == username && !e.IsDeleted);
 
-        if (entity is null) throw new NotFoundException(typeof(User).ToString(), username);
+        if (entity is null) throw new NotFoundException(typeof(AppUser).ToString(), username);
 
         return entity;
     }

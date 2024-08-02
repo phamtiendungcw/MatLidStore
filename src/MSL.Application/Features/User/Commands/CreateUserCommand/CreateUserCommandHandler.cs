@@ -23,9 +23,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
         var validator = new CreateUserDtoValidator();
         var validationResult = await validator.ValidateAsync(request.User, cancellationToken);
         if (!validationResult.IsValid)
-            throw new BadRequestException("Invalid User", validationResult);
+            throw new BadRequestException("Invalid AppUser", validationResult);
 
-        var userToCreate = _mapper.Map<Domain.Entities.User>(request.User);
+        var userToCreate = _mapper.Map<Domain.Entities.AppUser>(request.User);
         await _userRepository.CreateAsync(userToCreate);
 
         return userToCreate.Id;

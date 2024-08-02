@@ -6,6 +6,8 @@ namespace MLS.Persistence.DatabaseContext;
 
 public class MatLidStoreDatabaseContext : DbContext
 {
+    private readonly string _tablePrefix = "MATLID_";
+
     public MatLidStoreDatabaseContext(DbContextOptions<MatLidStoreDatabaseContext> options) : base(options)
     {
     }
@@ -15,6 +17,37 @@ public class MatLidStoreDatabaseContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(MatLidStoreDatabaseContext).Assembly);
 
         base.OnModelCreating(modelBuilder);
+
+        #region Configuration table name with schema
+
+        modelBuilder.Entity<Address>(b => { b.ToTable($"{_tablePrefix}Addresses"); });
+        modelBuilder.Entity<AppRole>(b => { b.ToTable($"{_tablePrefix}Roles"); });
+        modelBuilder.Entity<AppUser>(b => { b.ToTable($"{_tablePrefix}Users"); });
+        modelBuilder.Entity<AppUserRole>(b => { b.ToTable($"{_tablePrefix}UserRoles"); });
+        modelBuilder.Entity<Article>(b => { b.ToTable($"{_tablePrefix}Articles"); });
+        modelBuilder.Entity<Category>(b => { b.ToTable($"{_tablePrefix}Categories"); });
+        modelBuilder.Entity<Comment>(b => { b.ToTable($"{_tablePrefix}Comments"); });
+        modelBuilder.Entity<Discount>(b => { b.ToTable($"{_tablePrefix}Discounts"); });
+        modelBuilder.Entity<Notification>(b => { b.ToTable($"{_tablePrefix}Notifications"); });
+        modelBuilder.Entity<Order>(b => { b.ToTable($"{_tablePrefix}Orders"); });
+        modelBuilder.Entity<OrderDetail>(b => { b.ToTable($"{_tablePrefix}OrderDetails"); });
+        modelBuilder.Entity<Payment>(b => { b.ToTable($"{_tablePrefix}Payments"); });
+        modelBuilder.Entity<Product>(b => { b.ToTable($"{_tablePrefix}Products"); });
+        modelBuilder.Entity<ProductColor>(b => { b.ToTable($"{_tablePrefix}ProductColors"); });
+        modelBuilder.Entity<ProductImage>(b => { b.ToTable($"{_tablePrefix}ProductImages"); });
+        modelBuilder.Entity<ProductOption>(b => { b.ToTable($"{_tablePrefix}ProductOptions"); });
+        modelBuilder.Entity<ProductReview>(b => { b.ToTable($"{_tablePrefix}ProductReviews"); });
+        modelBuilder.Entity<ProductTag>(b => { b.ToTable($"{_tablePrefix}ProductTags"); });
+        modelBuilder.Entity<Shipment>(b => { b.ToTable($"{_tablePrefix}Shipments"); });
+        modelBuilder.Entity<ShoppingCart>(b => { b.ToTable($"{_tablePrefix}ShoppingCarts"); });
+        modelBuilder.Entity<ShoppingCartItem>(b => { b.ToTable($"{_tablePrefix}ShoppingCartItems"); });
+        modelBuilder.Entity<Supplier>(b => { b.ToTable($"{_tablePrefix}Suppliers"); });
+        modelBuilder.Entity<Supply>(b => { b.ToTable($"{_tablePrefix}Supplies"); });
+        modelBuilder.Entity<Tag>(b => { b.ToTable($"{_tablePrefix}Tags"); });
+        modelBuilder.Entity<WishList>(b => { b.ToTable($"{_tablePrefix}WishLists"); });
+        modelBuilder.Entity<WishListItem>(b => { b.ToTable($"{_tablePrefix}WishListItems"); });
+
+        #endregion
 
         #region Ensure relationships and delete cascading rules
 
@@ -32,13 +65,13 @@ public class MatLidStoreDatabaseContext : DbContext
                     .OnDelete(DeleteBehavior.SetNull);
 
         modelBuilder.Entity<Order>()
-                    .HasOne(o => o.User)
+                    .HasOne(o => o.AppUser)
                     .WithMany(u => u.Orders)
                     .HasForeignKey(o => o.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Address>()
-                    .HasOne(a => a.User)
+                    .HasOne(a => a.AppUser)
                     .WithMany()
                     .HasForeignKey(a => a.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
@@ -56,7 +89,7 @@ public class MatLidStoreDatabaseContext : DbContext
                     .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Notification>()
-                    .HasOne(n => n.User)
+                    .HasOne(n => n.AppUser)
                     .WithMany(u => u.Notifications)
                     .HasForeignKey(n => n.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
@@ -110,7 +143,7 @@ public class MatLidStoreDatabaseContext : DbContext
                     .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<ProductReview>()
-                    .HasOne(pr => pr.User)
+                    .HasOne(pr => pr.AppUser)
                     .WithMany(u => u.ProductReviews)
                     .HasForeignKey(pr => pr.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
@@ -134,7 +167,7 @@ public class MatLidStoreDatabaseContext : DbContext
                     .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<ShoppingCart>()
-                    .HasOne(sc => sc.User)
+                    .HasOne(sc => sc.AppUser)
                     .WithMany()
                     .HasForeignKey(sc => sc.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
@@ -164,7 +197,7 @@ public class MatLidStoreDatabaseContext : DbContext
                     .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<WishList>()
-                    .HasOne(wl => wl.User)
+                    .HasOne(wl => wl.AppUser)
                     .WithMany(u => u.WishLists)
                     .HasForeignKey(wl => wl.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
@@ -209,30 +242,32 @@ public class MatLidStoreDatabaseContext : DbContext
 
     #region Configure DB
 
+    public DbSet<Address> Addresses { get; set; }
+    public DbSet<AppRole> Roles { get; set; }
+    public DbSet<AppUser> Users { get; set; }
+    public DbSet<AppUserRole> UserRoles { get; set; }
+    public DbSet<Article> Articles { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Discount> Discounts { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderDetail> OrderDetails { get; set; }
+    public DbSet<Payment> Payments { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductColor> ProductColors { get; set; }
     public DbSet<ProductImage> ProductImages { get; set; }
     public DbSet<ProductOption> ProductOptions { get; set; }
     public DbSet<ProductReview> ProductReviews { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Supplier> Suppliers { get; set; }
-    public DbSet<Supply> Supplies { get; set; }
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderDetail> OrderDetails { get; set; }
-    public DbSet<Payment> Payments { get; set; }
-    public DbSet<Comment> Comments { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<Address> Addresses { get; set; }
-    public DbSet<Tag> Tags { get; set; }
     public DbSet<ProductTag> ProductTags { get; set; }
-    public DbSet<Discount> Discounts { get; set; }
-    public DbSet<WishList> WishLists { get; set; }
-    public DbSet<WishListItem> WishListItems { get; set; }
+    public DbSet<Shipment> Shipments { get; set; }
     public DbSet<ShoppingCart> ShoppingCarts { get; set; }
     public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
-    public DbSet<Shipment> Shipments { get; set; }
-    public DbSet<Notification> Notifications { get; set; }
-    public DbSet<Article> Articles { get; set; }
+    public DbSet<Supplier> Suppliers { get; set; }
+    public DbSet<Supply> Supplies { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<WishList> WishLists { get; set; }
+    public DbSet<WishListItem> WishListItems { get; set; }
 
     #endregion Configure DB
 }

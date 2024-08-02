@@ -1,43 +1,17 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using MLS.Application;
-using MLS.Domain.Entities;
 using MLS.Infrastructure;
 using MLS.Persistence;
-using MLS.Persistence.DatabaseContext;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddControllers();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
-builder.Services.AddIdentity<User, IdentityRole<Guid>>()
-       .AddEntityFrameworkStores<MatLidStoreDatabaseContext>()
-       .AddDefaultTokenProviders();
-builder.Services.AddAuthentication(options =>
-       {
-           options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-           options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-       })
-       .AddJwtBearer(options =>
-       {
-           options.TokenValidationParameters = new TokenValidationParameters
-           {
-               ValidateIssuer = true,
-               ValidateAudience = true,
-               ValidateLifetime = true,
-               ValidateIssuerSigningKey = true,
-               ValidIssuer = builder.Configuration["Jwt:Issuer"],
-               ValidAudience = builder.Configuration["Jwt:Audience"],
-               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-           };
-       });
-
-builder.Services.AddControllers();
+builder.Services.AddIdentityServices(builder.Configuration);
 
 builder.Services.AddCors(options => { options.AddPolicy("all", b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()); });
 
@@ -49,7 +23,7 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         In = ParameterLocation.Header,
-        Description = "Hãy nhập token người dùng",
+        Description = "Hãy nhập token người dùng sử dụng lược đồ Bearer. Ví dụ: \"Authorization: Bearer {token}\"",
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
         BearerFormat = "JWT",
@@ -66,10 +40,36 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            new List<string>()
+            Array.Empty<string>()
         }
     });
 });
+
+//var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//}).AddJwtBearer(options =>
+//{
+//    options.RequireHttpsMetadata = false;
+//    options.SaveToken = true;
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = true,
+//        ValidateAudience = true,
+//        ValidateLifetime = true,
+//        ValidateIssuerSigningKey = true,
+//        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//        ValidAudience = builder.Configuration["Jwt:Audience"],
+//        IssuerSigningKey = new SymmetricSecurityKey(key)
+//    };
+//});
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+//    options.AddPolicy("UserPolicy", policy => policy.RequireRole("AppUser"));
+//});
 
 var app = builder.Build();
 
@@ -81,7 +81,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

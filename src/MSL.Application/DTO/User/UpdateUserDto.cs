@@ -1,10 +1,9 @@
-﻿namespace MLS.Application.DTO.User;
+﻿using Microsoft.AspNetCore.Identity;
 
-public class UpdateUserDto
+namespace MLS.Application.DTO.User;
+
+public class UpdateUserDto : IdentityUser
 {
-    public int Id { get; set; }
-    public string? Username { get; set; }
-    public string? Email { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Phone { get; set; }

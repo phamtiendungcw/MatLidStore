@@ -23,9 +23,9 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
         var validator = new UpdateUserDtoValidator();
         var validationResult = await validator.ValidateAsync(request.User, cancellationToken);
         if (!validationResult.IsValid)
-            throw new BadRequestException("Invalid User", validationResult);
+            throw new BadRequestException("Invalid AppUser", validationResult);
 
-        var userToUpdate = _mapper.Map<Domain.Entities.User>(request.User);
+        var userToUpdate = _mapper.Map<Domain.Entities.AppUser>(request.User);
         await _userRepository.UpdateAsync(userToUpdate);
 
         return Unit.Value;

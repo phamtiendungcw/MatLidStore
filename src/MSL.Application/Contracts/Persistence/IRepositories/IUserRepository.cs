@@ -5,14 +5,15 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 
 public interface IUserRepository
 {
-    Task<IReadOnlyList<User>> GetAllAsync(params Expression<Func<User, object>>[] includes);
+    Task<IReadOnlyList<AppUser>> GetAllAsync(params Expression<Func<AppUser, object>>[] includes);
 
-    Task<User> GetByIdAsync(int id, params Expression<Func<User, object>>[] includes);
+    Task<AppUser> GetByIdAsync(int id, params Expression<Func<AppUser, object>>[] includes);
 
-    Task CreateAsync(User entity);
+    Task CreateAsync(AppUser entity);
 
-    Task UpdateAsync(User entity);
+    Task UpdateAsync(AppUser entity);
 
-    Task DeleteAsync(User entity);
-    Task<User?> GetUserByUsernameAsync(string username, params Expression<Func<User, object>>[] includes);
+    Task DeleteAsync(AppUser entity);
+
+    Task<AppUser?> GetUserByUsernameAsync(string username, params Expression<Func<AppUser, object>>[] includes);
 }
