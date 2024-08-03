@@ -23,7 +23,7 @@ public class UserRepository : IUserRepository
         var query = _entities.Where(e => !e.IsDeleted);
         foreach (var include in includes) query = query.Include(include);
 
-        return await query.ToListAsync();
+        return await query.AsNoTracking().ToListAsync();
     }
 
     public virtual async Task<AppUser> GetByIdAsync(int id, params Expression<Func<AppUser, object>>[] includes)

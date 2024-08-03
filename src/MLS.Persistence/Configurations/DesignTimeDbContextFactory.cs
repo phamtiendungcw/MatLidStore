@@ -20,7 +20,7 @@ namespace MLS.Persistence.Configurations
                 var builder = new DbContextOptionsBuilder<MatLidStoreDatabaseContext>();
                 var connectionString = configuration.GetConnectionString("MatLidConnectionString");
 
-                builder.UseSqlServer(connectionString);
+                builder.UseOracle(connectionString);
 
                 return new MatLidStoreDatabaseContext(builder.Options);
             }
