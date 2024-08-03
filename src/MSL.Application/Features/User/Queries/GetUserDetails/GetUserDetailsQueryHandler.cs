@@ -19,10 +19,10 @@ public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, U
 
     public async Task<UserDetailsDto> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByIdAsync(request.Id);
+        var user = await _userRepository.GetByIdAsync(request.Id, i => i.Comments, i => i.Notifications, i => i.Orders, i => i.ProductReviews, i => i.WishLists);
 
         if (user is null)
-            throw new NotFoundException(nameof(Domain.Entities.User), request.Id);
+            throw new NotFoundException(nameof(Domain.Entities.AppUser), request.Id);
 
         var data = _mapper.Map<UserDetailsDto>(user);
 

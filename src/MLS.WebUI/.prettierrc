@@ -1,5 +1,8 @@
 {
   "printWidth": 120,
   "tabWidth": 2,
-  "singleQuote": true
+  "singleQuote": true,
+  "editorconfig": true,
+  "semi": true,
+  "trailingComma": "es5"
 }

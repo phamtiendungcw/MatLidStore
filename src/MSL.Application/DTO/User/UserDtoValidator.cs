@@ -7,8 +7,8 @@ public class UserDtoValidator : AbstractValidator<UserDto>
     public UserDtoValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("Id must be greater than 0.");
-        RuleFor(x => x.Username)
+            .NotNull().NotEmpty().WithMessage("Id cannot be empty.");
+        RuleFor(x => x.UserName)
             .NotEmpty().WithMessage("Username cannot be empty.")
             .MaximumLength(50).WithMessage("Username must be less than 50 characters.");
         RuleFor(x => x.Email)
@@ -30,7 +30,7 @@ public class CreateUserDtoValidator : AbstractValidator<CreateUserDto>
 {
     public CreateUserDtoValidator()
     {
-        RuleFor(x => x.Username)
+        RuleFor(x => x.UserName)
             .NotEmpty().WithMessage("Username cannot be empty.")
             .MaximumLength(50).WithMessage("Username must be less than 50 characters.");
         RuleFor(x => x.Email)
@@ -53,9 +53,9 @@ public class UpdateUserDtoValidator : AbstractValidator<UpdateUserDto>
     public UpdateUserDtoValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("Id must be greater than 0.");
-        RuleFor(x => x.Username)
-            .NotEmpty().When(x => x.Username != null).WithMessage("Username cannot be empty.")
+            .NotNull().NotEmpty().WithMessage("Id cannot be empty.");
+        RuleFor(x => x.UserName)
+            .NotEmpty().When(x => x.UserName != null).WithMessage("Username cannot be empty.")
             .MaximumLength(50).WithMessage("Username must be less than 50 characters.");
         RuleFor(x => x.Email)
             .NotEmpty().When(x => x.Email != null).WithMessage("Email cannot be empty.")

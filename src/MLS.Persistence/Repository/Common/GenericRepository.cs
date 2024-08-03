@@ -1,9 +1,9 @@
-﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MLS.Application.Contracts.Persistence.Common;
 using MLS.Application.Exceptions;
 using MLS.Domain.Common;
 using MLS.Persistence.DatabaseContext;
+using System.Linq.Expressions;
 
 namespace MLS.Persistence.Repository.Common;
 
@@ -37,7 +37,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 
     public async Task<IReadOnlyList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)
     {
-        //return await _entities.Where(x => !x.IsDeleted).AsNoTracking().ToListAsync();
         var query = _entities.Where(e => !e.IsDeleted);
         foreach (var include in includes) query = query.Include(include);
 
@@ -54,14 +53,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         if (entity is null) throw new NotFoundException(typeof(T).ToString(), id);
 
         return entity;
-        //var entity = await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-
-        //if (entity is null)
-        //{
-        //    throw new NotFoundException(typeof(T).ToString(), id);
-        //}
-
-        //return entity;
     }
 
     public virtual async Task UpdateAsync(T entity)
