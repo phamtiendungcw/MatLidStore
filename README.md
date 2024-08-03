@@ -45,7 +45,7 @@ The MATLID project is built using advanced technologies to ensure high performan
 - **Framework**: ASP.NET Core 6
 - **Architecture**: Clean Architecture with CQRS pattern
 - **ORM**: Entity Framework Core
-- **Database**: SQL Server
+- **Database**: SQL Server | Oracle
 
 ### Application Architecture
 
