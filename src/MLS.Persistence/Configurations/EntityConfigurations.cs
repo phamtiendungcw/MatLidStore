@@ -36,7 +36,7 @@ namespace MLS.Persistence.Configurations
             modelBuilder.Entity<WishList>(b => { b.ToTable($"{tablePrefix}WishLists"); });
             modelBuilder.Entity<WishListItem>(b => { b.ToTable($"{tablePrefix}WishListItems"); });
 
-            #endregion Configure to table name
+            #endregion Customize table name
 
             #region Ensure relationships and delete cascading rules
 

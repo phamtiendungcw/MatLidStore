@@ -3,6 +3,7 @@
     public interface IAuthenticationService
     {
         Task<string> GenerateJwtTokenAsync(string username);
+
         Task<bool> ValidateUserCredentialsAsync(string username, string password);
     }
 

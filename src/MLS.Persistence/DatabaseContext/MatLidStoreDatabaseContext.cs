@@ -42,7 +42,7 @@ public class MatLidStoreDatabaseContext : DbContext
     public DbSet<WishList> WishLists { get; set; } = null!;
     public DbSet<WishListItem> WishListItems { get; set; } = null!;
 
-    #endregion Configure table in DB
+    #endregion Defines a set of entities in the database
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
