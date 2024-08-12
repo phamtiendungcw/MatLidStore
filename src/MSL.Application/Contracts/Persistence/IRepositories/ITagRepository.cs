@@ -6,5 +6,6 @@ namespace MLS.Application.Contracts.Persistence.IRepositories;
 public interface ITagRepository : IGenericRepository<Tag>
 {
     Task<IEnumerable<Tag>> GetTagsAsync();
+
     Task<bool> IsTagNameUniqueAsync(string name);
 }

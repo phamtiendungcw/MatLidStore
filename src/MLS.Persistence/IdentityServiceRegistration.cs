@@ -11,7 +11,7 @@ namespace MLS.Persistence
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<MatLidStoreDatabaseContext>(options => options.UseOracle(configuration.GetConnectionString("MatLidConnectionString")));
+            services.AddDbContext<MatLidStoreDatabaseContext>(options => { options.UseOracle(configuration.GetConnectionString("MatLidConnectionString")); });
 
             services.AddIdentity<AppUser, AppRole>()
                     .AddEntityFrameworkStores<MatLidStoreDatabaseContext>()
