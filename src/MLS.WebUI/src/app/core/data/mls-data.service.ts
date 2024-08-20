@@ -13,7 +13,7 @@ import { Observable, of as _observableOf, throwError as _observableThrow } from 
 import { Inject, Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
-export const API_BASE_URL = '';
+export const API_BASE_URL = 'https://localhost:8100/';
 
 @Injectable()
 export class MLSApiService {

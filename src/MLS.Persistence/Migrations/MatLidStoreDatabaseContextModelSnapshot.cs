@@ -144,6 +144,9 @@ namespace MLS.Persistence.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("NVARCHAR2(2000)");
 
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("RAW(2000)");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("NVARCHAR2(2000)");

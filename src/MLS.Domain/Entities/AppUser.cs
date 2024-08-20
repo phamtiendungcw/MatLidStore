@@ -8,6 +8,7 @@ public class AppUser : IdentityUser<int>
     [MaxLength(50)] public string FirstName { get; set; } = string.Empty; // AppUser's FirstName
     [MaxLength(50)] public string LastName { get; set; } = string.Empty; // AppUser's LastName
     [Phone] public string Phone { get; set; } = string.Empty; // AppUser's phone number
+    public byte[]? PasswordSalt { get; set; }
     public bool IsDeleted { get; set; }
 
     public ICollection<Order> Orders { get; set; } = new List<Order>(); // One-to-Many relationship with Order

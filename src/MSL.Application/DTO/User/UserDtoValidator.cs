@@ -71,3 +71,16 @@ public class UpdateUserDtoValidator : AbstractValidator<UpdateUserDto>
             .MaximumLength(20).WithMessage("Phone must be less than 20 characters.");
     }
 }
+
+public class RegisterUserModelValidator : AbstractValidator<RegisterModel>
+{
+    public RegisterUserModelValidator()
+    {
+        RuleFor(x => x.Username)
+            .NotNull()
+            .NotEmpty().WithMessage("Username cannot be empty.")
+            .MaximumLength(50).WithMessage("Username must be less than 50 characters.");
+        RuleFor(x => x.Password)
+            .NotEmpty().WithMessage("Password cannot be empty.");
+    }
+}
