@@ -22,14 +22,21 @@ public class AccountController : MatLidStoreBaseController
     [ProducesResponseType(400)]
     public async Task<ActionResult> RegisterUser([FromBody] RegisterUserCommand user)
     {
-        using (var hmac = new HMACSHA512())
+        try
         {
-            user.RegisterUser.PasswordSalt = hmac.Key;
-            var hashedPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.RegisterUser.Password));
-            user.RegisterUser.PasswordHash = Convert.ToBase64String(hashedPassword);
-        }
+            using (var hmac = new HMACSHA512())
+            {
+                user.RegisterUser.PasswordSalt = hmac.Key;
+                var hashedPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.RegisterUser.Password));
+                user.RegisterUser.PasswordHash = Convert.ToBase64String(hashedPassword);
+            }
 
-        var response = await _mediator.Send(user);
-        return CreatedAtAction(nameof(RegisterUser), new { id = response });
+            var response = await _mediator.Send(user);
+            return CreatedAtAction(nameof(RegisterUser), new { id = response });
+        }
+        catch (InvalidOperationException e)
+        {
+            return new BadRequestObjectResult(new { e.Message });
+        }
     }
 }

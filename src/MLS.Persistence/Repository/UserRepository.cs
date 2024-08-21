@@ -18,6 +18,21 @@ public class UserRepository : IUserRepository
         _entities = _context.Set<AppUser>();
     }
 
+    public virtual async Task CreateAsync(AppUser entity)
+    {
+        if (!await UserExists(entity.UserName))
+            throw new InvalidOperationException("User with the given username already exists.");
+
+        await _context.AddAsync(entity);
+        await _context.SaveChangesAsync();
+    }
+
+    public virtual async Task DeleteAsync(AppUser entity)
+    {
+        _context.Remove(entity);
+        await _context.SaveChangesAsync();
+    }
+
     public virtual async Task<IReadOnlyList<AppUser>> GetAllAsync(params Expression<Func<AppUser, object>>[] includes)
     {
         var query = _entities.Where(e => !e.IsDeleted);
@@ -38,26 +53,7 @@ public class UserRepository : IUserRepository
         return entity;
     }
 
-    public virtual async Task CreateAsync(AppUser entity)
-    {
-        await _context.AddAsync(entity);
-        await _context.SaveChangesAsync();
-    }
-
-    public virtual async Task UpdateAsync(AppUser entity)
-    {
-        _context.Entry(entity).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-    }
-
-    public virtual async Task DeleteAsync(AppUser entity)
-    {
-        _context.Remove(entity);
-        await _context.SaveChangesAsync();
-    }
-
-    public virtual async Task<AppUser?> GetUserByUsernameAsync(string username,
-        params Expression<Func<AppUser, object>>[] includes)
+    public virtual async Task<AppUser?> GetUserByUsernameAsync(string username, params Expression<Func<AppUser, object>>[] includes)
     {
         IQueryable<AppUser> query = _entities;
         foreach (var include in includes) query = query.Include(include);
@@ -67,5 +63,19 @@ public class UserRepository : IUserRepository
         if (entity is null) throw new NotFoundException(typeof(AppUser).ToString(), username);
 
         return entity;
+    }
+
+    public virtual async Task UpdateAsync(AppUser entity)
+    {
+        if (!await UserExists(entity.UserName))
+            throw new InvalidOperationException("User with the given username already exists.");
+
+        _context.Entry(entity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> UserExists(string username)
+    {
+        return !await _context.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
     }
 }

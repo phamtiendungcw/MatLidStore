@@ -4,14 +4,15 @@ namespace MLS.Application.Exceptions;
 
 public class BadRequestException : Exception
 {
-    //public BadRequestException(string message) : base(message)
-    //{
-    //}
-
     public BadRequestException(string message, ValidationResult validationResult) : base(message)
     {
         ValidationErrors = new List<string>();
         foreach (var errors in validationResult.Errors) ValidationErrors.Add(errors.ErrorMessage);
+    }
+
+    public BadRequestException(List<string> validationErrors)
+    {
+        ValidationErrors = validationErrors;
     }
 
     private List<string> ValidationErrors { get; }
