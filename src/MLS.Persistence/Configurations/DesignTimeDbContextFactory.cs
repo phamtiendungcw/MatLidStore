@@ -3,37 +3,33 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using MLS.Persistence.DatabaseContext;
 
-namespace MLS.Persistence.Configurations
+namespace MLS.Persistence.Configurations;
+
+public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MatLidStoreDatabaseContext>
 {
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MatLidStoreDatabaseContext>
+    public MatLidStoreDatabaseContext CreateDbContext(string[] args)
     {
-        public MatLidStoreDatabaseContext CreateDbContext(string[] args)
+        try
         {
-            try
-            {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                                                   .SetBasePath(Directory.GetCurrentDirectory())
-                                                   .AddJsonFile("appsettings.json")
-                                                   .AddJsonFile("appsettings.Development.json")
-                                                   .Build();
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Development.json")
+                .Build();
 
-                var builder = new DbContextOptionsBuilder<MatLidStoreDatabaseContext>();
-                var connectionString = configuration.GetConnectionString("MatLidConnectionString");
+            var builder = new DbContextOptionsBuilder<MatLidStoreDatabaseContext>();
+            var connectionString = configuration.GetConnectionString("MatLidConnectionString");
 
-                builder.UseOracle(connectionString);
+            builder.UseOracle(connectionString);
 
-                return new MatLidStoreDatabaseContext(builder.Options);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error creating DbContext: {ex.Message}");
-                if (ex.InnerException != null)
-                {
-                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
-                }
+            return new MatLidStoreDatabaseContext(builder.Options);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating DbContext: {ex.Message}");
+            if (ex.InnerException != null) Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
 
-                throw;
-            }
+            throw;
         }
     }
 }

@@ -6,7 +6,8 @@ using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.ProductReview.Queries.GetProductReviewDetails;
 
-public class GetProductReviewDetailsQueryHandler : IRequestHandler<GetProductReviewDetailsQuery, ProductReviewDetailsDto>
+public class
+    GetProductReviewDetailsQueryHandler : IRequestHandler<GetProductReviewDetailsQuery, ProductReviewDetailsDto>
 {
     private readonly IMapper _mapper;
     private readonly IProductReviewRepository _productReviewRepository;
@@ -17,7 +18,8 @@ public class GetProductReviewDetailsQueryHandler : IRequestHandler<GetProductRev
         _mapper = mapper;
     }
 
-    public async Task<ProductReviewDetailsDto> Handle(GetProductReviewDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<ProductReviewDetailsDto> Handle(GetProductReviewDetailsQuery request,
+        CancellationToken cancellationToken)
     {
         var productReview = await _productReviewRepository.GetByIdAsync(request.Id);
 

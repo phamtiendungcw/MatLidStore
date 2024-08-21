@@ -56,7 +56,8 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public virtual async Task<AppUser?> GetUserByUsernameAsync(string username, params Expression<Func<AppUser, object>>[] includes)
+    public virtual async Task<AppUser?> GetUserByUsernameAsync(string username,
+        params Expression<Func<AppUser, object>>[] includes)
     {
         IQueryable<AppUser> query = _entities;
         foreach (var include in includes) query = query.Include(include);

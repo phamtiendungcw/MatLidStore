@@ -12,7 +12,8 @@ public class GetAllArticlesQueryHandler : IRequestHandler<GetAllArticlesQuery, L
     private readonly IAppLogger<GetAllArticlesQueryHandler> _logger;
     private readonly IMapper _mapper;
 
-    public GetAllArticlesQueryHandler(IMapper mapper, IArticleRepository articleRepository, IAppLogger<GetAllArticlesQueryHandler> logger)
+    public GetAllArticlesQueryHandler(IMapper mapper, IArticleRepository articleRepository,
+        IAppLogger<GetAllArticlesQueryHandler> logger)
     {
         _mapper = mapper;
         _articleRepository = articleRepository;

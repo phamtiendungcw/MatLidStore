@@ -27,14 +27,16 @@ public class ArticleRepository : GenericRepository<Article>, IArticleRepository
 
     public override async Task CreateAsync(Article entity)
     {
-        if (!await IsTitleUniqueAsync(entity.Title)) throw new InvalidOperationException("Article title must be unique.");
+        if (!await IsTitleUniqueAsync(entity.Title))
+            throw new InvalidOperationException("Article title must be unique.");
 
         await base.CreateAsync(entity);
     }
 
     public override async Task UpdateAsync(Article entity)
     {
-        if (!await IsTitleUniqueAsync(entity.Title)) throw new InvalidOperationException("Article title must be unique.");
+        if (!await IsTitleUniqueAsync(entity.Title))
+            throw new InvalidOperationException("Article title must be unique.");
 
         await base.UpdateAsync(entity);
     }

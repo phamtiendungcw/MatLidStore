@@ -17,7 +17,8 @@ public class GetShoppingCartDetailsQueryHandler : IRequestHandler<GetShoppingCar
         _mapper = mapper;
     }
 
-    public async Task<ShoppingCartDetailsDto> Handle(GetShoppingCartDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<ShoppingCartDetailsDto> Handle(GetShoppingCartDetailsQuery request,
+        CancellationToken cancellationToken)
     {
         var shoppingCart = await _shoppingCartRepository.GetByIdAsync(request.Id);
 

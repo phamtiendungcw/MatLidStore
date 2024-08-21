@@ -18,7 +18,7 @@ public class ShoppingCartRepository : GenericRepository<ShoppingCart>, IShopping
     public async Task<ShoppingCart?> GetCartByUserIdAsync(int userId)
     {
         return await _context.ShoppingCarts
-                             .Include(sc => sc.ShoppingCartItems)
-                             .FirstOrDefaultAsync(sc => sc.UserId == userId);
+            .Include(sc => sc.ShoppingCartItems)
+            .FirstOrDefaultAsync(sc => sc.UserId == userId);
     }
 }

@@ -9,5 +9,5 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
   http = inject(HttpClient);
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }

@@ -13,6 +13,37 @@ public class MatLidStoreDatabaseContext : DbContext
     {
     }
 
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
+    {
+        foreach (var entry in base.ChangeTracker.Entries<BaseEntity>()
+                     .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified))
+        {
+            entry.Entity.UpdatedAt = DateTime.UtcNow;
+
+            if (entry.State == EntityState.Added) entry.Entity.CreatedAt = DateTime.UtcNow;
+        }
+
+        SoftDeleteEntities();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MatLidStoreDatabaseContext).Assembly);
+        base.OnModelCreating(modelBuilder);
+        EntityConfigurations.Configure(modelBuilder, _tablePrefix);
+    }
+
+    private void SoftDeleteEntities()
+    {
+        foreach (var entry in ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted))
+            if (entry.Entity is BaseEntity entity)
+            {
+                entry.State = EntityState.Modified;
+                entity.IsDeleted = true;
+            }
+    }
+
     #region Defines a set of entities in the database
 
     public DbSet<Address> Addresses { get; set; } = null!;
@@ -43,34 +74,4 @@ public class MatLidStoreDatabaseContext : DbContext
     public DbSet<WishListItem> WishListItems { get; set; } = null!;
 
     #endregion Defines a set of entities in the database
-
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
-    {
-        foreach (var entry in base.ChangeTracker.Entries<BaseEntity>().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified))
-        {
-            entry.Entity.UpdatedAt = DateTime.UtcNow;
-
-            if (entry.State == EntityState.Added) entry.Entity.CreatedAt = DateTime.UtcNow;
-        }
-
-        SoftDeleteEntities();
-        return base.SaveChangesAsync(cancellationToken);
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MatLidStoreDatabaseContext).Assembly);
-        base.OnModelCreating(modelBuilder);
-        EntityConfigurations.Configure(modelBuilder, _tablePrefix);
-    }
-
-    private void SoftDeleteEntities()
-    {
-        foreach (var entry in ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted))
-            if (entry.Entity is BaseEntity entity)
-            {
-                entry.State = EntityState.Modified;
-                entity.IsDeleted = true;
-            }
-    }
 }

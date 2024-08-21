@@ -10,4 +10,4 @@ import { SearchInputComponent } from './components/search-input/search-input.com
   imports: [CommonModule],
   exports: [HeaderComponent, FooterComponent],
 })
-export class ThemeModule {}
+export class ThemeModule { }

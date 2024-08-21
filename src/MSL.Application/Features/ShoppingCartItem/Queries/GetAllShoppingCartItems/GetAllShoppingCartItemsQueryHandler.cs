@@ -5,7 +5,8 @@ using MLS.Application.DTO.ShoppingCartItem;
 
 namespace MLS.Application.Features.ShoppingCartItem.Queries.GetAllShoppingCartItems;
 
-public class GetAllShoppingCartItemsQueryHandler : IRequestHandler<GetAllShoppingCartItemsQuery, List<ShoppingCartItemDto>>
+public class
+    GetAllShoppingCartItemsQueryHandler : IRequestHandler<GetAllShoppingCartItemsQuery, List<ShoppingCartItemDto>>
 {
     private readonly IMapper _mapper;
     private readonly IShoppingCartItemRepository _shoppingCartItemRepository;
@@ -16,7 +17,8 @@ public class GetAllShoppingCartItemsQueryHandler : IRequestHandler<GetAllShoppin
         _mapper = mapper;
     }
 
-    public async Task<List<ShoppingCartItemDto>> Handle(GetAllShoppingCartItemsQuery request, CancellationToken cancellationToken)
+    public async Task<List<ShoppingCartItemDto>> Handle(GetAllShoppingCartItemsQuery request,
+        CancellationToken cancellationToken)
     {
         var shoppingCartItems = await _shoppingCartItemRepository.GetAllAsync();
         var data = _mapper.Map<List<ShoppingCartItemDto>>(shoppingCartItems);

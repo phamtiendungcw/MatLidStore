@@ -11,4 +11,4 @@ import { MenuComponent } from './menu/menu.component';
   imports: [CommonModule, PagesRoutingModule],
   exports: [WelcomeComponent],
 })
-export class PagesModule {}
+export class PagesModule { }
