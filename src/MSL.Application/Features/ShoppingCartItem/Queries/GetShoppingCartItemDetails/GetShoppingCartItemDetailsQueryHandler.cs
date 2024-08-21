@@ -6,18 +6,22 @@ using MLS.Application.Exceptions;
 
 namespace MLS.Application.Features.ShoppingCartItem.Queries.GetShoppingCartItemDetails;
 
-public class GetShoppingCartItemDetailsQueryHandler : IRequestHandler<GetShoppingCartItemDetailsQuery, ShoppingCartItemDetailsDto>
+public class
+    GetShoppingCartItemDetailsQueryHandler : IRequestHandler<GetShoppingCartItemDetailsQuery,
+    ShoppingCartItemDetailsDto>
 {
     private readonly IMapper _mapper;
     private readonly IShoppingCartItemRepository _shoppingCartItemRepository;
 
-    public GetShoppingCartItemDetailsQueryHandler(IShoppingCartItemRepository shoppingCartItemRepository, IMapper mapper)
+    public GetShoppingCartItemDetailsQueryHandler(IShoppingCartItemRepository shoppingCartItemRepository,
+        IMapper mapper)
     {
         _shoppingCartItemRepository = shoppingCartItemRepository;
         _mapper = mapper;
     }
 
-    public async Task<ShoppingCartItemDetailsDto> Handle(GetShoppingCartItemDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<ShoppingCartItemDetailsDto> Handle(GetShoppingCartItemDetailsQuery request,
+        CancellationToken cancellationToken)
     {
         var shoppingCartItem = await _shoppingCartItemRepository.GetByIdAsync(request.Id);
 

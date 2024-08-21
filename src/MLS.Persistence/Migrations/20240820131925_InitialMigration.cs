@@ -4,7 +4,7 @@
 
 namespace MLS.Persistence.Migrations
 {
-    public partial class InitialMigrationDatabase : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -102,6 +102,7 @@ namespace MLS.Persistence.Migrations
                     FirstName = table.Column<string>(type: "NVARCHAR2(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "NVARCHAR2(50)", maxLength: 50, nullable: false),
                     Phone = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "RAW(2000)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false),
                     UserName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),

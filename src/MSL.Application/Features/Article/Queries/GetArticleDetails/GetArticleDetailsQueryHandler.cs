@@ -13,7 +13,8 @@ public class GetArticleDetailsQueryHandler : IRequestHandler<GetArticleDetailsQu
     private readonly IAppLogger<GetArticleDetailsQueryHandler> _logger;
     private readonly IMapper _mapper;
 
-    public GetArticleDetailsQueryHandler(IMapper mapper, IArticleRepository articleRepository, IAppLogger<GetArticleDetailsQueryHandler> logger)
+    public GetArticleDetailsQueryHandler(IMapper mapper, IArticleRepository articleRepository,
+        IAppLogger<GetArticleDetailsQueryHandler> logger)
     {
         _mapper = mapper;
         _articleRepository = articleRepository;

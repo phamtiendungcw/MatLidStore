@@ -13,7 +13,8 @@ public class UpdateArticleCommandHandler : IRequestHandler<UpdateArticleCommand,
     private readonly IAppLogger<UpdateArticleCommandHandler> _logger;
     private readonly IMapper _mapper;
 
-    public UpdateArticleCommandHandler(IMapper mapper, IArticleRepository articleRepository, IAppLogger<UpdateArticleCommandHandler> logger)
+    public UpdateArticleCommandHandler(IMapper mapper, IArticleRepository articleRepository,
+        IAppLogger<UpdateArticleCommandHandler> logger)
     {
         _mapper = mapper;
         _articleRepository = articleRepository;
@@ -28,7 +29,8 @@ public class UpdateArticleCommandHandler : IRequestHandler<UpdateArticleCommand,
 
         if (!validationResult.IsValid)
         {
-            _logger.LogWarning($"Validation errors in update request for {0} - {1}", nameof(Domain.Entities.Article), request.Article.Id);
+            _logger.LogWarning($"Validation errors in update request for {0} - {1}", nameof(Domain.Entities.Article),
+                request.Article.Id);
             throw new BadRequestException("Invalid Article", validationResult);
         }
 

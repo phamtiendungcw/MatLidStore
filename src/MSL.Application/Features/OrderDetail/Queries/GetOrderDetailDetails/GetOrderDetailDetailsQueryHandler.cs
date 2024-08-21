@@ -17,7 +17,8 @@ public class GetOrderDetailDetailsQueryHandler : IRequestHandler<GetOrderDetailD
         _mapper = mapper;
     }
 
-    public async Task<OrderDetailDetailsDto> Handle(GetOrderDetailDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<OrderDetailDetailsDto> Handle(GetOrderDetailDetailsQuery request,
+        CancellationToken cancellationToken)
     {
         var orderDetail = await _orderDetailRepository.GetByIdAsync(request.Id);
 

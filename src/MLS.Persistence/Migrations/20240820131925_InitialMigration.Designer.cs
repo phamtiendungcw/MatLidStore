@@ -12,8 +12,8 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace MLS.Persistence.Migrations
 {
     [DbContext(typeof(MatLidStoreDatabaseContext))]
-    [Migration("20240803070055_InitialMigrationDatabase")]
-    partial class InitialMigrationDatabase
+    [Migration("20240820131925_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -145,6 +145,9 @@ namespace MLS.Persistence.Migrations
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("RAW(2000)");
 
                     b.Property<string>("Phone")
                         .IsRequired()

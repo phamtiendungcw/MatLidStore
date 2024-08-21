@@ -8,4 +8,4 @@ import { LoginLayoutComponent } from './login-layout.component';
   declarations: [LoginLayoutComponent],
   imports: [CommonModule, LoginLayoutRoutingModule],
 })
-export class LoginLayoutModule {}
+export class LoginLayoutModule { }

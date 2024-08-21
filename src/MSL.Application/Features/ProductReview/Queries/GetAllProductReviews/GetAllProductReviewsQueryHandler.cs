@@ -16,7 +16,8 @@ public class GetAllProductReviewsQueryHandler : IRequestHandler<GetAllProductRev
         _mapper = mapper;
     }
 
-    public async Task<List<ProductReviewDto>> Handle(GetAllProductReviewsQuery request, CancellationToken cancellationToken)
+    public async Task<List<ProductReviewDto>> Handle(GetAllProductReviewsQuery request,
+        CancellationToken cancellationToken)
     {
         var productReviews = await _productReviewRepository.GetAllAsync();
         var data = _mapper.Map<List<ProductReviewDto>>(productReviews);

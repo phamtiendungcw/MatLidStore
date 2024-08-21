@@ -1,15 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MLS.Application.DTO.User
+namespace MLS.Application.DTO.User;
+
+public class RegisterModel
 {
-    public class RegisterModel
-    {
-        [Required] public string Username { get; set; } = null!;
-
-        [Required][EmailAddress] public string Email { get; set; } = null!;
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = null!;
-    }
+    public string Username { get; set; } = string.Empty;
+    [NotMapped] public string Password { get; set; } = string.Empty;
+    public string? PasswordHash { get; set; }
+    public byte[]? PasswordSalt { get; set; }
+    public string FirstName { get; set; } = string.Empty; // AppUser's FirstName
+    public string LastName { get; set; } = string.Empty; // AppUser's LastName
+    public string Phone { get; set; } = string.Empty; // AppUser's phone number
 }

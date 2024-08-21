@@ -10,7 +10,8 @@ namespace MLS.Infrastructure;
 
 public static class InfrastructureServiceRegistration
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
         services.Configure<EmailSetting>(configuration.GetSection("EmailSetting"));

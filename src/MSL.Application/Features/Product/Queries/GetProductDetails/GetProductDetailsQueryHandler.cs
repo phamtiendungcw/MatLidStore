@@ -20,7 +20,8 @@ public class GetProductDetailsQueryHandler : IRequestHandler<GetProductDetailsQu
     public async Task<ProductDetailsDto> Handle(GetProductDetailsQuery request, CancellationToken cancellationToken)
     {
         // Query the database
-        var product = await _productRepository.GetByIdAsync(request.Id, p => p.Category, p => p.ProductColors, p => p.ProductImages, p => p.ProductOptions);
+        var product = await _productRepository.GetByIdAsync(request.Id, p => p.Category, p => p.ProductColors,
+            p => p.ProductImages, p => p.ProductOptions);
 
         if (product is null)
             throw new NotFoundException(nameof(Domain.Entities.Product), request.Id);

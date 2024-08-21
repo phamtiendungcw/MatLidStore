@@ -22,14 +22,16 @@ public class ProductColorRepository : GenericRepository<ProductColor>, IProductC
 
     public override async Task CreateAsync(ProductColor entity)
     {
-        if (!await IsColorNameUniqueAsync(entity.ColorName)) throw new InvalidOperationException("Color name must be unique.");
+        if (!await IsColorNameUniqueAsync(entity.ColorName))
+            throw new InvalidOperationException("Color name must be unique.");
 
         await base.CreateAsync(entity);
     }
 
     public override async Task UpdateAsync(ProductColor entity)
     {
-        if (!await IsColorNameUniqueAsync(entity.ColorName)) throw new InvalidOperationException("Color name must be unique.");
+        if (!await IsColorNameUniqueAsync(entity.ColorName))
+            throw new InvalidOperationException("Color name must be unique.");
 
         await base.UpdateAsync(entity);
     }

@@ -27,14 +27,16 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
 
     public override async Task CreateAsync(Product entity)
     {
-        if (!await IsProductNameUniqueAsync(entity.Name)) throw new InvalidOperationException("Product name must be unique.");
+        if (!await IsProductNameUniqueAsync(entity.Name))
+            throw new InvalidOperationException("Product name must be unique.");
 
         await base.CreateAsync(entity);
     }
 
     public override async Task UpdateAsync(Product entity)
     {
-        if (!await IsProductNameUniqueAsync(entity.Name)) throw new InvalidOperationException("Product name must be unique.");
+        if (!await IsProductNameUniqueAsync(entity.Name))
+            throw new InvalidOperationException("Product name must be unique.");
 
         await base.UpdateAsync(entity);
     }

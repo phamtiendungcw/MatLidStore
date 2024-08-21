@@ -22,14 +22,16 @@ public class ProductImageRepository : GenericRepository<ProductImage>, IProductI
 
     public override async Task CreateAsync(ProductImage entity)
     {
-        if (!await IsImageUrlUniqueAsync(entity.ImageUrl)) throw new InvalidOperationException("Image URL must be unique.");
+        if (!await IsImageUrlUniqueAsync(entity.ImageUrl))
+            throw new InvalidOperationException("Image URL must be unique.");
 
         await base.CreateAsync(entity);
     }
 
     public override async Task UpdateAsync(ProductImage entity)
     {
-        if (!await IsImageUrlUniqueAsync(entity.ImageUrl)) throw new InvalidOperationException("Image URL must be unique.");
+        if (!await IsImageUrlUniqueAsync(entity.ImageUrl))
+            throw new InvalidOperationException("Image URL must be unique.");
 
         await base.UpdateAsync(entity);
     }
