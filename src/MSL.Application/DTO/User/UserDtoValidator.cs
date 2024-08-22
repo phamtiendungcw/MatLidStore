@@ -98,3 +98,22 @@ public class RegisterUserModelValidator : AbstractValidator<RegisterModel>
             .NotEmpty().WithMessage("Phone cannot be empty.");
     }
 }
+
+public class LoginUserModelValidator : AbstractValidator<LoginModel>
+{
+    public LoginUserModelValidator()
+    {
+        RuleFor(x => x.Username)
+            .NotNull()
+            .NotEmpty().WithMessage("Username cannot be empty.")
+            .Length(3, 50).WithMessage("Username must be between 3 and 50 characters.");
+        RuleFor(x => x.Password)
+            .NotNull()
+            .NotEmpty().WithMessage("Password cannot be empty.")
+            .MinimumLength(6).WithMessage("Password must be at least 6 characters long.")
+            .Matches("[A-Z]").WithMessage("Password must contain at least one uppercase letter.")
+            .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter.")
+            .Matches("[0-9]").WithMessage("Password must contain at least one digit.")
+            .Matches(@"[\@\!\?\*\.]").WithMessage("Password must contain at least one special character (@, !, ?, *, .).");
+    }
+}
