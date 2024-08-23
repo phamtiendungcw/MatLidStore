@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System.Security.Cryptography;
+using System.Text;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MLS.Api.Controllers.BaseController;
@@ -6,8 +8,6 @@ using MLS.Application.DTO.User;
 using MLS.Application.Features.User.Commands.RegisterUserCommand;
 using MLS.Application.Features.User.Queries.GetUserDetailsByUserName;
 using MLS.Domain.Entities;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace MLS.Api.Controllers;
 

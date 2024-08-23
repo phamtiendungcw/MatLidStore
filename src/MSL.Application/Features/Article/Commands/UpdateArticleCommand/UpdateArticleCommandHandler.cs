@@ -29,8 +29,7 @@ public class UpdateArticleCommandHandler : IRequestHandler<UpdateArticleCommand,
 
         if (!validationResult.IsValid)
         {
-            _logger.LogWarning($"Validation errors in update request for {0} - {1}", nameof(Domain.Entities.Article),
-                request.Article.Id);
+            _logger.LogWarning($"Validation errors in update request for {0} - {1}", nameof(Domain.Entities.Article), request.Article.Id);
             throw new BadRequestException("Invalid Article", validationResult);
         }
 
