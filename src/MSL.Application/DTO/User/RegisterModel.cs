@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MLS.Application.DTO.User;
 
@@ -10,5 +11,5 @@ public class RegisterModel
     public byte[]? PasswordSalt { get; set; }
     public string FirstName { get; set; } = string.Empty; // AppUser's FirstName
     public string LastName { get; set; } = string.Empty; // AppUser's LastName
-    public string Phone { get; set; } = string.Empty; // AppUser's phone number
+    [Phone] public string Phone { get; set; } = string.Empty; // AppUser's phone number
 }
