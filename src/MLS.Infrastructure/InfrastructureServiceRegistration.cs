@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using MLS.Application.Contracts.Email;
 using MLS.Application.Contracts.Logging;
-using MLS.Application.Contracts.Token;
 using MLS.Application.Models.Email;
 using MLS.Infrastructure.EmailService;
 using MLS.Infrastructure.Logging;
@@ -15,7 +14,6 @@ public static class InfrastructureServiceRegistration
         IConfiguration configuration)
     {
         services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-        services.AddScoped<ITokenService, TokenService.TokenService>();
         services.Configure<EmailSetting>(configuration.GetSection("EmailSetting"));
         services.AddTransient<IEmailSender, EmailSender>();
 

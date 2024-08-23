@@ -4,5 +4,5 @@ namespace MLS.Application.Contracts.Token;
 
 public interface ITokenService
 {
-    string CreateToken(AppUser user);
+    string GenerateJwtToken(AppUser user);
 }

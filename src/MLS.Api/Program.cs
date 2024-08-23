@@ -15,10 +15,7 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("all", b =>
-        b.AllowAnyHeader()
-            .AllowAnyMethod()
-            .WithOrigins("https://localhost:4200", "http://localhost:4200"));
+    options.AddPolicy("all", b => b.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200", "http://localhost:4200"));
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

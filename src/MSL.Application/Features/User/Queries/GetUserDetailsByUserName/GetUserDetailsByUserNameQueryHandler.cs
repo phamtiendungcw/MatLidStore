@@ -30,7 +30,7 @@ public class GetUserDetailsByUserNameQueryHandler : IRequestHandler<GetUserDetai
             throw new NotFoundException(nameof(AppUser), request);
 
         var data = _mapper.Map<UserDetailsDto>(user);
-        data.Token = _tokenService.CreateToken(user);
+        data.Token = _tokenService.GenerateJwtToken(user);
 
         return data;
     }

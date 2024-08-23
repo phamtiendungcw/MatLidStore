@@ -12,7 +12,7 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace MLS.Persistence.Migrations
 {
     [DbContext(typeof(MatLidStoreDatabaseContext))]
-    [Migration("20240820131925_InitialMigration")]
+    [Migration("20240823065027_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
