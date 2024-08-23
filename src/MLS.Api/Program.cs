@@ -25,12 +25,12 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "MatLidStore ASP .NET Core 6 API", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        In = ParameterLocation.Header,
-        Description = "Hãy nhập token người dùng sử dụng lược đồ Bearer. Ví dụ: \"Authorization: Bearer {token}\"",
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
         BearerFormat = "JWT",
-        Scheme = "Bearer"
+        In = ParameterLocation.Header,
+        Description = "Hãy nhập token người dùng sử dụng lược đồ Bearer. Ví dụ: \"Authorization: Bearer {token}\""
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -43,7 +43,7 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            Array.Empty<string>()
+            new string[] { }
         }
     });
 });

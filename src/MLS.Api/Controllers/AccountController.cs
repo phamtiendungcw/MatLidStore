@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MLS.Api.Controllers.BaseController;
 using MLS.Application.DTO.User;
@@ -10,6 +11,7 @@ using System.Text;
 
 namespace MLS.Api.Controllers;
 
+[AllowAnonymous]
 public class AccountController : MatLidStoreBaseController
 {
     private readonly IMediator _mediator;

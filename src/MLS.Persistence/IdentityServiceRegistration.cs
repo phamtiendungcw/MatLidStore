@@ -19,17 +19,24 @@ public static class IdentityServiceRegistration
         services.AddDbContext<MatLidStoreDatabaseContext>(options => { options.UseOracle(configuration.GetConnectionString("MatLidConnectionString")); });
         services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<MatLidStoreDatabaseContext>().AddDefaultTokenProviders();
         services.AddScoped<ITokenService, TokenService>();
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
-        {
-            var tokenKey = configuration["TokenKey"] ?? throw new InvalidOperationException("TokenKey not found.");
-            option.TokenValidationParameters = new TokenValidationParameters
+        services.AddAuthentication(x =>
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)),
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
-        });
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(jwtBearerOptions =>
+            {
+                var tokenKey = configuration["TokenKey"] ?? throw new InvalidOperationException("TokenKey not found.");
+                jwtBearerOptions.RequireHttpsMetadata = false;
+                jwtBearerOptions.SaveToken = true;
+                jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
         return services;
     }
