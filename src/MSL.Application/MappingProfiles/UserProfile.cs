@@ -12,7 +12,6 @@ public class UserProfile : Profile
         CreateMap<AppUser, UserDetailsDto>();
         CreateMap<CreateUserDto, AppUser>();
         CreateMap<UpdateUserDto, AppUser>();
-        CreateMap<RegisterModel, AppUser>()
-            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username.ToLower()));
+        CreateMap<RegisterModel, AppUser>().ForMember(dest => dest.UserName.ToLower(), opt => opt.MapFrom(src => src.Username.ToLower()));
     }
 }

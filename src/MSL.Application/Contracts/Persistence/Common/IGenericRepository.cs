@@ -1,5 +1,5 @@
-﻿using MLS.Domain.Common;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using MLS.Domain.Common;
 
 namespace MLS.Application.Contracts.Persistence.Common;
 

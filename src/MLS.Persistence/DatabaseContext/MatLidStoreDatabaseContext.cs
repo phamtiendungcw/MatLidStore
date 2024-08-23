@@ -15,8 +15,7 @@ public class MatLidStoreDatabaseContext : DbContext
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
-        foreach (var entry in base.ChangeTracker.Entries<BaseEntity>()
-                     .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified))
+        foreach (var entry in base.ChangeTracker.Entries<BaseEntity>().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified))
         {
             entry.Entity.UpdatedAt = DateTime.UtcNow;
 

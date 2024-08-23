@@ -1,9 +1,9 @@
-﻿using MLS.Application.DTO.Comment;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using MLS.Application.DTO.Comment;
 using MLS.Application.DTO.Notification;
 using MLS.Application.DTO.Order;
 using MLS.Application.DTO.ProductReview;
 using MLS.Application.DTO.WishList;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MLS.Application.DTO.User;
 

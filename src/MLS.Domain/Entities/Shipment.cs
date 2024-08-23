@@ -1,12 +1,11 @@
-﻿using MLS.Domain.Common;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using MLS.Domain.Common;
 
 namespace MLS.Domain.Entities;
 
 public class Shipment : BaseEntity
 {
-    [MaxLength(50)]
-    public string ShippingMethod { get; set; } = string.Empty; // Shipping method (e.g., "UPS Ground", "FedEx Express")
+    [MaxLength(50)] public string ShippingMethod { get; set; } = string.Empty; // Shipping method (e.g., "UPS Ground", "FedEx Express")
 
     [MaxLength(50)] public string TrackingNumber { get; set; } = string.Empty; // Tracking number for the shipment
     public DateTime EstimatedDeliveryDate { get; set; } // Estimated delivery date

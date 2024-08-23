@@ -1,5 +1,5 @@
-﻿using MLS.Domain.Common;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using MLS.Domain.Common;
 
 namespace MLS.Domain.Entities;
 
