@@ -7,4 +7,4 @@ const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' }];
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
