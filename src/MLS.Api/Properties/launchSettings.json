@@ -12,7 +12,7 @@
     "MLS.Api": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:8100;http://localhost:8000",
       "environmentVariables": {

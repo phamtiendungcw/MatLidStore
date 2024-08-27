@@ -10,11 +10,10 @@
 
 import { catchError as _observableCatch, mergeMap as _observableMergeMap } from 'rxjs/operators';
 import { Observable, of as _observableOf, throwError as _observableThrow } from 'rxjs';
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { HttpClient, HttpContext, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 
-export const API_BASE_URL = environment.apiUrl;
+export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 @Injectable()
 export class MatLidStoreServices {
@@ -24,7 +23,7 @@ export class MatLidStoreServices {
 
   constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
     this.http = http;
-    this.baseUrl = baseUrl ?? 'https://localhost:8100';
+    this.baseUrl = baseUrl ?? '';
   }
 
   /**
