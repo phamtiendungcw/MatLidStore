@@ -8,10 +8,10 @@ import { MatLidStoreServices } from '../core/data/mls-data.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  http = inject(HttpClient);
+  private matlidapi = inject(MatLidStoreServices);
   users: any;
 
-  constructor(private matlidapi: MatLidStoreServices) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.matlidapi.userAll().subscribe({

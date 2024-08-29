@@ -68,9 +68,10 @@
             },
             "development": {
               "browserTarget": "MLS.WebUI:build:development",
+              "port": 4200,
               "ssl": true,
-              "sslKey": "src/app/core/ssl/matlidstore.key",
-              "sslCert": "src/app/core/ssl/matlidstore.crt"
+              "sslKey": "./src/app/core/ssl/matlidstore.key",
+              "sslCert": "./src/app/core/ssl/matlidstore.crt"
             }
           },
           "defaultConfiguration": "development"
