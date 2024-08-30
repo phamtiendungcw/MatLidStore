@@ -7,4 +7,4 @@ import { AppClientRoutingModule } from './app-client-routing.module';
   declarations: [],
   imports: [CommonModule, AppClientRoutingModule],
 })
-export class AppClientModule { }
+export class AppClientModule {}

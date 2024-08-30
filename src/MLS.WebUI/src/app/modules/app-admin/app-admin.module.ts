@@ -10,4 +10,4 @@ import { PagesModule } from '../../theme/pages/pages.module';
   declarations: [HomeComponent],
   imports: [CommonModule, AppAdminRoutingModule, ThemeModule, PagesModule],
 })
-export class AppAdminModule { }
+export class AppAdminModule {}

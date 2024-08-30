@@ -45,6 +45,9 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+// Using CQRS with configured policies
+app.UseCors("MatLidStoreUI");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -58,4 +61,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();

@@ -8,17 +8,576 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import { catchError as _observableCatch, mergeMap as _observableMergeMap } from 'rxjs/operators';
-import { Observable, of as _observableOf, throwError as _observableThrow } from 'rxjs';
-import { Inject, Injectable, Optional } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
+import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase, HttpContext } from '@angular/common/http';
 
-export const API_BASE_URL = 'https://localhost:8100/';
+export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
-@Injectable()
-export class MLSApiService {
+export interface IMatLidStoreServices {
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  register(body: RegisterUserCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  login(body: LoginModel | undefined): Observable<UserDetailsDto>;
+  /**
+   * @return OK
+   */
+  addressAll(): Observable<AddressDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  addressPOST(body: CreateAddressDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  addressPUT(body: UpdateAddressDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  addressGET(id: number): Observable<AddressDetailsDto>;
+  /**
+   * @return No Content
+   */
+  addressDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  articleAll(): Observable<ArticleDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  articlePOST(body: CreateArticleCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  articlePUT(body: UpdateArticleCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  articleGET(id: number): Observable<ArticleDetailsDto>;
+  /**
+   * @return No Content
+   */
+  articleDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  authorName(authorName: string): Observable<ArticleDto[]>;
+  /**
+   * @return OK
+   */
+  categoryAll(): Observable<CategoryDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  categoryPOST(body: CreateCategoryCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  categoryPUT(body: UpdateCategoryCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  categoryGET(id: number): Observable<CategoryDetailsDto>;
+  /**
+   * @return No Content
+   */
+  categoryDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  commentAll(): Observable<CommentDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  commentPOST(body: CreateCommentCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  commentPUT(body: UpdateCommentCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  commentGET(id: number): Observable<CommentDetailsDto>;
+  /**
+   * @return No Content
+   */
+  commentDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  article(articleId: number): Observable<CommentDto[]>;
+  /**
+   * @return OK
+   */
+  discountAll(): Observable<DiscountDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  discountPOST(body: CreateDiscountDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  discountPUT(body: UpdateDiscountDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  discountGET(id: number): Observable<DiscountDetailsDto>;
+  /**
+   * @return No Content
+   */
+  discountDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  code(code: string): Observable<DiscountDto>;
+  /**
+   * @return OK
+   */
+  notificationAll(): Observable<NotificationDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  notificationPOST(body: CreateNotificationDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  notificationPUT(body: UpdateNotificationDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  notificationGET(id: number): Observable<NotificationDetailsDto>;
+  /**
+   * @return No Content
+   */
+  notificationDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  user(userId: number): Observable<NotificationDto[]>;
+  /**
+   * @return OK
+   */
+  orderAll(): Observable<OrderDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  orderPOST(body: CreateOrderCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  orderPUT(body: UpdateOrderCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  orderGET(id: number): Observable<OrderDetailsDto>;
+  /**
+   * @return No Content
+   */
+  orderDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  orderDetailAll(): Observable<OrderDetailDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  orderDetailPOST(body: CreateOrderDetailCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  orderDetailPUT(body: UpdateOrderDetailCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  orderDetailGET(id: number): Observable<OrderDetailDetailsDto>;
+  /**
+   * @return No Content
+   */
+  orderDetailDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  paymentAll(): Observable<PaymentDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  paymentPOST(body: CreatePaymentCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  paymentPUT(body: UpdatePaymentCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  paymentGET(id: number): Observable<PaymentDetailsDto>;
+  /**
+   * @return No Content
+   */
+  paymentDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productAll(): Observable<ProductDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productPOST(body: CreateProductCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productPUT(body: UpdateProductCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productGET(id: number): Observable<ProductDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productColorAll(): Observable<ProductColorDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productColorPOST(body: CreateProductColorDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productColorPUT(body: UpdateProductColorDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productColorGET(id: number): Observable<ProductColorDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productColorDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productImageAll(): Observable<ProductImageDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productImagePOST(body: CreateProductImageDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productImagePUT(body: UpdateProductImageDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productImageGET(id: number): Observable<ProductImageDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productImageDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productOptionAll(): Observable<ProductOptionDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productOptionPOST(body: CreateProductOptionDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productOptionPUT(body: UpdateProductOptionDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productOptionGET(id: number): Observable<ProductOptionDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productOptionDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productReviewAll(): Observable<ProductReviewDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productReviewPOST(body: CreateProductReviewCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productReviewPUT(body: UpdateProductReviewCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productReviewGET(id: number): Observable<ProductReviewDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productReviewDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productTagAll(): Observable<ProductTagDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productTagPOST(body: CreateProductTagDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productTagPUT(body: UpdateProductTagDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productTagGET(id: number): Observable<ProductTagDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productTagDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  shipmentAll(): Observable<ShipmentDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  shipmentPOST(body: CreateShipmentCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  shipmentPUT(body: UpdateShipmentCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  shipmentGET(id: number): Observable<ShipmentDetailsDto>;
+  /**
+   * @return No Content
+   */
+  shipmentDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  shoppingCartAll(): Observable<ShoppingCartDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  shoppingCartPOST(body: CreateShoppingCartCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  shoppingCartPUT(body: UpdateShoppingCartCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  shoppingCartGET(id: number): Observable<ShoppingCartDetailsDto>;
+  /**
+   * @return No Content
+   */
+  shoppingCartDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  shoppingCartItemAll(): Observable<ShoppingCartItemDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  shoppingCartItemPOST(body: CreateShoppingCartItemCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  shoppingCartItemPUT(body: UpdateShoppingCartItemCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  shoppingCartItemGET(id: number): Observable<ShoppingCartItemDetailsDto>;
+  /**
+   * @return No Content
+   */
+  shoppingCartItemDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  supplierAll(): Observable<SupplierDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  supplierPOST(body: CreateSupplierDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  supplierPUT(body: UpdateSupplierDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  supplierGET(id: number): Observable<SupplierDetailsDto>;
+  /**
+   * @return No Content
+   */
+  supplierDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  supplyAll(): Observable<SupplyDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  supplyPOST(body: CreateSupplyDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  supplyPUT(body: UpdateSupplyDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  supplyGET(id: number): Observable<SupplyDetailsDto>;
+  /**
+   * @return No Content
+   */
+  supplyDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  tagAll(): Observable<TagDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  tagPOST(body: CreateTagDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  tagPUT(body: UpdateTagDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  tagGET(id: number): Observable<TagDetailsDto>;
+  /**
+   * @return No Content
+   */
+  tagDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  userAll(): Observable<UserDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  userPOST(body: CreateUserCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  userPUT(body: UpdateUserCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  userGET(id: number): Observable<UserDetailsDto>;
+  /**
+   * @return No Content
+   */
+  userDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  wishListAll(): Observable<WishListDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  wishListPOST(body: CreateWishListCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  wishListPUT(body: UpdateWishListCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  wishListGET(id: number): Observable<WishListDetailsDto>;
+  /**
+   * @return No Content
+   */
+  wishListDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  wishListItemAll(): Observable<WishListItemDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  wishListItemPOST(body: CreateWishListItemDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  wishListItemPUT(body: UpdateWishListItemDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  wishListItemGET(id: number): Observable<WishListItemDetailsDto>;
+  /**
+   * @return No Content
+   */
+  wishListItemDELETE(id: number): Observable<void>;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MatLidStoreServices implements IMatLidStoreServices {
   private http: HttpClient;
-  private baseUrl: string;
+  private readonly baseUrl: string;
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
   constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
@@ -27,15 +586,187 @@ export class MLSApiService {
   }
 
   /**
+   * @param body (optional)
    * @return OK
    */
-  addressAll(): Observable<AddressDto[]> {
+  register(body: RegisterUserCommand | undefined, httpContext?: HttpContext): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Account/register';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      context: httpContext,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processRegister(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processRegister(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
+  }
+
+  protected processRegister(response: HttpResponseBase): Observable<void> {
+    const status = response.status;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    let _mappings: { source: any; target: any }[] = [];
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return _observableOf(null as any);
+        })
+      );
+    } else if (status === 201) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return _observableOf(null as any);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
+          return throwException('Bad Request', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  login(body: LoginModel | undefined, httpContext?: HttpContext): Observable<UserDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Account/login';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      context: httpContext,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processLogin(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processLogin(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<UserDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<UserDetailsDto>;
+        })
+      );
+  }
+
+  protected processLogin(response: HttpResponseBase): Observable<UserDetailsDto> {
+    const status = response.status;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    let _mappings: { source: any; target: any }[] = [];
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result200: any = null;
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = UserDetailsDto.fromJS(resultData200, _mappings);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 201) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result201: any = null;
+          let resultData201 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result201 = UserDetailsDto.fromJS(resultData201, _mappings);
+          return _observableOf(result201);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
+          return throwException('Bad Request', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
+   * @return OK
+   */
+  addressAll(httpContext?: HttpContext): Observable<AddressDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Address';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -63,12 +794,7 @@ export class MLSApiService {
 
   protected processAddressAll(response: HttpResponseBase): Observable<AddressDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -76,14 +802,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(AddressDto.fromJS(item));
+            for (let item of resultData200) result200!.push(AddressDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -104,7 +831,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  addressPOST(body: CreateAddressDto | undefined): Observable<void> {
+  addressPOST(body: CreateAddressDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Address';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -114,6 +841,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -141,12 +869,7 @@ export class MLSApiService {
 
   protected processAddressPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -154,6 +877,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -164,8 +888,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -183,7 +907,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  addressPUT(body: UpdateAddressDto | undefined): Observable<void> {
+  addressPUT(body: UpdateAddressDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Address';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -193,6 +917,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -220,12 +945,7 @@ export class MLSApiService {
 
   protected processAddressPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -233,12 +953,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -252,8 +973,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -261,8 +982,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -272,7 +993,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  addressGET(id: number): Observable<AddressDetailsDto> {
+  addressGET(id: number, httpContext?: HttpContext): Observable<AddressDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Address/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -281,6 +1002,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -308,12 +1030,7 @@ export class MLSApiService {
 
   protected processAddressGET(response: HttpResponseBase): Observable<AddressDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -321,12 +1038,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = AddressDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = AddressDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -343,7 +1061,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  addressDELETE(id: number): Observable<void> {
+  addressDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Address/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -352,6 +1070,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -377,12 +1096,7 @@ export class MLSApiService {
 
   protected processAddressDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -390,6 +1104,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -400,8 +1115,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -409,8 +1124,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -420,13 +1135,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  articleAll(): Observable<ArticleDto[]> {
+  articleAll(httpContext?: HttpContext): Observable<ArticleDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Article';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -454,12 +1170,7 @@ export class MLSApiService {
 
   protected processArticleAll(response: HttpResponseBase): Observable<ArticleDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -467,14 +1178,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ArticleDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ArticleDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -495,7 +1207,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  articlePOST(body: CreateArticleCommand | undefined): Observable<void> {
+  articlePOST(body: CreateArticleCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Article';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -505,6 +1217,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -532,12 +1245,7 @@ export class MLSApiService {
 
   protected processArticlePOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -545,6 +1253,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -555,8 +1264,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -574,7 +1283,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  articlePUT(body: UpdateArticleCommand | undefined): Observable<void> {
+  articlePUT(body: UpdateArticleCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Article';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -584,6 +1293,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -611,12 +1321,7 @@ export class MLSApiService {
 
   protected processArticlePUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -624,12 +1329,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -643,8 +1349,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -652,8 +1358,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -663,7 +1369,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  articleGET(id: number): Observable<ArticleDetailsDto> {
+  articleGET(id: number, httpContext?: HttpContext): Observable<ArticleDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Article/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -672,6 +1378,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -699,12 +1406,7 @@ export class MLSApiService {
 
   protected processArticleGET(response: HttpResponseBase): Observable<ArticleDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -712,12 +1414,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ArticleDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ArticleDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -734,7 +1437,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  articleDELETE(id: number): Observable<void> {
+  articleDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Article/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -743,6 +1446,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -768,12 +1472,7 @@ export class MLSApiService {
 
   protected processArticleDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -781,6 +1480,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -791,8 +1491,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -800,8 +1500,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -811,7 +1511,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  authorName(authorName: string): Observable<ArticleDto[]> {
+  authorName(authorName: string, httpContext?: HttpContext): Observable<ArticleDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Article/AuthorName/{authorName}';
     if (authorName === undefined || authorName === null) throw new Error("The parameter 'authorName' must be defined.");
     url_ = url_.replace('{authorName}', encodeURIComponent('' + authorName));
@@ -820,6 +1520,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -847,12 +1548,7 @@ export class MLSApiService {
 
   protected processAuthorName(response: HttpResponseBase): Observable<ArticleDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -860,14 +1556,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ArticleDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ArticleDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -887,13 +1584,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  categoryAll(): Observable<CategoryDto[]> {
+  categoryAll(httpContext?: HttpContext): Observable<CategoryDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Category';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -921,12 +1619,7 @@ export class MLSApiService {
 
   protected processCategoryAll(response: HttpResponseBase): Observable<CategoryDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -934,14 +1627,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(CategoryDto.fromJS(item));
+            for (let item of resultData200) result200!.push(CategoryDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -962,7 +1656,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  categoryPOST(body: CreateCategoryCommand | undefined): Observable<void> {
+  categoryPOST(body: CreateCategoryCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Category';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -972,6 +1666,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -999,12 +1694,7 @@ export class MLSApiService {
 
   protected processCategoryPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1012,6 +1702,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -1022,8 +1713,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1041,7 +1732,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  categoryPUT(body: UpdateCategoryCommand | undefined): Observable<void> {
+  categoryPUT(body: UpdateCategoryCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Category';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -1051,6 +1742,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -1078,12 +1770,7 @@ export class MLSApiService {
 
   protected processCategoryPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1091,12 +1778,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1110,8 +1798,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1119,8 +1807,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -1130,7 +1818,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  categoryGET(id: number): Observable<CategoryDetailsDto> {
+  categoryGET(id: number, httpContext?: HttpContext): Observable<CategoryDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Category/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -1139,6 +1827,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -1166,12 +1855,7 @@ export class MLSApiService {
 
   protected processCategoryGET(response: HttpResponseBase): Observable<CategoryDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1179,12 +1863,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = CategoryDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = CategoryDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -1201,7 +1886,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  categoryDELETE(id: number): Observable<void> {
+  categoryDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Category/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -1210,6 +1895,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -1235,12 +1921,7 @@ export class MLSApiService {
 
   protected processCategoryDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1248,6 +1929,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -1258,8 +1940,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1267,8 +1949,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -1278,13 +1960,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  commentAll(): Observable<CommentDto[]> {
+  commentAll(httpContext?: HttpContext): Observable<CommentDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Comment';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -1312,12 +1995,7 @@ export class MLSApiService {
 
   protected processCommentAll(response: HttpResponseBase): Observable<CommentDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1325,14 +2003,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(CommentDto.fromJS(item));
+            for (let item of resultData200) result200!.push(CommentDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -1353,7 +2032,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  commentPOST(body: CreateCommentCommand | undefined): Observable<void> {
+  commentPOST(body: CreateCommentCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Comment';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -1363,6 +2042,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -1390,12 +2070,7 @@ export class MLSApiService {
 
   protected processCommentPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1403,6 +2078,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -1413,8 +2089,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1432,7 +2108,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  commentPUT(body: UpdateCommentCommand | undefined): Observable<void> {
+  commentPUT(body: UpdateCommentCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Comment';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -1442,6 +2118,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -1469,12 +2146,7 @@ export class MLSApiService {
 
   protected processCommentPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1482,12 +2154,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1495,8 +2168,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1510,8 +2183,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -1521,7 +2194,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  commentGET(id: number): Observable<CommentDetailsDto> {
+  commentGET(id: number, httpContext?: HttpContext): Observable<CommentDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Comment/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -1530,6 +2203,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -1557,12 +2231,7 @@ export class MLSApiService {
 
   protected processCommentGET(response: HttpResponseBase): Observable<CommentDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1570,12 +2239,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = CommentDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = CommentDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -1592,7 +2262,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  commentDELETE(id: number): Observable<void> {
+  commentDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Comment/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -1601,6 +2271,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -1626,12 +2297,7 @@ export class MLSApiService {
 
   protected processCommentDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1639,12 +2305,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1658,8 +2325,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -1669,7 +2336,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  article(articleId: number): Observable<CommentDto[]> {
+  article(articleId: number, httpContext?: HttpContext): Observable<CommentDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Comment/article/{articleId}';
     if (articleId === undefined || articleId === null) throw new Error("The parameter 'articleId' must be defined.");
     url_ = url_.replace('{articleId}', encodeURIComponent('' + articleId));
@@ -1678,6 +2345,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -1705,12 +2373,7 @@ export class MLSApiService {
 
   protected processArticle(response: HttpResponseBase): Observable<CommentDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1718,14 +2381,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(CommentDto.fromJS(item));
+            for (let item of resultData200) result200!.push(CommentDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -1745,13 +2409,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  discountAll(): Observable<DiscountDto[]> {
+  discountAll(httpContext?: HttpContext): Observable<DiscountDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Discount';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -1779,12 +2444,7 @@ export class MLSApiService {
 
   protected processDiscountAll(response: HttpResponseBase): Observable<DiscountDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1792,14 +2452,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(DiscountDto.fromJS(item));
+            for (let item of resultData200) result200!.push(DiscountDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -1820,7 +2481,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  discountPOST(body: CreateDiscountDto | undefined): Observable<void> {
+  discountPOST(body: CreateDiscountDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Discount';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -1830,6 +2491,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -1857,12 +2519,7 @@ export class MLSApiService {
 
   protected processDiscountPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1870,6 +2527,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -1880,8 +2538,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1899,7 +2557,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  discountPUT(body: UpdateDiscountDto | undefined): Observable<void> {
+  discountPUT(body: UpdateDiscountDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Discount';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -1909,6 +2567,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -1936,12 +2595,7 @@ export class MLSApiService {
 
   protected processDiscountPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1949,12 +2603,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1968,8 +2623,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1977,8 +2632,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -1988,7 +2643,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  discountGET(id: number): Observable<DiscountDetailsDto> {
+  discountGET(id: number, httpContext?: HttpContext): Observable<DiscountDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Discount/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -1997,6 +2652,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -2024,12 +2680,7 @@ export class MLSApiService {
 
   protected processDiscountGET(response: HttpResponseBase): Observable<DiscountDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2037,12 +2688,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = DiscountDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = DiscountDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -2059,7 +2711,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  discountDELETE(id: number): Observable<void> {
+  discountDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Discount/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -2068,6 +2720,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -2093,12 +2746,7 @@ export class MLSApiService {
 
   protected processDiscountDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2106,6 +2754,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -2116,8 +2765,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -2125,8 +2774,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2136,7 +2785,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  code(code: string): Observable<DiscountDto> {
+  code(code: string, httpContext?: HttpContext): Observable<DiscountDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Discount/code/{code}';
     if (code === undefined || code === null) throw new Error("The parameter 'code' must be defined.");
     url_ = url_.replace('{code}', encodeURIComponent('' + code));
@@ -2145,6 +2794,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -2172,12 +2822,7 @@ export class MLSApiService {
 
   protected processCode(response: HttpResponseBase): Observable<DiscountDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2185,12 +2830,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = DiscountDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = DiscountDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -2207,13 +2853,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  notificationAll(): Observable<NotificationDto[]> {
+  notificationAll(httpContext?: HttpContext): Observable<NotificationDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Notification';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -2241,12 +2888,7 @@ export class MLSApiService {
 
   protected processNotificationAll(response: HttpResponseBase): Observable<NotificationDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2254,14 +2896,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(NotificationDto.fromJS(item));
+            for (let item of resultData200) result200!.push(NotificationDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -2282,7 +2925,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  notificationPOST(body: CreateNotificationDto | undefined): Observable<void> {
+  notificationPOST(body: CreateNotificationDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Notification';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -2292,6 +2935,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -2319,12 +2963,7 @@ export class MLSApiService {
 
   protected processNotificationPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2332,6 +2971,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -2342,8 +2982,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -2361,7 +3001,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  notificationPUT(body: UpdateNotificationDto | undefined): Observable<void> {
+  notificationPUT(body: UpdateNotificationDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Notification';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -2371,6 +3011,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -2398,12 +3039,7 @@ export class MLSApiService {
 
   protected processNotificationPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2411,12 +3047,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -2430,8 +3067,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -2439,8 +3076,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2450,7 +3087,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  notificationGET(id: number): Observable<NotificationDetailsDto> {
+  notificationGET(id: number, httpContext?: HttpContext): Observable<NotificationDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Notification/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -2459,6 +3096,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -2486,12 +3124,7 @@ export class MLSApiService {
 
   protected processNotificationGET(response: HttpResponseBase): Observable<NotificationDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2499,12 +3132,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = NotificationDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = NotificationDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -2521,7 +3155,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  notificationDELETE(id: number): Observable<void> {
+  notificationDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Notification/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -2530,6 +3164,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -2555,12 +3190,7 @@ export class MLSApiService {
 
   protected processNotificationDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2568,6 +3198,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -2578,8 +3209,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -2587,8 +3218,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2598,7 +3229,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  user(userId: number): Observable<NotificationDto[]> {
+  user(userId: number, httpContext?: HttpContext): Observable<NotificationDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Notification/user/{userId}';
     if (userId === undefined || userId === null) throw new Error("The parameter 'userId' must be defined.");
     url_ = url_.replace('{userId}', encodeURIComponent('' + userId));
@@ -2607,6 +3238,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -2634,12 +3266,7 @@ export class MLSApiService {
 
   protected processUser(response: HttpResponseBase): Observable<NotificationDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2647,14 +3274,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(NotificationDto.fromJS(item));
+            for (let item of resultData200) result200!.push(NotificationDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -2674,13 +3302,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  orderAll(): Observable<OrderDto[]> {
+  orderAll(httpContext?: HttpContext): Observable<OrderDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Order';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -2708,12 +3337,7 @@ export class MLSApiService {
 
   protected processOrderAll(response: HttpResponseBase): Observable<OrderDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2721,14 +3345,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(OrderDto.fromJS(item));
+            for (let item of resultData200) result200!.push(OrderDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -2749,7 +3374,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  orderPOST(body: CreateOrderCommand | undefined): Observable<void> {
+  orderPOST(body: CreateOrderCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Order';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -2759,6 +3384,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -2786,12 +3412,7 @@ export class MLSApiService {
 
   protected processOrderPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2799,6 +3420,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -2809,8 +3431,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -2828,7 +3450,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  orderPUT(body: UpdateOrderCommand | undefined): Observable<void> {
+  orderPUT(body: UpdateOrderCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Order';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -2838,6 +3460,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -2865,12 +3488,7 @@ export class MLSApiService {
 
   protected processOrderPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2878,12 +3496,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -2891,8 +3510,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -2906,8 +3525,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2917,7 +3536,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  orderGET(id: number): Observable<OrderDetailsDto> {
+  orderGET(id: number, httpContext?: HttpContext): Observable<OrderDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Order/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -2926,6 +3545,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -2953,12 +3573,7 @@ export class MLSApiService {
 
   protected processOrderGET(response: HttpResponseBase): Observable<OrderDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2966,12 +3581,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = OrderDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = OrderDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -2988,7 +3604,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  orderDELETE(id: number): Observable<void> {
+  orderDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Order/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -2997,6 +3613,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -3022,12 +3639,7 @@ export class MLSApiService {
 
   protected processOrderDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3035,12 +3647,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3054,8 +3667,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3065,13 +3678,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  orderDetailAll(): Observable<OrderDetailDto[]> {
+  orderDetailAll(httpContext?: HttpContext): Observable<OrderDetailDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -3099,12 +3713,7 @@ export class MLSApiService {
 
   protected processOrderDetailAll(response: HttpResponseBase): Observable<OrderDetailDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3112,14 +3721,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(OrderDetailDto.fromJS(item));
+            for (let item of resultData200) result200!.push(OrderDetailDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -3140,7 +3750,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  orderDetailPOST(body: CreateOrderDetailCommand | undefined): Observable<void> {
+  orderDetailPOST(body: CreateOrderDetailCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -3150,6 +3760,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -3177,12 +3788,7 @@ export class MLSApiService {
 
   protected processOrderDetailPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3190,6 +3796,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -3200,8 +3807,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3219,7 +3826,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  orderDetailPUT(body: UpdateOrderDetailCommand | undefined): Observable<void> {
+  orderDetailPUT(body: UpdateOrderDetailCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -3229,6 +3836,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -3256,12 +3864,7 @@ export class MLSApiService {
 
   protected processOrderDetailPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3269,12 +3872,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3282,8 +3886,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3297,8 +3901,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3308,7 +3912,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  orderDetailGET(id: number): Observable<OrderDetailDetailsDto> {
+  orderDetailGET(id: number, httpContext?: HttpContext): Observable<OrderDetailDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -3317,6 +3921,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -3344,12 +3949,7 @@ export class MLSApiService {
 
   protected processOrderDetailGET(response: HttpResponseBase): Observable<OrderDetailDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3357,12 +3957,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = OrderDetailDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = OrderDetailDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -3379,7 +3980,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  orderDetailDELETE(id: number): Observable<void> {
+  orderDetailDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -3388,6 +3989,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -3413,12 +4015,7 @@ export class MLSApiService {
 
   protected processOrderDetailDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3426,12 +4023,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3445,8 +4043,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3456,13 +4054,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  paymentAll(): Observable<PaymentDto[]> {
+  paymentAll(httpContext?: HttpContext): Observable<PaymentDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Payment';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -3490,12 +4089,7 @@ export class MLSApiService {
 
   protected processPaymentAll(response: HttpResponseBase): Observable<PaymentDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3503,14 +4097,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(PaymentDto.fromJS(item));
+            for (let item of resultData200) result200!.push(PaymentDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -3531,7 +4126,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  paymentPOST(body: CreatePaymentCommand | undefined): Observable<void> {
+  paymentPOST(body: CreatePaymentCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Payment';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -3541,6 +4136,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -3568,12 +4164,7 @@ export class MLSApiService {
 
   protected processPaymentPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3581,6 +4172,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -3591,8 +4183,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3610,7 +4202,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  paymentPUT(body: UpdatePaymentCommand | undefined): Observable<void> {
+  paymentPUT(body: UpdatePaymentCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Payment';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -3620,6 +4212,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -3647,12 +4240,7 @@ export class MLSApiService {
 
   protected processPaymentPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3660,12 +4248,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3673,8 +4262,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3688,8 +4277,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3699,7 +4288,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  paymentGET(id: number): Observable<PaymentDetailsDto> {
+  paymentGET(id: number, httpContext?: HttpContext): Observable<PaymentDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Payment/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -3708,6 +4297,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -3735,12 +4325,7 @@ export class MLSApiService {
 
   protected processPaymentGET(response: HttpResponseBase): Observable<PaymentDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3748,12 +4333,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = PaymentDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = PaymentDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -3770,7 +4356,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  paymentDELETE(id: number): Observable<void> {
+  paymentDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Payment/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -3779,6 +4365,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -3804,12 +4391,7 @@ export class MLSApiService {
 
   protected processPaymentDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3817,12 +4399,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3836,8 +4419,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3847,13 +4430,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productAll(): Observable<ProductDto[]> {
+  productAll(httpContext?: HttpContext): Observable<ProductDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Product';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -3881,12 +4465,7 @@ export class MLSApiService {
 
   protected processProductAll(response: HttpResponseBase): Observable<ProductDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3894,14 +4473,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ProductDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ProductDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -3922,7 +4502,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  productPOST(body: CreateProductCommand | undefined): Observable<void> {
+  productPOST(body: CreateProductCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Product';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -3932,6 +4512,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -3959,12 +4540,7 @@ export class MLSApiService {
 
   protected processProductPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -3972,6 +4548,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -3982,8 +4559,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4001,7 +4578,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  productPUT(body: UpdateProductCommand | undefined): Observable<void> {
+  productPUT(body: UpdateProductCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Product';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -4011,6 +4588,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -4038,12 +4616,7 @@ export class MLSApiService {
 
   protected processProductPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4051,12 +4624,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4070,8 +4644,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4079,8 +4653,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4090,7 +4664,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productGET(id: number): Observable<ProductDetailsDto> {
+  productGET(id: number, httpContext?: HttpContext): Observable<ProductDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Product/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -4099,6 +4673,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -4126,12 +4701,7 @@ export class MLSApiService {
 
   protected processProductGET(response: HttpResponseBase): Observable<ProductDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4139,12 +4709,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ProductDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -4161,7 +4732,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  productDELETE(id: number): Observable<void> {
+  productDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Product/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -4170,6 +4741,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -4195,12 +4767,7 @@ export class MLSApiService {
 
   protected processProductDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4208,6 +4775,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4218,8 +4786,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4227,8 +4795,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4238,13 +4806,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productColorAll(): Observable<ProductColorDto[]> {
+  productColorAll(httpContext?: HttpContext): Observable<ProductColorDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -4272,12 +4841,7 @@ export class MLSApiService {
 
   protected processProductColorAll(response: HttpResponseBase): Observable<ProductColorDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4285,14 +4849,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ProductColorDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ProductColorDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -4313,7 +4878,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  productColorPOST(body: CreateProductColorDto | undefined): Observable<void> {
+  productColorPOST(body: CreateProductColorDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -4323,6 +4888,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -4350,12 +4916,7 @@ export class MLSApiService {
 
   protected processProductColorPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4363,6 +4924,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4373,8 +4935,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4392,7 +4954,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  productColorPUT(body: UpdateProductColorDto | undefined): Observable<void> {
+  productColorPUT(body: UpdateProductColorDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -4402,6 +4964,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -4429,12 +4992,7 @@ export class MLSApiService {
 
   protected processProductColorPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4442,12 +5000,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4461,8 +5020,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4470,8 +5029,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4481,7 +5040,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productColorGET(id: number): Observable<ProductColorDetailsDto> {
+  productColorGET(id: number, httpContext?: HttpContext): Observable<ProductColorDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -4490,6 +5049,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -4517,12 +5077,7 @@ export class MLSApiService {
 
   protected processProductColorGET(response: HttpResponseBase): Observable<ProductColorDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4530,12 +5085,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ProductColorDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductColorDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -4552,7 +5108,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  productColorDELETE(id: number): Observable<void> {
+  productColorDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -4561,6 +5117,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -4586,12 +5143,7 @@ export class MLSApiService {
 
   protected processProductColorDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4599,6 +5151,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4609,8 +5162,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4618,8 +5171,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4629,13 +5182,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productImageAll(): Observable<ProductImageDto[]> {
+  productImageAll(httpContext?: HttpContext): Observable<ProductImageDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -4663,12 +5217,7 @@ export class MLSApiService {
 
   protected processProductImageAll(response: HttpResponseBase): Observable<ProductImageDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4676,14 +5225,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ProductImageDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ProductImageDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -4704,7 +5254,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  productImagePOST(body: CreateProductImageDto | undefined): Observable<void> {
+  productImagePOST(body: CreateProductImageDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -4714,6 +5264,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -4741,12 +5292,7 @@ export class MLSApiService {
 
   protected processProductImagePOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4754,6 +5300,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4764,8 +5311,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4783,7 +5330,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  productImagePUT(body: UpdateProductImageDto | undefined): Observable<void> {
+  productImagePUT(body: UpdateProductImageDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -4793,6 +5340,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -4820,12 +5368,7 @@ export class MLSApiService {
 
   protected processProductImagePUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4833,12 +5376,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4852,8 +5396,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4861,8 +5405,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4872,7 +5416,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productImageGET(id: number): Observable<ProductImageDetailsDto> {
+  productImageGET(id: number, httpContext?: HttpContext): Observable<ProductImageDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -4881,6 +5425,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -4908,12 +5453,7 @@ export class MLSApiService {
 
   protected processProductImageGET(response: HttpResponseBase): Observable<ProductImageDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4921,12 +5461,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ProductImageDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductImageDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -4943,7 +5484,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  productImageDELETE(id: number): Observable<void> {
+  productImageDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -4952,6 +5493,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -4977,12 +5519,7 @@ export class MLSApiService {
 
   protected processProductImageDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -4990,6 +5527,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5000,8 +5538,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5009,8 +5547,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5020,13 +5558,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productOptionAll(): Observable<ProductOptionDto[]> {
+  productOptionAll(httpContext?: HttpContext): Observable<ProductOptionDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -5054,12 +5593,7 @@ export class MLSApiService {
 
   protected processProductOptionAll(response: HttpResponseBase): Observable<ProductOptionDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5067,14 +5601,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ProductOptionDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ProductOptionDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -5095,7 +5630,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  productOptionPOST(body: CreateProductOptionDto | undefined): Observable<void> {
+  productOptionPOST(body: CreateProductOptionDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -5105,6 +5640,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -5132,12 +5668,7 @@ export class MLSApiService {
 
   protected processProductOptionPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5145,6 +5676,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5155,8 +5687,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5174,7 +5706,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  productOptionPUT(body: UpdateProductOptionDto | undefined): Observable<void> {
+  productOptionPUT(body: UpdateProductOptionDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -5184,6 +5716,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -5211,12 +5744,7 @@ export class MLSApiService {
 
   protected processProductOptionPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5224,12 +5752,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5243,8 +5772,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5252,8 +5781,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5263,7 +5792,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productOptionGET(id: number): Observable<ProductOptionDetailsDto> {
+  productOptionGET(id: number, httpContext?: HttpContext): Observable<ProductOptionDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -5272,6 +5801,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -5299,12 +5829,7 @@ export class MLSApiService {
 
   protected processProductOptionGET(response: HttpResponseBase): Observable<ProductOptionDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5312,12 +5837,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ProductOptionDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductOptionDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -5334,7 +5860,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  productOptionDELETE(id: number): Observable<void> {
+  productOptionDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -5343,6 +5869,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -5368,12 +5895,7 @@ export class MLSApiService {
 
   protected processProductOptionDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5381,6 +5903,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5391,8 +5914,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5400,8 +5923,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5411,13 +5934,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productReviewAll(): Observable<ProductReviewDto[]> {
+  productReviewAll(httpContext?: HttpContext): Observable<ProductReviewDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -5445,12 +5969,7 @@ export class MLSApiService {
 
   protected processProductReviewAll(response: HttpResponseBase): Observable<ProductReviewDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5458,14 +5977,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ProductReviewDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ProductReviewDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -5486,7 +6006,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  productReviewPOST(body: CreateProductReviewCommand | undefined): Observable<void> {
+  productReviewPOST(body: CreateProductReviewCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -5496,6 +6016,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -5523,12 +6044,7 @@ export class MLSApiService {
 
   protected processProductReviewPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5536,6 +6052,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5546,8 +6063,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5565,7 +6082,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  productReviewPUT(body: UpdateProductReviewCommand | undefined): Observable<void> {
+  productReviewPUT(body: UpdateProductReviewCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -5575,6 +6092,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -5602,12 +6120,7 @@ export class MLSApiService {
 
   protected processProductReviewPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5615,12 +6128,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5628,8 +6142,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5643,8 +6157,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5654,7 +6168,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productReviewGET(id: number): Observable<ProductReviewDetailsDto> {
+  productReviewGET(id: number, httpContext?: HttpContext): Observable<ProductReviewDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -5663,6 +6177,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -5690,12 +6205,7 @@ export class MLSApiService {
 
   protected processProductReviewGET(response: HttpResponseBase): Observable<ProductReviewDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5703,12 +6213,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ProductReviewDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductReviewDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -5725,7 +6236,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  productReviewDELETE(id: number): Observable<void> {
+  productReviewDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -5734,6 +6245,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -5759,12 +6271,7 @@ export class MLSApiService {
 
   protected processProductReviewDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5772,12 +6279,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5791,8 +6299,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5802,13 +6310,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productTagAll(): Observable<ProductTagDto[]> {
+  productTagAll(httpContext?: HttpContext): Observable<ProductTagDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -5836,12 +6345,7 @@ export class MLSApiService {
 
   protected processProductTagAll(response: HttpResponseBase): Observable<ProductTagDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5849,14 +6353,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ProductTagDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ProductTagDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -5877,7 +6382,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  productTagPOST(body: CreateProductTagDto | undefined): Observable<void> {
+  productTagPOST(body: CreateProductTagDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -5887,6 +6392,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -5914,12 +6420,7 @@ export class MLSApiService {
 
   protected processProductTagPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -5927,6 +6428,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5937,8 +6439,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5956,7 +6458,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  productTagPUT(body: UpdateProductTagDto | undefined): Observable<void> {
+  productTagPUT(body: UpdateProductTagDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -5966,6 +6468,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -5993,12 +6496,7 @@ export class MLSApiService {
 
   protected processProductTagPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6006,12 +6504,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6025,8 +6524,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6034,8 +6533,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6045,7 +6544,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  productTagGET(id: number): Observable<ProductTagDetailsDto> {
+  productTagGET(id: number, httpContext?: HttpContext): Observable<ProductTagDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -6054,6 +6553,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -6081,12 +6581,7 @@ export class MLSApiService {
 
   protected processProductTagGET(response: HttpResponseBase): Observable<ProductTagDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6094,12 +6589,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ProductTagDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductTagDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -6116,7 +6612,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  productTagDELETE(id: number): Observable<void> {
+  productTagDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -6125,6 +6621,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -6150,12 +6647,7 @@ export class MLSApiService {
 
   protected processProductTagDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6163,6 +6655,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -6173,8 +6666,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6182,8 +6675,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6193,13 +6686,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  shipmentAll(): Observable<ShipmentDto[]> {
+  shipmentAll(httpContext?: HttpContext): Observable<ShipmentDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Shipment';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -6227,12 +6721,7 @@ export class MLSApiService {
 
   protected processShipmentAll(response: HttpResponseBase): Observable<ShipmentDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6240,14 +6729,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ShipmentDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ShipmentDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -6268,7 +6758,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  shipmentPOST(body: CreateShipmentCommand | undefined): Observable<void> {
+  shipmentPOST(body: CreateShipmentCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Shipment';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -6278,6 +6768,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -6305,12 +6796,7 @@ export class MLSApiService {
 
   protected processShipmentPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6318,6 +6804,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -6328,8 +6815,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6347,7 +6834,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  shipmentPUT(body: UpdateShipmentCommand | undefined): Observable<void> {
+  shipmentPUT(body: UpdateShipmentCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Shipment';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -6357,6 +6844,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -6384,12 +6872,7 @@ export class MLSApiService {
 
   protected processShipmentPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6397,12 +6880,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6410,8 +6894,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6425,8 +6909,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6436,7 +6920,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  shipmentGET(id: number): Observable<ShipmentDetailsDto> {
+  shipmentGET(id: number, httpContext?: HttpContext): Observable<ShipmentDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Shipment/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -6445,6 +6929,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -6472,12 +6957,7 @@ export class MLSApiService {
 
   protected processShipmentGET(response: HttpResponseBase): Observable<ShipmentDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6485,12 +6965,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ShipmentDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ShipmentDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -6507,7 +6988,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  shipmentDELETE(id: number): Observable<void> {
+  shipmentDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Shipment/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -6516,6 +6997,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -6541,12 +7023,7 @@ export class MLSApiService {
 
   protected processShipmentDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6554,12 +7031,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6573,8 +7051,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6584,13 +7062,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  shoppingCartAll(): Observable<ShoppingCartDto[]> {
+  shoppingCartAll(httpContext?: HttpContext): Observable<ShoppingCartDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -6618,12 +7097,7 @@ export class MLSApiService {
 
   protected processShoppingCartAll(response: HttpResponseBase): Observable<ShoppingCartDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6631,14 +7105,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ShoppingCartDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ShoppingCartDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -6659,7 +7134,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  shoppingCartPOST(body: CreateShoppingCartCommand | undefined): Observable<void> {
+  shoppingCartPOST(body: CreateShoppingCartCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -6669,6 +7144,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -6696,12 +7172,7 @@ export class MLSApiService {
 
   protected processShoppingCartPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6709,6 +7180,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -6719,8 +7191,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6738,7 +7210,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  shoppingCartPUT(body: UpdateShoppingCartCommand | undefined): Observable<void> {
+  shoppingCartPUT(body: UpdateShoppingCartCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -6748,6 +7220,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -6775,12 +7248,7 @@ export class MLSApiService {
 
   protected processShoppingCartPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6788,12 +7256,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6801,8 +7270,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6816,8 +7285,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6827,7 +7296,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  shoppingCartGET(id: number): Observable<ShoppingCartDetailsDto> {
+  shoppingCartGET(id: number, httpContext?: HttpContext): Observable<ShoppingCartDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -6836,6 +7305,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -6863,12 +7333,7 @@ export class MLSApiService {
 
   protected processShoppingCartGET(response: HttpResponseBase): Observable<ShoppingCartDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6876,12 +7341,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ShoppingCartDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ShoppingCartDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -6898,7 +7364,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  shoppingCartDELETE(id: number): Observable<void> {
+  shoppingCartDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -6907,6 +7373,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -6932,12 +7399,7 @@ export class MLSApiService {
 
   protected processShoppingCartDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -6945,12 +7407,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6964,8 +7427,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6975,13 +7438,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  shoppingCartItemAll(): Observable<ShoppingCartItemDto[]> {
+  shoppingCartItemAll(httpContext?: HttpContext): Observable<ShoppingCartItemDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -7009,12 +7473,7 @@ export class MLSApiService {
 
   protected processShoppingCartItemAll(response: HttpResponseBase): Observable<ShoppingCartItemDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7022,14 +7481,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(ShoppingCartItemDto.fromJS(item));
+            for (let item of resultData200) result200!.push(ShoppingCartItemDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -7050,7 +7510,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  shoppingCartItemPOST(body: CreateShoppingCartItemCommand | undefined): Observable<void> {
+  shoppingCartItemPOST(body: CreateShoppingCartItemCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -7060,6 +7520,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -7087,12 +7548,7 @@ export class MLSApiService {
 
   protected processShoppingCartItemPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7100,6 +7556,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7110,8 +7567,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7129,7 +7586,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  shoppingCartItemPUT(body: UpdateShoppingCartItemCommand | undefined): Observable<void> {
+  shoppingCartItemPUT(body: UpdateShoppingCartItemCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -7139,6 +7596,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -7166,12 +7624,7 @@ export class MLSApiService {
 
   protected processShoppingCartItemPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7179,12 +7632,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7192,8 +7646,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7207,8 +7661,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -7218,7 +7672,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  shoppingCartItemGET(id: number): Observable<ShoppingCartItemDetailsDto> {
+  shoppingCartItemGET(id: number, httpContext?: HttpContext): Observable<ShoppingCartItemDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -7227,6 +7681,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -7254,12 +7709,7 @@ export class MLSApiService {
 
   protected processShoppingCartItemGET(response: HttpResponseBase): Observable<ShoppingCartItemDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7267,12 +7717,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = ShoppingCartItemDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ShoppingCartItemDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -7289,7 +7740,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  shoppingCartItemDELETE(id: number): Observable<void> {
+  shoppingCartItemDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -7298,6 +7749,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -7323,12 +7775,7 @@ export class MLSApiService {
 
   protected processShoppingCartItemDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7336,12 +7783,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7355,8 +7803,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -7366,13 +7814,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  supplierAll(): Observable<SupplierDto[]> {
+  supplierAll(httpContext?: HttpContext): Observable<SupplierDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supplier';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -7400,12 +7849,7 @@ export class MLSApiService {
 
   protected processSupplierAll(response: HttpResponseBase): Observable<SupplierDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7413,14 +7857,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(SupplierDto.fromJS(item));
+            for (let item of resultData200) result200!.push(SupplierDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -7441,7 +7886,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  supplierPOST(body: CreateSupplierDto | undefined): Observable<void> {
+  supplierPOST(body: CreateSupplierDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supplier';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -7451,6 +7896,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -7478,12 +7924,7 @@ export class MLSApiService {
 
   protected processSupplierPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7491,6 +7932,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7501,8 +7943,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7520,7 +7962,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  supplierPUT(body: UpdateSupplierDto | undefined): Observable<void> {
+  supplierPUT(body: UpdateSupplierDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supplier';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -7530,6 +7972,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -7557,12 +8000,7 @@ export class MLSApiService {
 
   protected processSupplierPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7570,12 +8008,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7589,8 +8028,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7598,8 +8037,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -7609,7 +8048,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  supplierGET(id: number): Observable<SupplierDetailsDto> {
+  supplierGET(id: number, httpContext?: HttpContext): Observable<SupplierDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supplier/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -7618,6 +8057,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -7645,12 +8085,7 @@ export class MLSApiService {
 
   protected processSupplierGET(response: HttpResponseBase): Observable<SupplierDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7658,12 +8093,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = SupplierDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = SupplierDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -7680,7 +8116,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  supplierDELETE(id: number): Observable<void> {
+  supplierDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supplier/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -7689,6 +8125,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -7714,12 +8151,7 @@ export class MLSApiService {
 
   protected processSupplierDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7727,6 +8159,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7737,8 +8170,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7746,8 +8179,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -7757,13 +8190,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  supplyAll(): Observable<SupplyDto[]> {
+  supplyAll(httpContext?: HttpContext): Observable<SupplyDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supply';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -7791,12 +8225,7 @@ export class MLSApiService {
 
   protected processSupplyAll(response: HttpResponseBase): Observable<SupplyDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7804,14 +8233,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(SupplyDto.fromJS(item));
+            for (let item of resultData200) result200!.push(SupplyDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -7832,7 +8262,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  supplyPOST(body: CreateSupplyDto | undefined): Observable<void> {
+  supplyPOST(body: CreateSupplyDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supply';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -7842,6 +8272,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -7869,12 +8300,7 @@ export class MLSApiService {
 
   protected processSupplyPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7882,6 +8308,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7892,8 +8319,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7911,7 +8338,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  supplyPUT(body: UpdateSupplyDto | undefined): Observable<void> {
+  supplyPUT(body: UpdateSupplyDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supply';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -7921,6 +8348,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -7948,12 +8376,7 @@ export class MLSApiService {
 
   protected processSupplyPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -7961,12 +8384,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7980,8 +8404,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7989,8 +8413,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8000,7 +8424,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  supplyGET(id: number): Observable<SupplyDetailsDto> {
+  supplyGET(id: number, httpContext?: HttpContext): Observable<SupplyDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supply/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -8009,6 +8433,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -8036,12 +8461,7 @@ export class MLSApiService {
 
   protected processSupplyGET(response: HttpResponseBase): Observable<SupplyDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8049,12 +8469,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = SupplyDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = SupplyDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -8071,7 +8492,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  supplyDELETE(id: number): Observable<void> {
+  supplyDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Supply/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -8080,6 +8501,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -8105,12 +8527,7 @@ export class MLSApiService {
 
   protected processSupplyDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8118,6 +8535,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -8128,8 +8546,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8137,8 +8555,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8148,13 +8566,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  tagAll(): Observable<TagDto[]> {
+  tagAll(httpContext?: HttpContext): Observable<TagDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Tag';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -8182,12 +8601,7 @@ export class MLSApiService {
 
   protected processTagAll(response: HttpResponseBase): Observable<TagDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8195,14 +8609,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(TagDto.fromJS(item));
+            for (let item of resultData200) result200!.push(TagDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -8223,7 +8638,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  tagPOST(body: CreateTagDto | undefined): Observable<void> {
+  tagPOST(body: CreateTagDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Tag';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -8233,6 +8648,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -8260,12 +8676,7 @@ export class MLSApiService {
 
   protected processTagPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8273,6 +8684,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -8283,8 +8695,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8302,7 +8714,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  tagPUT(body: UpdateTagDto | undefined): Observable<void> {
+  tagPUT(body: UpdateTagDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Tag';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -8312,6 +8724,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -8339,12 +8752,7 @@ export class MLSApiService {
 
   protected processTagPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8352,12 +8760,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8371,8 +8780,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8380,8 +8789,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8391,7 +8800,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  tagGET(id: number): Observable<TagDetailsDto> {
+  tagGET(id: number, httpContext?: HttpContext): Observable<TagDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Tag/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -8400,6 +8809,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -8427,12 +8837,7 @@ export class MLSApiService {
 
   protected processTagGET(response: HttpResponseBase): Observable<TagDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8440,12 +8845,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = TagDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = TagDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -8462,7 +8868,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  tagDELETE(id: number): Observable<void> {
+  tagDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Tag/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -8471,6 +8877,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -8496,12 +8903,7 @@ export class MLSApiService {
 
   protected processTagDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8509,6 +8911,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -8519,8 +8922,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8528,8 +8931,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8539,13 +8942,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  userAll(): Observable<UserDto[]> {
+  userAll(httpContext?: HttpContext): Observable<UserDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/User';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -8573,12 +8977,7 @@ export class MLSApiService {
 
   protected processUserAll(response: HttpResponseBase): Observable<UserDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8586,14 +8985,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(UserDto.fromJS(item));
+            for (let item of resultData200) result200!.push(UserDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -8614,7 +9014,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  userPOST(body: CreateUserCommand | undefined): Observable<void> {
+  userPOST(body: CreateUserCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/User';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -8624,6 +9024,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -8651,12 +9052,7 @@ export class MLSApiService {
 
   protected processUserPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8664,6 +9060,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -8674,8 +9071,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8693,7 +9090,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  userPUT(body: UpdateUserCommand | undefined): Observable<void> {
+  userPUT(body: UpdateUserCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/User';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -8703,6 +9100,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -8730,12 +9128,7 @@ export class MLSApiService {
 
   protected processUserPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8743,12 +9136,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8762,8 +9156,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8771,8 +9165,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8782,7 +9176,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  userGET(id: number): Observable<UserDetailsDto> {
+  userGET(id: number, httpContext?: HttpContext): Observable<UserDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/User/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -8791,6 +9185,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -8818,12 +9213,7 @@ export class MLSApiService {
 
   protected processUserGET(response: HttpResponseBase): Observable<UserDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8831,12 +9221,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = UserDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = UserDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -8853,7 +9244,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  userDELETE(id: number): Observable<void> {
+  userDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/User/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -8862,6 +9253,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -8887,12 +9279,7 @@ export class MLSApiService {
 
   protected processUserDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8900,6 +9287,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -8910,8 +9298,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8919,8 +9307,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8930,13 +9318,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  wishListAll(): Observable<WishListDto[]> {
+  wishListAll(httpContext?: HttpContext): Observable<WishListDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishList';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -8964,12 +9353,7 @@ export class MLSApiService {
 
   protected processWishListAll(response: HttpResponseBase): Observable<WishListDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -8977,14 +9361,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(WishListDto.fromJS(item));
+            for (let item of resultData200) result200!.push(WishListDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -9005,7 +9390,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  wishListPOST(body: CreateWishListCommand | undefined): Observable<void> {
+  wishListPOST(body: CreateWishListCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishList';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -9015,6 +9400,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -9042,12 +9428,7 @@ export class MLSApiService {
 
   protected processWishListPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -9055,6 +9436,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -9065,8 +9447,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -9084,7 +9466,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  wishListPUT(body: UpdateWishListCommand | undefined): Observable<void> {
+  wishListPUT(body: UpdateWishListCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishList';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -9094,6 +9476,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -9121,12 +9504,7 @@ export class MLSApiService {
 
   protected processWishListPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -9134,12 +9512,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -9147,8 +9526,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -9162,8 +9541,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -9173,7 +9552,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  wishListGET(id: number): Observable<WishListDetailsDto> {
+  wishListGET(id: number, httpContext?: HttpContext): Observable<WishListDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishList/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -9182,6 +9561,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -9209,12 +9589,7 @@ export class MLSApiService {
 
   protected processWishListGET(response: HttpResponseBase): Observable<WishListDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -9222,12 +9597,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = WishListDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = WishListDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -9244,7 +9620,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  wishListDELETE(id: number): Observable<void> {
+  wishListDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishList/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -9253,6 +9629,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -9278,12 +9655,7 @@ export class MLSApiService {
 
   protected processWishListDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -9291,12 +9663,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -9310,8 +9683,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -9321,13 +9694,14 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  wishListItemAll(): Observable<WishListItemDto[]> {
+  wishListItemAll(httpContext?: HttpContext): Observable<WishListItemDto[]> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -9355,12 +9729,7 @@ export class MLSApiService {
 
   protected processWishListItemAll(response: HttpResponseBase): Observable<WishListItemDto[]> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -9368,14 +9737,15 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
             result200 = [] as any;
-            for (let item of resultData200) result200!.push(WishListItemDto.fromJS(item));
+            for (let item of resultData200) result200!.push(WishListItemDto.fromJS(item, _mappings));
           } else {
             result200 = <any>null;
           }
@@ -9396,7 +9766,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return Created
    */
-  wishListItemPOST(body: CreateWishListItemDto | undefined): Observable<void> {
+  wishListItemPOST(body: CreateWishListItemDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -9406,6 +9776,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -9433,12 +9804,7 @@ export class MLSApiService {
 
   protected processWishListItemPOST(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -9446,6 +9812,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -9456,8 +9823,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -9475,7 +9842,7 @@ export class MLSApiService {
    * @param body (optional)
    * @return No Content
    */
-  wishListItemPUT(body: UpdateWishListItemDto | undefined): Observable<void> {
+  wishListItemPUT(body: UpdateWishListItemDto | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -9485,6 +9852,7 @@ export class MLSApiService {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -9512,12 +9880,7 @@ export class MLSApiService {
 
   protected processWishListItemPUT(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -9525,12 +9888,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -9544,8 +9908,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -9553,8 +9917,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -9564,7 +9928,7 @@ export class MLSApiService {
   /**
    * @return OK
    */
-  wishListItemGET(id: number): Observable<WishListItemDetailsDto> {
+  wishListItemGET(id: number, httpContext?: HttpContext): Observable<WishListItemDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -9573,6 +9937,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
       }),
@@ -9600,12 +9965,7 @@ export class MLSApiService {
 
   protected processWishListItemGET(response: HttpResponseBase): Observable<WishListItemDetailsDto> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -9613,12 +9973,13 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result200 = WishListItemDetailsDto.fromJS(resultData200);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = WishListItemDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -9635,7 +9996,7 @@ export class MLSApiService {
   /**
    * @return No Content
    */
-  wishListItemDELETE(id: number): Observable<void> {
+  wishListItemDELETE(id: number, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem/{id}';
     if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace('{id}', encodeURIComponent('' + id));
@@ -9644,6 +10005,7 @@ export class MLSApiService {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      context: httpContext,
       headers: new HttpHeaders({}),
     };
 
@@ -9669,12 +10031,7 @@ export class MLSApiService {
 
   protected processWishListItemDELETE(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse
-        ? response.body
-        : (response as any).error instanceof Blob
-          ? (response as any).error
-          : undefined;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -9682,6 +10039,7 @@ export class MLSApiService {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -9692,8 +10050,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -9701,8 +10059,8 @@ export class MLSApiService {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          let resultDatadefault = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          resultdefault = ProblemDetails.fromJS(resultDatadefault);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -9728,7 +10086,7 @@ export class AddressDetailsDto implements IAddressDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.street = _data['street'];
@@ -9737,15 +10095,13 @@ export class AddressDetailsDto implements IAddressDetailsDto {
       this.country = _data['country'];
       this.postalCode = _data['postalCode'];
       this.userId = _data['userId'];
-      this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): AddressDetailsDto {
+  static fromJS(data: any, _mappings?: any): AddressDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new AddressDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<AddressDetailsDto>(data, _mappings, AddressDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -9790,7 +10146,7 @@ export class AddressDto implements IAddressDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.street = _data['street'];
@@ -9802,11 +10158,9 @@ export class AddressDto implements IAddressDto {
     }
   }
 
-  static fromJS(data: any): AddressDto {
+  static fromJS(data: any, _mappings?: any): AddressDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new AddressDto();
-    result.init(data);
-    return result;
+    return createInstance<AddressDto>(data, _mappings, AddressDto);
   }
 
   toJSON(data?: any) {
@@ -9850,7 +10204,7 @@ export class ArticleDetailsDto implements IArticleDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.title = _data['title'];
@@ -9858,19 +10212,17 @@ export class ArticleDetailsDto implements IArticleDetailsDto {
       this.author = _data['author'];
       this.publicationDate = _data['publicationDate'] ? new Date(_data['publicationDate'].toString()) : <any>undefined;
       this.userId = _data['userId'];
-      this.authorUser = _data['authorUser'] ? UserDto.fromJS(_data['authorUser']) : <any>undefined;
+      this.authorUser = _data['authorUser'] ? UserDto.fromJS(_data['authorUser'], _mappings) : <any>undefined;
       if (Array.isArray(_data['comments'])) {
         this.comments = [] as any;
-        for (let item of _data['comments']) this.comments!.push(CommentDto.fromJS(item));
+        for (let item of _data['comments']) this.comments!.push(<CommentDto>CommentDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): ArticleDetailsDto {
+  static fromJS(data: any, _mappings?: any): ArticleDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ArticleDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ArticleDetailsDto>(data, _mappings, ArticleDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -9917,7 +10269,7 @@ export class ArticleDto implements IArticleDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.title = _data['title'];
@@ -9928,11 +10280,9 @@ export class ArticleDto implements IArticleDto {
     }
   }
 
-  static fromJS(data: any): ArticleDto {
+  static fromJS(data: any, _mappings?: any): ArticleDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ArticleDto();
-    result.init(data);
-    return result;
+    return createInstance<ArticleDto>(data, _mappings, ArticleDto);
   }
 
   toJSON(data?: any) {
@@ -9970,23 +10320,21 @@ export class CategoryDetailsDto implements ICategoryDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
       this.description = _data['description'];
       if (Array.isArray(_data['products'])) {
         this.products = [] as any;
-        for (let item of _data['products']) this.products!.push(ProductDto.fromJS(item));
+        for (let item of _data['products']) this.products!.push(<ProductDto>ProductDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): CategoryDetailsDto {
+  static fromJS(data: any, _mappings?: any): CategoryDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CategoryDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<CategoryDetailsDto>(data, _mappings, CategoryDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -10022,7 +10370,7 @@ export class CategoryDto implements ICategoryDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -10030,11 +10378,9 @@ export class CategoryDto implements ICategoryDto {
     }
   }
 
-  static fromJS(data: any): CategoryDto {
+  static fromJS(data: any, _mappings?: any): CategoryDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CategoryDto();
-    result.init(data);
-    return result;
+    return createInstance<CategoryDto>(data, _mappings, CategoryDto);
   }
 
   toJSON(data?: any) {
@@ -10070,7 +10416,7 @@ export class CommentDetailsDto implements ICommentDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.content = _data['content'];
@@ -10078,16 +10424,14 @@ export class CommentDetailsDto implements ICommentDetailsDto {
       this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
       this.articleId = _data['articleId'];
       this.userId = _data['userId'];
-      this.article = _data['article'] ? ArticleDto.fromJS(_data['article']) : <any>undefined;
-      this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
+      this.article = _data['article'] ? ArticleDto.fromJS(_data['article'], _mappings) : <any>undefined;
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CommentDetailsDto {
+  static fromJS(data: any, _mappings?: any): CommentDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CommentDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<CommentDetailsDto>(data, _mappings, CommentDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -10131,7 +10475,7 @@ export class CommentDto implements ICommentDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.content = _data['content'];
@@ -10142,11 +10486,9 @@ export class CommentDto implements ICommentDto {
     }
   }
 
-  static fromJS(data: any): CommentDto {
+  static fromJS(data: any, _mappings?: any): CommentDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CommentDto();
-    result.init(data);
-    return result;
+    return createInstance<CommentDto>(data, _mappings, CommentDto);
   }
 
   toJSON(data?: any) {
@@ -10186,7 +10528,7 @@ export class CreateAddressDto implements ICreateAddressDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.street = _data['street'];
       this.city = _data['city'];
@@ -10197,11 +10539,9 @@ export class CreateAddressDto implements ICreateAddressDto {
     }
   }
 
-  static fromJS(data: any): CreateAddressDto {
+  static fromJS(data: any, _mappings?: any): CreateAddressDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateAddressDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateAddressDto>(data, _mappings, CreateAddressDto);
   }
 
   toJSON(data?: any) {
@@ -10236,17 +10576,15 @@ export class CreateArticleCommand implements ICreateArticleCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.article = _data['article'] ? CreateArticleDto.fromJS(_data['article']) : <any>undefined;
+      this.article = _data['article'] ? CreateArticleDto.fromJS(_data['article'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateArticleCommand {
+  static fromJS(data: any, _mappings?: any): CreateArticleCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateArticleCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateArticleCommand>(data, _mappings, CreateArticleCommand);
   }
 
   toJSON(data?: any) {
@@ -10275,7 +10613,7 @@ export class CreateArticleDto implements ICreateArticleDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.title = _data['title'];
       this.content = _data['content'];
@@ -10285,11 +10623,9 @@ export class CreateArticleDto implements ICreateArticleDto {
     }
   }
 
-  static fromJS(data: any): CreateArticleDto {
+  static fromJS(data: any, _mappings?: any): CreateArticleDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateArticleDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateArticleDto>(data, _mappings, CreateArticleDto);
   }
 
   toJSON(data?: any) {
@@ -10322,17 +10658,15 @@ export class CreateCategoryCommand implements ICreateCategoryCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.category = _data['category'] ? CreateCategoryDto.fromJS(_data['category']) : <any>undefined;
+      this.category = _data['category'] ? CreateCategoryDto.fromJS(_data['category'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateCategoryCommand {
+  static fromJS(data: any, _mappings?: any): CreateCategoryCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateCategoryCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateCategoryCommand>(data, _mappings, CreateCategoryCommand);
   }
 
   toJSON(data?: any) {
@@ -10358,18 +10692,16 @@ export class CreateCategoryDto implements ICreateCategoryDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.name = _data['name'];
       this.description = _data['description'];
     }
   }
 
-  static fromJS(data: any): CreateCategoryDto {
+  static fromJS(data: any, _mappings?: any): CreateCategoryDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateCategoryDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateCategoryDto>(data, _mappings, CreateCategoryDto);
   }
 
   toJSON(data?: any) {
@@ -10396,17 +10728,15 @@ export class CreateCommentCommand implements ICreateCommentCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.comment = _data['comment'] ? CreateCommentDto.fromJS(_data['comment']) : <any>undefined;
+      this.comment = _data['comment'] ? CreateCommentDto.fromJS(_data['comment'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateCommentCommand {
+  static fromJS(data: any, _mappings?: any): CreateCommentCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateCommentCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateCommentCommand>(data, _mappings, CreateCommentCommand);
   }
 
   toJSON(data?: any) {
@@ -10435,7 +10765,7 @@ export class CreateCommentDto implements ICreateCommentDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.content = _data['content'];
       this.author = _data['author'];
@@ -10445,11 +10775,9 @@ export class CreateCommentDto implements ICreateCommentDto {
     }
   }
 
-  static fromJS(data: any): CreateCommentDto {
+  static fromJS(data: any, _mappings?: any): CreateCommentDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateCommentDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateCommentDto>(data, _mappings, CreateCommentDto);
   }
 
   toJSON(data?: any) {
@@ -10485,7 +10813,7 @@ export class CreateDiscountDto implements ICreateDiscountDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.code = _data['code'];
       this.percentage = _data['percentage'];
@@ -10494,11 +10822,9 @@ export class CreateDiscountDto implements ICreateDiscountDto {
     }
   }
 
-  static fromJS(data: any): CreateDiscountDto {
+  static fromJS(data: any, _mappings?: any): CreateDiscountDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateDiscountDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateDiscountDto>(data, _mappings, CreateDiscountDto);
   }
 
   toJSON(data?: any) {
@@ -10532,7 +10858,7 @@ export class CreateNotificationDto implements ICreateNotificationDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.message = _data['message'];
       this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
@@ -10541,11 +10867,9 @@ export class CreateNotificationDto implements ICreateNotificationDto {
     }
   }
 
-  static fromJS(data: any): CreateNotificationDto {
+  static fromJS(data: any, _mappings?: any): CreateNotificationDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateNotificationDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateNotificationDto>(data, _mappings, CreateNotificationDto);
   }
 
   toJSON(data?: any) {
@@ -10576,17 +10900,15 @@ export class CreateOrderCommand implements ICreateOrderCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.order = _data['order'] ? CreateOrderDto.fromJS(_data['order']) : <any>undefined;
+      this.order = _data['order'] ? CreateOrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateOrderCommand {
+  static fromJS(data: any, _mappings?: any): CreateOrderCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateOrderCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateOrderCommand>(data, _mappings, CreateOrderCommand);
   }
 
   toJSON(data?: any) {
@@ -10611,17 +10933,15 @@ export class CreateOrderDetailCommand implements ICreateOrderDetailCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.orderDetail = _data['orderDetail'] ? CreateOrderDetailDto.fromJS(_data['orderDetail']) : <any>undefined;
+      this.orderDetail = _data['orderDetail'] ? CreateOrderDetailDto.fromJS(_data['orderDetail'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateOrderDetailCommand {
+  static fromJS(data: any, _mappings?: any): CreateOrderDetailCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateOrderDetailCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateOrderDetailCommand>(data, _mappings, CreateOrderDetailCommand);
   }
 
   toJSON(data?: any) {
@@ -10649,7 +10969,7 @@ export class CreateOrderDetailDto implements ICreateOrderDetailDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.productId = _data['productId'];
       this.quantity = _data['quantity'];
@@ -10658,11 +10978,9 @@ export class CreateOrderDetailDto implements ICreateOrderDetailDto {
     }
   }
 
-  static fromJS(data: any): CreateOrderDetailDto {
+  static fromJS(data: any, _mappings?: any): CreateOrderDetailDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateOrderDetailDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateOrderDetailDto>(data, _mappings, CreateOrderDetailDto);
   }
 
   toJSON(data?: any) {
@@ -10697,7 +11015,7 @@ export class CreateOrderDto implements ICreateOrderDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.orderDate = _data['orderDate'] ? new Date(_data['orderDate'].toString()) : <any>undefined;
       this.totalPrice = _data['totalPrice'];
@@ -10705,16 +11023,14 @@ export class CreateOrderDto implements ICreateOrderDto {
       this.userId = _data['userId'];
       if (Array.isArray(_data['orderDetails'])) {
         this.orderDetails = [] as any;
-        for (let item of _data['orderDetails']) this.orderDetails!.push(CreateOrderDetailDto.fromJS(item));
+        for (let item of _data['orderDetails']) this.orderDetails!.push(<CreateOrderDetailDto>CreateOrderDetailDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): CreateOrderDto {
+  static fromJS(data: any, _mappings?: any): CreateOrderDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateOrderDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateOrderDto>(data, _mappings, CreateOrderDto);
   }
 
   toJSON(data?: any) {
@@ -10750,17 +11066,15 @@ export class CreatePaymentCommand implements ICreatePaymentCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.payment = _data['payment'] ? CreatePaymentDto.fromJS(_data['payment']) : <any>undefined;
+      this.payment = _data['payment'] ? CreatePaymentDto.fromJS(_data['payment'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreatePaymentCommand {
+  static fromJS(data: any, _mappings?: any): CreatePaymentCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreatePaymentCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreatePaymentCommand>(data, _mappings, CreatePaymentCommand);
   }
 
   toJSON(data?: any) {
@@ -10788,7 +11102,7 @@ export class CreatePaymentDto implements ICreatePaymentDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.paymentMethod = _data['paymentMethod'];
       this.amountPaid = _data['amountPaid'];
@@ -10797,11 +11111,9 @@ export class CreatePaymentDto implements ICreatePaymentDto {
     }
   }
 
-  static fromJS(data: any): CreatePaymentDto {
+  static fromJS(data: any, _mappings?: any): CreatePaymentDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreatePaymentDto();
-    result.init(data);
-    return result;
+    return createInstance<CreatePaymentDto>(data, _mappings, CreatePaymentDto);
   }
 
   toJSON(data?: any) {
@@ -10834,7 +11146,7 @@ export class CreateProductColorDto implements ICreateProductColorDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.colorName = _data['colorName'];
       this.colorHexCode = _data['colorHexCode'];
@@ -10842,11 +11154,9 @@ export class CreateProductColorDto implements ICreateProductColorDto {
     }
   }
 
-  static fromJS(data: any): CreateProductColorDto {
+  static fromJS(data: any, _mappings?: any): CreateProductColorDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateProductColorDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateProductColorDto>(data, _mappings, CreateProductColorDto);
   }
 
   toJSON(data?: any) {
@@ -10875,17 +11185,15 @@ export class CreateProductCommand implements ICreateProductCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.product = _data['product'] ? CreateProductDto.fromJS(_data['product']) : <any>undefined;
+      this.product = _data['product'] ? CreateProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateProductCommand {
+  static fromJS(data: any, _mappings?: any): CreateProductCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateProductCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateProductCommand>(data, _mappings, CreateProductCommand);
   }
 
   toJSON(data?: any) {
@@ -10913,7 +11221,7 @@ export class CreateProductDto implements ICreateProductDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.name = _data['name'];
       this.description = _data['description'];
@@ -10922,11 +11230,9 @@ export class CreateProductDto implements ICreateProductDto {
     }
   }
 
-  static fromJS(data: any): CreateProductDto {
+  static fromJS(data: any, _mappings?: any): CreateProductDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateProductDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateProductDto>(data, _mappings, CreateProductDto);
   }
 
   toJSON(data?: any) {
@@ -10959,7 +11265,7 @@ export class CreateProductImageDto implements ICreateProductImageDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.imageUrl = _data['imageUrl'];
       this.imageDescription = _data['imageDescription'];
@@ -10967,11 +11273,9 @@ export class CreateProductImageDto implements ICreateProductImageDto {
     }
   }
 
-  static fromJS(data: any): CreateProductImageDto {
+  static fromJS(data: any, _mappings?: any): CreateProductImageDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateProductImageDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateProductImageDto>(data, _mappings, CreateProductImageDto);
   }
 
   toJSON(data?: any) {
@@ -11002,7 +11306,7 @@ export class CreateProductOptionDto implements ICreateProductOptionDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.name = _data['name'];
       this.value = _data['value'];
@@ -11010,11 +11314,9 @@ export class CreateProductOptionDto implements ICreateProductOptionDto {
     }
   }
 
-  static fromJS(data: any): CreateProductOptionDto {
+  static fromJS(data: any, _mappings?: any): CreateProductOptionDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateProductOptionDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateProductOptionDto>(data, _mappings, CreateProductOptionDto);
   }
 
   toJSON(data?: any) {
@@ -11043,19 +11345,15 @@ export class CreateProductReviewCommand implements ICreateProductReviewCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.productReview = _data['productReview']
-        ? CreateProductReviewDto.fromJS(_data['productReview'])
-        : <any>undefined;
+      this.productReview = _data['productReview'] ? CreateProductReviewDto.fromJS(_data['productReview'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateProductReviewCommand {
+  static fromJS(data: any, _mappings?: any): CreateProductReviewCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateProductReviewCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateProductReviewCommand>(data, _mappings, CreateProductReviewCommand);
   }
 
   toJSON(data?: any) {
@@ -11084,7 +11382,7 @@ export class CreateProductReviewDto implements ICreateProductReviewDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.rating = _data['rating'];
       this.reviewText = _data['reviewText'];
@@ -11094,11 +11392,9 @@ export class CreateProductReviewDto implements ICreateProductReviewDto {
     }
   }
 
-  static fromJS(data: any): CreateProductReviewDto {
+  static fromJS(data: any, _mappings?: any): CreateProductReviewDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateProductReviewDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateProductReviewDto>(data, _mappings, CreateProductReviewDto);
   }
 
   toJSON(data?: any) {
@@ -11133,7 +11429,7 @@ export class CreateProductTagDto implements ICreateProductTagDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.tagName = _data['tagName'];
       this.productId = _data['productId'];
@@ -11141,11 +11437,9 @@ export class CreateProductTagDto implements ICreateProductTagDto {
     }
   }
 
-  static fromJS(data: any): CreateProductTagDto {
+  static fromJS(data: any, _mappings?: any): CreateProductTagDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateProductTagDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateProductTagDto>(data, _mappings, CreateProductTagDto);
   }
 
   toJSON(data?: any) {
@@ -11174,17 +11468,15 @@ export class CreateShipmentCommand implements ICreateShipmentCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.shipment = _data['shipment'] ? CreateShipmentDto.fromJS(_data['shipment']) : <any>undefined;
+      this.shipment = _data['shipment'] ? CreateShipmentDto.fromJS(_data['shipment'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateShipmentCommand {
+  static fromJS(data: any, _mappings?: any): CreateShipmentCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateShipmentCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateShipmentCommand>(data, _mappings, CreateShipmentCommand);
   }
 
   toJSON(data?: any) {
@@ -11212,31 +11504,25 @@ export class CreateShipmentDto implements ICreateShipmentDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.shippingMethod = _data['shippingMethod'];
       this.trackingNumber = _data['trackingNumber'];
-      this.estimatedDeliveryDate = _data['estimatedDeliveryDate']
-        ? new Date(_data['estimatedDeliveryDate'].toString())
-        : <any>undefined;
+      this.estimatedDeliveryDate = _data['estimatedDeliveryDate'] ? new Date(_data['estimatedDeliveryDate'].toString()) : <any>undefined;
       this.orderId = _data['orderId'];
     }
   }
 
-  static fromJS(data: any): CreateShipmentDto {
+  static fromJS(data: any, _mappings?: any): CreateShipmentDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateShipmentDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateShipmentDto>(data, _mappings, CreateShipmentDto);
   }
 
   toJSON(data?: any) {
     data = typeof data === 'object' ? data : {};
     data['shippingMethod'] = this.shippingMethod;
     data['trackingNumber'] = this.trackingNumber;
-    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate
-      ? this.estimatedDeliveryDate.toISOString()
-      : <any>undefined;
+    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate ? this.estimatedDeliveryDate.toISOString() : <any>undefined;
     data['orderId'] = this.orderId;
     return data;
   }
@@ -11260,17 +11546,15 @@ export class CreateShoppingCartCommand implements ICreateShoppingCartCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.shoppingCart = _data['shoppingCart'] ? CreateShoppingCartDto.fromJS(_data['shoppingCart']) : <any>undefined;
+      this.shoppingCart = _data['shoppingCart'] ? CreateShoppingCartDto.fromJS(_data['shoppingCart'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateShoppingCartCommand {
+  static fromJS(data: any, _mappings?: any): CreateShoppingCartCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateShoppingCartCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateShoppingCartCommand>(data, _mappings, CreateShoppingCartCommand);
   }
 
   toJSON(data?: any) {
@@ -11295,17 +11579,15 @@ export class CreateShoppingCartDto implements ICreateShoppingCartDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.userId = _data['userId'];
     }
   }
 
-  static fromJS(data: any): CreateShoppingCartDto {
+  static fromJS(data: any, _mappings?: any): CreateShoppingCartDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateShoppingCartDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateShoppingCartDto>(data, _mappings, CreateShoppingCartDto);
   }
 
   toJSON(data?: any) {
@@ -11330,19 +11612,15 @@ export class CreateShoppingCartItemCommand implements ICreateShoppingCartItemCom
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.shoppingCartItem = _data['shoppingCartItem']
-        ? CreateShoppingCartItemDto.fromJS(_data['shoppingCartItem'])
-        : <any>undefined;
+      this.shoppingCartItem = _data['shoppingCartItem'] ? CreateShoppingCartItemDto.fromJS(_data['shoppingCartItem'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateShoppingCartItemCommand {
+  static fromJS(data: any, _mappings?: any): CreateShoppingCartItemCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateShoppingCartItemCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateShoppingCartItemCommand>(data, _mappings, CreateShoppingCartItemCommand);
   }
 
   toJSON(data?: any) {
@@ -11370,7 +11648,7 @@ export class CreateShoppingCartItemDto implements ICreateShoppingCartItemDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.productId = _data['productId'];
       this.quantity = _data['quantity'];
@@ -11379,11 +11657,9 @@ export class CreateShoppingCartItemDto implements ICreateShoppingCartItemDto {
     }
   }
 
-  static fromJS(data: any): CreateShoppingCartItemDto {
+  static fromJS(data: any, _mappings?: any): CreateShoppingCartItemDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateShoppingCartItemDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateShoppingCartItemDto>(data, _mappings, CreateShoppingCartItemDto);
   }
 
   toJSON(data?: any) {
@@ -11416,7 +11692,7 @@ export class CreateSupplierDto implements ICreateSupplierDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.name = _data['name'];
       this.contactEmail = _data['contactEmail'];
@@ -11424,11 +11700,9 @@ export class CreateSupplierDto implements ICreateSupplierDto {
     }
   }
 
-  static fromJS(data: any): CreateSupplierDto {
+  static fromJS(data: any, _mappings?: any): CreateSupplierDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateSupplierDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateSupplierDto>(data, _mappings, CreateSupplierDto);
   }
 
   toJSON(data?: any) {
@@ -11460,7 +11734,7 @@ export class CreateSupplyDto implements ICreateSupplyDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.productId = _data['productId'];
       this.supplierId = _data['supplierId'];
@@ -11469,11 +11743,9 @@ export class CreateSupplyDto implements ICreateSupplyDto {
     }
   }
 
-  static fromJS(data: any): CreateSupplyDto {
+  static fromJS(data: any, _mappings?: any): CreateSupplyDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateSupplyDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateSupplyDto>(data, _mappings, CreateSupplyDto);
   }
 
   toJSON(data?: any) {
@@ -11504,17 +11776,15 @@ export class CreateTagDto implements ICreateTagDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.name = _data['name'];
     }
   }
 
-  static fromJS(data: any): CreateTagDto {
+  static fromJS(data: any, _mappings?: any): CreateTagDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateTagDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateTagDto>(data, _mappings, CreateTagDto);
   }
 
   toJSON(data?: any) {
@@ -11539,17 +11809,15 @@ export class CreateUserCommand implements ICreateUserCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.user = _data['user'] ? CreateUserDto.fromJS(_data['user']) : <any>undefined;
+      this.user = _data['user'] ? CreateUserDto.fromJS(_data['user'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateUserCommand {
+  static fromJS(data: any, _mappings?: any): CreateUserCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateUserCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateUserCommand>(data, _mappings, CreateUserCommand);
   }
 
   toJSON(data?: any) {
@@ -11591,7 +11859,7 @@ export class CreateUserDto implements ICreateUserDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.userName = _data['userName'];
@@ -11614,11 +11882,9 @@ export class CreateUserDto implements ICreateUserDto {
     }
   }
 
-  static fromJS(data: any): CreateUserDto {
+  static fromJS(data: any, _mappings?: any): CreateUserDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateUserDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateUserDto>(data, _mappings, CreateUserDto);
   }
 
   toJSON(data?: any) {
@@ -11677,17 +11943,15 @@ export class CreateWishListCommand implements ICreateWishListCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.wishList = _data['wishList'] ? CreateWishListDto.fromJS(_data['wishList']) : <any>undefined;
+      this.wishList = _data['wishList'] ? CreateWishListDto.fromJS(_data['wishList'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): CreateWishListCommand {
+  static fromJS(data: any, _mappings?: any): CreateWishListCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateWishListCommand();
-    result.init(data);
-    return result;
+    return createInstance<CreateWishListCommand>(data, _mappings, CreateWishListCommand);
   }
 
   toJSON(data?: any) {
@@ -11713,18 +11977,16 @@ export class CreateWishListDto implements ICreateWishListDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.name = _data['name'];
       this.userId = _data['userId'];
     }
   }
 
-  static fromJS(data: any): CreateWishListDto {
+  static fromJS(data: any, _mappings?: any): CreateWishListDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateWishListDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateWishListDto>(data, _mappings, CreateWishListDto);
   }
 
   toJSON(data?: any) {
@@ -11752,18 +12014,16 @@ export class CreateWishListItemDto implements ICreateWishListItemDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.productId = _data['productId'];
       this.wishListId = _data['wishListId'];
     }
   }
 
-  static fromJS(data: any): CreateWishListItemDto {
+  static fromJS(data: any, _mappings?: any): CreateWishListItemDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new CreateWishListItemDto();
-    result.init(data);
-    return result;
+    return createInstance<CreateWishListItemDto>(data, _mappings, CreateWishListItemDto);
   }
 
   toJSON(data?: any) {
@@ -11794,7 +12054,7 @@ export class DiscountDetailsDto implements IDiscountDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.code = _data['code'];
@@ -11804,11 +12064,9 @@ export class DiscountDetailsDto implements IDiscountDetailsDto {
     }
   }
 
-  static fromJS(data: any): DiscountDetailsDto {
+  static fromJS(data: any, _mappings?: any): DiscountDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new DiscountDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<DiscountDetailsDto>(data, _mappings, DiscountDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -11845,7 +12103,7 @@ export class DiscountDto implements IDiscountDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.code = _data['code'];
@@ -11855,11 +12113,9 @@ export class DiscountDto implements IDiscountDto {
     }
   }
 
-  static fromJS(data: any): DiscountDto {
+  static fromJS(data: any, _mappings?: any): DiscountDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new DiscountDto();
-    result.init(data);
-    return result;
+    return createInstance<DiscountDto>(data, _mappings, DiscountDto);
   }
 
   toJSON(data?: any) {
@@ -11881,6 +12137,43 @@ export interface IDiscountDto {
   endDate?: Date;
 }
 
+export class LoginModel implements ILoginModel {
+  username?: string | undefined;
+  password?: string | undefined;
+
+  constructor(data?: ILoginModel) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.username = _data['username'];
+      this.password = _data['password'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): LoginModel | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<LoginModel>(data, _mappings, LoginModel);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['username'] = this.username;
+    data['password'] = this.password;
+    return data;
+  }
+}
+
+export interface ILoginModel {
+  username?: string | undefined;
+  password?: string | undefined;
+}
+
 export class NotificationDetailsDto implements INotificationDetailsDto {
   id?: number;
   message?: string | undefined;
@@ -11897,22 +12190,20 @@ export class NotificationDetailsDto implements INotificationDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.message = _data['message'];
       this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
       this.isRead = _data['isRead'];
       this.userId = _data['userId'];
-      this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): NotificationDetailsDto {
+  static fromJS(data: any, _mappings?: any): NotificationDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new NotificationDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<NotificationDetailsDto>(data, _mappings, NotificationDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -11951,7 +12242,7 @@ export class NotificationDto implements INotificationDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.message = _data['message'];
@@ -11961,11 +12252,9 @@ export class NotificationDto implements INotificationDto {
     }
   }
 
-  static fromJS(data: any): NotificationDto {
+  static fromJS(data: any, _mappings?: any): NotificationDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new NotificationDto();
-    result.init(data);
-    return result;
+    return createInstance<NotificationDto>(data, _mappings, NotificationDto);
   }
 
   toJSON(data?: any) {
@@ -12004,23 +12293,21 @@ export class OrderDetailDetailsDto implements IOrderDetailDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
       this.quantity = _data['quantity'];
       this.unitPrice = _data['unitPrice'];
       this.orderId = _data['orderId'];
-      this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
-      this.order = _data['order'] ? OrderDto.fromJS(_data['order']) : <any>undefined;
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.order = _data['order'] ? OrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): OrderDetailDetailsDto {
+  static fromJS(data: any, _mappings?: any): OrderDetailDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new OrderDetailDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<OrderDetailDetailsDto>(data, _mappings, OrderDetailDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -12061,7 +12348,7 @@ export class OrderDetailDto implements IOrderDetailDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
@@ -12071,11 +12358,9 @@ export class OrderDetailDto implements IOrderDetailDto {
     }
   }
 
-  static fromJS(data: any): OrderDetailDto {
+  static fromJS(data: any, _mappings?: any): OrderDetailDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new OrderDetailDto();
-    result.init(data);
-    return result;
+    return createInstance<OrderDetailDto>(data, _mappings, OrderDetailDto);
   }
 
   toJSON(data?: any) {
@@ -12114,26 +12399,24 @@ export class OrderDetailsDto implements IOrderDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.orderDate = _data['orderDate'] ? new Date(_data['orderDate'].toString()) : <any>undefined;
       this.totalPrice = _data['totalPrice'];
       this.orderStatus = _data['orderStatus'];
       this.userId = _data['userId'];
-      this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
       if (Array.isArray(_data['orderDetails'])) {
         this.orderDetails = [] as any;
-        for (let item of _data['orderDetails']) this.orderDetails!.push(OrderDetailDto.fromJS(item));
+        for (let item of _data['orderDetails']) this.orderDetails!.push(<OrderDetailDto>OrderDetailDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): OrderDetailsDto {
+  static fromJS(data: any, _mappings?: any): OrderDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new OrderDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<OrderDetailsDto>(data, _mappings, OrderDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -12177,7 +12460,7 @@ export class OrderDto implements IOrderDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.orderDate = _data['orderDate'] ? new Date(_data['orderDate'].toString()) : <any>undefined;
@@ -12187,11 +12470,9 @@ export class OrderDto implements IOrderDto {
     }
   }
 
-  static fromJS(data: any): OrderDto {
+  static fromJS(data: any, _mappings?: any): OrderDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new OrderDto();
-    result.init(data);
-    return result;
+    return createInstance<OrderDto>(data, _mappings, OrderDto);
   }
 
   toJSON(data?: any) {
@@ -12229,22 +12510,20 @@ export class PaymentDetailsDto implements IPaymentDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.paymentMethod = _data['paymentMethod'];
       this.amountPaid = _data['amountPaid'];
       this.paymentDate = _data['paymentDate'] ? new Date(_data['paymentDate'].toString()) : <any>undefined;
       this.orderId = _data['orderId'];
-      this.order = _data['order'] ? OrderDto.fromJS(_data['order']) : <any>undefined;
+      this.order = _data['order'] ? OrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): PaymentDetailsDto {
+  static fromJS(data: any, _mappings?: any): PaymentDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new PaymentDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<PaymentDetailsDto>(data, _mappings, PaymentDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -12283,7 +12562,7 @@ export class PaymentDto implements IPaymentDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.paymentMethod = _data['paymentMethod'];
@@ -12293,11 +12572,9 @@ export class PaymentDto implements IPaymentDto {
     }
   }
 
-  static fromJS(data: any): PaymentDto {
+  static fromJS(data: any, _mappings?: any): PaymentDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new PaymentDto();
-    result.init(data);
-    return result;
+    return createInstance<PaymentDto>(data, _mappings, PaymentDto);
   }
 
   toJSON(data?: any) {
@@ -12336,7 +12613,7 @@ export class ProblemDetails implements IProblemDetails {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       for (var property in _data) {
         if (_data.hasOwnProperty(property)) this[property] = _data[property];
@@ -12349,11 +12626,9 @@ export class ProblemDetails implements IProblemDetails {
     }
   }
 
-  static fromJS(data: any): ProblemDetails {
+  static fromJS(data: any, _mappings?: any): ProblemDetails | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProblemDetails();
-    result.init(data);
-    return result;
+    return createInstance<ProblemDetails>(data, _mappings, ProblemDetails);
   }
 
   toJSON(data?: any) {
@@ -12395,21 +12670,19 @@ export class ProductColorDetailsDto implements IProductColorDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.colorName = _data['colorName'];
       this.colorHexCode = _data['colorHexCode'];
       this.productId = _data['productId'];
-      this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): ProductColorDetailsDto {
+  static fromJS(data: any, _mappings?: any): ProductColorDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductColorDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductColorDetailsDto>(data, _mappings, ProductColorDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -12445,7 +12718,7 @@ export class ProductColorDto implements IProductColorDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.colorName = _data['colorName'];
@@ -12454,11 +12727,9 @@ export class ProductColorDto implements IProductColorDto {
     }
   }
 
-  static fromJS(data: any): ProductColorDto {
+  static fromJS(data: any, _mappings?: any): ProductColorDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductColorDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductColorDto>(data, _mappings, ProductColorDto);
   }
 
   toJSON(data?: any) {
@@ -12498,38 +12769,36 @@ export class ProductDetailsDto implements IProductDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
       this.description = _data['description'];
       this.price = _data['price'];
       this.categoryId = _data['categoryId'];
-      this.category = _data['category'] ? CategoryDto.fromJS(_data['category']) : <any>undefined;
+      this.category = _data['category'] ? CategoryDto.fromJS(_data['category'], _mappings) : <any>undefined;
       if (Array.isArray(_data['productOptions'])) {
         this.productOptions = [] as any;
-        for (let item of _data['productOptions']) this.productOptions!.push(ProductOptionDto.fromJS(item));
+        for (let item of _data['productOptions']) this.productOptions!.push(<ProductOptionDto>ProductOptionDto.fromJS(item, _mappings));
       }
       if (Array.isArray(_data['productColors'])) {
         this.productColors = [] as any;
-        for (let item of _data['productColors']) this.productColors!.push(ProductColorDto.fromJS(item));
+        for (let item of _data['productColors']) this.productColors!.push(<ProductColorDto>ProductColorDto.fromJS(item, _mappings));
       }
       if (Array.isArray(_data['productImages'])) {
         this.productImages = [] as any;
-        for (let item of _data['productImages']) this.productImages!.push(ProductImageDto.fromJS(item));
+        for (let item of _data['productImages']) this.productImages!.push(<ProductImageDto>ProductImageDto.fromJS(item, _mappings));
       }
       if (Array.isArray(_data['productReviews'])) {
         this.productReviews = [] as any;
-        for (let item of _data['productReviews']) this.productReviews!.push(ProductReviewDto.fromJS(item));
+        for (let item of _data['productReviews']) this.productReviews!.push(<ProductReviewDto>ProductReviewDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): ProductDetailsDto {
+  static fromJS(data: any, _mappings?: any): ProductDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductDetailsDto>(data, _mappings, ProductDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -12588,7 +12857,7 @@ export class ProductDto implements IProductDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -12598,11 +12867,9 @@ export class ProductDto implements IProductDto {
     }
   }
 
-  static fromJS(data: any): ProductDto {
+  static fromJS(data: any, _mappings?: any): ProductDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductDto>(data, _mappings, ProductDto);
   }
 
   toJSON(data?: any) {
@@ -12639,21 +12906,19 @@ export class ProductImageDetailsDto implements IProductImageDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.imageUrl = _data['imageUrl'];
       this.imageDescription = _data['imageDescription'];
       this.productId = _data['productId'];
-      this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): ProductImageDetailsDto {
+  static fromJS(data: any, _mappings?: any): ProductImageDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductImageDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductImageDetailsDto>(data, _mappings, ProductImageDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -12689,7 +12954,7 @@ export class ProductImageDto implements IProductImageDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.imageUrl = _data['imageUrl'];
@@ -12698,11 +12963,9 @@ export class ProductImageDto implements IProductImageDto {
     }
   }
 
-  static fromJS(data: any): ProductImageDto {
+  static fromJS(data: any, _mappings?: any): ProductImageDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductImageDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductImageDto>(data, _mappings, ProductImageDto);
   }
 
   toJSON(data?: any) {
@@ -12737,21 +13000,19 @@ export class ProductOptionDetailsDto implements IProductOptionDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
       this.value = _data['value'];
       this.productId = _data['productId'];
-      this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): ProductOptionDetailsDto {
+  static fromJS(data: any, _mappings?: any): ProductOptionDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductOptionDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductOptionDetailsDto>(data, _mappings, ProductOptionDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -12787,7 +13048,7 @@ export class ProductOptionDto implements IProductOptionDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -12796,11 +13057,9 @@ export class ProductOptionDto implements IProductOptionDto {
     }
   }
 
-  static fromJS(data: any): ProductOptionDto {
+  static fromJS(data: any, _mappings?: any): ProductOptionDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductOptionDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductOptionDto>(data, _mappings, ProductOptionDto);
   }
 
   toJSON(data?: any) {
@@ -12838,7 +13097,7 @@ export class ProductReviewDetailsDto implements IProductReviewDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.rating = _data['rating'];
@@ -12846,16 +13105,14 @@ export class ProductReviewDetailsDto implements IProductReviewDetailsDto {
       this.reviewDate = _data['reviewDate'] ? new Date(_data['reviewDate'].toString()) : <any>undefined;
       this.productId = _data['productId'];
       this.userId = _data['userId'];
-      this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
-      this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): ProductReviewDetailsDto {
+  static fromJS(data: any, _mappings?: any): ProductReviewDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductReviewDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductReviewDetailsDto>(data, _mappings, ProductReviewDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -12899,7 +13156,7 @@ export class ProductReviewDto implements IProductReviewDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.rating = _data['rating'];
@@ -12910,11 +13167,9 @@ export class ProductReviewDto implements IProductReviewDto {
     }
   }
 
-  static fromJS(data: any): ProductReviewDto {
+  static fromJS(data: any, _mappings?: any): ProductReviewDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductReviewDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductReviewDto>(data, _mappings, ProductReviewDto);
   }
 
   toJSON(data?: any) {
@@ -12954,22 +13209,20 @@ export class ProductTagDetailsDto implements IProductTagDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.tagName = _data['tagName'];
       this.productId = _data['productId'];
       this.tagId = _data['tagId'];
-      this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
-      this.tag = _data['tag'] ? TagDto.fromJS(_data['tag']) : <any>undefined;
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.tag = _data['tag'] ? TagDto.fromJS(_data['tag'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): ProductTagDetailsDto {
+  static fromJS(data: any, _mappings?: any): ProductTagDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductTagDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductTagDetailsDto>(data, _mappings, ProductTagDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -13007,7 +13260,7 @@ export class ProductTagDto implements IProductTagDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.tagName = _data['tagName'];
@@ -13016,11 +13269,9 @@ export class ProductTagDto implements IProductTagDto {
     }
   }
 
-  static fromJS(data: any): ProductTagDto {
+  static fromJS(data: any, _mappings?: any): ProductTagDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ProductTagDto();
-    result.init(data);
-    return result;
+    return createInstance<ProductTagDto>(data, _mappings, ProductTagDto);
   }
 
   toJSON(data?: any) {
@@ -13040,6 +13291,96 @@ export interface IProductTagDto {
   tagId?: number;
 }
 
+export class RegisterModel implements IRegisterModel {
+  username?: string | undefined;
+  password?: string | undefined;
+  passwordHash?: string | undefined;
+  passwordSalt?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  phone?: string | undefined;
+
+  constructor(data?: IRegisterModel) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.username = _data['username'];
+      this.password = _data['password'];
+      this.passwordHash = _data['passwordHash'];
+      this.passwordSalt = _data['passwordSalt'];
+      this.firstName = _data['firstName'];
+      this.lastName = _data['lastName'];
+      this.phone = _data['phone'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): RegisterModel | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<RegisterModel>(data, _mappings, RegisterModel);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['username'] = this.username;
+    data['password'] = this.password;
+    data['passwordHash'] = this.passwordHash;
+    data['passwordSalt'] = this.passwordSalt;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['phone'] = this.phone;
+    return data;
+  }
+}
+
+export interface IRegisterModel {
+  username?: string | undefined;
+  password?: string | undefined;
+  passwordHash?: string | undefined;
+  passwordSalt?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  phone?: string | undefined;
+}
+
+export class RegisterUserCommand implements IRegisterUserCommand {
+  registerUser?: RegisterModel;
+
+  constructor(data?: IRegisterUserCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.registerUser = _data['registerUser'] ? RegisterModel.fromJS(_data['registerUser'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): RegisterUserCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<RegisterUserCommand>(data, _mappings, RegisterUserCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['registerUser'] = this.registerUser ? this.registerUser.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IRegisterUserCommand {
+  registerUser?: RegisterModel;
+}
+
 export class ShipmentDetailsDto implements IShipmentDetailsDto {
   id?: number;
   shippingMethod?: string | undefined;
@@ -13056,24 +13397,20 @@ export class ShipmentDetailsDto implements IShipmentDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.shippingMethod = _data['shippingMethod'];
       this.trackingNumber = _data['trackingNumber'];
-      this.estimatedDeliveryDate = _data['estimatedDeliveryDate']
-        ? new Date(_data['estimatedDeliveryDate'].toString())
-        : <any>undefined;
+      this.estimatedDeliveryDate = _data['estimatedDeliveryDate'] ? new Date(_data['estimatedDeliveryDate'].toString()) : <any>undefined;
       this.orderId = _data['orderId'];
-      this.order = _data['order'] ? OrderDto.fromJS(_data['order']) : <any>undefined;
+      this.order = _data['order'] ? OrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): ShipmentDetailsDto {
+  static fromJS(data: any, _mappings?: any): ShipmentDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ShipmentDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ShipmentDetailsDto>(data, _mappings, ShipmentDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -13081,9 +13418,7 @@ export class ShipmentDetailsDto implements IShipmentDetailsDto {
     data['id'] = this.id;
     data['shippingMethod'] = this.shippingMethod;
     data['trackingNumber'] = this.trackingNumber;
-    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate
-      ? this.estimatedDeliveryDate.toISOString()
-      : <any>undefined;
+    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate ? this.estimatedDeliveryDate.toISOString() : <any>undefined;
     data['orderId'] = this.orderId;
     data['order'] = this.order ? this.order.toJSON() : <any>undefined;
     return data;
@@ -13114,23 +13449,19 @@ export class ShipmentDto implements IShipmentDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.shippingMethod = _data['shippingMethod'];
       this.trackingNumber = _data['trackingNumber'];
-      this.estimatedDeliveryDate = _data['estimatedDeliveryDate']
-        ? new Date(_data['estimatedDeliveryDate'].toString())
-        : <any>undefined;
+      this.estimatedDeliveryDate = _data['estimatedDeliveryDate'] ? new Date(_data['estimatedDeliveryDate'].toString()) : <any>undefined;
       this.orderId = _data['orderId'];
     }
   }
 
-  static fromJS(data: any): ShipmentDto {
+  static fromJS(data: any, _mappings?: any): ShipmentDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ShipmentDto();
-    result.init(data);
-    return result;
+    return createInstance<ShipmentDto>(data, _mappings, ShipmentDto);
   }
 
   toJSON(data?: any) {
@@ -13138,9 +13469,7 @@ export class ShipmentDto implements IShipmentDto {
     data['id'] = this.id;
     data['shippingMethod'] = this.shippingMethod;
     data['trackingNumber'] = this.trackingNumber;
-    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate
-      ? this.estimatedDeliveryDate.toISOString()
-      : <any>undefined;
+    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate ? this.estimatedDeliveryDate.toISOString() : <any>undefined;
     data['orderId'] = this.orderId;
     return data;
   }
@@ -13168,23 +13497,21 @@ export class ShoppingCartDetailsDto implements IShoppingCartDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.userId = _data['userId'];
       if (Array.isArray(_data['shoppingCartItems'])) {
         this.shoppingCartItems = [] as any;
-        for (let item of _data['shoppingCartItems']) this.shoppingCartItems!.push(ShoppingCartItemDto.fromJS(item));
+        for (let item of _data['shoppingCartItems']) this.shoppingCartItems!.push(<ShoppingCartItemDto>ShoppingCartItemDto.fromJS(item, _mappings));
       }
-      this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): ShoppingCartDetailsDto {
+  static fromJS(data: any, _mappings?: any): ShoppingCartDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ShoppingCartDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ShoppingCartDetailsDto>(data, _mappings, ShoppingCartDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -13220,22 +13547,20 @@ export class ShoppingCartDto implements IShoppingCartDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.userId = _data['userId'];
       if (Array.isArray(_data['shoppingCartItems'])) {
         this.shoppingCartItems = [] as any;
-        for (let item of _data['shoppingCartItems']) this.shoppingCartItems!.push(ShoppingCartItemDto.fromJS(item));
+        for (let item of _data['shoppingCartItems']) this.shoppingCartItems!.push(<ShoppingCartItemDto>ShoppingCartItemDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): ShoppingCartDto {
+  static fromJS(data: any, _mappings?: any): ShoppingCartDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ShoppingCartDto();
-    result.init(data);
-    return result;
+    return createInstance<ShoppingCartDto>(data, _mappings, ShoppingCartDto);
   }
 
   toJSON(data?: any) {
@@ -13273,23 +13598,21 @@ export class ShoppingCartItemDetailsDto implements IShoppingCartItemDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
       this.quantity = _data['quantity'];
       this.price = _data['price'];
       this.shoppingCartId = _data['shoppingCartId'];
-      this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
-      this.shoppingCart = _data['shoppingCart'] ? ShoppingCartDto.fromJS(_data['shoppingCart']) : <any>undefined;
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.shoppingCart = _data['shoppingCart'] ? ShoppingCartDto.fromJS(_data['shoppingCart'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): ShoppingCartItemDetailsDto {
+  static fromJS(data: any, _mappings?: any): ShoppingCartItemDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ShoppingCartItemDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<ShoppingCartItemDetailsDto>(data, _mappings, ShoppingCartItemDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -13330,7 +13653,7 @@ export class ShoppingCartItemDto implements IShoppingCartItemDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
@@ -13340,11 +13663,9 @@ export class ShoppingCartItemDto implements IShoppingCartItemDto {
     }
   }
 
-  static fromJS(data: any): ShoppingCartItemDto {
+  static fromJS(data: any, _mappings?: any): ShoppingCartItemDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new ShoppingCartItemDto();
-    result.init(data);
-    return result;
+    return createInstance<ShoppingCartItemDto>(data, _mappings, ShoppingCartItemDto);
   }
 
   toJSON(data?: any) {
@@ -13381,7 +13702,7 @@ export class SupplierDetailsDto implements ISupplierDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -13389,16 +13710,14 @@ export class SupplierDetailsDto implements ISupplierDetailsDto {
       this.contactPhone = _data['contactPhone'];
       if (Array.isArray(_data['products'])) {
         this.products = [] as any;
-        for (let item of _data['products']) this.products!.push(ProductDto.fromJS(item));
+        for (let item of _data['products']) this.products!.push(<ProductDto>ProductDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): SupplierDetailsDto {
+  static fromJS(data: any, _mappings?: any): SupplierDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new SupplierDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<SupplierDetailsDto>(data, _mappings, SupplierDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -13437,7 +13756,7 @@ export class SupplierDto implements ISupplierDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -13446,11 +13765,9 @@ export class SupplierDto implements ISupplierDto {
     }
   }
 
-  static fromJS(data: any): SupplierDto {
+  static fromJS(data: any, _mappings?: any): SupplierDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new SupplierDto();
-    result.init(data);
-    return result;
+    return createInstance<SupplierDto>(data, _mappings, SupplierDto);
   }
 
   toJSON(data?: any) {
@@ -13485,7 +13802,7 @@ export class SupplyDetailsDto implements ISupplyDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
@@ -13495,11 +13812,9 @@ export class SupplyDetailsDto implements ISupplyDetailsDto {
     }
   }
 
-  static fromJS(data: any): SupplyDetailsDto {
+  static fromJS(data: any, _mappings?: any): SupplyDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new SupplyDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<SupplyDetailsDto>(data, _mappings, SupplyDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -13536,7 +13851,7 @@ export class SupplyDto implements ISupplyDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
@@ -13546,11 +13861,9 @@ export class SupplyDto implements ISupplyDto {
     }
   }
 
-  static fromJS(data: any): SupplyDto {
+  static fromJS(data: any, _mappings?: any): SupplyDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new SupplyDto();
-    result.init(data);
-    return result;
+    return createInstance<SupplyDto>(data, _mappings, SupplyDto);
   }
 
   toJSON(data?: any) {
@@ -13586,26 +13899,24 @@ export class TagDetailsDto implements ITagDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
       if (Array.isArray(_data['productTags'])) {
         this.productTags = [] as any;
-        for (let item of _data['productTags']) this.productTags!.push(ProductTagDto.fromJS(item));
+        for (let item of _data['productTags']) this.productTags!.push(<ProductTagDto>ProductTagDto.fromJS(item, _mappings));
       }
       if (Array.isArray(_data['articles'])) {
         this.articles = [] as any;
-        for (let item of _data['articles']) this.articles!.push(ArticleDto.fromJS(item));
+        for (let item of _data['articles']) this.articles!.push(<ArticleDto>ArticleDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): TagDetailsDto {
+  static fromJS(data: any, _mappings?: any): TagDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new TagDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<TagDetailsDto>(data, _mappings, TagDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -13643,18 +13954,16 @@ export class TagDto implements ITagDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
     }
   }
 
-  static fromJS(data: any): TagDto {
+  static fromJS(data: any, _mappings?: any): TagDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new TagDto();
-    result.init(data);
-    return result;
+    return createInstance<TagDto>(data, _mappings, TagDto);
   }
 
   toJSON(data?: any) {
@@ -13687,7 +13996,7 @@ export class UpdateAddressDto implements IUpdateAddressDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.street = _data['street'];
@@ -13699,11 +14008,9 @@ export class UpdateAddressDto implements IUpdateAddressDto {
     }
   }
 
-  static fromJS(data: any): UpdateAddressDto {
+  static fromJS(data: any, _mappings?: any): UpdateAddressDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateAddressDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateAddressDto>(data, _mappings, UpdateAddressDto);
   }
 
   toJSON(data?: any) {
@@ -13740,17 +14047,15 @@ export class UpdateArticleCommand implements IUpdateArticleCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.article = _data['article'] ? UpdateArticleDto.fromJS(_data['article']) : <any>undefined;
+      this.article = _data['article'] ? UpdateArticleDto.fromJS(_data['article'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateArticleCommand {
+  static fromJS(data: any, _mappings?: any): UpdateArticleCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateArticleCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateArticleCommand>(data, _mappings, UpdateArticleCommand);
   }
 
   toJSON(data?: any) {
@@ -13780,7 +14085,7 @@ export class UpdateArticleDto implements IUpdateArticleDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.title = _data['title'];
@@ -13791,11 +14096,9 @@ export class UpdateArticleDto implements IUpdateArticleDto {
     }
   }
 
-  static fromJS(data: any): UpdateArticleDto {
+  static fromJS(data: any, _mappings?: any): UpdateArticleDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateArticleDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateArticleDto>(data, _mappings, UpdateArticleDto);
   }
 
   toJSON(data?: any) {
@@ -13830,17 +14133,15 @@ export class UpdateCategoryCommand implements IUpdateCategoryCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.category = _data['category'] ? UpdateCategoryDto.fromJS(_data['category']) : <any>undefined;
+      this.category = _data['category'] ? UpdateCategoryDto.fromJS(_data['category'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateCategoryCommand {
+  static fromJS(data: any, _mappings?: any): UpdateCategoryCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateCategoryCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateCategoryCommand>(data, _mappings, UpdateCategoryCommand);
   }
 
   toJSON(data?: any) {
@@ -13867,7 +14168,7 @@ export class UpdateCategoryDto implements IUpdateCategoryDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -13875,11 +14176,9 @@ export class UpdateCategoryDto implements IUpdateCategoryDto {
     }
   }
 
-  static fromJS(data: any): UpdateCategoryDto {
+  static fromJS(data: any, _mappings?: any): UpdateCategoryDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateCategoryDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateCategoryDto>(data, _mappings, UpdateCategoryDto);
   }
 
   toJSON(data?: any) {
@@ -13908,17 +14207,15 @@ export class UpdateCommentCommand implements IUpdateCommentCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.comment = _data['comment'] ? UpdateCommentDto.fromJS(_data['comment']) : <any>undefined;
+      this.comment = _data['comment'] ? UpdateCommentDto.fromJS(_data['comment'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateCommentCommand {
+  static fromJS(data: any, _mappings?: any): UpdateCommentCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateCommentCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateCommentCommand>(data, _mappings, UpdateCommentCommand);
   }
 
   toJSON(data?: any) {
@@ -13948,7 +14245,7 @@ export class UpdateCommentDto implements IUpdateCommentDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.content = _data['content'];
@@ -13959,11 +14256,9 @@ export class UpdateCommentDto implements IUpdateCommentDto {
     }
   }
 
-  static fromJS(data: any): UpdateCommentDto {
+  static fromJS(data: any, _mappings?: any): UpdateCommentDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateCommentDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateCommentDto>(data, _mappings, UpdateCommentDto);
   }
 
   toJSON(data?: any) {
@@ -14002,7 +14297,7 @@ export class UpdateDiscountDto implements IUpdateDiscountDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.code = _data['code'];
@@ -14012,11 +14307,9 @@ export class UpdateDiscountDto implements IUpdateDiscountDto {
     }
   }
 
-  static fromJS(data: any): UpdateDiscountDto {
+  static fromJS(data: any, _mappings?: any): UpdateDiscountDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateDiscountDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateDiscountDto>(data, _mappings, UpdateDiscountDto);
   }
 
   toJSON(data?: any) {
@@ -14053,7 +14346,7 @@ export class UpdateNotificationDto implements IUpdateNotificationDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.message = _data['message'];
@@ -14063,11 +14356,9 @@ export class UpdateNotificationDto implements IUpdateNotificationDto {
     }
   }
 
-  static fromJS(data: any): UpdateNotificationDto {
+  static fromJS(data: any, _mappings?: any): UpdateNotificationDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateNotificationDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateNotificationDto>(data, _mappings, UpdateNotificationDto);
   }
 
   toJSON(data?: any) {
@@ -14100,17 +14391,15 @@ export class UpdateOrderCommand implements IUpdateOrderCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.order = _data['order'] ? UpdateOrderDto.fromJS(_data['order']) : <any>undefined;
+      this.order = _data['order'] ? UpdateOrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateOrderCommand {
+  static fromJS(data: any, _mappings?: any): UpdateOrderCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateOrderCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateOrderCommand>(data, _mappings, UpdateOrderCommand);
   }
 
   toJSON(data?: any) {
@@ -14135,17 +14424,15 @@ export class UpdateOrderDetailCommand implements IUpdateOrderDetailCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.orderDetail = _data['orderDetail'] ? UpdateOrderDetailDto.fromJS(_data['orderDetail']) : <any>undefined;
+      this.orderDetail = _data['orderDetail'] ? UpdateOrderDetailDto.fromJS(_data['orderDetail'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateOrderDetailCommand {
+  static fromJS(data: any, _mappings?: any): UpdateOrderDetailCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateOrderDetailCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateOrderDetailCommand>(data, _mappings, UpdateOrderDetailCommand);
   }
 
   toJSON(data?: any) {
@@ -14174,7 +14461,7 @@ export class UpdateOrderDetailDto implements IUpdateOrderDetailDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
@@ -14184,11 +14471,9 @@ export class UpdateOrderDetailDto implements IUpdateOrderDetailDto {
     }
   }
 
-  static fromJS(data: any): UpdateOrderDetailDto {
+  static fromJS(data: any, _mappings?: any): UpdateOrderDetailDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateOrderDetailDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateOrderDetailDto>(data, _mappings, UpdateOrderDetailDto);
   }
 
   toJSON(data?: any) {
@@ -14226,7 +14511,7 @@ export class UpdateOrderDto implements IUpdateOrderDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.orderDate = _data['orderDate'] ? new Date(_data['orderDate'].toString()) : <any>undefined;
@@ -14235,16 +14520,14 @@ export class UpdateOrderDto implements IUpdateOrderDto {
       this.userId = _data['userId'];
       if (Array.isArray(_data['orderDetails'])) {
         this.orderDetails = [] as any;
-        for (let item of _data['orderDetails']) this.orderDetails!.push(UpdateOrderDetailDto.fromJS(item));
+        for (let item of _data['orderDetails']) this.orderDetails!.push(<UpdateOrderDetailDto>UpdateOrderDetailDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): UpdateOrderDto {
+  static fromJS(data: any, _mappings?: any): UpdateOrderDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateOrderDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateOrderDto>(data, _mappings, UpdateOrderDto);
   }
 
   toJSON(data?: any) {
@@ -14282,17 +14565,15 @@ export class UpdatePaymentCommand implements IUpdatePaymentCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.payment = _data['payment'] ? UpdatePaymentDto.fromJS(_data['payment']) : <any>undefined;
+      this.payment = _data['payment'] ? UpdatePaymentDto.fromJS(_data['payment'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdatePaymentCommand {
+  static fromJS(data: any, _mappings?: any): UpdatePaymentCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdatePaymentCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdatePaymentCommand>(data, _mappings, UpdatePaymentCommand);
   }
 
   toJSON(data?: any) {
@@ -14321,7 +14602,7 @@ export class UpdatePaymentDto implements IUpdatePaymentDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.paymentMethod = _data['paymentMethod'];
@@ -14331,11 +14612,9 @@ export class UpdatePaymentDto implements IUpdatePaymentDto {
     }
   }
 
-  static fromJS(data: any): UpdatePaymentDto {
+  static fromJS(data: any, _mappings?: any): UpdatePaymentDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdatePaymentDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdatePaymentDto>(data, _mappings, UpdatePaymentDto);
   }
 
   toJSON(data?: any) {
@@ -14371,7 +14650,7 @@ export class UpdateProductColorDto implements IUpdateProductColorDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.colorName = _data['colorName'];
@@ -14380,11 +14659,9 @@ export class UpdateProductColorDto implements IUpdateProductColorDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductColorDto {
+  static fromJS(data: any, _mappings?: any): UpdateProductColorDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductColorDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateProductColorDto>(data, _mappings, UpdateProductColorDto);
   }
 
   toJSON(data?: any) {
@@ -14415,17 +14692,15 @@ export class UpdateProductCommand implements IUpdateProductCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.product = _data['product'] ? UpdateProductDto.fromJS(_data['product']) : <any>undefined;
+      this.product = _data['product'] ? UpdateProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateProductCommand {
+  static fromJS(data: any, _mappings?: any): UpdateProductCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateProductCommand>(data, _mappings, UpdateProductCommand);
   }
 
   toJSON(data?: any) {
@@ -14454,7 +14729,7 @@ export class UpdateProductDto implements IUpdateProductDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -14464,11 +14739,9 @@ export class UpdateProductDto implements IUpdateProductDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductDto {
+  static fromJS(data: any, _mappings?: any): UpdateProductDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateProductDto>(data, _mappings, UpdateProductDto);
   }
 
   toJSON(data?: any) {
@@ -14504,7 +14777,7 @@ export class UpdateProductImageDto implements IUpdateProductImageDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.imageUrl = _data['imageUrl'];
@@ -14513,11 +14786,9 @@ export class UpdateProductImageDto implements IUpdateProductImageDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductImageDto {
+  static fromJS(data: any, _mappings?: any): UpdateProductImageDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductImageDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateProductImageDto>(data, _mappings, UpdateProductImageDto);
   }
 
   toJSON(data?: any) {
@@ -14551,7 +14822,7 @@ export class UpdateProductOptionDto implements IUpdateProductOptionDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -14560,11 +14831,9 @@ export class UpdateProductOptionDto implements IUpdateProductOptionDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductOptionDto {
+  static fromJS(data: any, _mappings?: any): UpdateProductOptionDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductOptionDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateProductOptionDto>(data, _mappings, UpdateProductOptionDto);
   }
 
   toJSON(data?: any) {
@@ -14595,19 +14864,15 @@ export class UpdateProductReviewCommand implements IUpdateProductReviewCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.productReview = _data['productReview']
-        ? UpdateProductReviewDto.fromJS(_data['productReview'])
-        : <any>undefined;
+      this.productReview = _data['productReview'] ? UpdateProductReviewDto.fromJS(_data['productReview'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateProductReviewCommand {
+  static fromJS(data: any, _mappings?: any): UpdateProductReviewCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductReviewCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateProductReviewCommand>(data, _mappings, UpdateProductReviewCommand);
   }
 
   toJSON(data?: any) {
@@ -14637,7 +14902,7 @@ export class UpdateProductReviewDto implements IUpdateProductReviewDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.rating = _data['rating'];
@@ -14648,11 +14913,9 @@ export class UpdateProductReviewDto implements IUpdateProductReviewDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductReviewDto {
+  static fromJS(data: any, _mappings?: any): UpdateProductReviewDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductReviewDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateProductReviewDto>(data, _mappings, UpdateProductReviewDto);
   }
 
   toJSON(data?: any) {
@@ -14690,7 +14953,7 @@ export class UpdateProductTagDto implements IUpdateProductTagDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.tagName = _data['tagName'];
@@ -14699,11 +14962,9 @@ export class UpdateProductTagDto implements IUpdateProductTagDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductTagDto {
+  static fromJS(data: any, _mappings?: any): UpdateProductTagDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductTagDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateProductTagDto>(data, _mappings, UpdateProductTagDto);
   }
 
   toJSON(data?: any) {
@@ -14734,17 +14995,15 @@ export class UpdateShipmentCommand implements IUpdateShipmentCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.shipment = _data['shipment'] ? UpdateShipmentDto.fromJS(_data['shipment']) : <any>undefined;
+      this.shipment = _data['shipment'] ? UpdateShipmentDto.fromJS(_data['shipment'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateShipmentCommand {
+  static fromJS(data: any, _mappings?: any): UpdateShipmentCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateShipmentCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateShipmentCommand>(data, _mappings, UpdateShipmentCommand);
   }
 
   toJSON(data?: any) {
@@ -14773,23 +15032,19 @@ export class UpdateShipmentDto implements IUpdateShipmentDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.shippingMethod = _data['shippingMethod'];
       this.trackingNumber = _data['trackingNumber'];
-      this.estimatedDeliveryDate = _data['estimatedDeliveryDate']
-        ? new Date(_data['estimatedDeliveryDate'].toString())
-        : <any>undefined;
+      this.estimatedDeliveryDate = _data['estimatedDeliveryDate'] ? new Date(_data['estimatedDeliveryDate'].toString()) : <any>undefined;
       this.orderId = _data['orderId'];
     }
   }
 
-  static fromJS(data: any): UpdateShipmentDto {
+  static fromJS(data: any, _mappings?: any): UpdateShipmentDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateShipmentDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateShipmentDto>(data, _mappings, UpdateShipmentDto);
   }
 
   toJSON(data?: any) {
@@ -14797,9 +15052,7 @@ export class UpdateShipmentDto implements IUpdateShipmentDto {
     data['id'] = this.id;
     data['shippingMethod'] = this.shippingMethod;
     data['trackingNumber'] = this.trackingNumber;
-    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate
-      ? this.estimatedDeliveryDate.toISOString()
-      : <any>undefined;
+    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate ? this.estimatedDeliveryDate.toISOString() : <any>undefined;
     data['orderId'] = this.orderId;
     return data;
   }
@@ -14824,17 +15077,15 @@ export class UpdateShoppingCartCommand implements IUpdateShoppingCartCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.shoppingCart = _data['shoppingCart'] ? UpdateShoppingCartDto.fromJS(_data['shoppingCart']) : <any>undefined;
+      this.shoppingCart = _data['shoppingCart'] ? UpdateShoppingCartDto.fromJS(_data['shoppingCart'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateShoppingCartCommand {
+  static fromJS(data: any, _mappings?: any): UpdateShoppingCartCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateShoppingCartCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateShoppingCartCommand>(data, _mappings, UpdateShoppingCartCommand);
   }
 
   toJSON(data?: any) {
@@ -14860,18 +15111,16 @@ export class UpdateShoppingCartDto implements IUpdateShoppingCartDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.userId = _data['userId'];
     }
   }
 
-  static fromJS(data: any): UpdateShoppingCartDto {
+  static fromJS(data: any, _mappings?: any): UpdateShoppingCartDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateShoppingCartDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateShoppingCartDto>(data, _mappings, UpdateShoppingCartDto);
   }
 
   toJSON(data?: any) {
@@ -14898,19 +15147,15 @@ export class UpdateShoppingCartItemCommand implements IUpdateShoppingCartItemCom
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.shoppingCartItem = _data['shoppingCartItem']
-        ? UpdateShoppingCartItemDto.fromJS(_data['shoppingCartItem'])
-        : <any>undefined;
+      this.shoppingCartItem = _data['shoppingCartItem'] ? UpdateShoppingCartItemDto.fromJS(_data['shoppingCartItem'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateShoppingCartItemCommand {
+  static fromJS(data: any, _mappings?: any): UpdateShoppingCartItemCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateShoppingCartItemCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateShoppingCartItemCommand>(data, _mappings, UpdateShoppingCartItemCommand);
   }
 
   toJSON(data?: any) {
@@ -14939,7 +15184,7 @@ export class UpdateShoppingCartItemDto implements IUpdateShoppingCartItemDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
@@ -14949,11 +15194,9 @@ export class UpdateShoppingCartItemDto implements IUpdateShoppingCartItemDto {
     }
   }
 
-  static fromJS(data: any): UpdateShoppingCartItemDto {
+  static fromJS(data: any, _mappings?: any): UpdateShoppingCartItemDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateShoppingCartItemDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateShoppingCartItemDto>(data, _mappings, UpdateShoppingCartItemDto);
   }
 
   toJSON(data?: any) {
@@ -14989,7 +15232,7 @@ export class UpdateSupplierDto implements IUpdateSupplierDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -14998,11 +15241,9 @@ export class UpdateSupplierDto implements IUpdateSupplierDto {
     }
   }
 
-  static fromJS(data: any): UpdateSupplierDto {
+  static fromJS(data: any, _mappings?: any): UpdateSupplierDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateSupplierDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateSupplierDto>(data, _mappings, UpdateSupplierDto);
   }
 
   toJSON(data?: any) {
@@ -15037,7 +15278,7 @@ export class UpdateSupplyDto implements IUpdateSupplyDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
@@ -15047,11 +15288,9 @@ export class UpdateSupplyDto implements IUpdateSupplyDto {
     }
   }
 
-  static fromJS(data: any): UpdateSupplyDto {
+  static fromJS(data: any, _mappings?: any): UpdateSupplyDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateSupplyDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateSupplyDto>(data, _mappings, UpdateSupplyDto);
   }
 
   toJSON(data?: any) {
@@ -15085,18 +15324,16 @@ export class UpdateTagDto implements IUpdateTagDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
     }
   }
 
-  static fromJS(data: any): UpdateTagDto {
+  static fromJS(data: any, _mappings?: any): UpdateTagDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateTagDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateTagDto>(data, _mappings, UpdateTagDto);
   }
 
   toJSON(data?: any) {
@@ -15123,17 +15360,15 @@ export class UpdateUserCommand implements IUpdateUserCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.user = _data['user'] ? UpdateUserDto.fromJS(_data['user']) : <any>undefined;
+      this.user = _data['user'] ? UpdateUserDto.fromJS(_data['user'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateUserCommand {
+  static fromJS(data: any, _mappings?: any): UpdateUserCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateUserCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateUserCommand>(data, _mappings, UpdateUserCommand);
   }
 
   toJSON(data?: any) {
@@ -15175,7 +15410,7 @@ export class UpdateUserDto implements IUpdateUserDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.userName = _data['userName'];
@@ -15198,11 +15433,9 @@ export class UpdateUserDto implements IUpdateUserDto {
     }
   }
 
-  static fromJS(data: any): UpdateUserDto {
+  static fromJS(data: any, _mappings?: any): UpdateUserDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateUserDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateUserDto>(data, _mappings, UpdateUserDto);
   }
 
   toJSON(data?: any) {
@@ -15261,17 +15494,15 @@ export class UpdateWishListCommand implements IUpdateWishListCommand {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.wishList = _data['wishList'] ? UpdateWishListDto.fromJS(_data['wishList']) : <any>undefined;
+      this.wishList = _data['wishList'] ? UpdateWishListDto.fromJS(_data['wishList'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): UpdateWishListCommand {
+  static fromJS(data: any, _mappings?: any): UpdateWishListCommand | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateWishListCommand();
-    result.init(data);
-    return result;
+    return createInstance<UpdateWishListCommand>(data, _mappings, UpdateWishListCommand);
   }
 
   toJSON(data?: any) {
@@ -15298,7 +15529,7 @@ export class UpdateWishListDto implements IUpdateWishListDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -15306,11 +15537,9 @@ export class UpdateWishListDto implements IUpdateWishListDto {
     }
   }
 
-  static fromJS(data: any): UpdateWishListDto {
+  static fromJS(data: any, _mappings?: any): UpdateWishListDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateWishListDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateWishListDto>(data, _mappings, UpdateWishListDto);
   }
 
   toJSON(data?: any) {
@@ -15341,7 +15570,7 @@ export class UpdateWishListItemDto implements IUpdateWishListItemDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
@@ -15349,11 +15578,9 @@ export class UpdateWishListItemDto implements IUpdateWishListItemDto {
     }
   }
 
-  static fromJS(data: any): UpdateWishListItemDto {
+  static fromJS(data: any, _mappings?: any): UpdateWishListItemDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UpdateWishListItemDto();
-    result.init(data);
-    return result;
+    return createInstance<UpdateWishListItemDto>(data, _mappings, UpdateWishListItemDto);
   }
 
   toJSON(data?: any) {
@@ -15378,6 +15605,7 @@ export class UserDetailsDto implements IUserDetailsDto {
   firstName?: string | undefined;
   lastName?: string | undefined;
   phone?: string | undefined;
+  token?: string | undefined;
   orders?: OrderDto[] | undefined;
   productReviews?: ProductReviewDto[] | undefined;
   wishLists?: WishListDto[] | undefined;
@@ -15392,7 +15620,7 @@ export class UserDetailsDto implements IUserDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.userName = _data['userName'];
@@ -15400,34 +15628,33 @@ export class UserDetailsDto implements IUserDetailsDto {
       this.firstName = _data['firstName'];
       this.lastName = _data['lastName'];
       this.phone = _data['phone'];
+      this.token = _data['token'];
       if (Array.isArray(_data['orders'])) {
         this.orders = [] as any;
-        for (let item of _data['orders']) this.orders!.push(OrderDto.fromJS(item));
+        for (let item of _data['orders']) this.orders!.push(<OrderDto>OrderDto.fromJS(item, _mappings));
       }
       if (Array.isArray(_data['productReviews'])) {
         this.productReviews = [] as any;
-        for (let item of _data['productReviews']) this.productReviews!.push(ProductReviewDto.fromJS(item));
+        for (let item of _data['productReviews']) this.productReviews!.push(<ProductReviewDto>ProductReviewDto.fromJS(item, _mappings));
       }
       if (Array.isArray(_data['wishLists'])) {
         this.wishLists = [] as any;
-        for (let item of _data['wishLists']) this.wishLists!.push(WishListDto.fromJS(item));
+        for (let item of _data['wishLists']) this.wishLists!.push(<WishListDto>WishListDto.fromJS(item, _mappings));
       }
       if (Array.isArray(_data['comments'])) {
         this.comments = [] as any;
-        for (let item of _data['comments']) this.comments!.push(CommentDto.fromJS(item));
+        for (let item of _data['comments']) this.comments!.push(<CommentDto>CommentDto.fromJS(item, _mappings));
       }
       if (Array.isArray(_data['notifications'])) {
         this.notifications = [] as any;
-        for (let item of _data['notifications']) this.notifications!.push(NotificationDto.fromJS(item));
+        for (let item of _data['notifications']) this.notifications!.push(<NotificationDto>NotificationDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): UserDetailsDto {
+  static fromJS(data: any, _mappings?: any): UserDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UserDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<UserDetailsDto>(data, _mappings, UserDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -15438,6 +15665,7 @@ export class UserDetailsDto implements IUserDetailsDto {
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
+    data['token'] = this.token;
     if (Array.isArray(this.orders)) {
       data['orders'] = [];
       for (let item of this.orders) data['orders'].push(item.toJSON());
@@ -15469,6 +15697,7 @@ export interface IUserDetailsDto {
   firstName?: string | undefined;
   lastName?: string | undefined;
   phone?: string | undefined;
+  token?: string | undefined;
   orders?: OrderDto[] | undefined;
   productReviews?: ProductReviewDto[] | undefined;
   wishLists?: WishListDto[] | undefined;
@@ -15492,7 +15721,7 @@ export class UserDto implements IUserDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.userName = _data['userName'];
@@ -15503,11 +15732,9 @@ export class UserDto implements IUserDto {
     }
   }
 
-  static fromJS(data: any): UserDto {
+  static fromJS(data: any, _mappings?: any): UserDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new UserDto();
-    result.init(data);
-    return result;
+    return createInstance<UserDto>(data, _mappings, UserDto);
   }
 
   toJSON(data?: any) {
@@ -15546,24 +15773,22 @@ export class WishListDetailsDto implements IWishListDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
       this.userId = _data['userId'];
-      this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
       if (Array.isArray(_data['wishListItems'])) {
         this.wishListItems = [] as any;
-        for (let item of _data['wishListItems']) this.wishListItems!.push(WishListItemDto.fromJS(item));
+        for (let item of _data['wishListItems']) this.wishListItems!.push(<WishListItemDto>WishListItemDto.fromJS(item, _mappings));
       }
     }
   }
 
-  static fromJS(data: any): WishListDetailsDto {
+  static fromJS(data: any, _mappings?: any): WishListDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new WishListDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<WishListDetailsDto>(data, _mappings, WishListDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -15601,7 +15826,7 @@ export class WishListDto implements IWishListDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
@@ -15609,11 +15834,9 @@ export class WishListDto implements IWishListDto {
     }
   }
 
-  static fromJS(data: any): WishListDto {
+  static fromJS(data: any, _mappings?: any): WishListDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new WishListDto();
-    result.init(data);
-    return result;
+    return createInstance<WishListDto>(data, _mappings, WishListDto);
   }
 
   toJSON(data?: any) {
@@ -15646,21 +15869,19 @@ export class WishListItemDetailsDto implements IWishListItemDetailsDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
       this.wishListId = _data['wishListId'];
-      this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
-      this.wishList = _data['wishList'] ? WishListDto.fromJS(_data['wishList']) : <any>undefined;
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.wishList = _data['wishList'] ? WishListDto.fromJS(_data['wishList'], _mappings) : <any>undefined;
     }
   }
 
-  static fromJS(data: any): WishListItemDetailsDto {
+  static fromJS(data: any, _mappings?: any): WishListItemDetailsDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new WishListItemDetailsDto();
-    result.init(data);
-    return result;
+    return createInstance<WishListItemDetailsDto>(data, _mappings, WishListItemDetailsDto);
   }
 
   toJSON(data?: any) {
@@ -15695,7 +15916,7 @@ export class WishListItemDto implements IWishListItemDto {
     }
   }
 
-  init(_data?: any) {
+  init(_data?: any, _mappings?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
@@ -15703,11 +15924,9 @@ export class WishListItemDto implements IWishListItemDto {
     }
   }
 
-  static fromJS(data: any): WishListItemDto {
+  static fromJS(data: any, _mappings?: any): WishListItemDto | null {
     data = typeof data === 'object' ? data : {};
-    let result = new WishListItemDto();
-    result.init(data);
-    return result;
+    return createInstance<WishListItemDto>(data, _mappings, WishListItemDto);
   }
 
   toJSON(data?: any) {
@@ -15723,6 +15942,60 @@ export interface IWishListItemDto {
   id?: number;
   productId?: number;
   wishListId?: number;
+}
+
+function jsonParse(json: any, reviver?: any) {
+  json = JSON.parse(json, reviver);
+
+  var byid: any = {};
+  var refs: any = [];
+  json = (function recurse(obj: any, prop?: any, parent?: any) {
+    if (typeof obj !== 'object' || !obj) return obj;
+
+    if ('$ref' in obj) {
+      let ref = obj.$ref;
+      if (ref in byid) return byid[ref];
+      refs.push([parent, prop, ref]);
+      return undefined;
+    } else if ('$id' in obj) {
+      let id = obj.$id;
+      delete obj.$id;
+      if ('$values' in obj) obj = obj.$values;
+      byid[id] = obj;
+    }
+
+    if (Array.isArray(obj)) {
+      obj = obj.map((v, i) => recurse(v, i, obj));
+    } else {
+      for (var p in obj) {
+        if (obj.hasOwnProperty(p) && obj[p] && typeof obj[p] === 'object') obj[p] = recurse(obj[p], p, obj);
+      }
+    }
+
+    return obj;
+  })(json);
+
+  for (let i = 0; i < refs.length; i++) {
+    const ref = refs[i];
+    ref[0][ref[1]] = byid[ref[2]];
+  }
+
+  return json;
+}
+
+function createInstance<T>(data: any, mappings: any, type: any): T | null {
+  if (!mappings) mappings = [];
+  if (!data) return null;
+
+  const mappingIndexName = '__mappingIndex';
+  if (data[mappingIndexName]) return <T>mappings[data[mappingIndexName]].target;
+
+  data[mappingIndexName] = mappings.length;
+
+  let result: any = new type();
+  mappings.push({ source: data, target: result });
+  result.init(data, mappings);
+  return result;
 }
 
 export class ApiException extends Error {
@@ -15749,13 +16022,7 @@ export class ApiException extends Error {
   }
 }
 
-function throwException(
-  message: string,
-  status: number,
-  response: string,
-  headers: { [key: string]: any },
-  result?: any
-): Observable<any> {
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any }, result?: any): Observable<any> {
   if (result !== null && result !== undefined) return _observableThrow(result);
   else return _observableThrow(new ApiException(message, status, response, headers, null));
 }

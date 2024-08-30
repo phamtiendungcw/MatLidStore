@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'https://localhost:8100', // URL của MatLidStore API
+  imageUrl: 'assets/Images', // URL của hình ảnh
 };
 
 /*
