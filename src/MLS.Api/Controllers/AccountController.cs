@@ -1,13 +1,12 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MLS.Api.Controllers.BaseController;
 using MLS.Application.DTO.User;
 using MLS.Application.Features.User.Commands.RegisterUserCommand;
 using MLS.Application.Features.User.Queries.GetUserDetailsByUserName;
-using MLS.Domain.Entities;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MLS.Api.Controllers;
 
@@ -22,6 +21,7 @@ public class AccountController : MatLidStoreBaseController
     }
 
     [HttpPost("register")]
+    [ProducesResponseType(200)]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
     public async Task<ActionResult> RegisterUser([FromBody] RegisterUserCommand user)
@@ -45,9 +45,10 @@ public class AccountController : MatLidStoreBaseController
     }
 
     [HttpPost("login")]
+    [ProducesResponseType(200)]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
-    public async Task<ActionResult<AppUser>> LoginUser([FromBody] LoginModel loginUser)
+    public async Task<ActionResult<UserDetailsDto>> LoginUser([FromBody] LoginModel loginUser)
     {
         var user = await _mediator.Send(new GetUserDetailsByUserNameQuery(loginUser));
         return Ok(user);

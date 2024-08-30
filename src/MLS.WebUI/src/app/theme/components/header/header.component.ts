@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class HeaderComponent implements OnInit {
   public logoUrl: string = '';
+
   constructor() {}
 
   ngOnInit(): void {

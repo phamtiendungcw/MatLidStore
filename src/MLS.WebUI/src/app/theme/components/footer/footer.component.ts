@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class FooterComponent implements OnInit {
   public logoUrl: string = '';
+
   constructor() {}
 
   ngOnInit(): void {

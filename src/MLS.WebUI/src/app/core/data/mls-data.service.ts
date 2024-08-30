@@ -8,15 +8,574 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import { catchError as _observableCatch, mergeMap as _observableMergeMap } from 'rxjs/operators';
-import { Observable, of as _observableOf, throwError as _observableThrow } from 'rxjs';
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
-import { HttpClient, HttpContext, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
+import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase, HttpContext } from '@angular/common/http';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
-@Injectable()
-export class MatLidStoreServices {
+export interface IMatLidStoreServices {
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  register(body: RegisterUserCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  login(body: LoginModel | undefined): Observable<UserDetailsDto>;
+  /**
+   * @return OK
+   */
+  addressAll(): Observable<AddressDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  addressPOST(body: CreateAddressDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  addressPUT(body: UpdateAddressDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  addressGET(id: number): Observable<AddressDetailsDto>;
+  /**
+   * @return No Content
+   */
+  addressDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  articleAll(): Observable<ArticleDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  articlePOST(body: CreateArticleCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  articlePUT(body: UpdateArticleCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  articleGET(id: number): Observable<ArticleDetailsDto>;
+  /**
+   * @return No Content
+   */
+  articleDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  authorName(authorName: string): Observable<ArticleDto[]>;
+  /**
+   * @return OK
+   */
+  categoryAll(): Observable<CategoryDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  categoryPOST(body: CreateCategoryCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  categoryPUT(body: UpdateCategoryCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  categoryGET(id: number): Observable<CategoryDetailsDto>;
+  /**
+   * @return No Content
+   */
+  categoryDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  commentAll(): Observable<CommentDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  commentPOST(body: CreateCommentCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  commentPUT(body: UpdateCommentCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  commentGET(id: number): Observable<CommentDetailsDto>;
+  /**
+   * @return No Content
+   */
+  commentDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  article(articleId: number): Observable<CommentDto[]>;
+  /**
+   * @return OK
+   */
+  discountAll(): Observable<DiscountDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  discountPOST(body: CreateDiscountDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  discountPUT(body: UpdateDiscountDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  discountGET(id: number): Observable<DiscountDetailsDto>;
+  /**
+   * @return No Content
+   */
+  discountDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  code(code: string): Observable<DiscountDto>;
+  /**
+   * @return OK
+   */
+  notificationAll(): Observable<NotificationDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  notificationPOST(body: CreateNotificationDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  notificationPUT(body: UpdateNotificationDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  notificationGET(id: number): Observable<NotificationDetailsDto>;
+  /**
+   * @return No Content
+   */
+  notificationDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  user(userId: number): Observable<NotificationDto[]>;
+  /**
+   * @return OK
+   */
+  orderAll(): Observable<OrderDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  orderPOST(body: CreateOrderCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  orderPUT(body: UpdateOrderCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  orderGET(id: number): Observable<OrderDetailsDto>;
+  /**
+   * @return No Content
+   */
+  orderDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  orderDetailAll(): Observable<OrderDetailDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  orderDetailPOST(body: CreateOrderDetailCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  orderDetailPUT(body: UpdateOrderDetailCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  orderDetailGET(id: number): Observable<OrderDetailDetailsDto>;
+  /**
+   * @return No Content
+   */
+  orderDetailDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  paymentAll(): Observable<PaymentDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  paymentPOST(body: CreatePaymentCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  paymentPUT(body: UpdatePaymentCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  paymentGET(id: number): Observable<PaymentDetailsDto>;
+  /**
+   * @return No Content
+   */
+  paymentDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productAll(): Observable<ProductDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productPOST(body: CreateProductCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productPUT(body: UpdateProductCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productGET(id: number): Observable<ProductDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productColorAll(): Observable<ProductColorDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productColorPOST(body: CreateProductColorDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productColorPUT(body: UpdateProductColorDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productColorGET(id: number): Observable<ProductColorDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productColorDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productImageAll(): Observable<ProductImageDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productImagePOST(body: CreateProductImageDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productImagePUT(body: UpdateProductImageDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productImageGET(id: number): Observable<ProductImageDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productImageDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productOptionAll(): Observable<ProductOptionDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productOptionPOST(body: CreateProductOptionDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productOptionPUT(body: UpdateProductOptionDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productOptionGET(id: number): Observable<ProductOptionDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productOptionDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productReviewAll(): Observable<ProductReviewDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productReviewPOST(body: CreateProductReviewCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productReviewPUT(body: UpdateProductReviewCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productReviewGET(id: number): Observable<ProductReviewDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productReviewDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  productTagAll(): Observable<ProductTagDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productTagPOST(body: CreateProductTagDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productTagPUT(body: UpdateProductTagDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  productTagGET(id: number): Observable<ProductTagDetailsDto>;
+  /**
+   * @return No Content
+   */
+  productTagDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  shipmentAll(): Observable<ShipmentDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  shipmentPOST(body: CreateShipmentCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  shipmentPUT(body: UpdateShipmentCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  shipmentGET(id: number): Observable<ShipmentDetailsDto>;
+  /**
+   * @return No Content
+   */
+  shipmentDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  shoppingCartAll(): Observable<ShoppingCartDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  shoppingCartPOST(body: CreateShoppingCartCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  shoppingCartPUT(body: UpdateShoppingCartCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  shoppingCartGET(id: number): Observable<ShoppingCartDetailsDto>;
+  /**
+   * @return No Content
+   */
+  shoppingCartDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  shoppingCartItemAll(): Observable<ShoppingCartItemDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  shoppingCartItemPOST(body: CreateShoppingCartItemCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  shoppingCartItemPUT(body: UpdateShoppingCartItemCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  shoppingCartItemGET(id: number): Observable<ShoppingCartItemDetailsDto>;
+  /**
+   * @return No Content
+   */
+  shoppingCartItemDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  supplierAll(): Observable<SupplierDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  supplierPOST(body: CreateSupplierDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  supplierPUT(body: UpdateSupplierDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  supplierGET(id: number): Observable<SupplierDetailsDto>;
+  /**
+   * @return No Content
+   */
+  supplierDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  supplyAll(): Observable<SupplyDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  supplyPOST(body: CreateSupplyDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  supplyPUT(body: UpdateSupplyDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  supplyGET(id: number): Observable<SupplyDetailsDto>;
+  /**
+   * @return No Content
+   */
+  supplyDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  tagAll(): Observable<TagDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  tagPOST(body: CreateTagDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  tagPUT(body: UpdateTagDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  tagGET(id: number): Observable<TagDetailsDto>;
+  /**
+   * @return No Content
+   */
+  tagDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  userAll(): Observable<UserDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  userPOST(body: CreateUserCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  userPUT(body: UpdateUserCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  userGET(id: number): Observable<UserDetailsDto>;
+  /**
+   * @return No Content
+   */
+  userDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  wishListAll(): Observable<WishListDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  wishListPOST(body: CreateWishListCommand | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  wishListPUT(body: UpdateWishListCommand | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  wishListGET(id: number): Observable<WishListDetailsDto>;
+  /**
+   * @return No Content
+   */
+  wishListDELETE(id: number): Observable<void>;
+  /**
+   * @return OK
+   */
+  wishListItemAll(): Observable<WishListItemDto[]>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  wishListItemPOST(body: CreateWishListItemDto | undefined): Observable<void>;
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  wishListItemPUT(body: UpdateWishListItemDto | undefined): Observable<void>;
+  /**
+   * @return OK
+   */
+  wishListItemGET(id: number): Observable<WishListItemDetailsDto>;
+  /**
+   * @return No Content
+   */
+  wishListItemDELETE(id: number): Observable<void>;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MatLidStoreServices implements IMatLidStoreServices {
   private http: HttpClient;
   private readonly baseUrl: string;
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -28,7 +587,7 @@ export class MatLidStoreServices {
 
   /**
    * @param body (optional)
-   * @return Created
+   * @return OK
    */
   register(body: RegisterUserCommand | undefined, httpContext?: HttpContext): Observable<void> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Account/register';
@@ -76,7 +635,14 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
-    if (status === 201) {
+    let _mappings: { source: any; target: any }[] = [];
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return _observableOf(null as any);
+        })
+      );
+    } else if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           return _observableOf(null as any);
@@ -86,7 +652,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -102,9 +669,9 @@ export class MatLidStoreServices {
 
   /**
    * @param body (optional)
-   * @return Created
+   * @return OK
    */
-  login(body: LoginModel | undefined, httpContext?: HttpContext): Observable<AppUser> {
+  login(body: LoginModel | undefined, httpContext?: HttpContext): Observable<UserDetailsDto> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Account/login';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -134,14 +701,14 @@ export class MatLidStoreServices {
             try {
               return this.processLogin(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<AppUser>;
+              return _observableThrow(e) as any as Observable<UserDetailsDto>;
             }
-          } else return _observableThrow(response_) as any as Observable<AppUser>;
+          } else return _observableThrow(response_) as any as Observable<UserDetailsDto>;
         })
       );
   }
 
-  protected processLogin(response: HttpResponseBase): Observable<AppUser> {
+  protected processLogin(response: HttpResponseBase): Observable<UserDetailsDto> {
     const status = response.status;
     const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
@@ -151,11 +718,22 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
-    if (status === 201) {
+    let _mappings: { source: any; target: any }[] = [];
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result200: any = null;
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = UserDetailsDto.fromJS(resultData200, _mappings);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result201: any = null;
-          result201 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as AppUser);
+          let resultData201 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result201 = UserDetailsDto.fromJS(resultData201, _mappings);
           return _observableOf(result201);
         })
       );
@@ -163,7 +741,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -223,11 +802,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as AddressDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(AddressDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -291,6 +877,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -301,7 +888,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -365,11 +953,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -383,7 +973,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -391,7 +982,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -446,11 +1038,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as AddressDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = AddressDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -510,6 +1104,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -520,7 +1115,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -528,7 +1124,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -581,11 +1178,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ArticleDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ArticleDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -649,6 +1253,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -659,7 +1264,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -723,11 +1329,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -741,7 +1349,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -749,7 +1358,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -804,11 +1414,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ArticleDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ArticleDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -868,6 +1480,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -878,7 +1491,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -886,7 +1500,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -941,11 +1556,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ArticleDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ArticleDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -1005,11 +1627,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as CategoryDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(CategoryDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -1073,6 +1702,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -1083,7 +1713,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1147,11 +1778,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1165,7 +1798,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1173,7 +1807,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -1228,11 +1863,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as CategoryDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = CategoryDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -1292,6 +1929,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -1302,7 +1940,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1310,7 +1949,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -1363,11 +2003,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as CommentDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(CommentDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -1431,6 +2078,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -1441,7 +2089,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1505,11 +2154,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1517,7 +2168,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1531,7 +2183,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -1586,11 +2239,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as CommentDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = CommentDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -1650,11 +2305,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1668,7 +2325,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -1723,11 +2381,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as CommentDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(CommentDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -1787,11 +2452,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as DiscountDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(DiscountDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -1855,6 +2527,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -1865,7 +2538,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1929,11 +2603,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -1947,7 +2623,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -1955,7 +2632,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2010,11 +2688,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as DiscountDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = DiscountDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -2074,6 +2754,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -2084,7 +2765,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -2092,7 +2774,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2147,11 +2830,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as DiscountDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = DiscountDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -2211,11 +2896,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as NotificationDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(NotificationDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -2279,6 +2971,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -2289,7 +2982,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -2353,11 +3047,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -2371,7 +3067,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -2379,7 +3076,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2434,11 +3132,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as NotificationDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = NotificationDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -2498,6 +3198,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -2508,7 +3209,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -2516,7 +3218,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2571,11 +3274,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as NotificationDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(NotificationDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -2635,11 +3345,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as OrderDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(OrderDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -2703,6 +3420,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -2713,7 +3431,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -2777,11 +3496,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -2789,7 +3510,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -2803,7 +3525,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2858,11 +3581,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as OrderDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = OrderDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -2922,11 +3647,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -2940,7 +3667,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -2993,11 +3721,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as OrderDetailDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(OrderDetailDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -3061,6 +3796,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -3071,7 +3807,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3135,11 +3872,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3147,7 +3886,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3161,7 +3901,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3216,11 +3957,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as OrderDetailDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = OrderDetailDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -3280,11 +4023,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3298,7 +4043,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3351,11 +4097,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as PaymentDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(PaymentDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -3419,6 +4172,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -3429,7 +4183,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3493,11 +4248,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3505,7 +4262,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3519,7 +4277,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3574,11 +4333,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as PaymentDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = PaymentDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -3638,11 +4399,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3656,7 +4419,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3709,11 +4473,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ProductDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -3777,6 +4548,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -3787,7 +4559,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3851,11 +4624,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -3869,7 +4644,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -3877,7 +4653,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -3932,11 +4709,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -3996,6 +4775,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4006,7 +4786,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4014,7 +4795,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4067,11 +4849,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductColorDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ProductColorDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -4135,6 +4924,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4145,7 +4935,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4209,11 +5000,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4227,7 +5020,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4235,7 +5029,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4290,11 +5085,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductColorDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductColorDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -4354,6 +5151,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4364,7 +5162,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4372,7 +5171,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4425,11 +5225,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductImageDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ProductImageDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -4493,6 +5300,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4503,7 +5311,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4567,11 +5376,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4585,7 +5396,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4593,7 +5405,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4648,11 +5461,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductImageDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductImageDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -4712,6 +5527,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4722,7 +5538,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4730,7 +5547,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -4783,11 +5601,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductOptionDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ProductOptionDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -4851,6 +5676,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -4861,7 +5687,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4925,11 +5752,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -4943,7 +5772,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -4951,7 +5781,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5006,11 +5837,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductOptionDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductOptionDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -5070,6 +5903,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5080,7 +5914,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5088,7 +5923,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5141,11 +5977,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductReviewDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ProductReviewDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -5209,6 +6052,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5219,7 +6063,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5283,11 +6128,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5295,7 +6142,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5309,7 +6157,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5364,11 +6213,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductReviewDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductReviewDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -5428,11 +6279,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5446,7 +6299,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5499,11 +6353,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductTagDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ProductTagDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -5567,6 +6428,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5577,7 +6439,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5641,11 +6504,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5659,7 +6524,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5667,7 +6533,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5722,11 +6589,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProductTagDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ProductTagDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -5786,6 +6655,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5796,7 +6666,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -5804,7 +6675,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -5857,11 +6729,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ShipmentDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ShipmentDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -5925,6 +6804,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -5935,7 +6815,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -5999,11 +6880,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6011,7 +6894,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6025,7 +6909,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6080,11 +6965,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ShipmentDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ShipmentDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -6144,11 +7031,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6162,7 +7051,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6215,11 +7105,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ShoppingCartDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ShoppingCartDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -6283,6 +7180,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -6293,7 +7191,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6357,11 +7256,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6369,7 +7270,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6383,7 +7285,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6438,11 +7341,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ShoppingCartDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ShoppingCartDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -6502,11 +7407,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6520,7 +7427,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6573,11 +7481,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ShoppingCartItemDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(ShoppingCartItemDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -6641,6 +7556,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -6651,7 +7567,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6715,11 +7632,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -6727,7 +7646,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6741,7 +7661,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6796,11 +7717,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ShoppingCartItemDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = ShoppingCartItemDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -6860,11 +7783,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -6878,7 +7803,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -6931,11 +7857,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as SupplierDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(SupplierDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -6999,6 +7932,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7009,7 +7943,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7073,11 +8008,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7091,7 +8028,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7099,7 +8037,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -7154,11 +8093,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as SupplierDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = SupplierDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -7218,6 +8159,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7228,7 +8170,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7236,7 +8179,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -7289,11 +8233,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as SupplyDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(SupplyDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -7357,6 +8308,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7367,7 +8319,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7431,11 +8384,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7449,7 +8404,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7457,7 +8413,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -7512,11 +8469,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as SupplyDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = SupplyDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -7576,6 +8535,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7586,7 +8546,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7594,7 +8555,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -7647,11 +8609,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as TagDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(TagDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -7715,6 +8684,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7725,7 +8695,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7789,11 +8760,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -7807,7 +8780,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7815,7 +8789,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -7870,11 +8845,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as TagDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = TagDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -7934,6 +8911,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -7944,7 +8922,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -7952,7 +8931,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8005,11 +8985,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as UserDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(UserDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -8073,6 +9060,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -8083,7 +9071,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8147,11 +9136,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8165,7 +9156,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8173,7 +9165,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8228,11 +9221,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as UserDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = UserDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -8292,6 +9287,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -8302,7 +9298,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8310,7 +9307,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8363,11 +9361,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as WishListDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(WishListDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -8431,6 +9436,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -8441,7 +9447,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8505,11 +9512,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8517,7 +9526,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8531,7 +9541,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8586,11 +9597,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as WishListDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = WishListDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -8650,11 +9663,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 404) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8668,7 +9683,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8721,11 +9737,18 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as WishListItemDto[]);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(WishListItemDto.fromJS(item, _mappings));
+          } else {
+            result200 = <any>null;
+          }
           return _observableOf(result200);
         })
       );
@@ -8789,6 +9812,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 201) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -8799,7 +9823,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8863,11 +9888,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 400) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result400: any = null;
-          result400 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
           return throwException('Bad Request', status, _responseText, _headers, result400);
         })
       );
@@ -8881,7 +9908,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -8889,7 +9917,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -8944,11 +9973,13 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 200) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
-          result200 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as WishListItemDetailsDto);
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = WishListItemDetailsDto.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -9008,6 +10039,7 @@ export class MatLidStoreServices {
         _headers[key] = response.headers.get(key);
       }
     }
+    let _mappings: { source: any; target: any }[] = [];
     if (status === 204) {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
@@ -9018,7 +10050,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let result404: any = null;
-          result404 = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
           return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
@@ -9026,7 +10059,8 @@ export class MatLidStoreServices {
       return blobToText(responseBlob).pipe(
         _observableMergeMap((_responseText: string) => {
           let resultdefault: any = null;
-          resultdefault = _responseText === '' ? null : (JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails);
+          let resultDatadefault = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          resultdefault = ProblemDetails.fromJS(resultDatadefault, _mappings);
           return throwException('Error', status, _responseText, _headers, resultdefault);
         })
       );
@@ -9034,7 +10068,57 @@ export class MatLidStoreServices {
   }
 }
 
-export interface AddressDetailsDto {
+export class AddressDetailsDto implements IAddressDetailsDto {
+  id?: number;
+  street?: string | undefined;
+  city?: string | undefined;
+  state?: string | undefined;
+  country?: string | undefined;
+  postalCode?: string | undefined;
+  userId?: number;
+  user?: UserDto;
+
+  constructor(data?: IAddressDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.street = _data['street'];
+      this.city = _data['city'];
+      this.state = _data['state'];
+      this.country = _data['country'];
+      this.postalCode = _data['postalCode'];
+      this.userId = _data['userId'];
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): AddressDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<AddressDetailsDto>(data, _mappings, AddressDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['street'] = this.street;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['postalCode'] = this.postalCode;
+    data['userId'] = this.userId;
+    data['user'] = this.user ? this.user.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IAddressDetailsDto {
   id?: number;
   street?: string | undefined;
   city?: string | undefined;
@@ -9045,7 +10129,54 @@ export interface AddressDetailsDto {
   user?: UserDto;
 }
 
-export interface AddressDto {
+export class AddressDto implements IAddressDto {
+  id?: number;
+  street?: string | undefined;
+  city?: string | undefined;
+  state?: string | undefined;
+  country?: string | undefined;
+  postalCode?: string | undefined;
+  userId?: number;
+
+  constructor(data?: IAddressDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.street = _data['street'];
+      this.city = _data['city'];
+      this.state = _data['state'];
+      this.country = _data['country'];
+      this.postalCode = _data['postalCode'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): AddressDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<AddressDto>(data, _mappings, AddressDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['street'] = this.street;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['postalCode'] = this.postalCode;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IAddressDto {
   id?: number;
   street?: string | undefined;
   city?: string | undefined;
@@ -9055,16 +10186,1653 @@ export interface AddressDto {
   userId?: number;
 }
 
-export interface AppRole {
+export class ArticleDetailsDto implements IArticleDetailsDto {
   id?: number;
-  name?: string | undefined;
-  normalizedName?: string | undefined;
-  concurrencyStamp?: string | undefined;
-  userRoles?: AppUserRole[] | undefined;
+  title?: string | undefined;
+  content?: string | undefined;
+  author?: string | undefined;
+  publicationDate?: Date;
+  userId?: number;
+  authorUser?: UserDto;
+  comments?: CommentDto[] | undefined;
+
+  constructor(data?: IArticleDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.title = _data['title'];
+      this.content = _data['content'];
+      this.author = _data['author'];
+      this.publicationDate = _data['publicationDate'] ? new Date(_data['publicationDate'].toString()) : <any>undefined;
+      this.userId = _data['userId'];
+      this.authorUser = _data['authorUser'] ? UserDto.fromJS(_data['authorUser'], _mappings) : <any>undefined;
+      if (Array.isArray(_data['comments'])) {
+        this.comments = [] as any;
+        for (let item of _data['comments']) this.comments!.push(<CommentDto>CommentDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ArticleDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ArticleDetailsDto>(data, _mappings, ArticleDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['content'] = this.content;
+    data['author'] = this.author;
+    data['publicationDate'] = this.publicationDate ? this.publicationDate.toISOString() : <any>undefined;
+    data['userId'] = this.userId;
+    data['authorUser'] = this.authorUser ? this.authorUser.toJSON() : <any>undefined;
+    if (Array.isArray(this.comments)) {
+      data['comments'] = [];
+      for (let item of this.comments) data['comments'].push(item.toJSON());
+    }
+    return data;
+  }
 }
 
-export interface AppUser {
+export interface IArticleDetailsDto {
   id?: number;
+  title?: string | undefined;
+  content?: string | undefined;
+  author?: string | undefined;
+  publicationDate?: Date;
+  userId?: number;
+  authorUser?: UserDto;
+  comments?: CommentDto[] | undefined;
+}
+
+export class ArticleDto implements IArticleDto {
+  id?: number;
+  title?: string | undefined;
+  content?: string | undefined;
+  author?: string | undefined;
+  publicationDate?: Date;
+  userId?: number;
+
+  constructor(data?: IArticleDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.title = _data['title'];
+      this.content = _data['content'];
+      this.author = _data['author'];
+      this.publicationDate = _data['publicationDate'] ? new Date(_data['publicationDate'].toString()) : <any>undefined;
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ArticleDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ArticleDto>(data, _mappings, ArticleDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['content'] = this.content;
+    data['author'] = this.author;
+    data['publicationDate'] = this.publicationDate ? this.publicationDate.toISOString() : <any>undefined;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IArticleDto {
+  id?: number;
+  title?: string | undefined;
+  content?: string | undefined;
+  author?: string | undefined;
+  publicationDate?: Date;
+  userId?: number;
+}
+
+export class CategoryDetailsDto implements ICategoryDetailsDto {
+  id?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+  products?: ProductDto[] | undefined;
+
+  constructor(data?: ICategoryDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.description = _data['description'];
+      if (Array.isArray(_data['products'])) {
+        this.products = [] as any;
+        for (let item of _data['products']) this.products!.push(<ProductDto>ProductDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CategoryDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CategoryDetailsDto>(data, _mappings, CategoryDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    if (Array.isArray(this.products)) {
+      data['products'] = [];
+      for (let item of this.products) data['products'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface ICategoryDetailsDto {
+  id?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+  products?: ProductDto[] | undefined;
+}
+
+export class CategoryDto implements ICategoryDto {
+  id?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+
+  constructor(data?: ICategoryDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.description = _data['description'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CategoryDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CategoryDto>(data, _mappings, CategoryDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    return data;
+  }
+}
+
+export interface ICategoryDto {
+  id?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+}
+
+export class CommentDetailsDto implements ICommentDetailsDto {
+  id?: number;
+  content?: string | undefined;
+  author?: string | undefined;
+  timestamp?: Date;
+  articleId?: number;
+  userId?: number;
+  article?: ArticleDto;
+  user?: UserDto;
+
+  constructor(data?: ICommentDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.content = _data['content'];
+      this.author = _data['author'];
+      this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
+      this.articleId = _data['articleId'];
+      this.userId = _data['userId'];
+      this.article = _data['article'] ? ArticleDto.fromJS(_data['article'], _mappings) : <any>undefined;
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CommentDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CommentDetailsDto>(data, _mappings, CommentDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['content'] = this.content;
+    data['author'] = this.author;
+    data['timestamp'] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+    data['articleId'] = this.articleId;
+    data['userId'] = this.userId;
+    data['article'] = this.article ? this.article.toJSON() : <any>undefined;
+    data['user'] = this.user ? this.user.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICommentDetailsDto {
+  id?: number;
+  content?: string | undefined;
+  author?: string | undefined;
+  timestamp?: Date;
+  articleId?: number;
+  userId?: number;
+  article?: ArticleDto;
+  user?: UserDto;
+}
+
+export class CommentDto implements ICommentDto {
+  id?: number;
+  content?: string | undefined;
+  author?: string | undefined;
+  timestamp?: Date;
+  articleId?: number;
+  userId?: number;
+
+  constructor(data?: ICommentDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.content = _data['content'];
+      this.author = _data['author'];
+      this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
+      this.articleId = _data['articleId'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CommentDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CommentDto>(data, _mappings, CommentDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['content'] = this.content;
+    data['author'] = this.author;
+    data['timestamp'] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+    data['articleId'] = this.articleId;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface ICommentDto {
+  id?: number;
+  content?: string | undefined;
+  author?: string | undefined;
+  timestamp?: Date;
+  articleId?: number;
+  userId?: number;
+}
+
+export class CreateAddressDto implements ICreateAddressDto {
+  street?: string | undefined;
+  city?: string | undefined;
+  state?: string | undefined;
+  country?: string | undefined;
+  postalCode?: string | undefined;
+  userId?: number;
+
+  constructor(data?: ICreateAddressDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.street = _data['street'];
+      this.city = _data['city'];
+      this.state = _data['state'];
+      this.country = _data['country'];
+      this.postalCode = _data['postalCode'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateAddressDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateAddressDto>(data, _mappings, CreateAddressDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['street'] = this.street;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['postalCode'] = this.postalCode;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface ICreateAddressDto {
+  street?: string | undefined;
+  city?: string | undefined;
+  state?: string | undefined;
+  country?: string | undefined;
+  postalCode?: string | undefined;
+  userId?: number;
+}
+
+export class CreateArticleCommand implements ICreateArticleCommand {
+  article?: CreateArticleDto;
+
+  constructor(data?: ICreateArticleCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.article = _data['article'] ? CreateArticleDto.fromJS(_data['article'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateArticleCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateArticleCommand>(data, _mappings, CreateArticleCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['article'] = this.article ? this.article.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateArticleCommand {
+  article?: CreateArticleDto;
+}
+
+export class CreateArticleDto implements ICreateArticleDto {
+  title?: string | undefined;
+  content?: string | undefined;
+  author?: string | undefined;
+  publicationDate?: Date;
+  userId?: number;
+
+  constructor(data?: ICreateArticleDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.title = _data['title'];
+      this.content = _data['content'];
+      this.author = _data['author'];
+      this.publicationDate = _data['publicationDate'] ? new Date(_data['publicationDate'].toString()) : <any>undefined;
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateArticleDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateArticleDto>(data, _mappings, CreateArticleDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['title'] = this.title;
+    data['content'] = this.content;
+    data['author'] = this.author;
+    data['publicationDate'] = this.publicationDate ? this.publicationDate.toISOString() : <any>undefined;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface ICreateArticleDto {
+  title?: string | undefined;
+  content?: string | undefined;
+  author?: string | undefined;
+  publicationDate?: Date;
+  userId?: number;
+}
+
+export class CreateCategoryCommand implements ICreateCategoryCommand {
+  category?: CreateCategoryDto;
+
+  constructor(data?: ICreateCategoryCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.category = _data['category'] ? CreateCategoryDto.fromJS(_data['category'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateCategoryCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateCategoryCommand>(data, _mappings, CreateCategoryCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['category'] = this.category ? this.category.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateCategoryCommand {
+  category?: CreateCategoryDto;
+}
+
+export class CreateCategoryDto implements ICreateCategoryDto {
+  name?: string | undefined;
+  description?: string | undefined;
+
+  constructor(data?: ICreateCategoryDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.name = _data['name'];
+      this.description = _data['description'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateCategoryDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateCategoryDto>(data, _mappings, CreateCategoryDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['name'] = this.name;
+    data['description'] = this.description;
+    return data;
+  }
+}
+
+export interface ICreateCategoryDto {
+  name?: string | undefined;
+  description?: string | undefined;
+}
+
+export class CreateCommentCommand implements ICreateCommentCommand {
+  comment?: CreateCommentDto;
+
+  constructor(data?: ICreateCommentCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.comment = _data['comment'] ? CreateCommentDto.fromJS(_data['comment'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateCommentCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateCommentCommand>(data, _mappings, CreateCommentCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['comment'] = this.comment ? this.comment.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateCommentCommand {
+  comment?: CreateCommentDto;
+}
+
+export class CreateCommentDto implements ICreateCommentDto {
+  content?: string | undefined;
+  author?: string | undefined;
+  timestamp?: Date;
+  articleId?: number;
+  userId?: number;
+
+  constructor(data?: ICreateCommentDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.content = _data['content'];
+      this.author = _data['author'];
+      this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
+      this.articleId = _data['articleId'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateCommentDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateCommentDto>(data, _mappings, CreateCommentDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['content'] = this.content;
+    data['author'] = this.author;
+    data['timestamp'] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+    data['articleId'] = this.articleId;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface ICreateCommentDto {
+  content?: string | undefined;
+  author?: string | undefined;
+  timestamp?: Date;
+  articleId?: number;
+  userId?: number;
+}
+
+export class CreateDiscountDto implements ICreateDiscountDto {
+  code?: string | undefined;
+  percentage?: number;
+  startDate?: Date;
+  endDate?: Date;
+
+  constructor(data?: ICreateDiscountDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.code = _data['code'];
+      this.percentage = _data['percentage'];
+      this.startDate = _data['startDate'] ? new Date(_data['startDate'].toString()) : <any>undefined;
+      this.endDate = _data['endDate'] ? new Date(_data['endDate'].toString()) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateDiscountDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateDiscountDto>(data, _mappings, CreateDiscountDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['code'] = this.code;
+    data['percentage'] = this.percentage;
+    data['startDate'] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+    data['endDate'] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateDiscountDto {
+  code?: string | undefined;
+  percentage?: number;
+  startDate?: Date;
+  endDate?: Date;
+}
+
+export class CreateNotificationDto implements ICreateNotificationDto {
+  message?: string | undefined;
+  timestamp?: Date;
+  isRead?: boolean;
+  userId?: number;
+
+  constructor(data?: ICreateNotificationDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.message = _data['message'];
+      this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
+      this.isRead = _data['isRead'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateNotificationDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateNotificationDto>(data, _mappings, CreateNotificationDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['message'] = this.message;
+    data['timestamp'] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+    data['isRead'] = this.isRead;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface ICreateNotificationDto {
+  message?: string | undefined;
+  timestamp?: Date;
+  isRead?: boolean;
+  userId?: number;
+}
+
+export class CreateOrderCommand implements ICreateOrderCommand {
+  order?: CreateOrderDto;
+
+  constructor(data?: ICreateOrderCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.order = _data['order'] ? CreateOrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateOrderCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateOrderCommand>(data, _mappings, CreateOrderCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['order'] = this.order ? this.order.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateOrderCommand {
+  order?: CreateOrderDto;
+}
+
+export class CreateOrderDetailCommand implements ICreateOrderDetailCommand {
+  orderDetail?: CreateOrderDetailDto;
+
+  constructor(data?: ICreateOrderDetailCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.orderDetail = _data['orderDetail'] ? CreateOrderDetailDto.fromJS(_data['orderDetail'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateOrderDetailCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateOrderDetailCommand>(data, _mappings, CreateOrderDetailCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['orderDetail'] = this.orderDetail ? this.orderDetail.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateOrderDetailCommand {
+  orderDetail?: CreateOrderDetailDto;
+}
+
+export class CreateOrderDetailDto implements ICreateOrderDetailDto {
+  productId?: number;
+  quantity?: number;
+  unitPrice?: number;
+  orderId?: number;
+
+  constructor(data?: ICreateOrderDetailDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.productId = _data['productId'];
+      this.quantity = _data['quantity'];
+      this.unitPrice = _data['unitPrice'];
+      this.orderId = _data['orderId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateOrderDetailDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateOrderDetailDto>(data, _mappings, CreateOrderDetailDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['productId'] = this.productId;
+    data['quantity'] = this.quantity;
+    data['unitPrice'] = this.unitPrice;
+    data['orderId'] = this.orderId;
+    return data;
+  }
+}
+
+export interface ICreateOrderDetailDto {
+  productId?: number;
+  quantity?: number;
+  unitPrice?: number;
+  orderId?: number;
+}
+
+export class CreateOrderDto implements ICreateOrderDto {
+  orderDate?: Date;
+  totalPrice?: number;
+  orderStatus?: string | undefined;
+  userId?: number;
+  orderDetails?: CreateOrderDetailDto[] | undefined;
+
+  constructor(data?: ICreateOrderDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.orderDate = _data['orderDate'] ? new Date(_data['orderDate'].toString()) : <any>undefined;
+      this.totalPrice = _data['totalPrice'];
+      this.orderStatus = _data['orderStatus'];
+      this.userId = _data['userId'];
+      if (Array.isArray(_data['orderDetails'])) {
+        this.orderDetails = [] as any;
+        for (let item of _data['orderDetails']) this.orderDetails!.push(<CreateOrderDetailDto>CreateOrderDetailDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateOrderDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateOrderDto>(data, _mappings, CreateOrderDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['orderDate'] = this.orderDate ? this.orderDate.toISOString() : <any>undefined;
+    data['totalPrice'] = this.totalPrice;
+    data['orderStatus'] = this.orderStatus;
+    data['userId'] = this.userId;
+    if (Array.isArray(this.orderDetails)) {
+      data['orderDetails'] = [];
+      for (let item of this.orderDetails) data['orderDetails'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface ICreateOrderDto {
+  orderDate?: Date;
+  totalPrice?: number;
+  orderStatus?: string | undefined;
+  userId?: number;
+  orderDetails?: CreateOrderDetailDto[] | undefined;
+}
+
+export class CreatePaymentCommand implements ICreatePaymentCommand {
+  payment?: CreatePaymentDto;
+
+  constructor(data?: ICreatePaymentCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.payment = _data['payment'] ? CreatePaymentDto.fromJS(_data['payment'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreatePaymentCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreatePaymentCommand>(data, _mappings, CreatePaymentCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['payment'] = this.payment ? this.payment.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreatePaymentCommand {
+  payment?: CreatePaymentDto;
+}
+
+export class CreatePaymentDto implements ICreatePaymentDto {
+  paymentMethod?: string | undefined;
+  amountPaid?: number;
+  paymentDate?: Date;
+  orderId?: number;
+
+  constructor(data?: ICreatePaymentDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.paymentMethod = _data['paymentMethod'];
+      this.amountPaid = _data['amountPaid'];
+      this.paymentDate = _data['paymentDate'] ? new Date(_data['paymentDate'].toString()) : <any>undefined;
+      this.orderId = _data['orderId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreatePaymentDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreatePaymentDto>(data, _mappings, CreatePaymentDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['paymentMethod'] = this.paymentMethod;
+    data['amountPaid'] = this.amountPaid;
+    data['paymentDate'] = this.paymentDate ? this.paymentDate.toISOString() : <any>undefined;
+    data['orderId'] = this.orderId;
+    return data;
+  }
+}
+
+export interface ICreatePaymentDto {
+  paymentMethod?: string | undefined;
+  amountPaid?: number;
+  paymentDate?: Date;
+  orderId?: number;
+}
+
+export class CreateProductColorDto implements ICreateProductColorDto {
+  colorName?: string | undefined;
+  colorHexCode?: string | undefined;
+  productId?: number;
+
+  constructor(data?: ICreateProductColorDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.colorName = _data['colorName'];
+      this.colorHexCode = _data['colorHexCode'];
+      this.productId = _data['productId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateProductColorDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateProductColorDto>(data, _mappings, CreateProductColorDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['colorName'] = this.colorName;
+    data['colorHexCode'] = this.colorHexCode;
+    data['productId'] = this.productId;
+    return data;
+  }
+}
+
+export interface ICreateProductColorDto {
+  colorName?: string | undefined;
+  colorHexCode?: string | undefined;
+  productId?: number;
+}
+
+export class CreateProductCommand implements ICreateProductCommand {
+  product?: CreateProductDto;
+
+  constructor(data?: ICreateProductCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.product = _data['product'] ? CreateProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateProductCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateProductCommand>(data, _mappings, CreateProductCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateProductCommand {
+  product?: CreateProductDto;
+}
+
+export class CreateProductDto implements ICreateProductDto {
+  name?: string | undefined;
+  description?: string | undefined;
+  price?: number;
+  categoryId?: number;
+
+  constructor(data?: ICreateProductDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.name = _data['name'];
+      this.description = _data['description'];
+      this.price = _data['price'];
+      this.categoryId = _data['categoryId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateProductDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateProductDto>(data, _mappings, CreateProductDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['price'] = this.price;
+    data['categoryId'] = this.categoryId;
+    return data;
+  }
+}
+
+export interface ICreateProductDto {
+  name?: string | undefined;
+  description?: string | undefined;
+  price?: number;
+  categoryId?: number;
+}
+
+export class CreateProductImageDto implements ICreateProductImageDto {
+  imageUrl?: string | undefined;
+  imageDescription?: string | undefined;
+  productId?: number;
+
+  constructor(data?: ICreateProductImageDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.imageUrl = _data['imageUrl'];
+      this.imageDescription = _data['imageDescription'];
+      this.productId = _data['productId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateProductImageDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateProductImageDto>(data, _mappings, CreateProductImageDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['imageUrl'] = this.imageUrl;
+    data['imageDescription'] = this.imageDescription;
+    data['productId'] = this.productId;
+    return data;
+  }
+}
+
+export interface ICreateProductImageDto {
+  imageUrl?: string | undefined;
+  imageDescription?: string | undefined;
+  productId?: number;
+}
+
+export class CreateProductOptionDto implements ICreateProductOptionDto {
+  name?: string | undefined;
+  value?: number;
+  productId?: number;
+
+  constructor(data?: ICreateProductOptionDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.name = _data['name'];
+      this.value = _data['value'];
+      this.productId = _data['productId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateProductOptionDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateProductOptionDto>(data, _mappings, CreateProductOptionDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['name'] = this.name;
+    data['value'] = this.value;
+    data['productId'] = this.productId;
+    return data;
+  }
+}
+
+export interface ICreateProductOptionDto {
+  name?: string | undefined;
+  value?: number;
+  productId?: number;
+}
+
+export class CreateProductReviewCommand implements ICreateProductReviewCommand {
+  productReview?: CreateProductReviewDto;
+
+  constructor(data?: ICreateProductReviewCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.productReview = _data['productReview'] ? CreateProductReviewDto.fromJS(_data['productReview'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateProductReviewCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateProductReviewCommand>(data, _mappings, CreateProductReviewCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['productReview'] = this.productReview ? this.productReview.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateProductReviewCommand {
+  productReview?: CreateProductReviewDto;
+}
+
+export class CreateProductReviewDto implements ICreateProductReviewDto {
+  rating?: number;
+  reviewText?: string | undefined;
+  reviewDate?: Date;
+  productId?: number;
+  userId?: number;
+
+  constructor(data?: ICreateProductReviewDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.rating = _data['rating'];
+      this.reviewText = _data['reviewText'];
+      this.reviewDate = _data['reviewDate'] ? new Date(_data['reviewDate'].toString()) : <any>undefined;
+      this.productId = _data['productId'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateProductReviewDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateProductReviewDto>(data, _mappings, CreateProductReviewDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['rating'] = this.rating;
+    data['reviewText'] = this.reviewText;
+    data['reviewDate'] = this.reviewDate ? this.reviewDate.toISOString() : <any>undefined;
+    data['productId'] = this.productId;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface ICreateProductReviewDto {
+  rating?: number;
+  reviewText?: string | undefined;
+  reviewDate?: Date;
+  productId?: number;
+  userId?: number;
+}
+
+export class CreateProductTagDto implements ICreateProductTagDto {
+  tagName?: string | undefined;
+  productId?: number;
+  tagId?: number;
+
+  constructor(data?: ICreateProductTagDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.tagName = _data['tagName'];
+      this.productId = _data['productId'];
+      this.tagId = _data['tagId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateProductTagDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateProductTagDto>(data, _mappings, CreateProductTagDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['tagName'] = this.tagName;
+    data['productId'] = this.productId;
+    data['tagId'] = this.tagId;
+    return data;
+  }
+}
+
+export interface ICreateProductTagDto {
+  tagName?: string | undefined;
+  productId?: number;
+  tagId?: number;
+}
+
+export class CreateShipmentCommand implements ICreateShipmentCommand {
+  shipment?: CreateShipmentDto;
+
+  constructor(data?: ICreateShipmentCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.shipment = _data['shipment'] ? CreateShipmentDto.fromJS(_data['shipment'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateShipmentCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateShipmentCommand>(data, _mappings, CreateShipmentCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['shipment'] = this.shipment ? this.shipment.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateShipmentCommand {
+  shipment?: CreateShipmentDto;
+}
+
+export class CreateShipmentDto implements ICreateShipmentDto {
+  shippingMethod?: string | undefined;
+  trackingNumber?: string | undefined;
+  estimatedDeliveryDate?: Date;
+  orderId?: number;
+
+  constructor(data?: ICreateShipmentDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.shippingMethod = _data['shippingMethod'];
+      this.trackingNumber = _data['trackingNumber'];
+      this.estimatedDeliveryDate = _data['estimatedDeliveryDate'] ? new Date(_data['estimatedDeliveryDate'].toString()) : <any>undefined;
+      this.orderId = _data['orderId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateShipmentDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateShipmentDto>(data, _mappings, CreateShipmentDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['shippingMethod'] = this.shippingMethod;
+    data['trackingNumber'] = this.trackingNumber;
+    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate ? this.estimatedDeliveryDate.toISOString() : <any>undefined;
+    data['orderId'] = this.orderId;
+    return data;
+  }
+}
+
+export interface ICreateShipmentDto {
+  shippingMethod?: string | undefined;
+  trackingNumber?: string | undefined;
+  estimatedDeliveryDate?: Date;
+  orderId?: number;
+}
+
+export class CreateShoppingCartCommand implements ICreateShoppingCartCommand {
+  shoppingCart?: CreateShoppingCartDto;
+
+  constructor(data?: ICreateShoppingCartCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.shoppingCart = _data['shoppingCart'] ? CreateShoppingCartDto.fromJS(_data['shoppingCart'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateShoppingCartCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateShoppingCartCommand>(data, _mappings, CreateShoppingCartCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['shoppingCart'] = this.shoppingCart ? this.shoppingCart.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateShoppingCartCommand {
+  shoppingCart?: CreateShoppingCartDto;
+}
+
+export class CreateShoppingCartDto implements ICreateShoppingCartDto {
+  userId?: number;
+
+  constructor(data?: ICreateShoppingCartDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateShoppingCartDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateShoppingCartDto>(data, _mappings, CreateShoppingCartDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface ICreateShoppingCartDto {
+  userId?: number;
+}
+
+export class CreateShoppingCartItemCommand implements ICreateShoppingCartItemCommand {
+  shoppingCartItem?: CreateShoppingCartItemDto;
+
+  constructor(data?: ICreateShoppingCartItemCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.shoppingCartItem = _data['shoppingCartItem'] ? CreateShoppingCartItemDto.fromJS(_data['shoppingCartItem'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateShoppingCartItemCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateShoppingCartItemCommand>(data, _mappings, CreateShoppingCartItemCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['shoppingCartItem'] = this.shoppingCartItem ? this.shoppingCartItem.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateShoppingCartItemCommand {
+  shoppingCartItem?: CreateShoppingCartItemDto;
+}
+
+export class CreateShoppingCartItemDto implements ICreateShoppingCartItemDto {
+  productId?: number;
+  quantity?: number;
+  price?: number;
+  shoppingCartId?: number;
+
+  constructor(data?: ICreateShoppingCartItemDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.productId = _data['productId'];
+      this.quantity = _data['quantity'];
+      this.price = _data['price'];
+      this.shoppingCartId = _data['shoppingCartId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateShoppingCartItemDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateShoppingCartItemDto>(data, _mappings, CreateShoppingCartItemDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['productId'] = this.productId;
+    data['quantity'] = this.quantity;
+    data['price'] = this.price;
+    data['shoppingCartId'] = this.shoppingCartId;
+    return data;
+  }
+}
+
+export interface ICreateShoppingCartItemDto {
+  productId?: number;
+  quantity?: number;
+  price?: number;
+  shoppingCartId?: number;
+}
+
+export class CreateSupplierDto implements ICreateSupplierDto {
+  name?: string | undefined;
+  contactEmail?: string | undefined;
+  contactPhone?: string | undefined;
+
+  constructor(data?: ICreateSupplierDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.name = _data['name'];
+      this.contactEmail = _data['contactEmail'];
+      this.contactPhone = _data['contactPhone'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateSupplierDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateSupplierDto>(data, _mappings, CreateSupplierDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['name'] = this.name;
+    data['contactEmail'] = this.contactEmail;
+    data['contactPhone'] = this.contactPhone;
+    return data;
+  }
+}
+
+export interface ICreateSupplierDto {
+  name?: string | undefined;
+  contactEmail?: string | undefined;
+  contactPhone?: string | undefined;
+}
+
+export class CreateSupplyDto implements ICreateSupplyDto {
+  productId?: number;
+  supplierId?: number;
+  quantity?: number;
+  price?: number;
+
+  constructor(data?: ICreateSupplyDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.productId = _data['productId'];
+      this.supplierId = _data['supplierId'];
+      this.quantity = _data['quantity'];
+      this.price = _data['price'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateSupplyDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateSupplyDto>(data, _mappings, CreateSupplyDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['productId'] = this.productId;
+    data['supplierId'] = this.supplierId;
+    data['quantity'] = this.quantity;
+    data['price'] = this.price;
+    return data;
+  }
+}
+
+export interface ICreateSupplyDto {
+  productId?: number;
+  supplierId?: number;
+  quantity?: number;
+  price?: number;
+}
+
+export class CreateTagDto implements ICreateTagDto {
+  name?: string | undefined;
+
+  constructor(data?: ICreateTagDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.name = _data['name'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateTagDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateTagDto>(data, _mappings, CreateTagDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['name'] = this.name;
+    return data;
+  }
+}
+
+export interface ICreateTagDto {
+  name?: string | undefined;
+}
+
+export class CreateUserCommand implements ICreateUserCommand {
+  user?: CreateUserDto;
+
+  constructor(data?: ICreateUserCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.user = _data['user'] ? CreateUserDto.fromJS(_data['user'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateUserCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateUserCommand>(data, _mappings, CreateUserCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['user'] = this.user ? this.user.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateUserCommand {
+  user?: CreateUserDto;
+}
+
+export class CreateUserDto implements ICreateUserDto {
+  id?: string | undefined;
   userName?: string | undefined;
   normalizedUserName?: string | undefined;
   email?: string | undefined;
@@ -9082,305 +11850,68 @@ export interface AppUser {
   firstName?: string | undefined;
   lastName?: string | undefined;
   phone?: string | undefined;
-  passwordSalt?: string | undefined;
-  isDeleted?: boolean;
-  orders?: Order[] | undefined;
-  productReviews?: ProductReview[] | undefined;
-  wishLists?: WishList[] | undefined;
-  comments?: Comment[] | undefined;
-  notifications?: Notification[] | undefined;
-  userRoles?: AppUserRole[] | undefined;
+
+  constructor(data?: ICreateUserDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.userName = _data['userName'];
+      this.normalizedUserName = _data['normalizedUserName'];
+      this.email = _data['email'];
+      this.normalizedEmail = _data['normalizedEmail'];
+      this.emailConfirmed = _data['emailConfirmed'];
+      this.passwordHash = _data['passwordHash'];
+      this.securityStamp = _data['securityStamp'];
+      this.concurrencyStamp = _data['concurrencyStamp'];
+      this.phoneNumber = _data['phoneNumber'];
+      this.phoneNumberConfirmed = _data['phoneNumberConfirmed'];
+      this.twoFactorEnabled = _data['twoFactorEnabled'];
+      this.lockoutEnd = _data['lockoutEnd'] ? new Date(_data['lockoutEnd'].toString()) : <any>undefined;
+      this.lockoutEnabled = _data['lockoutEnabled'];
+      this.accessFailedCount = _data['accessFailedCount'];
+      this.firstName = _data['firstName'];
+      this.lastName = _data['lastName'];
+      this.phone = _data['phone'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateUserDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateUserDto>(data, _mappings, CreateUserDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['userName'] = this.userName;
+    data['normalizedUserName'] = this.normalizedUserName;
+    data['email'] = this.email;
+    data['normalizedEmail'] = this.normalizedEmail;
+    data['emailConfirmed'] = this.emailConfirmed;
+    data['passwordHash'] = this.passwordHash;
+    data['securityStamp'] = this.securityStamp;
+    data['concurrencyStamp'] = this.concurrencyStamp;
+    data['phoneNumber'] = this.phoneNumber;
+    data['phoneNumberConfirmed'] = this.phoneNumberConfirmed;
+    data['twoFactorEnabled'] = this.twoFactorEnabled;
+    data['lockoutEnd'] = this.lockoutEnd ? this.lockoutEnd.toISOString() : <any>undefined;
+    data['lockoutEnabled'] = this.lockoutEnabled;
+    data['accessFailedCount'] = this.accessFailedCount;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['phone'] = this.phone;
+    return data;
+  }
 }
 
-export interface AppUserRole {
-  id?: number;
-  name?: string | undefined;
-  normalizedName?: string | undefined;
-  concurrencyStamp?: string | undefined;
-  appUser?: AppUser;
-  role?: AppRole;
-}
-
-export interface Article {
-  id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
-  title?: string | undefined;
-  content?: string | undefined;
-  author?: string | undefined;
-  publicationDate?: Date;
-  authorUserId?: number;
-  authorUser?: AppUser;
-  comments?: Comment[] | undefined;
-}
-
-export interface ArticleDetailsDto {
-  id?: number;
-  title?: string | undefined;
-  content?: string | undefined;
-  author?: string | undefined;
-  publicationDate?: Date;
-  userId?: number;
-  authorUser?: UserDto;
-  comments?: CommentDto[] | undefined;
-}
-
-export interface ArticleDto {
-  id?: number;
-  title?: string | undefined;
-  content?: string | undefined;
-  author?: string | undefined;
-  publicationDate?: Date;
-  userId?: number;
-}
-
-export interface Category {
-  id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
-  name?: string | undefined;
-  description?: string | undefined;
-  products?: Product[] | undefined;
-}
-
-export interface CategoryDetailsDto {
-  id?: number;
-  name?: string | undefined;
-  description?: string | undefined;
-  products?: ProductDto[] | undefined;
-}
-
-export interface CategoryDto {
-  id?: number;
-  name?: string | undefined;
-  description?: string | undefined;
-}
-
-export interface Comment {
-  id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
-  content?: string | undefined;
-  author?: string | undefined;
-  timestamp?: Date;
-  articleId?: number | undefined;
-  article?: Article;
-  commenterId?: number;
-  commenter?: AppUser;
-}
-
-export interface CommentDetailsDto {
-  id?: number;
-  content?: string | undefined;
-  author?: string | undefined;
-  timestamp?: Date;
-  articleId?: number;
-  userId?: number;
-  article?: ArticleDto;
-  user?: UserDto;
-}
-
-export interface CommentDto {
-  id?: number;
-  content?: string | undefined;
-  author?: string | undefined;
-  timestamp?: Date;
-  articleId?: number;
-  userId?: number;
-}
-
-export interface CreateAddressDto {
-  street?: string | undefined;
-  city?: string | undefined;
-  state?: string | undefined;
-  country?: string | undefined;
-  postalCode?: string | undefined;
-  userId?: number;
-}
-
-export interface CreateArticleCommand {
-  article?: CreateArticleDto;
-}
-
-export interface CreateArticleDto {
-  title?: string | undefined;
-  content?: string | undefined;
-  author?: string | undefined;
-  publicationDate?: Date;
-  userId?: number;
-}
-
-export interface CreateCategoryCommand {
-  category?: CreateCategoryDto;
-}
-
-export interface CreateCategoryDto {
-  name?: string | undefined;
-  description?: string | undefined;
-}
-
-export interface CreateCommentCommand {
-  comment?: CreateCommentDto;
-}
-
-export interface CreateCommentDto {
-  content?: string | undefined;
-  author?: string | undefined;
-  timestamp?: Date;
-  articleId?: number;
-  userId?: number;
-}
-
-export interface CreateDiscountDto {
-  code?: string | undefined;
-  percentage?: number;
-  startDate?: Date;
-  endDate?: Date;
-}
-
-export interface CreateNotificationDto {
-  message?: string | undefined;
-  timestamp?: Date;
-  isRead?: boolean;
-  userId?: number;
-}
-
-export interface CreateOrderCommand {
-  order?: CreateOrderDto;
-}
-
-export interface CreateOrderDetailCommand {
-  orderDetail?: CreateOrderDetailDto;
-}
-
-export interface CreateOrderDetailDto {
-  productId?: number;
-  quantity?: number;
-  unitPrice?: number;
-  orderId?: number;
-}
-
-export interface CreateOrderDto {
-  orderDate?: Date;
-  totalPrice?: number;
-  orderStatus?: string | undefined;
-  userId?: number;
-  orderDetails?: CreateOrderDetailDto[] | undefined;
-}
-
-export interface CreatePaymentCommand {
-  payment?: CreatePaymentDto;
-}
-
-export interface CreatePaymentDto {
-  paymentMethod?: string | undefined;
-  amountPaid?: number;
-  paymentDate?: Date;
-  orderId?: number;
-}
-
-export interface CreateProductColorDto {
-  colorName?: string | undefined;
-  colorHexCode?: string | undefined;
-  productId?: number;
-}
-
-export interface CreateProductCommand {
-  product?: CreateProductDto;
-}
-
-export interface CreateProductDto {
-  name?: string | undefined;
-  description?: string | undefined;
-  price?: number;
-  categoryId?: number;
-}
-
-export interface CreateProductImageDto {
-  imageUrl?: string | undefined;
-  imageDescription?: string | undefined;
-  productId?: number;
-}
-
-export interface CreateProductOptionDto {
-  name?: string | undefined;
-  value?: number;
-  productId?: number;
-}
-
-export interface CreateProductReviewCommand {
-  productReview?: CreateProductReviewDto;
-}
-
-export interface CreateProductReviewDto {
-  rating?: number;
-  reviewText?: string | undefined;
-  reviewDate?: Date;
-  productId?: number;
-  userId?: number;
-}
-
-export interface CreateProductTagDto {
-  tagName?: string | undefined;
-  productId?: number;
-  tagId?: number;
-}
-
-export interface CreateShipmentCommand {
-  shipment?: CreateShipmentDto;
-}
-
-export interface CreateShipmentDto {
-  shippingMethod?: string | undefined;
-  trackingNumber?: string | undefined;
-  estimatedDeliveryDate?: Date;
-  orderId?: number;
-}
-
-export interface CreateShoppingCartCommand {
-  shoppingCart?: CreateShoppingCartDto;
-}
-
-export interface CreateShoppingCartDto {
-  userId?: number;
-}
-
-export interface CreateShoppingCartItemCommand {
-  shoppingCartItem?: CreateShoppingCartItemDto;
-}
-
-export interface CreateShoppingCartItemDto {
-  productId?: number;
-  quantity?: number;
-  price?: number;
-  shoppingCartId?: number;
-}
-
-export interface CreateSupplierDto {
-  name?: string | undefined;
-  contactEmail?: string | undefined;
-  contactPhone?: string | undefined;
-}
-
-export interface CreateSupplyDto {
-  productId?: number;
-  supplierId?: number;
-  quantity?: number;
-  price?: number;
-}
-
-export interface CreateTagDto {
-  name?: string | undefined;
-}
-
-export interface CreateUserCommand {
-  user?: CreateUserDto;
-}
-
-export interface CreateUserDto {
+export interface ICreateUserDto {
   id?: string | undefined;
   userName?: string | undefined;
   normalizedUserName?: string | undefined;
@@ -9401,21 +11932,155 @@ export interface CreateUserDto {
   phone?: string | undefined;
 }
 
-export interface CreateWishListCommand {
+export class CreateWishListCommand implements ICreateWishListCommand {
+  wishList?: CreateWishListDto;
+
+  constructor(data?: ICreateWishListCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.wishList = _data['wishList'] ? CreateWishListDto.fromJS(_data['wishList'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateWishListCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateWishListCommand>(data, _mappings, CreateWishListCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['wishList'] = this.wishList ? this.wishList.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface ICreateWishListCommand {
   wishList?: CreateWishListDto;
 }
 
-export interface CreateWishListDto {
+export class CreateWishListDto implements ICreateWishListDto {
+  name?: string | undefined;
+  userId?: number;
+
+  constructor(data?: ICreateWishListDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.name = _data['name'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateWishListDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateWishListDto>(data, _mappings, CreateWishListDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['name'] = this.name;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface ICreateWishListDto {
   name?: string | undefined;
   userId?: number;
 }
 
-export interface CreateWishListItemDto {
+export class CreateWishListItemDto implements ICreateWishListItemDto {
+  productId?: number;
+  wishListId?: number;
+
+  constructor(data?: ICreateWishListItemDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.productId = _data['productId'];
+      this.wishListId = _data['wishListId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): CreateWishListItemDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<CreateWishListItemDto>(data, _mappings, CreateWishListItemDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['productId'] = this.productId;
+    data['wishListId'] = this.wishListId;
+    return data;
+  }
+}
+
+export interface ICreateWishListItemDto {
   productId?: number;
   wishListId?: number;
 }
 
-export interface DiscountDetailsDto {
+export class DiscountDetailsDto implements IDiscountDetailsDto {
+  id?: number;
+  code?: string | undefined;
+  percentage?: number;
+  startDate?: Date;
+  endDate?: Date;
+
+  constructor(data?: IDiscountDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.code = _data['code'];
+      this.percentage = _data['percentage'];
+      this.startDate = _data['startDate'] ? new Date(_data['startDate'].toString()) : <any>undefined;
+      this.endDate = _data['endDate'] ? new Date(_data['endDate'].toString()) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): DiscountDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<DiscountDetailsDto>(data, _mappings, DiscountDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['code'] = this.code;
+    data['percentage'] = this.percentage;
+    data['startDate'] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+    data['endDate'] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IDiscountDetailsDto {
   id?: number;
   code?: string | undefined;
   percentage?: number;
@@ -9423,7 +12088,48 @@ export interface DiscountDetailsDto {
   endDate?: Date;
 }
 
-export interface DiscountDto {
+export class DiscountDto implements IDiscountDto {
+  id?: number;
+  code?: string | undefined;
+  percentage?: number;
+  startDate?: Date;
+  endDate?: Date;
+
+  constructor(data?: IDiscountDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.code = _data['code'];
+      this.percentage = _data['percentage'];
+      this.startDate = _data['startDate'] ? new Date(_data['startDate'].toString()) : <any>undefined;
+      this.endDate = _data['endDate'] ? new Date(_data['endDate'].toString()) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): DiscountDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<DiscountDto>(data, _mappings, DiscountDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['code'] = this.code;
+    data['percentage'] = this.percentage;
+    data['startDate'] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+    data['endDate'] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IDiscountDto {
   id?: number;
   code?: string | undefined;
   percentage?: number;
@@ -9431,24 +12137,88 @@ export interface DiscountDto {
   endDate?: Date;
 }
 
-export interface LoginModel {
+export class LoginModel implements ILoginModel {
+  username?: string | undefined;
+  password?: string | undefined;
+
+  constructor(data?: ILoginModel) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.username = _data['username'];
+      this.password = _data['password'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): LoginModel | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<LoginModel>(data, _mappings, LoginModel);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['username'] = this.username;
+    data['password'] = this.password;
+    return data;
+  }
+}
+
+export interface ILoginModel {
   username?: string | undefined;
   password?: string | undefined;
 }
 
-export interface Notification {
+export class NotificationDetailsDto implements INotificationDetailsDto {
   id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
   message?: string | undefined;
   timestamp?: Date;
   isRead?: boolean;
   userId?: number;
-  appUser?: AppUser;
+  user?: UserDto;
+
+  constructor(data?: INotificationDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.message = _data['message'];
+      this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
+      this.isRead = _data['isRead'];
+      this.userId = _data['userId'];
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): NotificationDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<NotificationDetailsDto>(data, _mappings, NotificationDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['message'] = this.message;
+    data['timestamp'] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+    data['isRead'] = this.isRead;
+    data['userId'] = this.userId;
+    data['user'] = this.user ? this.user.toJSON() : <any>undefined;
+    return data;
+  }
 }
 
-export interface NotificationDetailsDto {
+export interface INotificationDetailsDto {
   id?: number;
   message?: string | undefined;
   timestamp?: Date;
@@ -9457,7 +12227,48 @@ export interface NotificationDetailsDto {
   user?: UserDto;
 }
 
-export interface NotificationDto {
+export class NotificationDto implements INotificationDto {
+  id?: number;
+  message?: string | undefined;
+  timestamp?: Date;
+  isRead?: boolean;
+  userId?: number;
+
+  constructor(data?: INotificationDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.message = _data['message'];
+      this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
+      this.isRead = _data['isRead'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): NotificationDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<NotificationDto>(data, _mappings, NotificationDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['message'] = this.message;
+    data['timestamp'] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+    data['isRead'] = this.isRead;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface INotificationDto {
   id?: number;
   message?: string | undefined;
   timestamp?: Date;
@@ -9465,33 +12276,54 @@ export interface NotificationDto {
   userId?: number;
 }
 
-export interface Order {
+export class OrderDetailDetailsDto implements IOrderDetailDetailsDto {
   id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
-  orderDate?: Date;
-  totalPrice?: number;
-  orderStatus?: string | undefined;
-  userId?: number;
-  appUser?: AppUser;
-  orderDetails?: OrderDetail[] | undefined;
-}
-
-export interface OrderDetail {
-  id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
   productId?: number;
-  product?: Product;
   quantity?: number;
   unitPrice?: number;
   orderId?: number;
-  order?: Order;
+  product?: ProductDto;
+  order?: OrderDto;
+
+  constructor(data?: IOrderDetailDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.quantity = _data['quantity'];
+      this.unitPrice = _data['unitPrice'];
+      this.orderId = _data['orderId'];
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.order = _data['order'] ? OrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): OrderDetailDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<OrderDetailDetailsDto>(data, _mappings, OrderDetailDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['quantity'] = this.quantity;
+    data['unitPrice'] = this.unitPrice;
+    data['orderId'] = this.orderId;
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    data['order'] = this.order ? this.order.toJSON() : <any>undefined;
+    return data;
+  }
 }
 
-export interface OrderDetailDetailsDto {
+export interface IOrderDetailDetailsDto {
   id?: number;
   productId?: number;
   quantity?: number;
@@ -9501,7 +12333,48 @@ export interface OrderDetailDetailsDto {
   order?: OrderDto;
 }
 
-export interface OrderDetailDto {
+export class OrderDetailDto implements IOrderDetailDto {
+  id?: number;
+  productId?: number;
+  quantity?: number;
+  unitPrice?: number;
+  orderId?: number;
+
+  constructor(data?: IOrderDetailDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.quantity = _data['quantity'];
+      this.unitPrice = _data['unitPrice'];
+      this.orderId = _data['orderId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): OrderDetailDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<OrderDetailDto>(data, _mappings, OrderDetailDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['quantity'] = this.quantity;
+    data['unitPrice'] = this.unitPrice;
+    data['orderId'] = this.orderId;
+    return data;
+  }
+}
+
+export interface IOrderDetailDto {
   id?: number;
   productId?: number;
   quantity?: number;
@@ -9509,7 +12382,60 @@ export interface OrderDetailDto {
   orderId?: number;
 }
 
-export interface OrderDetailsDto {
+export class OrderDetailsDto implements IOrderDetailsDto {
+  id?: number;
+  orderDate?: Date;
+  totalPrice?: number;
+  orderStatus?: string | undefined;
+  userId?: number;
+  user?: UserDto;
+  orderDetails?: OrderDetailDto[] | undefined;
+
+  constructor(data?: IOrderDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.orderDate = _data['orderDate'] ? new Date(_data['orderDate'].toString()) : <any>undefined;
+      this.totalPrice = _data['totalPrice'];
+      this.orderStatus = _data['orderStatus'];
+      this.userId = _data['userId'];
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
+      if (Array.isArray(_data['orderDetails'])) {
+        this.orderDetails = [] as any;
+        for (let item of _data['orderDetails']) this.orderDetails!.push(<OrderDetailDto>OrderDetailDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): OrderDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<OrderDetailsDto>(data, _mappings, OrderDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['orderDate'] = this.orderDate ? this.orderDate.toISOString() : <any>undefined;
+    data['totalPrice'] = this.totalPrice;
+    data['orderStatus'] = this.orderStatus;
+    data['userId'] = this.userId;
+    data['user'] = this.user ? this.user.toJSON() : <any>undefined;
+    if (Array.isArray(this.orderDetails)) {
+      data['orderDetails'] = [];
+      for (let item of this.orderDetails) data['orderDetails'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IOrderDetailsDto {
   id?: number;
   orderDate?: Date;
   totalPrice?: number;
@@ -9519,7 +12445,48 @@ export interface OrderDetailsDto {
   orderDetails?: OrderDetailDto[] | undefined;
 }
 
-export interface OrderDto {
+export class OrderDto implements IOrderDto {
+  id?: number;
+  orderDate?: Date;
+  totalPrice?: number;
+  orderStatus?: string | undefined;
+  userId?: number;
+
+  constructor(data?: IOrderDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.orderDate = _data['orderDate'] ? new Date(_data['orderDate'].toString()) : <any>undefined;
+      this.totalPrice = _data['totalPrice'];
+      this.orderStatus = _data['orderStatus'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): OrderDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<OrderDto>(data, _mappings, OrderDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['orderDate'] = this.orderDate ? this.orderDate.toISOString() : <any>undefined;
+    data['totalPrice'] = this.totalPrice;
+    data['orderStatus'] = this.orderStatus;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IOrderDto {
   id?: number;
   orderDate?: Date;
   totalPrice?: number;
@@ -9527,7 +12494,51 @@ export interface OrderDto {
   userId?: number;
 }
 
-export interface PaymentDetailsDto {
+export class PaymentDetailsDto implements IPaymentDetailsDto {
+  id?: number;
+  paymentMethod?: string | undefined;
+  amountPaid?: number;
+  paymentDate?: Date;
+  orderId?: number;
+  order?: OrderDto;
+
+  constructor(data?: IPaymentDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.paymentMethod = _data['paymentMethod'];
+      this.amountPaid = _data['amountPaid'];
+      this.paymentDate = _data['paymentDate'] ? new Date(_data['paymentDate'].toString()) : <any>undefined;
+      this.orderId = _data['orderId'];
+      this.order = _data['order'] ? OrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): PaymentDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<PaymentDetailsDto>(data, _mappings, PaymentDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['paymentMethod'] = this.paymentMethod;
+    data['amountPaid'] = this.amountPaid;
+    data['paymentDate'] = this.paymentDate ? this.paymentDate.toISOString() : <any>undefined;
+    data['orderId'] = this.orderId;
+    data['order'] = this.order ? this.order.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IPaymentDetailsDto {
   id?: number;
   paymentMethod?: string | undefined;
   amountPaid?: number;
@@ -9536,7 +12547,48 @@ export interface PaymentDetailsDto {
   order?: OrderDto;
 }
 
-export interface PaymentDto {
+export class PaymentDto implements IPaymentDto {
+  id?: number;
+  paymentMethod?: string | undefined;
+  amountPaid?: number;
+  paymentDate?: Date;
+  orderId?: number;
+
+  constructor(data?: IPaymentDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.paymentMethod = _data['paymentMethod'];
+      this.amountPaid = _data['amountPaid'];
+      this.paymentDate = _data['paymentDate'] ? new Date(_data['paymentDate'].toString()) : <any>undefined;
+      this.orderId = _data['orderId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): PaymentDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<PaymentDto>(data, _mappings, PaymentDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['paymentMethod'] = this.paymentMethod;
+    data['amountPaid'] = this.amountPaid;
+    data['paymentDate'] = this.paymentDate ? this.paymentDate.toISOString() : <any>undefined;
+    data['orderId'] = this.orderId;
+    return data;
+  }
+}
+
+export interface IPaymentDto {
   id?: number;
   paymentMethod?: string | undefined;
   amountPaid?: number;
@@ -9544,7 +12596,56 @@ export interface PaymentDto {
   orderId?: number;
 }
 
-export interface ProblemDetails {
+export class ProblemDetails implements IProblemDetails {
+  type?: string | undefined;
+  title?: string | undefined;
+  status?: number | undefined;
+  detail?: string | undefined;
+  instance?: string | undefined;
+
+  [key: string]: any;
+
+  constructor(data?: IProblemDetails) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      for (var property in _data) {
+        if (_data.hasOwnProperty(property)) this[property] = _data[property];
+      }
+      this.type = _data['type'];
+      this.title = _data['title'];
+      this.status = _data['status'];
+      this.detail = _data['detail'];
+      this.instance = _data['instance'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProblemDetails | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProblemDetails>(data, _mappings, ProblemDetails);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    for (var property in this) {
+      if (this.hasOwnProperty(property)) data[property] = this[property];
+    }
+    data['type'] = this.type;
+    data['title'] = this.title;
+    data['status'] = this.status;
+    data['detail'] = this.detail;
+    data['instance'] = this.instance;
+    return data;
+  }
+}
+
+export interface IProblemDetails {
   type?: string | undefined;
   title?: string | undefined;
   status?: number | undefined;
@@ -9554,37 +12655,48 @@ export interface ProblemDetails {
   [key: string]: any;
 }
 
-export interface Product {
+export class ProductColorDetailsDto implements IProductColorDetailsDto {
   id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
-  name?: string | undefined;
-  description?: string | undefined;
-  price?: number;
-  stockQuantity?: number;
-  sku?: string | undefined;
-  categoryId?: number;
-  category?: Category;
-  productOptions?: ProductOption[] | undefined;
-  productColors?: ProductColor[] | undefined;
-  productImages?: ProductImage[] | undefined;
-  productReviews?: ProductReview[] | undefined;
-  orderDetails?: OrderDetail[] | undefined;
-}
-
-export interface ProductColor {
-  id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
   colorName?: string | undefined;
   colorHexCode?: string | undefined;
   productId?: number;
-  product?: Product;
+  product?: ProductDto;
+
+  constructor(data?: IProductColorDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.colorName = _data['colorName'];
+      this.colorHexCode = _data['colorHexCode'];
+      this.productId = _data['productId'];
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductColorDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductColorDetailsDto>(data, _mappings, ProductColorDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['colorName'] = this.colorName;
+    data['colorHexCode'] = this.colorHexCode;
+    data['productId'] = this.productId;
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    return data;
+  }
 }
 
-export interface ProductColorDetailsDto {
+export interface IProductColorDetailsDto {
   id?: number;
   colorName?: string | undefined;
   colorHexCode?: string | undefined;
@@ -9592,14 +12704,132 @@ export interface ProductColorDetailsDto {
   product?: ProductDto;
 }
 
-export interface ProductColorDto {
+export class ProductColorDto implements IProductColorDto {
+  id?: number;
+  colorName?: string | undefined;
+  colorHexCode?: string | undefined;
+  productId?: number;
+
+  constructor(data?: IProductColorDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.colorName = _data['colorName'];
+      this.colorHexCode = _data['colorHexCode'];
+      this.productId = _data['productId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductColorDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductColorDto>(data, _mappings, ProductColorDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['colorName'] = this.colorName;
+    data['colorHexCode'] = this.colorHexCode;
+    data['productId'] = this.productId;
+    return data;
+  }
+}
+
+export interface IProductColorDto {
   id?: number;
   colorName?: string | undefined;
   colorHexCode?: string | undefined;
   productId?: number;
 }
 
-export interface ProductDetailsDto {
+export class ProductDetailsDto implements IProductDetailsDto {
+  id?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+  price?: number;
+  categoryId?: number;
+  category?: CategoryDto;
+  productOptions?: ProductOptionDto[] | undefined;
+  productColors?: ProductColorDto[] | undefined;
+  productImages?: ProductImageDto[] | undefined;
+  productReviews?: ProductReviewDto[] | undefined;
+
+  constructor(data?: IProductDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.description = _data['description'];
+      this.price = _data['price'];
+      this.categoryId = _data['categoryId'];
+      this.category = _data['category'] ? CategoryDto.fromJS(_data['category'], _mappings) : <any>undefined;
+      if (Array.isArray(_data['productOptions'])) {
+        this.productOptions = [] as any;
+        for (let item of _data['productOptions']) this.productOptions!.push(<ProductOptionDto>ProductOptionDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['productColors'])) {
+        this.productColors = [] as any;
+        for (let item of _data['productColors']) this.productColors!.push(<ProductColorDto>ProductColorDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['productImages'])) {
+        this.productImages = [] as any;
+        for (let item of _data['productImages']) this.productImages!.push(<ProductImageDto>ProductImageDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['productReviews'])) {
+        this.productReviews = [] as any;
+        for (let item of _data['productReviews']) this.productReviews!.push(<ProductReviewDto>ProductReviewDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductDetailsDto>(data, _mappings, ProductDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['price'] = this.price;
+    data['categoryId'] = this.categoryId;
+    data['category'] = this.category ? this.category.toJSON() : <any>undefined;
+    if (Array.isArray(this.productOptions)) {
+      data['productOptions'] = [];
+      for (let item of this.productOptions) data['productOptions'].push(item.toJSON());
+    }
+    if (Array.isArray(this.productColors)) {
+      data['productColors'] = [];
+      for (let item of this.productColors) data['productColors'].push(item.toJSON());
+    }
+    if (Array.isArray(this.productImages)) {
+      data['productImages'] = [];
+      for (let item of this.productImages) data['productImages'].push(item.toJSON());
+    }
+    if (Array.isArray(this.productReviews)) {
+      data['productReviews'] = [];
+      for (let item of this.productReviews) data['productReviews'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IProductDetailsDto {
   id?: number;
   name?: string | undefined;
   description?: string | undefined;
@@ -9612,7 +12842,48 @@ export interface ProductDetailsDto {
   productReviews?: ProductReviewDto[] | undefined;
 }
 
-export interface ProductDto {
+export class ProductDto implements IProductDto {
+  id?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+  price?: number;
+  categoryId?: number;
+
+  constructor(data?: IProductDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.description = _data['description'];
+      this.price = _data['price'];
+      this.categoryId = _data['categoryId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductDto>(data, _mappings, ProductDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['price'] = this.price;
+    data['categoryId'] = this.categoryId;
+    return data;
+  }
+}
+
+export interface IProductDto {
   id?: number;
   name?: string | undefined;
   description?: string | undefined;
@@ -9620,18 +12891,48 @@ export interface ProductDto {
   categoryId?: number;
 }
 
-export interface ProductImage {
+export class ProductImageDetailsDto implements IProductImageDetailsDto {
   id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
   imageUrl?: string | undefined;
   imageDescription?: string | undefined;
   productId?: number;
-  product?: Product;
+  product?: ProductDto;
+
+  constructor(data?: IProductImageDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.imageUrl = _data['imageUrl'];
+      this.imageDescription = _data['imageDescription'];
+      this.productId = _data['productId'];
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductImageDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductImageDetailsDto>(data, _mappings, ProductImageDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['imageUrl'] = this.imageUrl;
+    data['imageDescription'] = this.imageDescription;
+    data['productId'] = this.productId;
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    return data;
+  }
 }
 
-export interface ProductImageDetailsDto {
+export interface IProductImageDetailsDto {
   id?: number;
   imageUrl?: string | undefined;
   imageDescription?: string | undefined;
@@ -9639,25 +12940,93 @@ export interface ProductImageDetailsDto {
   product?: ProductDto;
 }
 
-export interface ProductImageDto {
+export class ProductImageDto implements IProductImageDto {
+  id?: number;
+  imageUrl?: string | undefined;
+  imageDescription?: string | undefined;
+  productId?: number;
+
+  constructor(data?: IProductImageDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.imageUrl = _data['imageUrl'];
+      this.imageDescription = _data['imageDescription'];
+      this.productId = _data['productId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductImageDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductImageDto>(data, _mappings, ProductImageDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['imageUrl'] = this.imageUrl;
+    data['imageDescription'] = this.imageDescription;
+    data['productId'] = this.productId;
+    return data;
+  }
+}
+
+export interface IProductImageDto {
   id?: number;
   imageUrl?: string | undefined;
   imageDescription?: string | undefined;
   productId?: number;
 }
 
-export interface ProductOption {
+export class ProductOptionDetailsDto implements IProductOptionDetailsDto {
   id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
   name?: string | undefined;
-  value?: string | undefined;
+  value?: number;
   productId?: number;
-  product?: Product;
+  product?: ProductDto;
+
+  constructor(data?: IProductOptionDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.value = _data['value'];
+      this.productId = _data['productId'];
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductOptionDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductOptionDetailsDto>(data, _mappings, ProductOptionDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['value'] = this.value;
+    data['productId'] = this.productId;
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    return data;
+  }
 }
 
-export interface ProductOptionDetailsDto {
+export interface IProductOptionDetailsDto {
   id?: number;
   name?: string | undefined;
   value?: number;
@@ -9665,28 +13034,102 @@ export interface ProductOptionDetailsDto {
   product?: ProductDto;
 }
 
-export interface ProductOptionDto {
+export class ProductOptionDto implements IProductOptionDto {
+  id?: number;
+  name?: string | undefined;
+  value?: number;
+  productId?: number;
+
+  constructor(data?: IProductOptionDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.value = _data['value'];
+      this.productId = _data['productId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductOptionDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductOptionDto>(data, _mappings, ProductOptionDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['value'] = this.value;
+    data['productId'] = this.productId;
+    return data;
+  }
+}
+
+export interface IProductOptionDto {
   id?: number;
   name?: string | undefined;
   value?: number;
   productId?: number;
 }
 
-export interface ProductReview {
+export class ProductReviewDetailsDto implements IProductReviewDetailsDto {
   id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
   rating?: number;
   reviewText?: string | undefined;
   reviewDate?: Date;
   productId?: number;
-  product?: Product;
   userId?: number;
-  appUser?: AppUser;
+  product?: ProductDto;
+  user?: UserDto;
+
+  constructor(data?: IProductReviewDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.rating = _data['rating'];
+      this.reviewText = _data['reviewText'];
+      this.reviewDate = _data['reviewDate'] ? new Date(_data['reviewDate'].toString()) : <any>undefined;
+      this.productId = _data['productId'];
+      this.userId = _data['userId'];
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductReviewDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductReviewDetailsDto>(data, _mappings, ProductReviewDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['rating'] = this.rating;
+    data['reviewText'] = this.reviewText;
+    data['reviewDate'] = this.reviewDate ? this.reviewDate.toISOString() : <any>undefined;
+    data['productId'] = this.productId;
+    data['userId'] = this.userId;
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    data['user'] = this.user ? this.user.toJSON() : <any>undefined;
+    return data;
+  }
 }
 
-export interface ProductReviewDetailsDto {
+export interface IProductReviewDetailsDto {
   id?: number;
   rating?: number;
   reviewText?: string | undefined;
@@ -9697,7 +13140,51 @@ export interface ProductReviewDetailsDto {
   user?: UserDto;
 }
 
-export interface ProductReviewDto {
+export class ProductReviewDto implements IProductReviewDto {
+  id?: number;
+  rating?: number;
+  reviewText?: string | undefined;
+  reviewDate?: Date;
+  productId?: number;
+  userId?: number;
+
+  constructor(data?: IProductReviewDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.rating = _data['rating'];
+      this.reviewText = _data['reviewText'];
+      this.reviewDate = _data['reviewDate'] ? new Date(_data['reviewDate'].toString()) : <any>undefined;
+      this.productId = _data['productId'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductReviewDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductReviewDto>(data, _mappings, ProductReviewDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['rating'] = this.rating;
+    data['reviewText'] = this.reviewText;
+    data['reviewDate'] = this.reviewDate ? this.reviewDate.toISOString() : <any>undefined;
+    data['productId'] = this.productId;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IProductReviewDto {
   id?: number;
   rating?: number;
   reviewText?: string | undefined;
@@ -9706,7 +13193,51 @@ export interface ProductReviewDto {
   userId?: number;
 }
 
-export interface ProductTagDetailsDto {
+export class ProductTagDetailsDto implements IProductTagDetailsDto {
+  id?: number;
+  tagName?: string | undefined;
+  productId?: number;
+  tagId?: number;
+  product?: ProductDto;
+  tag?: TagDto;
+
+  constructor(data?: IProductTagDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.tagName = _data['tagName'];
+      this.productId = _data['productId'];
+      this.tagId = _data['tagId'];
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.tag = _data['tag'] ? TagDto.fromJS(_data['tag'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductTagDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductTagDetailsDto>(data, _mappings, ProductTagDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['tagName'] = this.tagName;
+    data['productId'] = this.productId;
+    data['tagId'] = this.tagId;
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    data['tag'] = this.tag ? this.tag.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IProductTagDetailsDto {
   id?: number;
   tagName?: string | undefined;
   productId?: number;
@@ -9715,14 +13246,99 @@ export interface ProductTagDetailsDto {
   tag?: TagDto;
 }
 
-export interface ProductTagDto {
+export class ProductTagDto implements IProductTagDto {
+  id?: number;
+  tagName?: string | undefined;
+  productId?: number;
+  tagId?: number;
+
+  constructor(data?: IProductTagDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.tagName = _data['tagName'];
+      this.productId = _data['productId'];
+      this.tagId = _data['tagId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ProductTagDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ProductTagDto>(data, _mappings, ProductTagDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['tagName'] = this.tagName;
+    data['productId'] = this.productId;
+    data['tagId'] = this.tagId;
+    return data;
+  }
+}
+
+export interface IProductTagDto {
   id?: number;
   tagName?: string | undefined;
   productId?: number;
   tagId?: number;
 }
 
-export interface RegisterModel {
+export class RegisterModel implements IRegisterModel {
+  username?: string | undefined;
+  password?: string | undefined;
+  passwordHash?: string | undefined;
+  passwordSalt?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  phone?: string | undefined;
+
+  constructor(data?: IRegisterModel) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.username = _data['username'];
+      this.password = _data['password'];
+      this.passwordHash = _data['passwordHash'];
+      this.passwordSalt = _data['passwordSalt'];
+      this.firstName = _data['firstName'];
+      this.lastName = _data['lastName'];
+      this.phone = _data['phone'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): RegisterModel | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<RegisterModel>(data, _mappings, RegisterModel);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['username'] = this.username;
+    data['password'] = this.password;
+    data['passwordHash'] = this.passwordHash;
+    data['passwordSalt'] = this.passwordSalt;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['phone'] = this.phone;
+    return data;
+  }
+}
+
+export interface IRegisterModel {
   username?: string | undefined;
   password?: string | undefined;
   passwordHash?: string | undefined;
@@ -9732,11 +13348,84 @@ export interface RegisterModel {
   phone?: string | undefined;
 }
 
-export interface RegisterUserCommand {
+export class RegisterUserCommand implements IRegisterUserCommand {
+  registerUser?: RegisterModel;
+
+  constructor(data?: IRegisterUserCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.registerUser = _data['registerUser'] ? RegisterModel.fromJS(_data['registerUser'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): RegisterUserCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<RegisterUserCommand>(data, _mappings, RegisterUserCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['registerUser'] = this.registerUser ? this.registerUser.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IRegisterUserCommand {
   registerUser?: RegisterModel;
 }
 
-export interface ShipmentDetailsDto {
+export class ShipmentDetailsDto implements IShipmentDetailsDto {
+  id?: number;
+  shippingMethod?: string | undefined;
+  trackingNumber?: string | undefined;
+  estimatedDeliveryDate?: Date;
+  orderId?: number;
+  order?: OrderDto;
+
+  constructor(data?: IShipmentDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.shippingMethod = _data['shippingMethod'];
+      this.trackingNumber = _data['trackingNumber'];
+      this.estimatedDeliveryDate = _data['estimatedDeliveryDate'] ? new Date(_data['estimatedDeliveryDate'].toString()) : <any>undefined;
+      this.orderId = _data['orderId'];
+      this.order = _data['order'] ? OrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ShipmentDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ShipmentDetailsDto>(data, _mappings, ShipmentDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['shippingMethod'] = this.shippingMethod;
+    data['trackingNumber'] = this.trackingNumber;
+    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate ? this.estimatedDeliveryDate.toISOString() : <any>undefined;
+    data['orderId'] = this.orderId;
+    data['order'] = this.order ? this.order.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IShipmentDetailsDto {
   id?: number;
   shippingMethod?: string | undefined;
   trackingNumber?: string | undefined;
@@ -9745,7 +13434,48 @@ export interface ShipmentDetailsDto {
   order?: OrderDto;
 }
 
-export interface ShipmentDto {
+export class ShipmentDto implements IShipmentDto {
+  id?: number;
+  shippingMethod?: string | undefined;
+  trackingNumber?: string | undefined;
+  estimatedDeliveryDate?: Date;
+  orderId?: number;
+
+  constructor(data?: IShipmentDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.shippingMethod = _data['shippingMethod'];
+      this.trackingNumber = _data['trackingNumber'];
+      this.estimatedDeliveryDate = _data['estimatedDeliveryDate'] ? new Date(_data['estimatedDeliveryDate'].toString()) : <any>undefined;
+      this.orderId = _data['orderId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ShipmentDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ShipmentDto>(data, _mappings, ShipmentDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['shippingMethod'] = this.shippingMethod;
+    data['trackingNumber'] = this.trackingNumber;
+    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate ? this.estimatedDeliveryDate.toISOString() : <any>undefined;
+    data['orderId'] = this.orderId;
+    return data;
+  }
+}
+
+export interface IShipmentDto {
   id?: number;
   shippingMethod?: string | undefined;
   trackingNumber?: string | undefined;
@@ -9753,20 +13483,152 @@ export interface ShipmentDto {
   orderId?: number;
 }
 
-export interface ShoppingCartDetailsDto {
+export class ShoppingCartDetailsDto implements IShoppingCartDetailsDto {
+  id?: number;
+  userId?: number;
+  shoppingCartItems?: ShoppingCartItemDto[] | undefined;
+  user?: UserDto;
+
+  constructor(data?: IShoppingCartDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.userId = _data['userId'];
+      if (Array.isArray(_data['shoppingCartItems'])) {
+        this.shoppingCartItems = [] as any;
+        for (let item of _data['shoppingCartItems']) this.shoppingCartItems!.push(<ShoppingCartItemDto>ShoppingCartItemDto.fromJS(item, _mappings));
+      }
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ShoppingCartDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ShoppingCartDetailsDto>(data, _mappings, ShoppingCartDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    if (Array.isArray(this.shoppingCartItems)) {
+      data['shoppingCartItems'] = [];
+      for (let item of this.shoppingCartItems) data['shoppingCartItems'].push(item.toJSON());
+    }
+    data['user'] = this.user ? this.user.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IShoppingCartDetailsDto {
   id?: number;
   userId?: number;
   shoppingCartItems?: ShoppingCartItemDto[] | undefined;
   user?: UserDto;
 }
 
-export interface ShoppingCartDto {
+export class ShoppingCartDto implements IShoppingCartDto {
+  id?: number;
+  userId?: number;
+  shoppingCartItems?: ShoppingCartItemDto[] | undefined;
+
+  constructor(data?: IShoppingCartDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.userId = _data['userId'];
+      if (Array.isArray(_data['shoppingCartItems'])) {
+        this.shoppingCartItems = [] as any;
+        for (let item of _data['shoppingCartItems']) this.shoppingCartItems!.push(<ShoppingCartItemDto>ShoppingCartItemDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ShoppingCartDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ShoppingCartDto>(data, _mappings, ShoppingCartDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    if (Array.isArray(this.shoppingCartItems)) {
+      data['shoppingCartItems'] = [];
+      for (let item of this.shoppingCartItems) data['shoppingCartItems'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IShoppingCartDto {
   id?: number;
   userId?: number;
   shoppingCartItems?: ShoppingCartItemDto[] | undefined;
 }
 
-export interface ShoppingCartItemDetailsDto {
+export class ShoppingCartItemDetailsDto implements IShoppingCartItemDetailsDto {
+  id?: number;
+  productId?: number;
+  quantity?: number;
+  price?: number;
+  shoppingCartId?: number;
+  product?: ProductDto;
+  shoppingCart?: ShoppingCartDto;
+
+  constructor(data?: IShoppingCartItemDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.quantity = _data['quantity'];
+      this.price = _data['price'];
+      this.shoppingCartId = _data['shoppingCartId'];
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.shoppingCart = _data['shoppingCart'] ? ShoppingCartDto.fromJS(_data['shoppingCart'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ShoppingCartItemDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ShoppingCartItemDetailsDto>(data, _mappings, ShoppingCartItemDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['quantity'] = this.quantity;
+    data['price'] = this.price;
+    data['shoppingCartId'] = this.shoppingCartId;
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    data['shoppingCart'] = this.shoppingCart ? this.shoppingCart.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IShoppingCartItemDetailsDto {
   id?: number;
   productId?: number;
   quantity?: number;
@@ -9776,7 +13638,48 @@ export interface ShoppingCartItemDetailsDto {
   shoppingCart?: ShoppingCartDto;
 }
 
-export interface ShoppingCartItemDto {
+export class ShoppingCartItemDto implements IShoppingCartItemDto {
+  id?: number;
+  productId?: number;
+  quantity?: number;
+  price?: number;
+  shoppingCartId?: number;
+
+  constructor(data?: IShoppingCartItemDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.quantity = _data['quantity'];
+      this.price = _data['price'];
+      this.shoppingCartId = _data['shoppingCartId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): ShoppingCartItemDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<ShoppingCartItemDto>(data, _mappings, ShoppingCartItemDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['quantity'] = this.quantity;
+    data['price'] = this.price;
+    data['shoppingCartId'] = this.shoppingCartId;
+    return data;
+  }
+}
+
+export interface IShoppingCartItemDto {
   id?: number;
   productId?: number;
   quantity?: number;
@@ -9784,7 +13687,54 @@ export interface ShoppingCartItemDto {
   shoppingCartId?: number;
 }
 
-export interface SupplierDetailsDto {
+export class SupplierDetailsDto implements ISupplierDetailsDto {
+  id?: number;
+  name?: string | undefined;
+  contactEmail?: string | undefined;
+  contactPhone?: string | undefined;
+  products?: ProductDto[] | undefined;
+
+  constructor(data?: ISupplierDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.contactEmail = _data['contactEmail'];
+      this.contactPhone = _data['contactPhone'];
+      if (Array.isArray(_data['products'])) {
+        this.products = [] as any;
+        for (let item of _data['products']) this.products!.push(<ProductDto>ProductDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): SupplierDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<SupplierDetailsDto>(data, _mappings, SupplierDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['contactEmail'] = this.contactEmail;
+    data['contactPhone'] = this.contactPhone;
+    if (Array.isArray(this.products)) {
+      data['products'] = [];
+      for (let item of this.products) data['products'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface ISupplierDetailsDto {
   id?: number;
   name?: string | undefined;
   contactEmail?: string | undefined;
@@ -9792,14 +13742,93 @@ export interface SupplierDetailsDto {
   products?: ProductDto[] | undefined;
 }
 
-export interface SupplierDto {
+export class SupplierDto implements ISupplierDto {
+  id?: number;
+  name?: string | undefined;
+  contactEmail?: string | undefined;
+  contactPhone?: string | undefined;
+
+  constructor(data?: ISupplierDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.contactEmail = _data['contactEmail'];
+      this.contactPhone = _data['contactPhone'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): SupplierDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<SupplierDto>(data, _mappings, SupplierDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['contactEmail'] = this.contactEmail;
+    data['contactPhone'] = this.contactPhone;
+    return data;
+  }
+}
+
+export interface ISupplierDto {
   id?: number;
   name?: string | undefined;
   contactEmail?: string | undefined;
   contactPhone?: string | undefined;
 }
 
-export interface SupplyDetailsDto {
+export class SupplyDetailsDto implements ISupplyDetailsDto {
+  id?: number;
+  productId?: number;
+  supplierId?: number;
+  quantity?: number;
+  price?: number;
+
+  constructor(data?: ISupplyDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.supplierId = _data['supplierId'];
+      this.quantity = _data['quantity'];
+      this.price = _data['price'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): SupplyDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<SupplyDetailsDto>(data, _mappings, SupplyDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['supplierId'] = this.supplierId;
+    data['quantity'] = this.quantity;
+    data['price'] = this.price;
+    return data;
+  }
+}
+
+export interface ISupplyDetailsDto {
   id?: number;
   productId?: number;
   supplierId?: number;
@@ -9807,7 +13836,48 @@ export interface SupplyDetailsDto {
   price?: number;
 }
 
-export interface SupplyDto {
+export class SupplyDto implements ISupplyDto {
+  id?: number;
+  productId?: number;
+  supplierId?: number;
+  quantity?: number;
+  price?: number;
+
+  constructor(data?: ISupplyDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.supplierId = _data['supplierId'];
+      this.quantity = _data['quantity'];
+      this.price = _data['price'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): SupplyDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<SupplyDto>(data, _mappings, SupplyDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['supplierId'] = this.supplierId;
+    data['quantity'] = this.quantity;
+    data['price'] = this.price;
+    return data;
+  }
+}
+
+export interface ISupplyDto {
   id?: number;
   productId?: number;
   supplierId?: number;
@@ -9815,19 +13885,148 @@ export interface SupplyDto {
   price?: number;
 }
 
-export interface TagDetailsDto {
+export class TagDetailsDto implements ITagDetailsDto {
+  id?: number;
+  name?: string | undefined;
+  productTags?: ProductTagDto[] | undefined;
+  articles?: ArticleDto[] | undefined;
+
+  constructor(data?: ITagDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      if (Array.isArray(_data['productTags'])) {
+        this.productTags = [] as any;
+        for (let item of _data['productTags']) this.productTags!.push(<ProductTagDto>ProductTagDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['articles'])) {
+        this.articles = [] as any;
+        for (let item of _data['articles']) this.articles!.push(<ArticleDto>ArticleDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): TagDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<TagDetailsDto>(data, _mappings, TagDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    if (Array.isArray(this.productTags)) {
+      data['productTags'] = [];
+      for (let item of this.productTags) data['productTags'].push(item.toJSON());
+    }
+    if (Array.isArray(this.articles)) {
+      data['articles'] = [];
+      for (let item of this.articles) data['articles'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface ITagDetailsDto {
   id?: number;
   name?: string | undefined;
   productTags?: ProductTagDto[] | undefined;
   articles?: ArticleDto[] | undefined;
 }
 
-export interface TagDto {
+export class TagDto implements ITagDto {
+  id?: number;
+  name?: string | undefined;
+
+  constructor(data?: ITagDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): TagDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<TagDto>(data, _mappings, TagDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
+
+export interface ITagDto {
   id?: number;
   name?: string | undefined;
 }
 
-export interface UpdateAddressDto {
+export class UpdateAddressDto implements IUpdateAddressDto {
+  id?: number;
+  street?: string | undefined;
+  city?: string | undefined;
+  state?: string | undefined;
+  country?: string | undefined;
+  postalCode?: string | undefined;
+  userId?: number | undefined;
+
+  constructor(data?: IUpdateAddressDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.street = _data['street'];
+      this.city = _data['city'];
+      this.state = _data['state'];
+      this.country = _data['country'];
+      this.postalCode = _data['postalCode'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateAddressDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateAddressDto>(data, _mappings, UpdateAddressDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['street'] = this.street;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['postalCode'] = this.postalCode;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IUpdateAddressDto {
   id?: number;
   street?: string | undefined;
   city?: string | undefined;
@@ -9837,11 +14036,84 @@ export interface UpdateAddressDto {
   userId?: number | undefined;
 }
 
-export interface UpdateArticleCommand {
+export class UpdateArticleCommand implements IUpdateArticleCommand {
+  article?: UpdateArticleDto;
+
+  constructor(data?: IUpdateArticleCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.article = _data['article'] ? UpdateArticleDto.fromJS(_data['article'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateArticleCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateArticleCommand>(data, _mappings, UpdateArticleCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['article'] = this.article ? this.article.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateArticleCommand {
   article?: UpdateArticleDto;
 }
 
-export interface UpdateArticleDto {
+export class UpdateArticleDto implements IUpdateArticleDto {
+  id?: number;
+  title?: string | undefined;
+  content?: string | undefined;
+  author?: string | undefined;
+  publicationDate?: Date | undefined;
+  userId?: number | undefined;
+
+  constructor(data?: IUpdateArticleDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.title = _data['title'];
+      this.content = _data['content'];
+      this.author = _data['author'];
+      this.publicationDate = _data['publicationDate'] ? new Date(_data['publicationDate'].toString()) : <any>undefined;
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateArticleDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateArticleDto>(data, _mappings, UpdateArticleDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['content'] = this.content;
+    data['author'] = this.author;
+    data['publicationDate'] = this.publicationDate ? this.publicationDate.toISOString() : <any>undefined;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IUpdateArticleDto {
   id?: number;
   title?: string | undefined;
   content?: string | undefined;
@@ -9850,21 +14122,158 @@ export interface UpdateArticleDto {
   userId?: number | undefined;
 }
 
-export interface UpdateCategoryCommand {
+export class UpdateCategoryCommand implements IUpdateCategoryCommand {
+  category?: UpdateCategoryDto;
+
+  constructor(data?: IUpdateCategoryCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.category = _data['category'] ? UpdateCategoryDto.fromJS(_data['category'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateCategoryCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateCategoryCommand>(data, _mappings, UpdateCategoryCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['category'] = this.category ? this.category.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateCategoryCommand {
   category?: UpdateCategoryDto;
 }
 
-export interface UpdateCategoryDto {
+export class UpdateCategoryDto implements IUpdateCategoryDto {
+  id?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+
+  constructor(data?: IUpdateCategoryDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.description = _data['description'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateCategoryDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateCategoryDto>(data, _mappings, UpdateCategoryDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    return data;
+  }
+}
+
+export interface IUpdateCategoryDto {
   id?: number;
   name?: string | undefined;
   description?: string | undefined;
 }
 
-export interface UpdateCommentCommand {
+export class UpdateCommentCommand implements IUpdateCommentCommand {
+  comment?: UpdateCommentDto;
+
+  constructor(data?: IUpdateCommentCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.comment = _data['comment'] ? UpdateCommentDto.fromJS(_data['comment'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateCommentCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateCommentCommand>(data, _mappings, UpdateCommentCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['comment'] = this.comment ? this.comment.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateCommentCommand {
   comment?: UpdateCommentDto;
 }
 
-export interface UpdateCommentDto {
+export class UpdateCommentDto implements IUpdateCommentDto {
+  id?: number;
+  content?: string | undefined;
+  author?: string | undefined;
+  timestamp?: Date | undefined;
+  articleId?: number | undefined;
+  userId?: number | undefined;
+
+  constructor(data?: IUpdateCommentDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.content = _data['content'];
+      this.author = _data['author'];
+      this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
+      this.articleId = _data['articleId'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateCommentDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateCommentDto>(data, _mappings, UpdateCommentDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['content'] = this.content;
+    data['author'] = this.author;
+    data['timestamp'] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+    data['articleId'] = this.articleId;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IUpdateCommentDto {
   id?: number;
   content?: string | undefined;
   author?: string | undefined;
@@ -9873,7 +14282,48 @@ export interface UpdateCommentDto {
   userId?: number | undefined;
 }
 
-export interface UpdateDiscountDto {
+export class UpdateDiscountDto implements IUpdateDiscountDto {
+  id?: number;
+  code?: string | undefined;
+  percentage?: number | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
+
+  constructor(data?: IUpdateDiscountDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.code = _data['code'];
+      this.percentage = _data['percentage'];
+      this.startDate = _data['startDate'] ? new Date(_data['startDate'].toString()) : <any>undefined;
+      this.endDate = _data['endDate'] ? new Date(_data['endDate'].toString()) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateDiscountDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateDiscountDto>(data, _mappings, UpdateDiscountDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['code'] = this.code;
+    data['percentage'] = this.percentage;
+    data['startDate'] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+    data['endDate'] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateDiscountDto {
   id?: number;
   code?: string | undefined;
   percentage?: number | undefined;
@@ -9881,7 +14331,48 @@ export interface UpdateDiscountDto {
   endDate?: Date | undefined;
 }
 
-export interface UpdateNotificationDto {
+export class UpdateNotificationDto implements IUpdateNotificationDto {
+  id?: number;
+  message?: string | undefined;
+  timestamp?: Date | undefined;
+  isRead?: boolean | undefined;
+  userId?: number | undefined;
+
+  constructor(data?: IUpdateNotificationDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.message = _data['message'];
+      this.timestamp = _data['timestamp'] ? new Date(_data['timestamp'].toString()) : <any>undefined;
+      this.isRead = _data['isRead'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateNotificationDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateNotificationDto>(data, _mappings, UpdateNotificationDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['message'] = this.message;
+    data['timestamp'] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+    data['isRead'] = this.isRead;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IUpdateNotificationDto {
   id?: number;
   message?: string | undefined;
   timestamp?: Date | undefined;
@@ -9889,15 +14380,114 @@ export interface UpdateNotificationDto {
   userId?: number | undefined;
 }
 
-export interface UpdateOrderCommand {
+export class UpdateOrderCommand implements IUpdateOrderCommand {
+  order?: UpdateOrderDto;
+
+  constructor(data?: IUpdateOrderCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.order = _data['order'] ? UpdateOrderDto.fromJS(_data['order'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateOrderCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateOrderCommand>(data, _mappings, UpdateOrderCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['order'] = this.order ? this.order.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateOrderCommand {
   order?: UpdateOrderDto;
 }
 
-export interface UpdateOrderDetailCommand {
+export class UpdateOrderDetailCommand implements IUpdateOrderDetailCommand {
+  orderDetail?: UpdateOrderDetailDto;
+
+  constructor(data?: IUpdateOrderDetailCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.orderDetail = _data['orderDetail'] ? UpdateOrderDetailDto.fromJS(_data['orderDetail'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateOrderDetailCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateOrderDetailCommand>(data, _mappings, UpdateOrderDetailCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['orderDetail'] = this.orderDetail ? this.orderDetail.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateOrderDetailCommand {
   orderDetail?: UpdateOrderDetailDto;
 }
 
-export interface UpdateOrderDetailDto {
+export class UpdateOrderDetailDto implements IUpdateOrderDetailDto {
+  id?: number;
+  productId?: number | undefined;
+  quantity?: number | undefined;
+  unitPrice?: number | undefined;
+  orderId?: number | undefined;
+
+  constructor(data?: IUpdateOrderDetailDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.quantity = _data['quantity'];
+      this.unitPrice = _data['unitPrice'];
+      this.orderId = _data['orderId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateOrderDetailDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateOrderDetailDto>(data, _mappings, UpdateOrderDetailDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['quantity'] = this.quantity;
+    data['unitPrice'] = this.unitPrice;
+    data['orderId'] = this.orderId;
+    return data;
+  }
+}
+
+export interface IUpdateOrderDetailDto {
   id?: number;
   productId?: number | undefined;
   quantity?: number | undefined;
@@ -9905,7 +14495,57 @@ export interface UpdateOrderDetailDto {
   orderId?: number | undefined;
 }
 
-export interface UpdateOrderDto {
+export class UpdateOrderDto implements IUpdateOrderDto {
+  id?: number;
+  orderDate?: Date | undefined;
+  totalPrice?: number | undefined;
+  orderStatus?: string | undefined;
+  userId?: number | undefined;
+  orderDetails?: UpdateOrderDetailDto[] | undefined;
+
+  constructor(data?: IUpdateOrderDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.orderDate = _data['orderDate'] ? new Date(_data['orderDate'].toString()) : <any>undefined;
+      this.totalPrice = _data['totalPrice'];
+      this.orderStatus = _data['orderStatus'];
+      this.userId = _data['userId'];
+      if (Array.isArray(_data['orderDetails'])) {
+        this.orderDetails = [] as any;
+        for (let item of _data['orderDetails']) this.orderDetails!.push(<UpdateOrderDetailDto>UpdateOrderDetailDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateOrderDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateOrderDto>(data, _mappings, UpdateOrderDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['orderDate'] = this.orderDate ? this.orderDate.toISOString() : <any>undefined;
+    data['totalPrice'] = this.totalPrice;
+    data['orderStatus'] = this.orderStatus;
+    data['userId'] = this.userId;
+    if (Array.isArray(this.orderDetails)) {
+      data['orderDetails'] = [];
+      for (let item of this.orderDetails) data['orderDetails'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IUpdateOrderDto {
   id?: number;
   orderDate?: Date | undefined;
   totalPrice?: number | undefined;
@@ -9914,11 +14554,81 @@ export interface UpdateOrderDto {
   orderDetails?: UpdateOrderDetailDto[] | undefined;
 }
 
-export interface UpdatePaymentCommand {
+export class UpdatePaymentCommand implements IUpdatePaymentCommand {
+  payment?: UpdatePaymentDto;
+
+  constructor(data?: IUpdatePaymentCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.payment = _data['payment'] ? UpdatePaymentDto.fromJS(_data['payment'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdatePaymentCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdatePaymentCommand>(data, _mappings, UpdatePaymentCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['payment'] = this.payment ? this.payment.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdatePaymentCommand {
   payment?: UpdatePaymentDto;
 }
 
-export interface UpdatePaymentDto {
+export class UpdatePaymentDto implements IUpdatePaymentDto {
+  id?: number;
+  paymentMethod?: string | undefined;
+  amountPaid?: number | undefined;
+  paymentDate?: Date | undefined;
+  orderId?: number | undefined;
+
+  constructor(data?: IUpdatePaymentDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.paymentMethod = _data['paymentMethod'];
+      this.amountPaid = _data['amountPaid'];
+      this.paymentDate = _data['paymentDate'] ? new Date(_data['paymentDate'].toString()) : <any>undefined;
+      this.orderId = _data['orderId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdatePaymentDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdatePaymentDto>(data, _mappings, UpdatePaymentDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['paymentMethod'] = this.paymentMethod;
+    data['amountPaid'] = this.amountPaid;
+    data['paymentDate'] = this.paymentDate ? this.paymentDate.toISOString() : <any>undefined;
+    data['orderId'] = this.orderId;
+    return data;
+  }
+}
+
+export interface IUpdatePaymentDto {
   id?: number;
   paymentMethod?: string | undefined;
   amountPaid?: number | undefined;
@@ -9926,18 +14636,126 @@ export interface UpdatePaymentDto {
   orderId?: number | undefined;
 }
 
-export interface UpdateProductColorDto {
+export class UpdateProductColorDto implements IUpdateProductColorDto {
+  id?: number;
+  colorName?: string | undefined;
+  colorHexCode?: string | undefined;
+  productId?: number | undefined;
+
+  constructor(data?: IUpdateProductColorDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.colorName = _data['colorName'];
+      this.colorHexCode = _data['colorHexCode'];
+      this.productId = _data['productId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateProductColorDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateProductColorDto>(data, _mappings, UpdateProductColorDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['colorName'] = this.colorName;
+    data['colorHexCode'] = this.colorHexCode;
+    data['productId'] = this.productId;
+    return data;
+  }
+}
+
+export interface IUpdateProductColorDto {
   id?: number;
   colorName?: string | undefined;
   colorHexCode?: string | undefined;
   productId?: number | undefined;
 }
 
-export interface UpdateProductCommand {
+export class UpdateProductCommand implements IUpdateProductCommand {
+  product?: UpdateProductDto;
+
+  constructor(data?: IUpdateProductCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.product = _data['product'] ? UpdateProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateProductCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateProductCommand>(data, _mappings, UpdateProductCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateProductCommand {
   product?: UpdateProductDto;
 }
 
-export interface UpdateProductDto {
+export class UpdateProductDto implements IUpdateProductDto {
+  id?: number;
+  name?: string | undefined;
+  description?: string | undefined;
+  price?: number | undefined;
+  categoryId?: number | undefined;
+
+  constructor(data?: IUpdateProductDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.description = _data['description'];
+      this.price = _data['price'];
+      this.categoryId = _data['categoryId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateProductDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateProductDto>(data, _mappings, UpdateProductDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['price'] = this.price;
+    data['categoryId'] = this.categoryId;
+    return data;
+  }
+}
+
+export interface IUpdateProductDto {
   id?: number;
   name?: string | undefined;
   description?: string | undefined;
@@ -9945,25 +14763,174 @@ export interface UpdateProductDto {
   categoryId?: number | undefined;
 }
 
-export interface UpdateProductImageDto {
+export class UpdateProductImageDto implements IUpdateProductImageDto {
+  id?: number;
+  imageUrl?: string | undefined;
+  imageDescription?: string | undefined;
+  productId?: number | undefined;
+
+  constructor(data?: IUpdateProductImageDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.imageUrl = _data['imageUrl'];
+      this.imageDescription = _data['imageDescription'];
+      this.productId = _data['productId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateProductImageDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateProductImageDto>(data, _mappings, UpdateProductImageDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['imageUrl'] = this.imageUrl;
+    data['imageDescription'] = this.imageDescription;
+    data['productId'] = this.productId;
+    return data;
+  }
+}
+
+export interface IUpdateProductImageDto {
   id?: number;
   imageUrl?: string | undefined;
   imageDescription?: string | undefined;
   productId?: number | undefined;
 }
 
-export interface UpdateProductOptionDto {
+export class UpdateProductOptionDto implements IUpdateProductOptionDto {
+  id?: number;
+  name?: string | undefined;
+  value?: number | undefined;
+  productId?: number | undefined;
+
+  constructor(data?: IUpdateProductOptionDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.value = _data['value'];
+      this.productId = _data['productId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateProductOptionDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateProductOptionDto>(data, _mappings, UpdateProductOptionDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['value'] = this.value;
+    data['productId'] = this.productId;
+    return data;
+  }
+}
+
+export interface IUpdateProductOptionDto {
   id?: number;
   name?: string | undefined;
   value?: number | undefined;
   productId?: number | undefined;
 }
 
-export interface UpdateProductReviewCommand {
+export class UpdateProductReviewCommand implements IUpdateProductReviewCommand {
+  productReview?: UpdateProductReviewDto;
+
+  constructor(data?: IUpdateProductReviewCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.productReview = _data['productReview'] ? UpdateProductReviewDto.fromJS(_data['productReview'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateProductReviewCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateProductReviewCommand>(data, _mappings, UpdateProductReviewCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['productReview'] = this.productReview ? this.productReview.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateProductReviewCommand {
   productReview?: UpdateProductReviewDto;
 }
 
-export interface UpdateProductReviewDto {
+export class UpdateProductReviewDto implements IUpdateProductReviewDto {
+  id?: number;
+  rating?: number | undefined;
+  reviewText?: string | undefined;
+  reviewDate?: Date | undefined;
+  productId?: number | undefined;
+  userId?: number | undefined;
+
+  constructor(data?: IUpdateProductReviewDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.rating = _data['rating'];
+      this.reviewText = _data['reviewText'];
+      this.reviewDate = _data['reviewDate'] ? new Date(_data['reviewDate'].toString()) : <any>undefined;
+      this.productId = _data['productId'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateProductReviewDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateProductReviewDto>(data, _mappings, UpdateProductReviewDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['rating'] = this.rating;
+    data['reviewText'] = this.reviewText;
+    data['reviewDate'] = this.reviewDate ? this.reviewDate.toISOString() : <any>undefined;
+    data['productId'] = this.productId;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IUpdateProductReviewDto {
   id?: number;
   rating?: number | undefined;
   reviewText?: string | undefined;
@@ -9972,18 +14939,126 @@ export interface UpdateProductReviewDto {
   userId?: number | undefined;
 }
 
-export interface UpdateProductTagDto {
+export class UpdateProductTagDto implements IUpdateProductTagDto {
+  id?: number;
+  tagName?: string | undefined;
+  productId?: number | undefined;
+  tagId?: number | undefined;
+
+  constructor(data?: IUpdateProductTagDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.tagName = _data['tagName'];
+      this.productId = _data['productId'];
+      this.tagId = _data['tagId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateProductTagDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateProductTagDto>(data, _mappings, UpdateProductTagDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['tagName'] = this.tagName;
+    data['productId'] = this.productId;
+    data['tagId'] = this.tagId;
+    return data;
+  }
+}
+
+export interface IUpdateProductTagDto {
   id?: number;
   tagName?: string | undefined;
   productId?: number | undefined;
   tagId?: number | undefined;
 }
 
-export interface UpdateShipmentCommand {
+export class UpdateShipmentCommand implements IUpdateShipmentCommand {
+  shipment?: UpdateShipmentDto;
+
+  constructor(data?: IUpdateShipmentCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.shipment = _data['shipment'] ? UpdateShipmentDto.fromJS(_data['shipment'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateShipmentCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateShipmentCommand>(data, _mappings, UpdateShipmentCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['shipment'] = this.shipment ? this.shipment.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateShipmentCommand {
   shipment?: UpdateShipmentDto;
 }
 
-export interface UpdateShipmentDto {
+export class UpdateShipmentDto implements IUpdateShipmentDto {
+  id?: number;
+  shippingMethod?: string | undefined;
+  trackingNumber?: string | undefined;
+  estimatedDeliveryDate?: Date | undefined;
+  orderId?: number | undefined;
+
+  constructor(data?: IUpdateShipmentDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.shippingMethod = _data['shippingMethod'];
+      this.trackingNumber = _data['trackingNumber'];
+      this.estimatedDeliveryDate = _data['estimatedDeliveryDate'] ? new Date(_data['estimatedDeliveryDate'].toString()) : <any>undefined;
+      this.orderId = _data['orderId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateShipmentDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateShipmentDto>(data, _mappings, UpdateShipmentDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['shippingMethod'] = this.shippingMethod;
+    data['trackingNumber'] = this.trackingNumber;
+    data['estimatedDeliveryDate'] = this.estimatedDeliveryDate ? this.estimatedDeliveryDate.toISOString() : <any>undefined;
+    data['orderId'] = this.orderId;
+    return data;
+  }
+}
+
+export interface IUpdateShipmentDto {
   id?: number;
   shippingMethod?: string | undefined;
   trackingNumber?: string | undefined;
@@ -9991,20 +15066,151 @@ export interface UpdateShipmentDto {
   orderId?: number | undefined;
 }
 
-export interface UpdateShoppingCartCommand {
+export class UpdateShoppingCartCommand implements IUpdateShoppingCartCommand {
+  shoppingCart?: UpdateShoppingCartDto;
+
+  constructor(data?: IUpdateShoppingCartCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.shoppingCart = _data['shoppingCart'] ? UpdateShoppingCartDto.fromJS(_data['shoppingCart'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateShoppingCartCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateShoppingCartCommand>(data, _mappings, UpdateShoppingCartCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['shoppingCart'] = this.shoppingCart ? this.shoppingCart.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateShoppingCartCommand {
   shoppingCart?: UpdateShoppingCartDto;
 }
 
-export interface UpdateShoppingCartDto {
+export class UpdateShoppingCartDto implements IUpdateShoppingCartDto {
+  id?: number;
+  userId?: number | undefined;
+
+  constructor(data?: IUpdateShoppingCartDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateShoppingCartDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateShoppingCartDto>(data, _mappings, UpdateShoppingCartDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IUpdateShoppingCartDto {
   id?: number;
   userId?: number | undefined;
 }
 
-export interface UpdateShoppingCartItemCommand {
+export class UpdateShoppingCartItemCommand implements IUpdateShoppingCartItemCommand {
+  shoppingCartItem?: UpdateShoppingCartItemDto;
+
+  constructor(data?: IUpdateShoppingCartItemCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.shoppingCartItem = _data['shoppingCartItem'] ? UpdateShoppingCartItemDto.fromJS(_data['shoppingCartItem'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateShoppingCartItemCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateShoppingCartItemCommand>(data, _mappings, UpdateShoppingCartItemCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['shoppingCartItem'] = this.shoppingCartItem ? this.shoppingCartItem.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateShoppingCartItemCommand {
   shoppingCartItem?: UpdateShoppingCartItemDto;
 }
 
-export interface UpdateShoppingCartItemDto {
+export class UpdateShoppingCartItemDto implements IUpdateShoppingCartItemDto {
+  id?: number;
+  productId?: number | undefined;
+  quantity?: number | undefined;
+  price?: number | undefined;
+  shoppingCartId?: number | undefined;
+
+  constructor(data?: IUpdateShoppingCartItemDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.quantity = _data['quantity'];
+      this.price = _data['price'];
+      this.shoppingCartId = _data['shoppingCartId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateShoppingCartItemDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateShoppingCartItemDto>(data, _mappings, UpdateShoppingCartItemDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['quantity'] = this.quantity;
+    data['price'] = this.price;
+    data['shoppingCartId'] = this.shoppingCartId;
+    return data;
+  }
+}
+
+export interface IUpdateShoppingCartItemDto {
   id?: number;
   productId?: number | undefined;
   quantity?: number | undefined;
@@ -10012,14 +15218,93 @@ export interface UpdateShoppingCartItemDto {
   shoppingCartId?: number | undefined;
 }
 
-export interface UpdateSupplierDto {
+export class UpdateSupplierDto implements IUpdateSupplierDto {
+  id?: number;
+  name?: string | undefined;
+  contactEmail?: string | undefined;
+  contactPhone?: string | undefined;
+
+  constructor(data?: IUpdateSupplierDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.contactEmail = _data['contactEmail'];
+      this.contactPhone = _data['contactPhone'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateSupplierDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateSupplierDto>(data, _mappings, UpdateSupplierDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['contactEmail'] = this.contactEmail;
+    data['contactPhone'] = this.contactPhone;
+    return data;
+  }
+}
+
+export interface IUpdateSupplierDto {
   id?: number;
   name?: string | undefined;
   contactEmail?: string | undefined;
   contactPhone?: string | undefined;
 }
 
-export interface UpdateSupplyDto {
+export class UpdateSupplyDto implements IUpdateSupplyDto {
+  id?: number;
+  productId?: number | undefined;
+  supplierId?: number | undefined;
+  quantity?: number | undefined;
+  price?: number | undefined;
+
+  constructor(data?: IUpdateSupplyDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.supplierId = _data['supplierId'];
+      this.quantity = _data['quantity'];
+      this.price = _data['price'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateSupplyDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateSupplyDto>(data, _mappings, UpdateSupplyDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['supplierId'] = this.supplierId;
+    data['quantity'] = this.quantity;
+    data['price'] = this.price;
+    return data;
+  }
+}
+
+export interface IUpdateSupplyDto {
   id?: number;
   productId?: number | undefined;
   supplierId?: number | undefined;
@@ -10027,16 +15312,157 @@ export interface UpdateSupplyDto {
   price?: number | undefined;
 }
 
-export interface UpdateTagDto {
+export class UpdateTagDto implements IUpdateTagDto {
+  id?: number;
+  name?: string | undefined;
+
+  constructor(data?: IUpdateTagDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateTagDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateTagDto>(data, _mappings, UpdateTagDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
+
+export interface IUpdateTagDto {
   id?: number;
   name?: string | undefined;
 }
 
-export interface UpdateUserCommand {
+export class UpdateUserCommand implements IUpdateUserCommand {
+  user?: UpdateUserDto;
+
+  constructor(data?: IUpdateUserCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.user = _data['user'] ? UpdateUserDto.fromJS(_data['user'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateUserCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateUserCommand>(data, _mappings, UpdateUserCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['user'] = this.user ? this.user.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateUserCommand {
   user?: UpdateUserDto;
 }
 
-export interface UpdateUserDto {
+export class UpdateUserDto implements IUpdateUserDto {
+  id?: string | undefined;
+  userName?: string | undefined;
+  normalizedUserName?: string | undefined;
+  email?: string | undefined;
+  normalizedEmail?: string | undefined;
+  emailConfirmed?: boolean;
+  passwordHash?: string | undefined;
+  securityStamp?: string | undefined;
+  concurrencyStamp?: string | undefined;
+  phoneNumber?: string | undefined;
+  phoneNumberConfirmed?: boolean;
+  twoFactorEnabled?: boolean;
+  lockoutEnd?: Date | undefined;
+  lockoutEnabled?: boolean;
+  accessFailedCount?: number;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  phone?: string | undefined;
+
+  constructor(data?: IUpdateUserDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.userName = _data['userName'];
+      this.normalizedUserName = _data['normalizedUserName'];
+      this.email = _data['email'];
+      this.normalizedEmail = _data['normalizedEmail'];
+      this.emailConfirmed = _data['emailConfirmed'];
+      this.passwordHash = _data['passwordHash'];
+      this.securityStamp = _data['securityStamp'];
+      this.concurrencyStamp = _data['concurrencyStamp'];
+      this.phoneNumber = _data['phoneNumber'];
+      this.phoneNumberConfirmed = _data['phoneNumberConfirmed'];
+      this.twoFactorEnabled = _data['twoFactorEnabled'];
+      this.lockoutEnd = _data['lockoutEnd'] ? new Date(_data['lockoutEnd'].toString()) : <any>undefined;
+      this.lockoutEnabled = _data['lockoutEnabled'];
+      this.accessFailedCount = _data['accessFailedCount'];
+      this.firstName = _data['firstName'];
+      this.lastName = _data['lastName'];
+      this.phone = _data['phone'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateUserDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateUserDto>(data, _mappings, UpdateUserDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['userName'] = this.userName;
+    data['normalizedUserName'] = this.normalizedUserName;
+    data['email'] = this.email;
+    data['normalizedEmail'] = this.normalizedEmail;
+    data['emailConfirmed'] = this.emailConfirmed;
+    data['passwordHash'] = this.passwordHash;
+    data['securityStamp'] = this.securityStamp;
+    data['concurrencyStamp'] = this.concurrencyStamp;
+    data['phoneNumber'] = this.phoneNumber;
+    data['phoneNumberConfirmed'] = this.phoneNumberConfirmed;
+    data['twoFactorEnabled'] = this.twoFactorEnabled;
+    data['lockoutEnd'] = this.lockoutEnd ? this.lockoutEnd.toISOString() : <any>undefined;
+    data['lockoutEnabled'] = this.lockoutEnabled;
+    data['accessFailedCount'] = this.accessFailedCount;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['phone'] = this.phone;
+    return data;
+  }
+}
+
+export interface IUpdateUserDto {
   id?: string | undefined;
   userName?: string | undefined;
   normalizedUserName?: string | undefined;
@@ -10057,23 +15483,214 @@ export interface UpdateUserDto {
   phone?: string | undefined;
 }
 
-export interface UpdateWishListCommand {
+export class UpdateWishListCommand implements IUpdateWishListCommand {
+  wishList?: UpdateWishListDto;
+
+  constructor(data?: IUpdateWishListCommand) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.wishList = _data['wishList'] ? UpdateWishListDto.fromJS(_data['wishList'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateWishListCommand | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateWishListCommand>(data, _mappings, UpdateWishListCommand);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['wishList'] = this.wishList ? this.wishList.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IUpdateWishListCommand {
   wishList?: UpdateWishListDto;
 }
 
-export interface UpdateWishListDto {
+export class UpdateWishListDto implements IUpdateWishListDto {
+  id?: number;
+  name?: string | undefined;
+  userId?: number | undefined;
+
+  constructor(data?: IUpdateWishListDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateWishListDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateWishListDto>(data, _mappings, UpdateWishListDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IUpdateWishListDto {
   id?: number;
   name?: string | undefined;
   userId?: number | undefined;
 }
 
-export interface UpdateWishListItemDto {
+export class UpdateWishListItemDto implements IUpdateWishListItemDto {
+  id?: number;
+  productId?: number | undefined;
+  wishListId?: number | undefined;
+
+  constructor(data?: IUpdateWishListItemDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.wishListId = _data['wishListId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UpdateWishListItemDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UpdateWishListItemDto>(data, _mappings, UpdateWishListItemDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['wishListId'] = this.wishListId;
+    return data;
+  }
+}
+
+export interface IUpdateWishListItemDto {
   id?: number;
   productId?: number | undefined;
   wishListId?: number | undefined;
 }
 
-export interface UserDetailsDto {
+export class UserDetailsDto implements IUserDetailsDto {
+  id?: number;
+  userName?: string | undefined;
+  email?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  phone?: string | undefined;
+  token?: string | undefined;
+  orders?: OrderDto[] | undefined;
+  productReviews?: ProductReviewDto[] | undefined;
+  wishLists?: WishListDto[] | undefined;
+  comments?: CommentDto[] | undefined;
+  notifications?: NotificationDto[] | undefined;
+
+  constructor(data?: IUserDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.userName = _data['userName'];
+      this.email = _data['email'];
+      this.firstName = _data['firstName'];
+      this.lastName = _data['lastName'];
+      this.phone = _data['phone'];
+      this.token = _data['token'];
+      if (Array.isArray(_data['orders'])) {
+        this.orders = [] as any;
+        for (let item of _data['orders']) this.orders!.push(<OrderDto>OrderDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['productReviews'])) {
+        this.productReviews = [] as any;
+        for (let item of _data['productReviews']) this.productReviews!.push(<ProductReviewDto>ProductReviewDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['wishLists'])) {
+        this.wishLists = [] as any;
+        for (let item of _data['wishLists']) this.wishLists!.push(<WishListDto>WishListDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['comments'])) {
+        this.comments = [] as any;
+        for (let item of _data['comments']) this.comments!.push(<CommentDto>CommentDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['notifications'])) {
+        this.notifications = [] as any;
+        for (let item of _data['notifications']) this.notifications!.push(<NotificationDto>NotificationDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UserDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UserDetailsDto>(data, _mappings, UserDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['userName'] = this.userName;
+    data['email'] = this.email;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['phone'] = this.phone;
+    data['token'] = this.token;
+    if (Array.isArray(this.orders)) {
+      data['orders'] = [];
+      for (let item of this.orders) data['orders'].push(item.toJSON());
+    }
+    if (Array.isArray(this.productReviews)) {
+      data['productReviews'] = [];
+      for (let item of this.productReviews) data['productReviews'].push(item.toJSON());
+    }
+    if (Array.isArray(this.wishLists)) {
+      data['wishLists'] = [];
+      for (let item of this.wishLists) data['wishLists'].push(item.toJSON());
+    }
+    if (Array.isArray(this.comments)) {
+      data['comments'] = [];
+      for (let item of this.comments) data['comments'].push(item.toJSON());
+    }
+    if (Array.isArray(this.notifications)) {
+      data['notifications'] = [];
+      for (let item of this.notifications) data['notifications'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IUserDetailsDto {
   id?: number;
   userName?: string | undefined;
   email?: string | undefined;
@@ -10088,7 +15705,51 @@ export interface UserDetailsDto {
   notifications?: NotificationDto[] | undefined;
 }
 
-export interface UserDto {
+export class UserDto implements IUserDto {
+  id?: number;
+  userName?: string | undefined;
+  email?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  phone?: string | undefined;
+
+  constructor(data?: IUserDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.userName = _data['userName'];
+      this.email = _data['email'];
+      this.firstName = _data['firstName'];
+      this.lastName = _data['lastName'];
+      this.phone = _data['phone'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): UserDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<UserDto>(data, _mappings, UserDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['userName'] = this.userName;
+    data['email'] = this.email;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['phone'] = this.phone;
+    return data;
+  }
+}
+
+export interface IUserDto {
   id?: number;
   userName?: string | undefined;
   email?: string | undefined;
@@ -10097,18 +15758,54 @@ export interface UserDto {
   phone?: string | undefined;
 }
 
-export interface WishList {
+export class WishListDetailsDto implements IWishListDetailsDto {
   id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
   name?: string | undefined;
   userId?: number;
-  appUser?: AppUser;
-  wishListItems?: WishListItem[] | undefined;
+  user?: UserDto;
+  wishListItems?: WishListItemDto[] | undefined;
+
+  constructor(data?: IWishListDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.userId = _data['userId'];
+      this.user = _data['user'] ? UserDto.fromJS(_data['user'], _mappings) : <any>undefined;
+      if (Array.isArray(_data['wishListItems'])) {
+        this.wishListItems = [] as any;
+        for (let item of _data['wishListItems']) this.wishListItems!.push(<WishListItemDto>WishListItemDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): WishListDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<WishListDetailsDto>(data, _mappings, WishListDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['userId'] = this.userId;
+    data['user'] = this.user ? this.user.toJSON() : <any>undefined;
+    if (Array.isArray(this.wishListItems)) {
+      data['wishListItems'] = [];
+      for (let item of this.wishListItems) data['wishListItems'].push(item.toJSON());
+    }
+    return data;
+  }
 }
 
-export interface WishListDetailsDto {
+export interface IWishListDetailsDto {
   id?: number;
   name?: string | undefined;
   userId?: number;
@@ -10116,24 +15813,89 @@ export interface WishListDetailsDto {
   wishListItems?: WishListItemDto[] | undefined;
 }
 
-export interface WishListDto {
+export class WishListDto implements IWishListDto {
+  id?: number;
+  name?: string | undefined;
+  userId?: number;
+
+  constructor(data?: IWishListDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.name = _data['name'];
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): WishListDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<WishListDto>(data, _mappings, WishListDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IWishListDto {
   id?: number;
   name?: string | undefined;
   userId?: number;
 }
 
-export interface WishListItem {
+export class WishListItemDetailsDto implements IWishListItemDetailsDto {
   id?: number;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  isDeleted?: boolean;
   productId?: number;
-  product?: Product;
   wishListId?: number;
-  wishList?: WishList;
+  product?: ProductDto;
+  wishList?: WishListDto;
+
+  constructor(data?: IWishListItemDetailsDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.wishListId = _data['wishListId'];
+      this.product = _data['product'] ? ProductDto.fromJS(_data['product'], _mappings) : <any>undefined;
+      this.wishList = _data['wishList'] ? WishListDto.fromJS(_data['wishList'], _mappings) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): WishListItemDetailsDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<WishListItemDetailsDto>(data, _mappings, WishListItemDetailsDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['wishListId'] = this.wishListId;
+    data['product'] = this.product ? this.product.toJSON() : <any>undefined;
+    data['wishList'] = this.wishList ? this.wishList.toJSON() : <any>undefined;
+    return data;
+  }
 }
 
-export interface WishListItemDetailsDto {
+export interface IWishListItemDetailsDto {
   id?: number;
   productId?: number;
   wishListId?: number;
@@ -10141,10 +15903,99 @@ export interface WishListItemDetailsDto {
   wishList?: WishListDto;
 }
 
-export interface WishListItemDto {
+export class WishListItemDto implements IWishListItemDto {
   id?: number;
   productId?: number;
   wishListId?: number;
+
+  constructor(data?: IWishListItemDto) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.productId = _data['productId'];
+      this.wishListId = _data['wishListId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): WishListItemDto | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<WishListItemDto>(data, _mappings, WishListItemDto);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['productId'] = this.productId;
+    data['wishListId'] = this.wishListId;
+    return data;
+  }
+}
+
+export interface IWishListItemDto {
+  id?: number;
+  productId?: number;
+  wishListId?: number;
+}
+
+function jsonParse(json: any, reviver?: any) {
+  json = JSON.parse(json, reviver);
+
+  var byid: any = {};
+  var refs: any = [];
+  json = (function recurse(obj: any, prop?: any, parent?: any) {
+    if (typeof obj !== 'object' || !obj) return obj;
+
+    if ('$ref' in obj) {
+      let ref = obj.$ref;
+      if (ref in byid) return byid[ref];
+      refs.push([parent, prop, ref]);
+      return undefined;
+    } else if ('$id' in obj) {
+      let id = obj.$id;
+      delete obj.$id;
+      if ('$values' in obj) obj = obj.$values;
+      byid[id] = obj;
+    }
+
+    if (Array.isArray(obj)) {
+      obj = obj.map((v, i) => recurse(v, i, obj));
+    } else {
+      for (var p in obj) {
+        if (obj.hasOwnProperty(p) && obj[p] && typeof obj[p] === 'object') obj[p] = recurse(obj[p], p, obj);
+      }
+    }
+
+    return obj;
+  })(json);
+
+  for (let i = 0; i < refs.length; i++) {
+    const ref = refs[i];
+    ref[0][ref[1]] = byid[ref[2]];
+  }
+
+  return json;
+}
+
+function createInstance<T>(data: any, mappings: any, type: any): T | null {
+  if (!mappings) mappings = [];
+  if (!data) return null;
+
+  const mappingIndexName = '__mappingIndex';
+  if (data[mappingIndexName]) return <T>mappings[data[mappingIndexName]].target;
+
+  data[mappingIndexName] = mappings.length;
+
+  let result: any = new type();
+  mappings.push({ source: data, target: result });
+  result.init(data, mappings);
+  return result;
 }
 
 export class ApiException extends Error {
@@ -10171,15 +16022,7 @@ export class ApiException extends Error {
   }
 }
 
-function throwException(
-  message: string,
-  status: number,
-  response: string,
-  headers: {
-    [key: string]: any;
-  },
-  result?: any
-): Observable<any> {
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any }, result?: any): Observable<any> {
   if (result !== null && result !== undefined) return _observableThrow(result);
   else return _observableThrow(new ApiException(message, status, response, headers, null));
 }

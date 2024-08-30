@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { LoginModel, MatLidStoreServices } from 'src/app/core/data/mls-data.service';
+import { LoginModel, MatLidStoreServices, UserDetailsDto } from 'src/app/core/data/mls-data.service';
 
 @Component({
   selector: 'app-login-layout',
@@ -7,23 +7,25 @@ import { LoginModel, MatLidStoreServices } from 'src/app/core/data/mls-data.serv
   styleUrls: ['./login-layout.component.scss'],
 })
 export class LoginLayoutComponent implements OnInit {
-  private loginService = inject(MatLidStoreServices);
   loggedIn = false;
-  model: LoginModel = {};
+  model: LoginModel = new LoginModel();
+  user: UserDetailsDto | null = null;
+  private matlidapi = inject(MatLidStoreServices);
 
   constructor() {}
 
   ngOnInit(): void {}
 
   loginClick() {
-    this.loginService.login(this.model).subscribe({
-      next: (data) => {
+    this.matlidapi.login(this.model).subscribe({
+      next: (response) => {
+        this.user = response;
         this.loggedIn = true;
+        console.log(this.user);
         console.log(this.loggedIn);
-        console.log(data);
       },
       error: (error) => console.log(error),
-      complete: () => console.log('Request has completed'),
+      complete: () => console.log('This request is complete'),
     });
   }
 }
