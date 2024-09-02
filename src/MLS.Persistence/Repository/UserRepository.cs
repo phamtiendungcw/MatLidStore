@@ -1,12 +1,12 @@
-﻿using System.Linq.Expressions;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MLS.Application.Contracts.Persistence.IRepositories;
 using MLS.Application.DTO.User;
 using MLS.Application.Exceptions;
 using MLS.Domain.Entities;
 using MLS.Persistence.DatabaseContext;
+using System.Linq.Expressions;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MLS.Persistence.Repository;
 

@@ -1,6 +1,6 @@
-﻿using System.Linq.Expressions;
-using MLS.Application.DTO.User;
+﻿using MLS.Application.DTO.User;
 using MLS.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace MLS.Application.Contracts.Persistence.IRepositories;
 

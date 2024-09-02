@@ -1,9 +1,9 @@
-﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MLS.Application.Contracts.Persistence.Common;
 using MLS.Application.Exceptions;
 using MLS.Domain.Common;
 using MLS.Persistence.DatabaseContext;
+using System.Linq.Expressions;
 
 namespace MLS.Persistence.Repository.Common;
 

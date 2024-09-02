@@ -1,4 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AccountService } from 'src/app/core/data/account.service';
 import { LoginModel, MatLidStoreServices, UserDetailsDto } from 'src/app/core/data/mls-data.service';
 
 @Component({
@@ -6,26 +8,24 @@ import { LoginModel, MatLidStoreServices, UserDetailsDto } from 'src/app/core/da
   templateUrl: './login-layout.component.html',
   styleUrls: ['./login-layout.component.scss'],
 })
-export class LoginLayoutComponent implements OnInit {
+export class LoginLayoutComponent {
   loggedIn = false;
   model: LoginModel = new LoginModel();
   user: UserDetailsDto | null = null;
   private matlidapi = inject(MatLidStoreServices);
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  private router = inject(Router);
+  private accountService = inject(AccountService);
 
   loginClick() {
     this.matlidapi.login(this.model).subscribe({
       next: (response) => {
         this.user = response;
         this.loggedIn = true;
-        console.log(this.user);
-        console.log(this.loggedIn);
+        this.accountService.setLoggedIn(this.loggedIn);
+        this.router.navigate(['/admin/home']);
       },
       error: (error) => console.log(error),
-      complete: () => console.log('This request is complete'),
+      complete: () => console.log('Request has completed.'),
     });
   }
 }
