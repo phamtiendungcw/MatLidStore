@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  users: any;
+  loggerIn: boolean = false;
   private matlidapi = inject(MatLidStoreServices);
   private accountService = inject(AccountService);
   private router = inject(Router);
-  users: any;
-  loggerIn: boolean = false;
 
   constructor() {}
 

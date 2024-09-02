@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/core/data/account.service';
 import { LoginModel, MatLidStoreServices, UserDetailsDto } from 'src/app/core/data/mls-data.service';
@@ -9,12 +9,12 @@ import { LoginModel, MatLidStoreServices, UserDetailsDto } from 'src/app/core/da
   styleUrls: ['./login-layout.component.scss'],
 })
 export class LoginLayoutComponent {
-  private matlidapi = inject(MatLidStoreServices);
-  private router = inject(Router);
-  private accountService = inject(AccountService);
   loggedIn = false;
   model: LoginModel = new LoginModel();
   user: UserDetailsDto | null = null;
+  private matlidapi = inject(MatLidStoreServices);
+  private router = inject(Router);
+  private accountService = inject(AccountService);
 
   loginClick() {
     this.matlidapi.login(this.model).subscribe({
