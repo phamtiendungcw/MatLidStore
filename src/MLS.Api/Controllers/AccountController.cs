@@ -21,9 +21,8 @@ public class AccountController : MatLidStoreBaseController
     }
 
     [HttpPost("register")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(201)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RegisterUser([FromBody] RegisterUserCommand user)
     {
         try
@@ -45,9 +44,9 @@ public class AccountController : MatLidStoreBaseController
     }
 
     [HttpPost("login")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(201)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<UserDetailsDto>> LoginUser([FromBody] LoginModel loginUser)
     {
         var user = await _mediator.Send(new GetUserDetailsByUserNameQuery(loginUser));

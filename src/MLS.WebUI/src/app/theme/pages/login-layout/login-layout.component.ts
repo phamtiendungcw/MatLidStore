@@ -22,7 +22,9 @@ export class LoginLayoutComponent {
         this.user = response;
         this.loggedIn = true;
         this.accountService.setLoggedIn(this.loggedIn);
-        this.router.navigate(['/admin/home']);
+        if (this.loggedIn) {
+          this.router.navigate(['/admin/home']);
+        }
       },
       error: (error) => console.log(error),
       complete: () => console.log('Request has completed.'),
