@@ -43,6 +43,7 @@ public class UserController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand user)
     {
         var response = await _mediator.Send(user);

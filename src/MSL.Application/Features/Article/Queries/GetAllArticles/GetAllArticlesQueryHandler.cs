@@ -25,7 +25,7 @@ public class GetAllArticlesQueryHandler : IRequestHandler<GetAllArticlesQuery, L
         var articles = await _articleRepository.GetAllAsync();
         var data = _mapper.Map<List<ArticleDto>>(articles);
 
-        _logger.LogInformation("Article were retrieved successfully!");
+        _logger.LogInformation("Articles were retrieved successfully!");
         return data;
     }
 }
