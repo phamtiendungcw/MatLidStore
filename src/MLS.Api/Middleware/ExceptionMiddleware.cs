@@ -1,6 +1,6 @@
-﻿using System.Net;
-using MLS.Api.Models;
+﻿using MLS.Api.Models;
 using MLS.Application.Exceptions;
+using System.Net;
 
 namespace MLS.Api.Middleware;
 
@@ -43,6 +43,7 @@ public class ExceptionMiddleware
                     Errors = badRequestException.ValidationErrors
                 };
                 break;
+
             case NotFoundException notFound:
                 statusCode = HttpStatusCode.NotFound;
                 problem = new CustomProblemDetails
@@ -53,6 +54,7 @@ public class ExceptionMiddleware
                     Detail = notFound.InnerException?.Message
                 };
                 break;
+
             default:
                 problem = new CustomProblemDetails
                 {
