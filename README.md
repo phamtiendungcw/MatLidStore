@@ -99,7 +99,7 @@ FluentValidation is used for data validation, ensuring that the data sent to the
 
 ## Access the Application
 
-Open your browser and go to http://localhost:4200 to start exploring MATLID.
+Open your browser and go to https://localhost:4200 to start exploring MATLID.
 
 ## Contribute
 
