@@ -47,6 +47,7 @@ public class ProductTagController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateProductTag([FromBody] CreateProductTagDto productTag)
     {
         var productTagToCreate = _mapper.Map<ProductTag>(productTag);

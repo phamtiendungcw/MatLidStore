@@ -41,6 +41,7 @@ public class ShoppingCartController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateShoppingCart([FromBody] CreateShoppingCartCommand shoppingCart)
     {
         var response = await _mediator.Send(shoppingCart);

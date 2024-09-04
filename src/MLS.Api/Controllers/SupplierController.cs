@@ -47,6 +47,7 @@ public class SupplierController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateSupplier([FromBody] CreateSupplierDto supplier)
     {
         var supplierToCreate = _mapper.Map<Supplier>(supplier);

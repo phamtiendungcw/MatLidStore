@@ -23,6 +23,7 @@ public class AccountController : MatLidStoreBaseController
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> RegisterUser([FromBody] RegisterUserCommand user)
     {
         try
@@ -47,6 +48,7 @@ public class AccountController : MatLidStoreBaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<UserDetailsDto>> LoginUser([FromBody] LoginModel loginUser)
     {
         var user = await _mediator.Send(new GetUserDetailsByUserNameQuery(loginUser));

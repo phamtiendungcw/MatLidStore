@@ -41,6 +41,7 @@ public class ShipmentController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateShipment([FromBody] CreateShipmentCommand shipment)
     {
         var response = await _mediator.Send(shipment);
