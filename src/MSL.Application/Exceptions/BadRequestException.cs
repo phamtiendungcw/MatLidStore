@@ -6,14 +6,8 @@ public class BadRequestException : Exception
 {
     public BadRequestException(string message, ValidationResult validationResult) : base(message)
     {
-        ValidationErrors = new List<string>();
-        foreach (var errors in validationResult.Errors) ValidationErrors.Add(errors.ErrorMessage);
+        ValidationErrors = validationResult.ToDictionary();
     }
 
-    public BadRequestException(List<string> validationErrors)
-    {
-        ValidationErrors = validationErrors;
-    }
-
-    private List<string> ValidationErrors { get; }
+    public IDictionary<string, string[]> ValidationErrors { get; }
 }

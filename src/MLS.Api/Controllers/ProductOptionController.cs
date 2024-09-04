@@ -47,6 +47,7 @@ public class ProductOptionController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateProductOption([FromBody] CreateProductOptionDto productOption)
     {
         var productOptionToCreate = _mapper.Map<ProductOption>(productOption);

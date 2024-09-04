@@ -41,6 +41,7 @@ public class OrderController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateOrder([FromBody] CreateOrderCommand order)
     {
         var response = await _mediator.Send(order);

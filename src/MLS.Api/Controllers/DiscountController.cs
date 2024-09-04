@@ -58,6 +58,7 @@ public class DiscountController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateDiscount([FromBody] CreateDiscountDto discount)
     {
         var discountToCreate = _mapper.Map<Discount>(discount);

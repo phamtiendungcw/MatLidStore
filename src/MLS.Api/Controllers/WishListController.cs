@@ -41,6 +41,7 @@ public class WishListController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateWishList([FromBody] CreateWishListCommand wishList)
     {
         var response = await _mediator.Send(wishList);

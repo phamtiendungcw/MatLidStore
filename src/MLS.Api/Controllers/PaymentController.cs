@@ -41,6 +41,7 @@ public class PaymentController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreatePayment([FromBody] CreatePaymentCommand payment)
     {
         var response = await _mediator.Send(payment);

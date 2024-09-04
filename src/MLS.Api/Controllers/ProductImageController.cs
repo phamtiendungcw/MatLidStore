@@ -47,6 +47,7 @@ public class ProductImageController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateProductImage([FromBody] CreateProductImageDto productImage)
     {
         var productImageToCreate = _mapper.Map<ProductImage>(productImage);

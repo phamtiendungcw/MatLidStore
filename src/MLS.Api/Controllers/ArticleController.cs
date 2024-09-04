@@ -50,6 +50,7 @@ public class ArticleController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateArticle([FromBody] CreateArticleCommand article)
     {
         var response = await _mediator.Send(article);

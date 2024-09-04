@@ -48,6 +48,7 @@ public class ProductColorController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateProductColor([FromBody] CreateProductColorDto productColor)
     {
         var productColorToCreate = _mapper.Map<ProductColor>(productColor);

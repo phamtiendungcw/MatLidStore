@@ -41,6 +41,7 @@ public class ProductReviewController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateProductReview([FromBody] CreateProductReviewCommand productReview)
     {
         var response = await _mediator.Send(productReview);

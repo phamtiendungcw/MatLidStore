@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi.Models;
+using MLS.Api.Middleware;
 using MLS.Application;
 using MLS.Infrastructure;
 using MLS.Persistence;
@@ -44,6 +45,9 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+// Using custom middleware exception
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Using CQRS with configured policies
 app.UseCors("MatLidStoreUI");

@@ -41,6 +41,7 @@ public class CategoryController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateCategory([FromBody] CreateCategoryCommand category)
     {
         var response = await _mediator.Send(category);

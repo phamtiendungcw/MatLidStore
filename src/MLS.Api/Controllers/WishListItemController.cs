@@ -47,6 +47,7 @@ public class WishListItemController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateWishListItem([FromBody] CreateWishListItemDto wishListItem)
     {
         var wishListItemToCreate = _mapper.Map<WishListItem>(wishListItem);

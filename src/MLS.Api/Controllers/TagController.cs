@@ -47,6 +47,7 @@ public class TagController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateTag([FromBody] CreateTagDto tag)
     {
         var tagToCreate = _mapper.Map<Tag>(tag);
