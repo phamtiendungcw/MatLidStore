@@ -1,19 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
+# 17
 VisualStudioVersion = 17.9.34310.174
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLS.Api", "src\MLS.Api\MLS.Api.csproj", "{00195E66-F5F5-44F4-9B8C-41F451EC744B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLS.Api", "src\MLS.Api\MLS.Api.csproj", "{00195E66-F5F5-44F4-9B8C-41F451EC744B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLS.Domain", "src\MLS.Domain\MLS.Domain.csproj", "{E19481B3-E9A0-4113-B858-DC2294FE352C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLS.Domain", "src\MLS.Domain\MLS.Domain.csproj", "{E19481B3-E9A0-4113-B858-DC2294FE352C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLS.Application", "src\MSL.Application\MLS.Application.csproj", "{C1170C78-584F-4CB2-B59D-68ECA75B92BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLS.Application", "src\MSL.Application\MLS.Application.csproj", "{C1170C78-584F-4CB2-B59D-68ECA75B92BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLS.Infrastructure", "src\MLS.Infrastructure\MLS.Infrastructure.csproj", "{859D0DBE-BB46-44BF-89CA-B2612BEB9DD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLS.Infrastructure", "src\MLS.Infrastructure\MLS.Infrastructure.csproj", "{859D0DBE-BB46-44BF-89CA-B2612BEB9DD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLS.Persistence", "src\MLS.Persistence\MLS.Persistence.csproj", "{F0202A20-DD80-458F-8EA7-C5A8C423A447}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLS.Persistence", "src\MLS.Persistence\MLS.Persistence.csproj", "{F0202A20-DD80-458F-8EA7-C5A8C423A447}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "MLS.WebUI", "src\MLS.WebUI\MLS.WebUI.esproj", "{8CAB0B79-0D0B-4EF8-94EE-FDC76F3F7B47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{342CCCE6-6F24-4477-A6A8-62B129562220}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{D8C56BC6-FB8E-4DF0-90DF-7DDF49E4288D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{E534B5DE-9358-4EAE-8817-41B613C3CF90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{D66695E1-6F37-4204-86DF-ADAC3C7C077D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +58,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00195E66-F5F5-44F4-9B8C-41F451EC744B} = {342CCCE6-6F24-4477-A6A8-62B129562220}
+		{E19481B3-E9A0-4113-B858-DC2294FE352C} = {D8C56BC6-FB8E-4DF0-90DF-7DDF49E4288D}
+		{C1170C78-584F-4CB2-B59D-68ECA75B92BB} = {D8C56BC6-FB8E-4DF0-90DF-7DDF49E4288D}
+		{859D0DBE-BB46-44BF-89CA-B2612BEB9DD9} = {E534B5DE-9358-4EAE-8817-41B613C3CF90}
+		{F0202A20-DD80-458F-8EA7-C5A8C423A447} = {E534B5DE-9358-4EAE-8817-41B613C3CF90}
+		{8CAB0B79-0D0B-4EF8-94EE-FDC76F3F7B47} = {D66695E1-6F37-4204-86DF-ADAC3C7C077D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FB3AAC75-7467-4823-9310-C65F8B5C640A}

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MLS.Api.Controllers.BaseController;
 
-[Authorize]
+[AllowAnonymous]
 [Route("MatLidStoreApi/[controller]")]
 [ApiController]
 public class MatLidStoreBaseController : ControllerBase

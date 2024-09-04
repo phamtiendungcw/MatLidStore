@@ -29,13 +29,14 @@ public class UpdateArticleCommandHandler : IRequestHandler<UpdateArticleCommand,
 
         if (!validationResult.IsValid)
         {
-            _logger.LogWarning($"Validation errors in update request for {0} - {1}", nameof(Domain.Entities.Article), request.Article.Id);
-            throw new BadRequestException("Invalid Article", validationResult);
+            _logger.LogWarning("Validation errors in update request for {0} - {1}.", nameof(Article), request.Article);
+            throw new BadRequestException("Invalid article!", validationResult);
         }
 
         var articleToUpdate = _mapper.Map<Domain.Entities.Article>(request.Article);
         await _articleRepository.UpdateAsync(articleToUpdate);
 
+        _logger.LogInformation("Article was updated successfully!");
         return Unit.Value;
     }
 }

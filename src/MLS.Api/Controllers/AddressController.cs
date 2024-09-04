@@ -46,6 +46,7 @@ public class AddressController : MatLidStoreBaseController
     [HttpPost]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateAddress([FromBody] CreateAddressDto address)
     {
         var addressToCreate = _mapper.Map<Address>(address);

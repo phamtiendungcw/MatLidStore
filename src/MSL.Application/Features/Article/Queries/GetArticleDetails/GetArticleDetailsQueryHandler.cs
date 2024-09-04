@@ -26,11 +26,14 @@ public class GetArticleDetailsQueryHandler : IRequestHandler<GetArticleDetailsQu
         var article = await _articleRepository.GetByIdAsync(request.Id, i => i.Comments);
 
         if (article is null)
+        {
+            _logger.LogWarning("Object {0} with id value equal to {1} was not found in the retrieve request.", nameof(Article), request.Id);
             throw new NotFoundException(nameof(Domain.Entities.Article), request.Id);
+        }
 
         var data = _mapper.Map<ArticleDetailsDto>(article);
 
-        _logger.LogInformation("Article Detail were retrieved successfully!");
+        _logger.LogInformation("Article details were retrieved successfully!");
         return data;
     }
 }
