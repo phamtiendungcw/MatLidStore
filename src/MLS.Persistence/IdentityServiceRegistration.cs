@@ -30,7 +30,7 @@ public static class IdentityServiceRegistration
                 ValidateAudience = false
             };
         });
-        services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<MatLidStoreDatabaseContext>().AddDefaultTokenProviders();
+        //services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<MatLidStoreDatabaseContext>().AddDefaultTokenProviders();
 
         return services;
     }
