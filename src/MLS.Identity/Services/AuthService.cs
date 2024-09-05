@@ -1,13 +1,13 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MLS.Application.Contracts.Identity;
 using MLS.Application.Exceptions;
 using MLS.Application.Models.Identity;
 using MLS.Identity.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace MLS.Identity.Services;
 
@@ -28,7 +28,7 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByNameAsync(request.Username);
 
-        if (user is null) throw new NotFoundException("User with user name is {0} not found.", request.Username);
+        if (user is null) throw new NotFoundException($"User with user name is '{request.Username}' not found.");
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 

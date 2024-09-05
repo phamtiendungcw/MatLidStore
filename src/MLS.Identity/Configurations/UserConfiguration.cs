@@ -25,7 +25,7 @@ namespace MLS.Identity.Configurations
                     LastName = "Admin",
                     UserName = "admin",
                     NormalizedUserName = "ADMIN",
-                    PasswordHash = hasher.HashPassword(null, "Matlidstore2024@"),
+                    PasswordHash = hasher.HashPassword(null!, "Matlidstore2024@"),
                     EmailConfirmed = true
                 },
                 new ApplicationUser
@@ -37,7 +37,7 @@ namespace MLS.Identity.Configurations
                     LastName = "User",
                     UserName = "user",
                     NormalizedUserName = "USER",
-                    PasswordHash = hasher.HashPassword(null, "Matlidstore2024@"),
+                    PasswordHash = hasher.HashPassword(null!, "Matlidstore2024@"),
                     EmailConfirmed = true
                 });
         }
