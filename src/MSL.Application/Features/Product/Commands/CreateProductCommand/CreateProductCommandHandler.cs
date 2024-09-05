@@ -9,9 +9,9 @@ namespace MLS.Application.Features.Product.Commands.CreateProductCommand;
 
 public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
 {
+    private readonly IAppLogger<CreateProductCommandHandler> _logger;
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
-    private readonly IAppLogger<CreateProductCommandHandler> _logger;
 
     public CreateProductCommandHandler(IMapper mapper, IProductRepository productRepository, IAppLogger<CreateProductCommandHandler> logger)
     {

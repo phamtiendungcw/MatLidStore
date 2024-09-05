@@ -1,5 +1,4 @@
 ﻿using MLS.Application.Models.Identity;
-using MLS.Domain.Entities;
 
 namespace MLS.Application.Contracts.Identity;
 

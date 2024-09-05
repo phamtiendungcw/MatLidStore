@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +9,7 @@ using MLS.Application.Models.Identity;
 using MLS.Identity.DatabaseContext;
 using MLS.Identity.Models;
 using MLS.Identity.Services;
+using System.Text;
 
 namespace MLS.Identity;
 
