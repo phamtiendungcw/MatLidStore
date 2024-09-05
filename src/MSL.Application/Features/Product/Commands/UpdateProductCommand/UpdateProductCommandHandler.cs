@@ -9,9 +9,9 @@ namespace MLS.Application.Features.Product.Commands.UpdateProductCommand;
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Unit>
 {
+    private readonly IAppLogger<UpdateProductCommandHandler> _logger;
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
-    private readonly IAppLogger<UpdateProductCommandHandler> _logger;
 
     public UpdateProductCommandHandler(IMapper mapper, IProductRepository productRepository, IAppLogger<UpdateProductCommandHandler> logger)
     {

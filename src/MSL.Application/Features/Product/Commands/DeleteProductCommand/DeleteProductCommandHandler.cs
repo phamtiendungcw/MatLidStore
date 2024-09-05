@@ -7,8 +7,8 @@ namespace MLS.Application.Features.Product.Commands.DeleteProductCommand;
 
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, Unit>
 {
-    private readonly IProductRepository _productRepository;
     private readonly IAppLogger<DeleteProductCommandHandler> _logger;
+    private readonly IProductRepository _productRepository;
 
     public DeleteProductCommandHandler(IProductRepository productRepository, IAppLogger<DeleteProductCommandHandler> logger)
     {
