@@ -12,6 +12,6 @@ public class Comment : BaseEntity
     public int? ArticleId { get; set; } // Foreign key referencing Article (optional)
     public Article? Article { get; set; } // Navigation property for Article
 
-    public int CommenterId { get; set; } // Foreign key referencing AppUser (optional)
-    public AppUser Commenter { get; set; } = null!; // Navigation property for AppUser
+    public int CommenterId { get; set; } // Foreign key referencing User (optional)
+    public AppUser Commenter { get; set; } = null!; // Navigation property for User
 }

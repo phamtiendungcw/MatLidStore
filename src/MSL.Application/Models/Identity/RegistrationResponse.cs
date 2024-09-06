@@ -2,5 +2,5 @@
 
 public class RegistrationResponse
 {
-    public string UserId { get; set; } = string.Empty;
+    public int UserId { get; set; }
 }

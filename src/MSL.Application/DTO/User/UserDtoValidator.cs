@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MLS.Application.Models.Identity;
 
 namespace MLS.Application.DTO.User;
 
@@ -88,6 +89,8 @@ public class RegisterUserModelValidator : AbstractValidator<RegisterModel>
             .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter.")
             .Matches("[0-9]").WithMessage("Password must contain at least one digit.")
             .Matches(@"[\@\!\?\*\.]").WithMessage("Password must contain at least one special character (@, !, ?, *, .).");
+        RuleFor(x => x.Email)
+            .NotEmpty().WithMessage("Email cannot be empty.");
         RuleFor(x => x.FirstName)
             .NotEmpty().WithMessage("FirstName cannot be empty.")
             .MaximumLength(50).WithMessage("FirstName must be less than 50 characters.");
@@ -99,7 +102,7 @@ public class RegisterUserModelValidator : AbstractValidator<RegisterModel>
     }
 }
 
-public class LoginUserModelValidator : AbstractValidator<LoginModel>
+public class LoginUserModelValidator : AbstractValidator<AuthRequest>
 {
     public LoginUserModelValidator()
     {

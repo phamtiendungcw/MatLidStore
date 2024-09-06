@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MLS.Domain.Entities;
 
 namespace MLS.Persistence.Configurations;
@@ -9,6 +10,11 @@ public static class EntityConfigurations
     {
         #region Customize table name
 
+        modelBuilder.Entity<IdentityUserRole<int>>(entity => { entity.ToTable($"{tablePrefix}AspNetUserRoles"); });
+        modelBuilder.Entity<IdentityUserClaim<int>>(entity => { entity.ToTable($"{tablePrefix}AspNetUserClaims"); });
+        modelBuilder.Entity<IdentityRoleClaim<int>>(entity => { entity.ToTable($"{tablePrefix}AspNetRoleClaims"); });
+        modelBuilder.Entity<IdentityUserLogin<int>>(entity => { entity.ToTable($"{tablePrefix}AspNetUserLogins"); });
+        modelBuilder.Entity<IdentityUserToken<int>>(entity => { entity.ToTable($"{tablePrefix}AspNetUserTokens"); });
         modelBuilder.Entity<Address>(b => { b.ToTable($"{tablePrefix}Addresses"); });
         modelBuilder.Entity<AppRole>(b => { b.ToTable($"{tablePrefix}Roles"); });
         modelBuilder.Entity<AppUser>(b => { b.ToTable($"{tablePrefix}Users"); });
@@ -40,7 +46,24 @@ public static class EntityConfigurations
 
         #region Ensure relationships and delete cascading rules
 
+        // Configure relationships between AppUserRole, AppUser, and AppRole
+
+        modelBuilder.Entity<IdentityUserRole<int>>().HasKey(ur => new { ur.UserId, ur.RoleId });
+
         // Configure the relationship
+        modelBuilder.Entity<AppUserRole>()
+            .HasOne(ur => ur.User)
+            .WithMany(u => u.UserRoles)
+            .HasForeignKey(ur => ur.UserId)
+            .IsRequired();
+
+        modelBuilder.Entity<AppUserRole>()
+            .HasOne(ur => ur.Role)
+            .WithMany(r => r.UserRoles)
+            .HasForeignKey(ur => ur.RoleId)
+            .IsRequired();
+
+
         modelBuilder.Entity<Comment>()
             .HasOne(c => c.Commenter)
             .WithMany(u => u.Comments)

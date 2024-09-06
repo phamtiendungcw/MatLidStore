@@ -11,6 +11,6 @@ public class Address : BaseEntity
     [MaxLength(50)] public string Country { get; set; } = string.Empty;
     [MaxLength(20)] public string PostalCode { get; set; } = string.Empty;
 
-    public int UserId { get; set; } // Foreign key referencing AppUser
-    public AppUser AppUser { get; set; } = null!; // Navigation property for AppUser
+    public int UserId { get; set; } // Foreign key referencing User
+    public AppUser AppUser { get; set; } = null!; // Navigation property for User
 }

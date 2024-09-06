@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MLS.Domain.Common;
 using MLS.Domain.Entities;
 using MLS.Persistence.Configurations;
 
 namespace MLS.Persistence.DatabaseContext;
 
-public class MatLidStoreDatabaseContext : DbContext
+public class MatLidStoreDatabaseContext : IdentityDbContext<AppUser, AppRole, int>
 {
     private readonly string _tablePrefix = "MATLID_";
 
@@ -26,11 +27,11 @@ public class MatLidStoreDatabaseContext : DbContext
         return base.SaveChangesAsync(cancellationToken);
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MatLidStoreDatabaseContext).Assembly);
-        base.OnModelCreating(modelBuilder);
-        EntityConfigurations.Configure(modelBuilder, _tablePrefix);
+        builder.ApplyConfigurationsFromAssembly(typeof(MatLidStoreDatabaseContext).Assembly);
+        base.OnModelCreating(builder);
+        EntityConfigurations.Configure(builder, _tablePrefix);
     }
 
     private void SoftDeleteEntities()
@@ -46,9 +47,9 @@ public class MatLidStoreDatabaseContext : DbContext
     #region Defines a set of entities in the database
 
     public DbSet<Address> Addresses { get; set; } = null!;
-    public DbSet<AppRole> Roles { get; set; } = null!;
-    public DbSet<AppUser> Users { get; set; } = null!;
-    public DbSet<AppUserRole> UserRoles { get; set; } = null!;
+    public override DbSet<AppRole> Roles { get; set; } = null!;
+    public override DbSet<AppUser> Users { get; set; } = null!;
+    public DbSet<AppUserRole> UsersRoles { get; set; } = null!;
     public DbSet<Article> Articles { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Comment> Comments { get; set; } = null!;

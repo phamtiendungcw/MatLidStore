@@ -12,6 +12,6 @@ public class ProductReview : BaseEntity
     public int ProductId { get; set; } // Foreign key referencing Product
     public Product Product { get; set; } = null!; // Navigation property for Product
 
-    public int UserId { get; set; } // Foreign key referencing AppUser
-    public AppUser AppUser { get; set; } = null!; // Navigation property for AppUser
+    public int UserId { get; set; } // Foreign key referencing User
+    public AppUser AppUser { get; set; } = null!; // Navigation property for User
 }

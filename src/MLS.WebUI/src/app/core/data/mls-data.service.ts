@@ -25,7 +25,7 @@ export interface IMatLidStoreServices {
    * @param body (optional)
    * @return OK
    */
-  login(body: LoginModel | undefined): Observable<UserDetailsDto>;
+  login(body: AuthRequest | undefined): Observable<AuthResponse>;
   /**
    * @return OK
    */
@@ -74,6 +74,16 @@ export interface IMatLidStoreServices {
    * @return OK
    */
   authorName(authorName: string): Observable<ArticleDto[]>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  login2(body: AuthRequest | undefined): Observable<AuthResponse>;
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  register2(body: RegisterModel | undefined): Observable<RegistrationResponse>;
   /**
    * @return OK
    */
@@ -674,7 +684,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
    * @param body (optional)
    * @return OK
    */
-  login(body: LoginModel | undefined, httpContext?: HttpContext): Observable<UserDetailsDto> {
+  login(body: AuthRequest | undefined, httpContext?: HttpContext): Observable<AuthResponse> {
     let url_ = this.baseUrl + '/MatLidStoreApi/Account/login';
     url_ = url_.replace(/[?&]$/, '');
 
@@ -704,14 +714,14 @@ export class MatLidStoreServices implements IMatLidStoreServices {
             try {
               return this.processLogin(response_ as any);
             } catch (e) {
-              return _observableThrow(e) as any as Observable<UserDetailsDto>;
+              return _observableThrow(e) as any as Observable<AuthResponse>;
             }
-          } else return _observableThrow(response_) as any as Observable<UserDetailsDto>;
+          } else return _observableThrow(response_) as any as Observable<AuthResponse>;
         })
       );
   }
 
-  protected processLogin(response: HttpResponseBase): Observable<UserDetailsDto> {
+  protected processLogin(response: HttpResponseBase): Observable<AuthResponse> {
     const status = response.status;
     const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
 
@@ -727,7 +737,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
         _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
-          result200 = UserDetailsDto.fromJS(resultData200, _mappings);
+          result200 = AuthResponse.fromJS(resultData200, _mappings);
           return _observableOf(result200);
         })
       );
@@ -1599,6 +1609,193 @@ export class MatLidStoreServices implements IMatLidStoreServices {
             result200 = <any>null;
           }
           return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  login2(body: AuthRequest | undefined, httpContext?: HttpContext): Observable<AuthResponse> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Authentication/login';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      context: httpContext,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processLogin2(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processLogin2(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<AuthResponse>;
+            }
+          } else return _observableThrow(response_) as any as Observable<AuthResponse>;
+        })
+      );
+  }
+
+  protected processLogin2(response: HttpResponseBase): Observable<AuthResponse> {
+    const status = response.status;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    let _mappings: { source: any; target: any }[] = [];
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result200: any = null;
+          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result200 = AuthResponse.fromJS(resultData200, _mappings);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
+          return throwException('Bad Request', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result401: any = null;
+          let resultData401 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result401 = ProblemDetails.fromJS(resultData401, _mappings);
+          return throwException('Unauthorized', status, _responseText, _headers, result401);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result404: any = null;
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
+          return throwException('Not Found', status, _responseText, _headers, result404);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  register2(body: RegisterModel | undefined, httpContext?: HttpContext): Observable<RegistrationResponse> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Authentication/register';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      context: httpContext,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processRegister2(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processRegister2(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<RegistrationResponse>;
+            }
+          } else return _observableThrow(response_) as any as Observable<RegistrationResponse>;
+        })
+      );
+  }
+
+  protected processRegister2(response: HttpResponseBase): Observable<RegistrationResponse> {
+    const status = response.status;
+    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    let _mappings: { source: any; target: any }[] = [];
+    if (status === 201) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result201: any = null;
+          let resultData201 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result201 = RegistrationResponse.fromJS(resultData201, _mappings);
+          return _observableOf(result201);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result400 = ProblemDetails.fromJS(resultData400, _mappings);
+          return throwException('Bad Request', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText: string) => {
+          let result404: any = null;
+          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
+          result404 = ProblemDetails.fromJS(resultData404, _mappings);
+          return throwException('Not Found', status, _responseText, _headers, result404);
         })
       );
     } else if (status !== 200 && status !== 204) {
@@ -10534,6 +10731,142 @@ export interface IArticleDto {
   userId?: number;
 }
 
+export class AuthRequest implements IAuthRequest {
+  username?: string | undefined;
+  password?: string | undefined;
+
+  constructor(data?: IAuthRequest) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.username = _data['username'];
+      this.password = _data['password'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): AuthRequest | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<AuthRequest>(data, _mappings, AuthRequest);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['username'] = this.username;
+    data['password'] = this.password;
+    return data;
+  }
+}
+
+export interface IAuthRequest {
+  username?: string | undefined;
+  password?: string | undefined;
+}
+
+export class AuthResponse implements IAuthResponse {
+  id?: number;
+  userName?: string | undefined;
+  email?: string | undefined;
+  fullName?: string | undefined;
+  token?: string | undefined;
+  orders?: OrderDto[] | undefined;
+  productReviews?: ProductReviewDto[] | undefined;
+  wishLists?: WishListDto[] | undefined;
+  comments?: CommentDto[] | undefined;
+  notifications?: NotificationDto[] | undefined;
+
+  constructor(data?: IAuthResponse) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.userName = _data['userName'];
+      this.email = _data['email'];
+      this.fullName = _data['fullName'];
+      this.token = _data['token'];
+      if (Array.isArray(_data['orders'])) {
+        this.orders = [] as any;
+        for (let item of _data['orders']) this.orders!.push(<OrderDto>OrderDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['productReviews'])) {
+        this.productReviews = [] as any;
+        for (let item of _data['productReviews']) this.productReviews!.push(<ProductReviewDto>ProductReviewDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['wishLists'])) {
+        this.wishLists = [] as any;
+        for (let item of _data['wishLists']) this.wishLists!.push(<WishListDto>WishListDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['comments'])) {
+        this.comments = [] as any;
+        for (let item of _data['comments']) this.comments!.push(<CommentDto>CommentDto.fromJS(item, _mappings));
+      }
+      if (Array.isArray(_data['notifications'])) {
+        this.notifications = [] as any;
+        for (let item of _data['notifications']) this.notifications!.push(<NotificationDto>NotificationDto.fromJS(item, _mappings));
+      }
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): AuthResponse | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<AuthResponse>(data, _mappings, AuthResponse);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['id'] = this.id;
+    data['userName'] = this.userName;
+    data['email'] = this.email;
+    data['fullName'] = this.fullName;
+    data['token'] = this.token;
+    if (Array.isArray(this.orders)) {
+      data['orders'] = [];
+      for (let item of this.orders) data['orders'].push(item.toJSON());
+    }
+    if (Array.isArray(this.productReviews)) {
+      data['productReviews'] = [];
+      for (let item of this.productReviews) data['productReviews'].push(item.toJSON());
+    }
+    if (Array.isArray(this.wishLists)) {
+      data['wishLists'] = [];
+      for (let item of this.wishLists) data['wishLists'].push(item.toJSON());
+    }
+    if (Array.isArray(this.comments)) {
+      data['comments'] = [];
+      for (let item of this.comments) data['comments'].push(item.toJSON());
+    }
+    if (Array.isArray(this.notifications)) {
+      data['notifications'] = [];
+      for (let item of this.notifications) data['notifications'].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IAuthResponse {
+  id?: number;
+  userName?: string | undefined;
+  email?: string | undefined;
+  fullName?: string | undefined;
+  token?: string | undefined;
+  orders?: OrderDto[] | undefined;
+  productReviews?: ProductReviewDto[] | undefined;
+  wishLists?: WishListDto[] | undefined;
+  comments?: CommentDto[] | undefined;
+  notifications?: NotificationDto[] | undefined;
+}
+
 export class CategoryDetailsDto implements ICategoryDetailsDto {
   id?: number;
   name?: string | undefined;
@@ -12365,43 +12698,6 @@ export interface IDiscountDto {
   endDate?: Date;
 }
 
-export class LoginModel implements ILoginModel {
-  username?: string | undefined;
-  password?: string | undefined;
-
-  constructor(data?: ILoginModel) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any, _mappings?: any) {
-    if (_data) {
-      this.username = _data['username'];
-      this.password = _data['password'];
-    }
-  }
-
-  static fromJS(data: any, _mappings?: any): LoginModel | null {
-    data = typeof data === 'object' ? data : {};
-    return createInstance<LoginModel>(data, _mappings, LoginModel);
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data['username'] = this.username;
-    data['password'] = this.password;
-    return data;
-  }
-}
-
-export interface ILoginModel {
-  username?: string | undefined;
-  password?: string | undefined;
-}
-
 export class NotificationDetailsDto implements INotificationDetailsDto {
   id?: number;
   message?: string | undefined;
@@ -13521,9 +13817,8 @@ export interface IProductTagDto {
 
 export class RegisterModel implements IRegisterModel {
   username?: string | undefined;
+  email?: string | undefined;
   password?: string | undefined;
-  passwordHash?: string | undefined;
-  passwordSalt?: string | undefined;
   firstName?: string | undefined;
   lastName?: string | undefined;
   phone?: string | undefined;
@@ -13539,9 +13834,8 @@ export class RegisterModel implements IRegisterModel {
   init(_data?: any, _mappings?: any) {
     if (_data) {
       this.username = _data['username'];
+      this.email = _data['email'];
       this.password = _data['password'];
-      this.passwordHash = _data['passwordHash'];
-      this.passwordSalt = _data['passwordSalt'];
       this.firstName = _data['firstName'];
       this.lastName = _data['lastName'];
       this.phone = _data['phone'];
@@ -13556,9 +13850,8 @@ export class RegisterModel implements IRegisterModel {
   toJSON(data?: any) {
     data = typeof data === 'object' ? data : {};
     data['username'] = this.username;
+    data['email'] = this.email;
     data['password'] = this.password;
-    data['passwordHash'] = this.passwordHash;
-    data['passwordSalt'] = this.passwordSalt;
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
     data['phone'] = this.phone;
@@ -13568,9 +13861,8 @@ export class RegisterModel implements IRegisterModel {
 
 export interface IRegisterModel {
   username?: string | undefined;
+  email?: string | undefined;
   password?: string | undefined;
-  passwordHash?: string | undefined;
-  passwordSalt?: string | undefined;
   firstName?: string | undefined;
   lastName?: string | undefined;
   phone?: string | undefined;
@@ -13607,6 +13899,39 @@ export class RegisterUserCommand implements IRegisterUserCommand {
 
 export interface IRegisterUserCommand {
   registerUser?: RegisterModel;
+}
+
+export class RegistrationResponse implements IRegistrationResponse {
+  userId?: number;
+
+  constructor(data?: IRegistrationResponse) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any, _mappings?: any) {
+    if (_data) {
+      this.userId = _data['userId'];
+    }
+  }
+
+  static fromJS(data: any, _mappings?: any): RegistrationResponse | null {
+    data = typeof data === 'object' ? data : {};
+    return createInstance<RegistrationResponse>(data, _mappings, RegistrationResponse);
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+export interface IRegistrationResponse {
+  userId?: number;
 }
 
 export class ShipmentDetailsDto implements IShipmentDetailsDto {

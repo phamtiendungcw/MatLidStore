@@ -9,6 +9,6 @@ public class Notification : BaseEntity
     public DateTime Timestamp { get; set; } // Date and time notification was sent
     public bool IsRead { get; set; }
 
-    public int UserId { get; set; } // Foreign key referencing AppUser
-    public AppUser AppUser { get; set; } = null!; // Navigation property for AppUser
+    public int UserId { get; set; } // Foreign key referencing User
+    public AppUser AppUser { get; set; } = null!; // Navigation property for User
 }

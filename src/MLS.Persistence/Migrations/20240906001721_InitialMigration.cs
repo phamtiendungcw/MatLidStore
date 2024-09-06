@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -8,6 +9,18 @@ namespace MLS.Persistence.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "MATLID_AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    RoleId = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MATLID_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                });
+
             migrationBuilder.CreateTable(
                 name: "MATLID_Categories",
                 columns: table => new
@@ -50,8 +63,8 @@ namespace MLS.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
                         .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    Name = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
-                    NormalizedName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    Name = table.Column<string>(type: "NVARCHAR2(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "NVARCHAR2(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true)
                 },
                 constraints: table =>
@@ -101,13 +114,12 @@ namespace MLS.Persistence.Migrations
                         .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
                     FirstName = table.Column<string>(type: "NVARCHAR2(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "NVARCHAR2(50)", maxLength: 50, nullable: false),
-                    Phone = table.Column<string>(type: "NVARCHAR2(2000)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "RAW(2000)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "NUMBER(1)", nullable: false),
-                    UserName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
-                    Email = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    UserName = table.Column<string>(type: "NVARCHAR2(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "NVARCHAR2(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "NVARCHAR2(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "NVARCHAR2(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "NUMBER(1)", nullable: false),
                     PasswordHash = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
@@ -122,6 +134,27 @@ namespace MLS.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MATLID_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MATLID_AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    RoleId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    ClaimType = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MATLID_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MATLID_AspNetRoleClaims_MATLID_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "MATLID_Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,6 +250,67 @@ namespace MLS.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MATLID_AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    ClaimType = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MATLID_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MATLID_AspNetUserClaims_MATLID_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "MATLID_Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MATLID_AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "NVARCHAR2(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "NVARCHAR2(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MATLID_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_MATLID_AspNetUserLogins_MATLID_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "MATLID_Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MATLID_AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "NVARCHAR2(450)", nullable: false),
+                    Name = table.Column<string>(type: "NVARCHAR2(450)", nullable: false),
+                    Value = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MATLID_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_MATLID_AspNetUserTokens_MATLID_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "MATLID_Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MATLID_Notifications",
                 columns: table => new
                 {
@@ -292,17 +386,17 @@ namespace MLS.Persistence.Migrations
                 name: "MATLID_UserRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    AppUserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
-                    RoleId = table.Column<int>(type: "NUMBER(10)", nullable: false),
-                    Name = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
-                    NormalizedName = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "NVARCHAR2(2000)", nullable: true)
+                    UserId = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    RoleId = table.Column<int>(type: "NUMBER(10)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MATLID_UserRoles", x => x.Id);
+                    table.PrimaryKey("PK_MATLID_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_MATLID_UserRoles_MATLID_AspNetUserRoles_UserId_RoleId",
+                        columns: x => new { x.UserId, x.RoleId },
+                        principalTable: "MATLID_AspNetUserRoles",
+                        principalColumns: new[] { "UserId", "RoleId" });
                     table.ForeignKey(
                         name: "FK_MATLID_UserRoles_MATLID_Roles_RoleId",
                         column: x => x.RoleId,
@@ -310,8 +404,8 @@ namespace MLS.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MATLID_UserRoles_MATLID_Users_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_MATLID_UserRoles_MATLID_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "MATLID_Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -678,6 +772,43 @@ namespace MLS.Persistence.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "MATLID_AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MATLID_Roles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { 1, "e7ccec54-5f48-4905-b6bd-dd383425983c", "Administrator", "ADMINISTRATOR" },
+                    { 2, "a5d5aa57-f246-4963-9ee9-cc59aa99edbb", "Employee", "EMPLOYEE" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MATLID_Users",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PasswordSalt", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { 1, 0, "e2a5f5ed-2cbd-4f4d-963f-ce3219b370c1", "admin@matlidstore.com", true, "System", false, "Admin", false, null, "ADMIN@MATLIDSTORE.COM", "ADMIN", "AQAAAAEAACcQAAAAEO5SpcGZzImwF02FEsD3wLJS7w5HZMKE2vtLC9ypveTVM3dzXciNHZ+RwzrnvLYj9A==", null, null, false, null, false, "admin" },
+                    { 2, 0, "1dfcfb5f-37fa-43fe-9267-825015a87195", "user@matlidstore.com", true, "System", false, "User", false, null, "USER@MATLIDSTORE.COM", "USER", "AQAAAAEAACcQAAAAENnyPtpu2SiM/63dkL3MPk7zHhceW96MEJrG9BgklN4OmUtXeM2lskZMOg5aLgoCxg==", null, null, false, null, false, "user" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MATLID_UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "MATLID_UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { 2, 2 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_MATLID_Addresses_UserId",
                 table: "MATLID_Addresses",
@@ -692,6 +823,21 @@ namespace MLS.Persistence.Migrations
                 name: "IX_MATLID_Articles_TagId",
                 table: "MATLID_Articles",
                 column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MATLID_AspNetRoleClaims_RoleId",
+                table: "MATLID_AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MATLID_AspNetUserClaims_UserId",
+                table: "MATLID_AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MATLID_AspNetUserLogins_UserId",
+                table: "MATLID_AspNetUserLogins",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MATLID_Comments_ArticleId",
@@ -774,6 +920,13 @@ namespace MLS.Persistence.Migrations
                 column: "TagId");
 
             migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "MATLID_Roles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "\"NormalizedName\" IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MATLID_Shipments_OrderId",
                 table: "MATLID_Shipments",
                 column: "OrderId");
@@ -804,14 +957,21 @@ namespace MLS.Persistence.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MATLID_UserRoles_AppUserId",
-                table: "MATLID_UserRoles",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MATLID_UserRoles_RoleId",
                 table: "MATLID_UserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "MATLID_Users",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "MATLID_Users",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "\"NormalizedUserName\" IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MATLID_WishListItems_ProductId",
@@ -833,6 +993,18 @@ namespace MLS.Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "MATLID_Addresses");
+
+            migrationBuilder.DropTable(
+                name: "MATLID_AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "MATLID_AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "MATLID_AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "MATLID_AspNetUserTokens");
 
             migrationBuilder.DropTable(
                 name: "MATLID_Comments");
@@ -887,6 +1059,9 @@ namespace MLS.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "MATLID_ShoppingCarts");
+
+            migrationBuilder.DropTable(
+                name: "MATLID_AspNetUserRoles");
 
             migrationBuilder.DropTable(
                 name: "MATLID_Roles");

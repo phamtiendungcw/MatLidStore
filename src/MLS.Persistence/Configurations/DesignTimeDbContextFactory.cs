@@ -18,7 +18,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MatLidStor
                 .Build();
 
             var builder = new DbContextOptionsBuilder<MatLidStoreDatabaseContext>();
-            var connectionString = configuration.GetConnectionString("MatLidConnectionString");
+            var connectionString = configuration.GetConnectionString("MatLidOracleDBConnectionString");
 
             builder.UseOracle(connectionString);
 

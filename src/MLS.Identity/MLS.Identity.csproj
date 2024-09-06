@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.32" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.39" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.32" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.32" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.32">
@@ -23,6 +23,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MSL.Application\MLS.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

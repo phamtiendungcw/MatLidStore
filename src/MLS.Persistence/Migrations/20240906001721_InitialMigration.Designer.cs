@@ -12,7 +12,7 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace MLS.Persistence.Migrations
 {
     [DbContext(typeof(MatLidStoreDatabaseContext))]
-    [Migration("20240823065027_InitialMigration")]
+    [Migration("20240906001721_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,107 @@ namespace MLS.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("MATLID_AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("MATLID_AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("NVARCHAR2(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("NVARCHAR2(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("MATLID_AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.ToTable("MATLID_AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("NUMBER(10)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("NVARCHAR2(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("NVARCHAR2(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("MATLID_AspNetUserTokens", (string)null);
+                });
 
             modelBuilder.Entity("MLS.Domain.Entities.Address", b =>
                 {
@@ -85,17 +186,41 @@ namespace MLS.Persistence.Migrations
                     OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasMaxLength(256)
+                        .HasColumnType("NVARCHAR2(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasMaxLength(256)
+                        .HasColumnType("NVARCHAR2(256)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("\"NormalizedName\" IS NOT NULL");
+
                     b.ToTable("MATLID_Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "e7ccec54-5f48-4905-b6bd-dd383425983c",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "a5d5aa57-f246-4963-9ee9-cc59aa99edbb",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        });
                 });
 
             modelBuilder.Entity("MLS.Domain.Entities.AppUser", b =>
@@ -110,10 +235,12 @@ namespace MLS.Persistence.Migrations
                         .HasColumnType("NUMBER(10)");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasMaxLength(256)
+                        .HasColumnType("NVARCHAR2(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("NUMBER(1)");
@@ -138,20 +265,18 @@ namespace MLS.Persistence.Migrations
                         .HasColumnType("TIMESTAMP(7) WITH TIME ZONE");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasMaxLength(256)
+                        .HasColumnType("NVARCHAR2(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasMaxLength(256)
+                        .HasColumnType("NVARCHAR2(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("RAW(2000)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("NVARCHAR2(2000)");
@@ -166,43 +291,58 @@ namespace MLS.Persistence.Migrations
                         .HasColumnType("NUMBER(1)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasMaxLength(256)
+                        .HasColumnType("NVARCHAR2(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("\"NormalizedUserName\" IS NOT NULL");
 
                     b.ToTable("MATLID_Users", (string)null);
-                });
 
-            modelBuilder.Entity("MLS.Domain.Entities.AppUserRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
-
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("NUMBER(10)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("NVARCHAR2(2000)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("NVARCHAR2(2000)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasColumnType("NVARCHAR2(2000)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("NUMBER(10)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("MATLID_UserRoles", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e2a5f5ed-2cbd-4f4d-963f-ce3219b370c1",
+                            Email = "admin@matlidstore.com",
+                            EmailConfirmed = true,
+                            FirstName = "System",
+                            IsDeleted = false,
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@MATLIDSTORE.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEO5SpcGZzImwF02FEsD3wLJS7w5HZMKE2vtLC9ypveTVM3dzXciNHZ+RwzrnvLYj9A==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1dfcfb5f-37fa-43fe-9267-825015a87195",
+                            Email = "user@matlidstore.com",
+                            EmailConfirmed = true,
+                            FirstName = "System",
+                            IsDeleted = false,
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER@MATLIDSTORE.COM",
+                            NormalizedUserName = "USER",
+                            PasswordHash = "AQAAAAEAACcQAAAAENnyPtpu2SiM/63dkL3MPk7zHhceW96MEJrG9BgklN4OmUtXeM2lskZMOg5aLgoCxg==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "user"
+                        });
                 });
 
             modelBuilder.Entity("MLS.Domain.Entities.Article", b =>
@@ -1033,6 +1173,63 @@ namespace MLS.Persistence.Migrations
                     b.ToTable("MATLID_WishListItems", (string)null);
                 });
 
+            modelBuilder.Entity("MLS.Domain.Entities.AppUserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<int>");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("MATLID_UserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("MLS.Domain.Entities.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("MLS.Domain.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("MLS.Domain.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("MLS.Domain.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MLS.Domain.Entities.Address", b =>
                 {
                     b.HasOne("MLS.Domain.Entities.AppUser", "AppUser")
@@ -1042,25 +1239,6 @@ namespace MLS.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("MLS.Domain.Entities.AppUserRole", b =>
-                {
-                    b.HasOne("MLS.Domain.Entities.AppUser", "AppUser")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MLS.Domain.Entities.AppRole", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("MLS.Domain.Entities.Article", b =>
@@ -1322,6 +1500,31 @@ namespace MLS.Persistence.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("WishList");
+                });
+
+            modelBuilder.Entity("MLS.Domain.Entities.AppUserRole", b =>
+                {
+                    b.HasOne("MLS.Domain.Entities.AppRole", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MLS.Domain.Entities.AppUser", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", null)
+                        .WithOne()
+                        .HasForeignKey("MLS.Domain.Entities.AppUserRole", "UserId", "RoleId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MLS.Domain.Entities.AppRole", b =>
