@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MLS.Application.Contracts.Persistence.Common;
 using MLS.Application.Contracts.Persistence.IRepositories;
+using MLS.Persistence.DatabaseContext;
 using MLS.Persistence.Repository;
 using MLS.Persistence.Repository.Common;
 
@@ -11,6 +13,7 @@ public static class PersistenceServiceRegistration
 {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddDbContext<MatLidStoreDatabaseContext>(options => { options.UseOracle(configuration.GetConnectionString("MatLidOracleDBConnectionString")); });
         services.AddCors(options => { options.AddPolicy("MatLidStoreUI", b => b.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod()); });
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IAddressRepository, AddressRepository>();

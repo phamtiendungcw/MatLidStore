@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MLS.Api.Controllers.BaseController;
 using MLS.Application.Features.User.Commands.RegisterUserCommand;
-using MLS.Application.Features.User.Queries.LoginUserByUserName;
+using MLS.Application.Features.User.Queries.LoginUserByAuthentication;
 using MLS.Application.Models.Identity;
 
 namespace MLS.Api.Controllers;
@@ -35,7 +35,7 @@ public class AccountController : MatLidStoreBaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<AuthResponse>> LoginUser([FromBody] AuthRequest loginUser)
     {
-        var user = await _mediator.Send(new LoginUserByUserNameQuery(loginUser));
+        var user = await _mediator.Send(new LoginUserByAuthenticationQuery(loginUser));
         return Ok(user);
     }
 }

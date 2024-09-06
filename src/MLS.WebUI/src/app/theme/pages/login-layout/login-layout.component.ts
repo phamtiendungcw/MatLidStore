@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/core/data/account.service';
-import { LoginModel, MatLidStoreServices, UserDetailsDto } from 'src/app/core/data/mls-data.service';
+import { AuthRequest, MatLidStoreServices, UserDetailsDto } from 'src/app/core/data/mls-data.service';
 
 @Component({
   selector: 'app-login-layout',
@@ -10,7 +10,7 @@ import { LoginModel, MatLidStoreServices, UserDetailsDto } from 'src/app/core/da
 })
 export class LoginLayoutComponent {
   loggedIn = false;
-  model: LoginModel = new LoginModel();
+  model: AuthRequest = new AuthRequest();
   user: UserDetailsDto | null = null;
   private matlidapi = inject(MatLidStoreServices);
   private router = inject(Router);
