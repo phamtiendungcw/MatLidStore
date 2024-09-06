@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -19,7 +18,6 @@ public static class IdentityServicesRegistration
     {
         // Configure JWT settings
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
-        services.AddDbContext<MatLidStoreDatabaseContext>(options => { options.UseOracle(configuration.GetConnectionString("MatLidOracleDBConnectionString")); });
 
         // Add Identity services with User and AppRole, using the Oracle database
         services.AddIdentity<AppUser, AppRole>()
