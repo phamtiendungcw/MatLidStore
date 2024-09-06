@@ -73,7 +73,7 @@ public class UpdateUserDtoValidator : AbstractValidator<UpdateUserDto>
     }
 }
 
-public class RegisterUserModelValidator : AbstractValidator<RegisterModel>
+public class RegisterUserModelValidator : AbstractValidator<RegistrationRequest>
 {
     public RegisterUserModelValidator()
     {

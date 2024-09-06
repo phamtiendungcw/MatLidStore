@@ -10,8 +10,8 @@ namespace MLS.Application.Features.User.Commands.RegisterUserCommand;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, RegistrationResponse>
 {
-    private readonly ILogger<RegisterUserCommandHandler> _logger;
     private readonly IAuthService _authService;
+    private readonly ILogger<RegisterUserCommandHandler> _logger;
 
     public RegisterUserCommandHandler(IAuthService authService, ILogger<RegisterUserCommandHandler> logger)
     {
@@ -23,14 +23,14 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
     {
         // Validate data
         var validator = new RegisterUserModelValidator();
-        var validationResult = await validator.ValidateAsync(request.RegisterUser, cancellationToken);
+        var validationResult = await validator.ValidateAsync(request.RegistrationUser, cancellationToken);
         if (!validationResult.IsValid)
         {
             _logger.LogWarning("Validation errors in register request for {0} - {1}.", nameof(AppUser), request);
             throw new BadRequestException("Invalid app user!", validationResult);
         }
 
-        var response = await _authService.Register(request.RegisterUser);
+        var response = await _authService.Register(request.RegistrationUser);
 
         _logger.LogInformation("User was register successfully!");
         return response;

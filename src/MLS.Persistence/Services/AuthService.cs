@@ -8,7 +8,6 @@ using MLS.Application.DTO.Comment;
 using MLS.Application.DTO.Notification;
 using MLS.Application.DTO.Order;
 using MLS.Application.DTO.ProductReview;
-using MLS.Application.DTO.User;
 using MLS.Application.DTO.WishList;
 using MLS.Application.Exceptions;
 using MLS.Application.Models.Identity;
@@ -76,13 +75,13 @@ public class AuthService : IAuthService
         };
     }
 
-    public async Task<RegistrationResponse> Register(RegisterModel request)
+    public async Task<RegistrationResponse> Register(RegistrationRequest request)
     {
         // Check if the user already exists
         if (await UserExists(request.Username))
             throw new BadRequestException($"User with username {request.Username} already exists.");
 
-        // Map the RegisterModel to AppUser
+        // Map the RegistrationRequest to AppUser
         var userToCreate = _mapper.Map<AppUser>(request);
 
         // Attempt to create the user

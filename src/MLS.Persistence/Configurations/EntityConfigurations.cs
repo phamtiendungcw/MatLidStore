@@ -63,7 +63,6 @@ public static class EntityConfigurations
             .HasForeignKey(ur => ur.RoleId)
             .IsRequired();
 
-
         modelBuilder.Entity<Comment>()
             .HasOne(c => c.Commenter)
             .WithMany(u => u.Comments)
