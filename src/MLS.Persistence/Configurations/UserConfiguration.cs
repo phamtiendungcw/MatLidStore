@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MLS.Identity.Models;
+using MLS.Domain.Entities;
 
-namespace MLS.Identity.Configurations;
+namespace MLS.Persistence.Configurations;
 
-public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
+public class UserConfiguration : IEntityTypeConfiguration<AppUser>
 {
-    public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+    public void Configure(EntityTypeBuilder<AppUser> builder)
     {
-        var hasher = new PasswordHasher<ApplicationUser>();
+        var hasher = new PasswordHasher<AppUser>();
         builder.HasData(
-            new ApplicationUser
+            new AppUser
             {
-                Id = "4f8796e6-4e58-4f7e-b009-10ca8ed95ba3",
+                Id = 1,
                 Email = "admin@matlidstore.com",
                 NormalizedEmail = "ADMIN@MATLIDSTORE.COM",
                 FirstName = "System",
@@ -23,9 +23,9 @@ public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
                 PasswordHash = hasher.HashPassword(null!, "Matlidstore2024@"),
                 EmailConfirmed = true
             },
-            new ApplicationUser
+            new AppUser
             {
-                Id = "9b0ef8fc-ce4b-4593-9258-8d1dffb6d9a1",
+                Id = 2,
                 Email = "user@matlidstore.com",
                 NormalizedEmail = "USER@MATLIDSTORE.COM",
                 FirstName = "System",

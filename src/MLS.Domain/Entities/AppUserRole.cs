@@ -2,8 +2,8 @@
 
 namespace MLS.Domain.Entities;
 
-public class AppUserRole : IdentityRole<int>
+public class AppUserRole : IdentityUserRole<int>
 {
-    public AppUser AppUser { get; set; } = null!;
+    public AppUser User { get; set; } = null!;
     public AppRole Role { get; set; } = null!;
 }

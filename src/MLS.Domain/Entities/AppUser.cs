@@ -5,9 +5,8 @@ namespace MLS.Domain.Entities;
 
 public class AppUser : IdentityUser<int>
 {
-    [MaxLength(50)] public string FirstName { get; set; } = string.Empty; // AppUser's FirstName
-    [MaxLength(50)] public string LastName { get; set; } = string.Empty; // AppUser's LastName
-    [Phone] public string Phone { get; set; } = string.Empty; // AppUser's phone number
+    [MaxLength(50)] public string FirstName { get; set; } = string.Empty; // User's FirstName
+    [MaxLength(50)] public string LastName { get; set; } = string.Empty; // User's LastName
     public byte[]? PasswordSalt { get; set; }
     public bool IsDeleted { get; set; }
 

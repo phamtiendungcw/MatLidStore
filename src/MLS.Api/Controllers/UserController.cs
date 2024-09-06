@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MLS.Api.Controllers.BaseController;
 using MLS.Application.DTO.User;
@@ -22,7 +21,6 @@ public class UserController : MatLidStoreBaseController
         _mediator = mediator;
     }
 
-    [AllowAnonymous]
     // GET: api/<UserController>
     [HttpGet]
     public async Task<IReadOnlyList<UserDto>> GetAllUsers()

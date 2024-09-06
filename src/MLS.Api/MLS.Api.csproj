@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.32" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.34" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.32">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,10 +26,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MLS.Identity\MLS.Identity.csproj" />
     <ProjectReference Include="..\MLS.Infrastructure\MLS.Infrastructure.csproj" />
     <ProjectReference Include="..\MLS.Persistence\MLS.Persistence.csproj" />
     <ProjectReference Include="..\MSL.Application\MLS.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="logs\" />
   </ItemGroup>
 
 </Project>

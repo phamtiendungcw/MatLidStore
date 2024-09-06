@@ -12,8 +12,8 @@ public class Order : BaseEntity
 
     [MaxLength(20)] public string OrderStatus { get; set; } = string.Empty; // Order status (e.g., "Pending", "Processing", "Shipped", "Delivered")
 
-    public int UserId { get; set; } // Foreign key referencing AppUser
-    public AppUser AppUser { get; set; } = null!; // Navigation property for AppUser
+    public int UserId { get; set; } // Foreign key referencing User
+    public AppUser AppUser { get; set; } = null!; // Navigation property for User
 
     public List<OrderDetail> OrderDetails { get; set; } = new(); // One-to-Many relationship with OrderDetail
 }

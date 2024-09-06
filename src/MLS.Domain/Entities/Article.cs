@@ -10,8 +10,8 @@ public class Article : BaseEntity
     [MaxLength(100)] public string Author { get; set; } = string.Empty; // Author name
     public DateTime PublicationDate { get; set; } // Date and time of publication
 
-    public int AuthorUserId { get; set; } // Foreign key referencing AppUser (author)
-    public AppUser AuthorUser { get; set; } = null!; // Navigation property for AppUser
+    public int AuthorUserId { get; set; } // Foreign key referencing User (author)
+    public AppUser AuthorUser { get; set; } = null!; // Navigation property for User
 
     public List<Comment> Comments { get; set; } = new(); // One-to-Many relationship with Comment
 }

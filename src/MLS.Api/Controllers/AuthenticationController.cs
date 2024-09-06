@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MLS.Api.Controllers.BaseController;
 using MLS.Application.Contracts.Identity;
+using MLS.Application.DTO.User;
 using MLS.Application.Models.Identity;
 
 namespace MLS.Api.Controllers;
@@ -28,7 +29,7 @@ public class AuthenticationController : MatLidStoreBaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<RegistrationResponse>> Login(RegistrationRequest request)
+    public async Task<ActionResult<RegistrationResponse>> Login(RegisterModel request)
     {
         return Ok(await _authenticationService.Register(request));
     }
