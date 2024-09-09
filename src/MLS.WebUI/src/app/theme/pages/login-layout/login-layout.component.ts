@@ -20,6 +20,7 @@ export class LoginLayoutComponent {
     this.matlidapi.login(this.model).subscribe({
       next: (response) => {
         this.user = response;
+        console.log('User:', this.user);
         this.loggedIn = true;
         this.accountService.setLoggedIn(this.loggedIn);
         if (this.loggedIn) {

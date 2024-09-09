@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
         this.matlidapi.userAll().subscribe({
           next: (data) => {
             this.users = data;
+            console.log('Users:', this.users);
           },
           error: (error) => console.log(error),
           complete: () => console.log('Request has completed.'),
