@@ -23,7 +23,7 @@ export class LoginLayoutComponent {
         this.loggedIn = true;
         this.accountService.setLoggedIn(this.loggedIn);
         if (this.loggedIn) {
-          this.router.navigate(['/admin/home']);
+          this.router.navigate(['/admin/home']).then((r) => r.valueOf());
         }
       },
       error: (error) => console.log(error),
