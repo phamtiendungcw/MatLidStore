@@ -18,8 +18,8 @@ export class AppComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    if (this.loggerIn === false) {
-      this.router.navigate(['/login']);
+    if (!this.loggerIn) {
+      this.router.navigate(['/login']).then((r) => r.valueOf());
     } else {
       this.accountService.loggerIn$.subscribe((value) => {
         this.loggerIn = value;

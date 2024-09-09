@@ -8,10 +8,10 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
-import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase, HttpContext } from '@angular/common/http';
+import { catchError as _observableCatch, mergeMap as _observableMergeMap } from 'rxjs/operators';
+import { Observable, of as _observableOf, throwError as _observableThrow } from 'rxjs';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { HttpClient, HttpContext, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -21,561 +21,676 @@ export interface IMatLidStoreServices {
    * @return Created
    */
   register(body: RegisterUserCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return OK
    */
   login(body: AuthRequest | undefined): Observable<AuthResponse>;
+
   /**
    * @return OK
    */
   addressAll(): Observable<AddressDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   addressPOST(body: CreateAddressDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   addressPUT(body: UpdateAddressDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   addressGET(id: number): Observable<AddressDetailsDto>;
+
   /**
    * @return No Content
    */
   addressDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   articleAll(): Observable<ArticleDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   articlePOST(body: CreateArticleCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   articlePUT(body: UpdateArticleCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   articleGET(id: number): Observable<ArticleDetailsDto>;
+
   /**
    * @return No Content
    */
   articleDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   authorName(authorName: string): Observable<ArticleDto[]>;
-  /**
-   * @param body (optional)
-   * @return OK
-   */
-  login2(body: AuthRequest | undefined): Observable<AuthResponse>;
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  register2(body: RegisterModel | undefined): Observable<RegistrationResponse>;
+
   /**
    * @return OK
    */
   categoryAll(): Observable<CategoryDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   categoryPOST(body: CreateCategoryCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   categoryPUT(body: UpdateCategoryCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   categoryGET(id: number): Observable<CategoryDetailsDto>;
+
   /**
    * @return No Content
    */
   categoryDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   commentAll(): Observable<CommentDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   commentPOST(body: CreateCommentCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   commentPUT(body: UpdateCommentCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   commentGET(id: number): Observable<CommentDetailsDto>;
+
   /**
    * @return No Content
    */
   commentDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   article(articleId: number): Observable<CommentDto[]>;
+
   /**
    * @return OK
    */
   discountAll(): Observable<DiscountDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   discountPOST(body: CreateDiscountDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   discountPUT(body: UpdateDiscountDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   discountGET(id: number): Observable<DiscountDetailsDto>;
+
   /**
    * @return No Content
    */
   discountDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   code(code: string): Observable<DiscountDto>;
+
   /**
    * @return OK
    */
   notificationAll(): Observable<NotificationDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   notificationPOST(body: CreateNotificationDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   notificationPUT(body: UpdateNotificationDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   notificationGET(id: number): Observable<NotificationDetailsDto>;
+
   /**
    * @return No Content
    */
   notificationDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   user(userId: number): Observable<NotificationDto[]>;
+
   /**
    * @return OK
    */
   orderAll(): Observable<OrderDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   orderPOST(body: CreateOrderCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   orderPUT(body: UpdateOrderCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   orderGET(id: number): Observable<OrderDetailsDto>;
+
   /**
    * @return No Content
    */
   orderDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   orderDetailAll(): Observable<OrderDetailDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   orderDetailPOST(body: CreateOrderDetailCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   orderDetailPUT(body: UpdateOrderDetailCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   orderDetailGET(id: number): Observable<OrderDetailDetailsDto>;
+
   /**
    * @return No Content
    */
   orderDetailDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   paymentAll(): Observable<PaymentDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   paymentPOST(body: CreatePaymentCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   paymentPUT(body: UpdatePaymentCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   paymentGET(id: number): Observable<PaymentDetailsDto>;
+
   /**
    * @return No Content
    */
   paymentDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   productAll(): Observable<ProductDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   productPOST(body: CreateProductCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   productPUT(body: UpdateProductCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   productGET(id: number): Observable<ProductDetailsDto>;
+
   /**
    * @return No Content
    */
   productDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   productColorAll(): Observable<ProductColorDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   productColorPOST(body: CreateProductColorDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   productColorPUT(body: UpdateProductColorDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   productColorGET(id: number): Observable<ProductColorDetailsDto>;
+
   /**
    * @return No Content
    */
   productColorDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   productImageAll(): Observable<ProductImageDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   productImagePOST(body: CreateProductImageDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   productImagePUT(body: UpdateProductImageDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   productImageGET(id: number): Observable<ProductImageDetailsDto>;
+
   /**
    * @return No Content
    */
   productImageDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   productOptionAll(): Observable<ProductOptionDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   productOptionPOST(body: CreateProductOptionDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   productOptionPUT(body: UpdateProductOptionDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   productOptionGET(id: number): Observable<ProductOptionDetailsDto>;
+
   /**
    * @return No Content
    */
   productOptionDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   productReviewAll(): Observable<ProductReviewDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   productReviewPOST(body: CreateProductReviewCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   productReviewPUT(body: UpdateProductReviewCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   productReviewGET(id: number): Observable<ProductReviewDetailsDto>;
+
   /**
    * @return No Content
    */
   productReviewDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   productTagAll(): Observable<ProductTagDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   productTagPOST(body: CreateProductTagDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   productTagPUT(body: UpdateProductTagDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   productTagGET(id: number): Observable<ProductTagDetailsDto>;
+
   /**
    * @return No Content
    */
   productTagDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   shipmentAll(): Observable<ShipmentDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   shipmentPOST(body: CreateShipmentCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   shipmentPUT(body: UpdateShipmentCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   shipmentGET(id: number): Observable<ShipmentDetailsDto>;
+
   /**
    * @return No Content
    */
   shipmentDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   shoppingCartAll(): Observable<ShoppingCartDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   shoppingCartPOST(body: CreateShoppingCartCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   shoppingCartPUT(body: UpdateShoppingCartCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   shoppingCartGET(id: number): Observable<ShoppingCartDetailsDto>;
+
   /**
    * @return No Content
    */
   shoppingCartDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   shoppingCartItemAll(): Observable<ShoppingCartItemDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   shoppingCartItemPOST(body: CreateShoppingCartItemCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   shoppingCartItemPUT(body: UpdateShoppingCartItemCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   shoppingCartItemGET(id: number): Observable<ShoppingCartItemDetailsDto>;
+
   /**
    * @return No Content
    */
   shoppingCartItemDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   supplierAll(): Observable<SupplierDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   supplierPOST(body: CreateSupplierDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   supplierPUT(body: UpdateSupplierDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   supplierGET(id: number): Observable<SupplierDetailsDto>;
+
   /**
    * @return No Content
    */
   supplierDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   supplyAll(): Observable<SupplyDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   supplyPOST(body: CreateSupplyDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   supplyPUT(body: UpdateSupplyDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   supplyGET(id: number): Observable<SupplyDetailsDto>;
+
   /**
    * @return No Content
    */
   supplyDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   tagAll(): Observable<TagDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   tagPOST(body: CreateTagDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   tagPUT(body: UpdateTagDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   tagGET(id: number): Observable<TagDetailsDto>;
+
   /**
    * @return No Content
    */
   tagDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   userAll(): Observable<UserDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   userPOST(body: CreateUserCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   userPUT(body: UpdateUserCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   userGET(id: number): Observable<UserDetailsDto>;
+
   /**
    * @return No Content
    */
   userDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   wishListAll(): Observable<WishListDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   wishListPOST(body: CreateWishListCommand | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   wishListPUT(body: UpdateWishListCommand | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   wishListGET(id: number): Observable<WishListDetailsDto>;
+
   /**
    * @return No Content
    */
   wishListDELETE(id: number): Observable<void>;
+
   /**
    * @return OK
    */
   wishListItemAll(): Observable<WishListItemDto[]>;
+
   /**
    * @param body (optional)
    * @return Created
    */
   wishListItemPOST(body: CreateWishListItemDto | undefined): Observable<void>;
+
   /**
    * @param body (optional)
    * @return No Content
    */
   wishListItemPUT(body: UpdateWishListItemDto | undefined): Observable<void>;
+
   /**
    * @return OK
    */
   wishListItemGET(id: number): Observable<WishListItemDetailsDto>;
+
   /**
    * @return No Content
    */
@@ -587,7 +702,7 @@ export interface IMatLidStoreServices {
 })
 export class MatLidStoreServices implements IMatLidStoreServices {
   private http: HttpClient;
-  private baseUrl: string;
+  private readonly baseUrl: string;
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
   constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
@@ -597,6 +712,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   register(body: RegisterUserCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -609,6 +725,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -682,6 +799,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return OK
    */
   login(body: AuthRequest | undefined, httpContext?: HttpContext): Observable<AuthResponse> {
@@ -694,6 +812,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -788,6 +907,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -851,6 +971,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   addressPOST(body: CreateAddressDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -863,6 +984,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -936,6 +1058,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   addressPUT(body: UpdateAddressDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -948,6 +1071,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -1033,6 +1157,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -1101,6 +1226,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -1173,6 +1299,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -1236,6 +1363,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   articlePOST(body: CreateArticleCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -1248,6 +1376,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -1321,6 +1450,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   articlePUT(body: UpdateArticleCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -1333,6 +1463,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -1418,6 +1549,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -1486,6 +1618,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -1560,6 +1693,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -1622,193 +1756,6 @@ export class MatLidStoreServices implements IMatLidStoreServices {
   }
 
   /**
-   * @param body (optional)
-   * @return OK
-   */
-  login2(body: AuthRequest | undefined, httpContext?: HttpContext): Observable<AuthResponse> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Authentication/login';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      context: httpContext,
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processLogin2(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processLogin2(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<AuthResponse>;
-            }
-          } else return _observableThrow(response_) as any as Observable<AuthResponse>;
-        })
-      );
-  }
-
-  protected processLogin2(response: HttpResponseBase): Observable<AuthResponse> {
-    const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-    let _headers: any = {};
-    if (response.headers) {
-      for (let key of response.headers.keys()) {
-        _headers[key] = response.headers.get(key);
-      }
-    }
-    let _mappings: { source: any; target: any }[] = [];
-    if (status === 200) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          let result200: any = null;
-          let resultData200 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
-          result200 = AuthResponse.fromJS(resultData200, _mappings);
-          return _observableOf(result200);
-        })
-      );
-    } else if (status === 400) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          let result400: any = null;
-          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400, _mappings);
-          return throwException('Bad Request', status, _responseText, _headers, result400);
-        })
-      );
-    } else if (status === 401) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          let result401: any = null;
-          let resultData401 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
-          result401 = ProblemDetails.fromJS(resultData401, _mappings);
-          return throwException('Unauthorized', status, _responseText, _headers, result401);
-        })
-      );
-    } else if (status === 404) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          let result404: any = null;
-          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404, _mappings);
-          return throwException('Not Found', status, _responseText, _headers, result404);
-        })
-      );
-    } else if (status !== 200 && status !== 204) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
-        })
-      );
-    }
-    return _observableOf(null as any);
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  register2(body: RegisterModel | undefined, httpContext?: HttpContext): Observable<RegistrationResponse> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Authentication/register';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      context: httpContext,
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processRegister2(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processRegister2(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<RegistrationResponse>;
-            }
-          } else return _observableThrow(response_) as any as Observable<RegistrationResponse>;
-        })
-      );
-  }
-
-  protected processRegister2(response: HttpResponseBase): Observable<RegistrationResponse> {
-    const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-    let _headers: any = {};
-    if (response.headers) {
-      for (let key of response.headers.keys()) {
-        _headers[key] = response.headers.get(key);
-      }
-    }
-    let _mappings: { source: any; target: any }[] = [];
-    if (status === 201) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          let result201: any = null;
-          let resultData201 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
-          result201 = RegistrationResponse.fromJS(resultData201, _mappings);
-          return _observableOf(result201);
-        })
-      );
-    } else if (status === 400) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          let result400: any = null;
-          let resultData400 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
-          result400 = ProblemDetails.fromJS(resultData400, _mappings);
-          return throwException('Bad Request', status, _responseText, _headers, result400);
-        })
-      );
-    } else if (status === 404) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          let result404: any = null;
-          let resultData404 = _responseText === '' ? null : jsonParse(_responseText, this.jsonParseReviver);
-          result404 = ProblemDetails.fromJS(resultData404, _mappings);
-          return throwException('Not Found', status, _responseText, _headers, result404);
-        })
-      );
-    } else if (status !== 200 && status !== 204) {
-      return blobToText(responseBlob).pipe(
-        _observableMergeMap((_responseText: string) => {
-          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
-        })
-      );
-    }
-    return _observableOf(null as any);
-  }
-
-  /**
    * @return OK
    */
   categoryAll(httpContext?: HttpContext): Observable<CategoryDto[]> {
@@ -1818,6 +1765,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -1881,6 +1829,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   categoryPOST(body: CreateCategoryCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -1893,6 +1842,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -1966,6 +1916,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   categoryPUT(body: UpdateCategoryCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -1978,6 +1929,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -2063,6 +2015,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -2131,6 +2084,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -2203,6 +2157,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -2266,6 +2221,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   commentPOST(body: CreateCommentCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -2278,6 +2234,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -2351,6 +2308,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   commentPUT(body: UpdateCommentCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -2363,6 +2321,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -2448,6 +2407,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -2516,6 +2476,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -2590,6 +2551,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -2661,6 +2623,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -2724,6 +2687,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   discountPOST(body: CreateDiscountDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -2736,6 +2700,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -2809,6 +2774,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   discountPUT(body: UpdateDiscountDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -2821,6 +2787,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -2906,6 +2873,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -2974,6 +2942,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -3048,6 +3017,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -3114,6 +3084,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -3177,6 +3148,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   notificationPOST(body: CreateNotificationDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -3189,6 +3161,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -3262,6 +3235,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   notificationPUT(body: UpdateNotificationDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -3274,6 +3248,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -3359,6 +3334,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -3427,6 +3403,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -3501,6 +3478,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -3572,6 +3550,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -3635,6 +3614,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   orderPOST(body: CreateOrderCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -3647,6 +3627,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -3720,6 +3701,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   orderPUT(body: UpdateOrderCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -3732,6 +3714,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -3817,6 +3800,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -3885,6 +3869,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -3957,6 +3942,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -4020,6 +4006,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   orderDetailPOST(body: CreateOrderDetailCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -4032,6 +4019,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4105,6 +4093,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   orderDetailPUT(body: UpdateOrderDetailCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -4117,6 +4106,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4202,6 +4192,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -4270,6 +4261,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -4342,6 +4334,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -4405,6 +4398,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   paymentPOST(body: CreatePaymentCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -4417,6 +4411,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4490,6 +4485,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   paymentPUT(body: UpdatePaymentCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -4502,6 +4498,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4587,6 +4584,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -4655,6 +4653,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -4727,6 +4726,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -4790,6 +4790,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   productPOST(body: CreateProductCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -4802,6 +4803,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4875,6 +4877,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   productPUT(body: UpdateProductCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -4887,6 +4890,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4972,6 +4976,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -5040,6 +5045,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -5112,6 +5118,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -5175,6 +5182,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   productColorPOST(body: CreateProductColorDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -5187,6 +5195,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -5260,6 +5269,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   productColorPUT(body: UpdateProductColorDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -5272,6 +5282,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -5357,6 +5368,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -5425,6 +5437,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -5497,6 +5510,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -5560,6 +5574,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   productImagePOST(body: CreateProductImageDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -5572,6 +5587,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -5645,6 +5661,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   productImagePUT(body: UpdateProductImageDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -5657,6 +5674,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -5742,6 +5760,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -5810,6 +5829,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -5882,6 +5902,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -5945,6 +5966,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   productOptionPOST(body: CreateProductOptionDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -5957,6 +5979,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -6030,6 +6053,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   productOptionPUT(body: UpdateProductOptionDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -6042,6 +6066,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -6127,6 +6152,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -6195,6 +6221,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -6267,6 +6294,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -6330,6 +6358,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   productReviewPOST(body: CreateProductReviewCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -6342,6 +6371,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -6415,6 +6445,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   productReviewPUT(body: UpdateProductReviewCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -6427,6 +6458,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -6512,6 +6544,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -6580,6 +6613,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -6652,6 +6686,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -6715,6 +6750,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   productTagPOST(body: CreateProductTagDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -6727,6 +6763,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -6800,6 +6837,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   productTagPUT(body: UpdateProductTagDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -6812,6 +6850,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -6897,6 +6936,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -6965,6 +7005,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -7037,6 +7078,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -7100,6 +7142,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   shipmentPOST(body: CreateShipmentCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -7112,6 +7155,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -7185,6 +7229,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   shipmentPUT(body: UpdateShipmentCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -7197,6 +7242,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -7282,6 +7328,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -7350,6 +7397,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -7422,6 +7470,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -7485,6 +7534,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   shoppingCartPOST(body: CreateShoppingCartCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -7497,6 +7547,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -7570,6 +7621,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   shoppingCartPUT(body: UpdateShoppingCartCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -7582,6 +7634,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -7667,6 +7720,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -7735,6 +7789,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -7807,6 +7862,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -7870,6 +7926,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   shoppingCartItemPOST(body: CreateShoppingCartItemCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -7882,6 +7939,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -7955,6 +8013,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   shoppingCartItemPUT(body: UpdateShoppingCartItemCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -7967,6 +8026,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -8052,6 +8112,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -8120,6 +8181,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -8192,6 +8254,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -8255,6 +8318,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   supplierPOST(body: CreateSupplierDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -8267,6 +8331,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -8340,6 +8405,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   supplierPUT(body: UpdateSupplierDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -8352,6 +8418,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -8437,6 +8504,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -8505,6 +8573,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -8577,6 +8646,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -8640,6 +8710,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   supplyPOST(body: CreateSupplyDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -8652,6 +8723,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -8725,6 +8797,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   supplyPUT(body: UpdateSupplyDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -8737,6 +8810,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -8822,6 +8896,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -8890,6 +8965,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -8962,6 +9038,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -9025,6 +9102,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   tagPOST(body: CreateTagDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -9037,6 +9115,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -9110,6 +9189,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   tagPUT(body: UpdateTagDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -9122,6 +9202,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -9207,6 +9288,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -9275,6 +9357,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -9347,6 +9430,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -9410,6 +9494,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   userPOST(body: CreateUserCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -9422,6 +9507,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -9495,6 +9581,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   userPUT(body: UpdateUserCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -9507,6 +9594,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -9592,6 +9680,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -9660,6 +9749,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -9732,6 +9822,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -9795,6 +9886,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   wishListPOST(body: CreateWishListCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -9807,6 +9899,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -9880,6 +9973,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   wishListPUT(body: UpdateWishListCommand | undefined, httpContext?: HttpContext): Observable<void> {
@@ -9892,6 +9986,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -9977,6 +10072,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -10045,6 +10141,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -10117,6 +10214,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -10180,6 +10278,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return Created
    */
   wishListItemPOST(body: CreateWishListItemDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -10192,6 +10291,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -10265,6 +10365,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
 
   /**
    * @param body (optional)
+   * @param httpContext
    * @return No Content
    */
   wishListItemPUT(body: UpdateWishListItemDto | undefined, httpContext?: HttpContext): Observable<void> {
@@ -10277,6 +10378,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
       body: content_,
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -10362,6 +10464,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({
         Accept: 'text/plain',
@@ -10430,6 +10533,7 @@ export class MatLidStoreServices implements IMatLidStoreServices {
     let options_: any = {
       observe: 'response',
       responseType: 'blob',
+      withCredentials: true,
       context: httpContext,
       headers: new HttpHeaders({}),
     };
@@ -13815,61 +13919,8 @@ export interface IProductTagDto {
   tagId?: number;
 }
 
-export class RegisterModel implements IRegisterModel {
-  username?: string | undefined;
-  email?: string | undefined;
-  password?: string | undefined;
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  phone?: string | undefined;
-
-  constructor(data?: IRegisterModel) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any, _mappings?: any) {
-    if (_data) {
-      this.username = _data['username'];
-      this.email = _data['email'];
-      this.password = _data['password'];
-      this.firstName = _data['firstName'];
-      this.lastName = _data['lastName'];
-      this.phone = _data['phone'];
-    }
-  }
-
-  static fromJS(data: any, _mappings?: any): RegisterModel | null {
-    data = typeof data === 'object' ? data : {};
-    return createInstance<RegisterModel>(data, _mappings, RegisterModel);
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data['username'] = this.username;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['phone'] = this.phone;
-    return data;
-  }
-}
-
-export interface IRegisterModel {
-  username?: string | undefined;
-  email?: string | undefined;
-  password?: string | undefined;
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  phone?: string | undefined;
-}
-
 export class RegisterUserCommand implements IRegisterUserCommand {
-  registerUser?: RegisterModel;
+  registrationUser?: RegistrationRequest;
 
   constructor(data?: IRegisterUserCommand) {
     if (data) {
@@ -13881,7 +13932,7 @@ export class RegisterUserCommand implements IRegisterUserCommand {
 
   init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.registerUser = _data['registerUser'] ? RegisterModel.fromJS(_data['registerUser'], _mappings) : <any>undefined;
+      this.registrationUser = _data['registrationUser'] ? RegistrationRequest.fromJS(_data['registrationUser'], _mappings) : <any>undefined;
     }
   }
 
@@ -13892,19 +13943,24 @@ export class RegisterUserCommand implements IRegisterUserCommand {
 
   toJSON(data?: any) {
     data = typeof data === 'object' ? data : {};
-    data['registerUser'] = this.registerUser ? this.registerUser.toJSON() : <any>undefined;
+    data['registrationUser'] = this.registrationUser ? this.registrationUser.toJSON() : <any>undefined;
     return data;
   }
 }
 
 export interface IRegisterUserCommand {
-  registerUser?: RegisterModel;
+  registrationUser?: RegistrationRequest;
 }
 
-export class RegistrationResponse implements IRegistrationResponse {
-  userId?: number;
+export class RegistrationRequest implements IRegistrationRequest {
+  username?: string | undefined;
+  email?: string | undefined;
+  phoneNumber?: string | undefined;
+  password?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
 
-  constructor(data?: IRegistrationResponse) {
+  constructor(data?: IRegistrationRequest) {
     if (data) {
       for (var property in data) {
         if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
@@ -13914,24 +13970,39 @@ export class RegistrationResponse implements IRegistrationResponse {
 
   init(_data?: any, _mappings?: any) {
     if (_data) {
-      this.userId = _data['userId'];
+      this.username = _data['username'];
+      this.email = _data['email'];
+      this.phoneNumber = _data['phoneNumber'];
+      this.password = _data['password'];
+      this.firstName = _data['firstName'];
+      this.lastName = _data['lastName'];
     }
   }
 
-  static fromJS(data: any, _mappings?: any): RegistrationResponse | null {
+  static fromJS(data: any, _mappings?: any): RegistrationRequest | null {
     data = typeof data === 'object' ? data : {};
-    return createInstance<RegistrationResponse>(data, _mappings, RegistrationResponse);
+    return createInstance<RegistrationRequest>(data, _mappings, RegistrationRequest);
   }
 
   toJSON(data?: any) {
     data = typeof data === 'object' ? data : {};
-    data['userId'] = this.userId;
+    data['username'] = this.username;
+    data['email'] = this.email;
+    data['phoneNumber'] = this.phoneNumber;
+    data['password'] = this.password;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
     return data;
   }
 }
 
-export interface IRegistrationResponse {
-  userId?: number;
+export interface IRegistrationRequest {
+  username?: string | undefined;
+  email?: string | undefined;
+  phoneNumber?: string | undefined;
+  password?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
 }
 
 export class ShipmentDetailsDto implements IShipmentDetailsDto {
@@ -16575,9 +16646,16 @@ export class ApiException extends Error {
   }
 }
 
-function throwException(message: string, status: number, response: string, headers: { [key: string]: any }, result?: any): Observable<any> {
-  if (result !== null && result !== undefined) return _observableThrow(result);
-  else return _observableThrow(new ApiException(message, status, response, headers, null));
+function throwException(
+  message: string,
+  status: number,
+  response: string,
+  headers: {
+    [key: string]: any;
+  },
+  result?: any
+): Observable<any> {
+  return _observableThrow(new ApiException(message, status, response, headers, result));
 }
 
 function blobToText(blob: any): Observable<string> {
