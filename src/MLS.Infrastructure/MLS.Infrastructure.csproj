@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MSL.Application\MLS.Application.csproj" />
+    <ProjectReference Include="..\MLS.Application\MLS.Application.csproj" />
   </ItemGroup>
 
 </Project>

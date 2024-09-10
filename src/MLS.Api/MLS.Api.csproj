@@ -28,7 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MLS.Infrastructure\MLS.Infrastructure.csproj" />
     <ProjectReference Include="..\MLS.Persistence\MLS.Persistence.csproj" />
-    <ProjectReference Include="..\MSL.Application\MLS.Application.csproj" />
+    <ProjectReference Include="..\MLS.Application\MLS.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
