@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { AppAdminRoutingModule } from './app-admin-routing.module';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
-import { ClientHomeComponent } from '../app-client/client-home/client-home.component';
 import { PagesModule } from '../../theme/pages/pages.module';
 import { ThemeModule } from 'src/app/theme/theme.module';
 
 @NgModule({
-  declarations: [AdminHomeComponent, ClientHomeComponent],
+  declarations: [AdminHomeComponent],
   imports: [CommonModule, AppAdminRoutingModule, PagesModule, ThemeModule],
 })
 export class AppAdminModule {}
