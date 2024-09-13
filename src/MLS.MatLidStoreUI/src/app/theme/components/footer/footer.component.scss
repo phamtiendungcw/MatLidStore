@@ -1,0 +1,17 @@
+/* app.component.scss */
+.github-container {
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    .github-logo-container {
+      background-image: url('/assets/Images/github-mark-white.png');
+    }
+  }
+}
+
+.github-logo-container {
+  background-image: url('/assets/Images/github-mark.png');
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.3s ease;
+}
