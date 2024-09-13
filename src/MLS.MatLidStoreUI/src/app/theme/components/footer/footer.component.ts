@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
   onGitHubClick(): void {
-    window.open('https://github.com/phamtiendungcw', '_blank');
+    window.open('https://github.com/phamtiendungcw/MatLidStore', '_blank');
   }
 }
