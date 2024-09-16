@@ -3,7 +3,10 @@
     <div class="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
       <div class="flex items-center justify-center w-full lg:p-12">
         <div class="flex items-center xl:p-10">
-          <form class="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl">
+          <form
+            #loginForm="ngForm"
+            (ngSubmit)="loginClick()"
+            class="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl">
             <h3 class="mb-3 text-4xl font-extrabold text-dark-grey-900">Đăng Nhập</h3>
             <p class="mb-4 text-grey-700">Nhập tên người dùng và mật khẩu của bạn</p>
             <a
@@ -21,16 +24,34 @@
             </div>
             <label class="mb-2 text-sm text-start text-grey-900" for="username">Tên người dùng*</label>
             <input
+              [(ngModel)]="model.username"
+              name="username"
               class="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-400 mb-7 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
               id="username"
               placeholder="Nhập tên người dùng"
               type="text" />
             <label class="mb-2 text-sm text-start text-grey-900" for="password">Mật khẩu*</label>
-            <input
-              class="flex items-center w-full px-5 py-4 mb-5 mr-2 text-sm font-medium outline-none focus:bg-grey-400 placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
-              id="password"
-              placeholder="Nhập mật khẩu"
-              type="password" />
+            <div class="relative">
+              <input
+                [(ngModel)]="model.password"
+                name="password"
+                class="w-full px-5 py-4 pr-12 text-sm font-medium outline-none placeholder:text-grey-700 bg-grey-200 text-dark-grey-900 rounded-2xl"
+                id="password"
+                placeholder="Nhập mật khẩu"
+                [type]="showPassword ? 'text' : 'password'"
+                required />
+              <button
+                type="button"
+                (click)="togglePassword()"
+                class="absolute inset-y-0 right-0 flex items-center px-3"
+                aria-label="Toggle password visibility"
+                title="{{ showPassword ? 'Ẩn mật khẩu' : 'Hiển thị mật khẩu' }}">
+                <i *ngIf="showPassword" class="fa fa-eye text-gray-600 hover:text-gray-800 transition duration-300"></i>
+                <i
+                  *ngIf="!showPassword"
+                  class="fa fa-eye-slash text-gray-600 hover:text-gray-800 transition duration-300"></i>
+              </button>
+            </div>
             <div class="flex flex-row justify-between mb-8">
               <label class="relative inline-flex items-center mr-3 cursor-pointer select-none">
                 <div class="flex items-center mb-4">
@@ -45,6 +66,7 @@
               <a class="mr-4 text-sm font-medium text-purple-blue-500" href="javascript:void(0)">Quên mật khẩu?</a>
             </div>
             <button
+              type="submit"
               class="w-full px-6 py-3 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-purple-blue-500">
               Đăng nhập
             </button>

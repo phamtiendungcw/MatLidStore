@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppAdminModule } from './app-admin/app-admin.module';
 import { AppClientModule } from './app-client/app-client.module';
+import { API_BASE_URL, MatLidStoreAPIServices } from '../core/data/mls-data.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, NgbModule, AppAdminModule, AppClientModule],
-  providers: [],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgbModule, AppAdminModule, AppClientModule],
+  providers: [MatLidStoreAPIServices, { provide: API_BASE_URL, useValue: 'https://localhost:8100' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
