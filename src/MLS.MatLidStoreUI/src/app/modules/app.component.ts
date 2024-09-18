@@ -16,18 +16,17 @@ export class AppComponent implements OnInit {
     console.log('LoggerIn: ', this.loggerIn);
 
     if (!this.loggerIn) {
-      this.router.navigate(['/login']).then(r => r.valueOf());
+      this.router.navigate(['/login']);
     } else {
-      this.router.navigate(['/admin/home/dashboard']).then(r => r.valueOf());
+      this.router.navigate(['/admin/home/dashboard']);
     }
 
     this.accountService.loggerIn$.subscribe(value => {
       this.loggerIn = value;
-
       if (this.loggerIn) {
-        this.router.navigate(['/admin/home/dashboard']).then(r => r.valueOf());
+        this.router.navigate(['/admin/home/dashboard']);
       } else {
-        this.router.navigate(['/login']).then(r => r.valueOf());
+        this.router.navigate(['/login']);
       }
     });
   }

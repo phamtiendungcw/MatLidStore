@@ -193,7 +193,7 @@
     </div>
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
       <button *ngIf="!isLoggedIn" (click)="loginClick()" class="text-sm font-semibold leading-6 text-gray-900">
-        Đăng nhập <span aria-hidden="true">&rarr;</span>
+        {{ getHeaderText() }} <span aria-hidden="true">&rarr;</span>
       </button>
       <button *ngIf="isLoggedIn" (click)="logoutClick()" class="text-sm font-semibold leading-6 text-gray-900">
         Đăng xuất <span aria-hidden="true">&rarr;</span>
@@ -202,11 +202,11 @@
   </nav>
 
   <!-- Mobile menu, show/hide based on menu open state. -->
-  <div *ngIf="isMenuOpened" aria-modal="true" class="menu-container lg:hidden">
+  <div *ngIf="isMenuOpened" aria-modal="true" class="lg:hidden">
     <!-- Background backdrop, show/hide based on slide-over state. -->
     <div class="fixed inset-0 z-10"></div>
     <div
-      class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+      class="menu-container fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
       <div class="flex items-center justify-between">
         <a class="-m-1.5 p-1.5" href="#">
           <span class="sr-only">MatLidStore</span>
@@ -305,7 +305,7 @@
               *ngIf="!isLoggedIn"
               (click)="loginClick()"
               class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-              Đăng nhập
+              {{ getHeaderText() }}
             </button>
             <button
               *ngIf="isLoggedIn"

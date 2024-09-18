@@ -28,6 +28,7 @@ export class AccountComponent {
         console.log('User: ', this.user);
         this.loggedIn = true;
         this.accountService.setLoggedIn(this.loggedIn);
+        console.log('Logged In: ', this.loggedIn);
 
         if (this.loggedIn) {
           this.router.navigate(['/admin/home/dashboard']).then(r => r.valueOf());

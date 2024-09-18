@@ -8,10 +8,19 @@ import { AppAdminModule } from './app-admin/app-admin.module';
 import { AppClientModule } from './app-client/app-client.module';
 import { API_BASE_URL, MatLidStoreAPIServices } from '../core/data/mls-data.service';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgbModule, AppAdminModule, AppClientModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    AppAdminModule,
+    AppClientModule,
+    NgbModule, // ng-bootstrap
+  ],
   providers: [MatLidStoreAPIServices, { provide: API_BASE_URL, useValue: 'https://localhost:8100' }],
   bootstrap: [AppComponent],
 })
