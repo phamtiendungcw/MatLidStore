@@ -34,7 +34,7 @@ The MATLID project is built using advanced technologies to ensure high performan
 ### Frontend
 
 - **Language**: TypeScript
-- **Framework**: Angular 14
+- **Framework**: Angular 16
 - **Styling**: SCSS (Sass)
 - **State Management**: NgRx
 - **HTTP Client**: HttpClient (Angular)
@@ -83,7 +83,7 @@ FluentValidation is used for data validation, ensuring that the data sent to the
 
 4. **Install dependencies for Frontend**
    ```bash
-   cd ../MLS.WebUI
+   cd ../MLS.MatLidStoreUI
    npm install
 
 ## Running the Application
@@ -94,12 +94,12 @@ FluentValidation is used for data validation, ensuring that the data sent to the
 
 3. Run Frontend
    ```bash
-   cd ../MLS.WebUI
+   cd ../MLS.MatLidStoreUI
    ng serve
 
 ## Access the Application
 
-Open your browser and go to https://localhost:4200 to start exploring MATLID.
+Open your browser and go to https://localhost:4200 to start exploring MATLIDSTORE.
 
 ## Contribute
 

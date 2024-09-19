@@ -4,11 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MLS.Application.Contracts.Identity;
-using MLS.Application.DTO.Comment;
-using MLS.Application.DTO.Notification;
-using MLS.Application.DTO.Order;
-using MLS.Application.DTO.ProductReview;
-using MLS.Application.DTO.WishList;
 using MLS.Application.Exceptions;
 using MLS.Application.Models.Identity;
 using MLS.Domain.Entities;
@@ -36,50 +31,35 @@ public class AuthService : IAuthService
     public async Task<AuthResponse> Login(AuthRequest request)
     {
         // Find the user by username
-        var user = await _userManager.Users
-            .Include(u => u.UserRoles) // Include related Roles
-            .Include(u => u.Orders) // Include related Orders
-            .Include(u => u.ProductReviews) // Include related ProductReviews
-            .Include(u => u.WishLists) // Include related WishLists
-            .Include(u => u.Comments) // Include related Comments
-            .Include(u => u.Notifications) // Include related Notifications
-            .SingleOrDefaultAsync(u => u.UserName == request.Username);
+        var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == request.Username);
 
         // Throw exception if the user is not found
         if (user == null)
-            throw new NotFoundException($"User with username '{request.Username}' not found.");
+            throw new NotFoundException($"User name '{request.Username}' not found on the system.");
 
         // Check if the password is valid
         var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
         // Throw exception if the credentials are invalid
         if (!result.Succeeded)
-            throw new BadRequestException($"Credentials for '{request.Username}' are not valid.");
+            throw new BadRequestException($"The credentials for account '{request.Username}' are invalid.");
 
         // Generate JWT token
         var jwtSecurityToken = await GenerateToken(user);
 
-        // Create and return AuthResponse
-        return new AuthResponse
-        {
-            Id = user.Id,
-            UserName = user.UserName,
-            Email = user.Email,
-            FullName = $"{user.FirstName} {user.LastName}",
-            Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-            Orders = _mapper.Map<List<OrderDto>>(user.Orders),
-            ProductReviews = _mapper.Map<List<ProductReviewDto>>(user.ProductReviews),
-            WishLists = _mapper.Map<List<WishListDto>>(user.WishLists),
-            Comments = _mapper.Map<List<CommentDto>>(user.Comments),
-            Notifications = _mapper.Map<List<NotificationDto>>(user.Notifications)
-        };
+        var response = _mapper.Map<AuthResponse>(user);
+        response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        response.FullName = user.FirstName + ' ' + user.LastName;
+
+        // Return AuthResponse
+        return response;
     }
 
     public async Task<RegistrationResponse> Register(RegistrationRequest request)
     {
         // Check if the user already exists
         if (await UserExists(request.Username))
-            throw new BadRequestException($"User with username {request.Username} already exists.");
+            throw new BadRequestException($"User name {request.Username} already exists on the system.");
 
         // Map the RegistrationRequest to AppUser
         var userToCreate = _mapper.Map<AppUser>(request);
@@ -123,6 +103,8 @@ public class AuthService : IAuthService
         // Add user claims and role claims
         claims.AddRange(userClaims);
         claims.AddRange(roleClaims);
+
+        if (_jwtSettings.Value.Key.Length < 64) throw new BadRequestException("Token key needs to be longer!");
 
         // Create security key and signing credentials
         var key = Encoding.UTF8.GetBytes(_jwtSettings.Value.Key);
