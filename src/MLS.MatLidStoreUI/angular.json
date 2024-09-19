@@ -60,6 +60,11 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "ssl": true,
+            "sslKey": "src/app/core/ssl/matlidstorecer-decrypted.key",
+            "sslCert": "src/app/core/ssl/matlidstorecer.crt"
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
