@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthRequest, AuthResponse, MatLidStoreAPIServices } from 'src/app/core/data/mls-data.service';
 import { AccountService } from 'src/app/core/services/account.service';
@@ -13,29 +13,40 @@ export class AccountComponent {
   model: AuthRequest = new AuthRequest();
   user: AuthResponse | null = null;
   showPassword = false;
-  private matlidstoreapi = inject(MatLidStoreAPIServices);
-  private router = inject(Router);
-  private accountService = inject(AccountService);
 
-  togglePassword() {
+  constructor(
+    private matlidstoreapi: MatLidStoreAPIServices,
+    private router: Router,
+    private accountService: AccountService
+  ) {}
+
+  togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
-  loginClick() {
+  loginClick(): void {
+    if (!this.model.username || !this.model.password) {
+      console.error('User name and password are required');
+      return;
+    }
+
     this.matlidstoreapi.login(this.model).subscribe({
-      next: response => {
+      next: (response: AuthResponse) => {
         this.user = response;
         console.log('User: ', this.user);
-        this.loggedIn = true;
-        this.accountService.setLoggedIn(this.loggedIn);
+        this.accountService.setCurrentUser(this.user);
+        // Cập nhật trạng thái đăng nhập
+        this.loggedIn = this.accountService.isLoggedIn();
         console.log('Logged In: ', this.loggedIn);
-
         if (this.loggedIn) {
+          // Điều hướng tới dashboard nếu đăng nhập thành công
           this.router.navigate(['/admin/home/dashboard']).then(r => r.valueOf());
         }
       },
-      error: error => console.log(error),
-      complete: () => console.log('Request has completed.'),
+      error: error => {
+        console.error('Login failed: ', error);
+      },
+      complete: () => console.log('Login request completed.'),
     });
   }
 }

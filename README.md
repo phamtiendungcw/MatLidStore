@@ -66,8 +66,9 @@ FluentValidation is used for data validation, ensuring that the data sent to the
 ### System Requirements
 
 - .NET 6 SDK
+- Angular version 16.2.0
 - Node.js (latest version)
-- SQL Server
+- SQL Server | Oracle database
 
 ### Installation
 
@@ -87,7 +88,7 @@ FluentValidation is used for data validation, ensuring that the data sent to the
    npm install
 
 ## Running the Application
-1. Run backend
+1. Run Backend
    ```bash
    cd MLS.Api
    dotnet run
