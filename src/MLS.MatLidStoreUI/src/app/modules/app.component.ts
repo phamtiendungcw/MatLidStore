@@ -7,23 +7,25 @@ import { Router } from '@angular/router';
   template: '<router-outlet></router-outlet>',
 })
 export class AppComponent implements OnInit {
-  loggerIn = false;
   private accountService = inject(AccountService);
   private router = inject(Router);
 
   ngOnInit(): void {
-    this.loggerIn = this.accountService.isLoggedIn();
-    console.log('LoggerIn: ', this.loggerIn);
+    const token = this.accountService.getToken();
 
-    if (!this.loggerIn) {
-      this.router.navigate(['/login']);
-    } else {
+    if (token && !this.accountService.isTokenExpired(token)) {
+      // Token hợp lệ, cho phép truy cập
+      this.accountService.setLoggedIn(true);
       this.router.navigate(['/admin/home/dashboard']);
+    } else {
+      // Token hết hạn hoặc không tồn tại, yêu cầu đăng nhập lại
+      this.accountService.removeCurrentUser();
+      this.router.navigate(['/login']);
     }
 
-    this.accountService.loggerIn$.subscribe(value => {
-      this.loggerIn = value;
-      if (this.loggerIn) {
+    // Theo dõi sự thay đổi của trạng thái đăng nhập
+    this.accountService.loggerIn$.subscribe(isLoggedIn => {
+      if (isLoggedIn) {
         this.router.navigate(['/admin/home/dashboard']);
       } else {
         this.router.navigate(['/login']);

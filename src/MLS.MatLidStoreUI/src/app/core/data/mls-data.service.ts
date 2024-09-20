@@ -8,9 +8,9 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import { catchError as _observableCatch, mergeMap as _observableMergeMap } from 'rxjs/operators';
-import { Observable, of as _observableOf, throwError as _observableThrow } from 'rxjs';
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
+import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
@@ -21,676 +21,551 @@ export interface IMatLidStoreAPIServices {
    * @return Created
    */
   register(body: RegisterUserCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return OK
    */
   login(body: AuthRequest | undefined): Observable<AuthResponse>;
-
   /**
    * @return OK
    */
   addressAll(): Observable<AddressDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   addressPOST(body: CreateAddressDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   addressPUT(body: UpdateAddressDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   addressGET(id: number): Observable<AddressDetailsDto>;
-
   /**
    * @return No Content
    */
   addressDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   articleAll(): Observable<ArticleDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   articlePOST(body: CreateArticleCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   articlePUT(body: UpdateArticleCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   articleGET(id: number): Observable<ArticleDetailsDto>;
-
   /**
    * @return No Content
    */
   articleDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   authorName(authorName: string): Observable<ArticleDto[]>;
-
   /**
    * @return OK
    */
   categoryAll(): Observable<CategoryDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   categoryPOST(body: CreateCategoryCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   categoryPUT(body: UpdateCategoryCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   categoryGET(id: number): Observable<CategoryDetailsDto>;
-
   /**
    * @return No Content
    */
   categoryDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   commentAll(): Observable<CommentDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   commentPOST(body: CreateCommentCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   commentPUT(body: UpdateCommentCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   commentGET(id: number): Observable<CommentDetailsDto>;
-
   /**
    * @return No Content
    */
   commentDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   article(articleId: number): Observable<CommentDto[]>;
-
   /**
    * @return OK
    */
   discountAll(): Observable<DiscountDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   discountPOST(body: CreateDiscountDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   discountPUT(body: UpdateDiscountDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   discountGET(id: number): Observable<DiscountDetailsDto>;
-
   /**
    * @return No Content
    */
   discountDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   code(code: string): Observable<DiscountDto>;
-
   /**
    * @return OK
    */
   notificationAll(): Observable<NotificationDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   notificationPOST(body: CreateNotificationDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   notificationPUT(body: UpdateNotificationDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   notificationGET(id: number): Observable<NotificationDetailsDto>;
-
   /**
    * @return No Content
    */
   notificationDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   user(userId: number): Observable<NotificationDto[]>;
-
   /**
    * @return OK
    */
   orderAll(): Observable<OrderDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   orderPOST(body: CreateOrderCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   orderPUT(body: UpdateOrderCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   orderGET(id: number): Observable<OrderDetailsDto>;
-
   /**
    * @return No Content
    */
   orderDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   orderDetailAll(): Observable<OrderDetailDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   orderDetailPOST(body: CreateOrderDetailCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   orderDetailPUT(body: UpdateOrderDetailCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   orderDetailGET(id: number): Observable<OrderDetailDetailsDto>;
-
   /**
    * @return No Content
    */
   orderDetailDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   paymentAll(): Observable<PaymentDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   paymentPOST(body: CreatePaymentCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   paymentPUT(body: UpdatePaymentCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   paymentGET(id: number): Observable<PaymentDetailsDto>;
-
   /**
    * @return No Content
    */
   paymentDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   productAll(): Observable<ProductDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   productPOST(body: CreateProductCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   productPUT(body: UpdateProductCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   productGET(id: number): Observable<ProductDetailsDto>;
-
   /**
    * @return No Content
    */
   productDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   productColorAll(): Observable<ProductColorDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   productColorPOST(body: CreateProductColorDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   productColorPUT(body: UpdateProductColorDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   productColorGET(id: number): Observable<ProductColorDetailsDto>;
-
   /**
    * @return No Content
    */
   productColorDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   productImageAll(): Observable<ProductImageDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   productImagePOST(body: CreateProductImageDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   productImagePUT(body: UpdateProductImageDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   productImageGET(id: number): Observable<ProductImageDetailsDto>;
-
   /**
    * @return No Content
    */
   productImageDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   productOptionAll(): Observable<ProductOptionDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   productOptionPOST(body: CreateProductOptionDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   productOptionPUT(body: UpdateProductOptionDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   productOptionGET(id: number): Observable<ProductOptionDetailsDto>;
-
   /**
    * @return No Content
    */
   productOptionDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   productReviewAll(): Observable<ProductReviewDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   productReviewPOST(body: CreateProductReviewCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   productReviewPUT(body: UpdateProductReviewCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   productReviewGET(id: number): Observable<ProductReviewDetailsDto>;
-
   /**
    * @return No Content
    */
   productReviewDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   productTagAll(): Observable<ProductTagDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   productTagPOST(body: CreateProductTagDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   productTagPUT(body: UpdateProductTagDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   productTagGET(id: number): Observable<ProductTagDetailsDto>;
-
   /**
    * @return No Content
    */
   productTagDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   shipmentAll(): Observable<ShipmentDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   shipmentPOST(body: CreateShipmentCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   shipmentPUT(body: UpdateShipmentCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   shipmentGET(id: number): Observable<ShipmentDetailsDto>;
-
   /**
    * @return No Content
    */
   shipmentDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   shoppingCartAll(): Observable<ShoppingCartDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   shoppingCartPOST(body: CreateShoppingCartCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   shoppingCartPUT(body: UpdateShoppingCartCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   shoppingCartGET(id: number): Observable<ShoppingCartDetailsDto>;
-
   /**
    * @return No Content
    */
   shoppingCartDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   shoppingCartItemAll(): Observable<ShoppingCartItemDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   shoppingCartItemPOST(body: CreateShoppingCartItemCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   shoppingCartItemPUT(body: UpdateShoppingCartItemCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   shoppingCartItemGET(id: number): Observable<ShoppingCartItemDetailsDto>;
-
   /**
    * @return No Content
    */
   shoppingCartItemDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   supplierAll(): Observable<SupplierDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   supplierPOST(body: CreateSupplierDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   supplierPUT(body: UpdateSupplierDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   supplierGET(id: number): Observable<SupplierDetailsDto>;
-
   /**
    * @return No Content
    */
   supplierDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   supplyAll(): Observable<SupplyDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   supplyPOST(body: CreateSupplyDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   supplyPUT(body: UpdateSupplyDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   supplyGET(id: number): Observable<SupplyDetailsDto>;
-
   /**
    * @return No Content
    */
   supplyDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   tagAll(): Observable<TagDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   tagPOST(body: CreateTagDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   tagPUT(body: UpdateTagDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   tagGET(id: number): Observable<TagDetailsDto>;
-
   /**
    * @return No Content
    */
   tagDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   userAll(): Observable<UserDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   userPOST(body: CreateUserCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   userPUT(body: UpdateUserCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   userGET(id: number): Observable<UserDetailsDto>;
-
   /**
    * @return No Content
    */
   userDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   wishListAll(): Observable<WishListDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   wishListPOST(body: CreateWishListCommand | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   wishListPUT(body: UpdateWishListCommand | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   wishListGET(id: number): Observable<WishListDetailsDto>;
-
   /**
    * @return No Content
    */
   wishListDELETE(id: number): Observable<void>;
-
   /**
    * @return OK
    */
   wishListItemAll(): Observable<WishListItemDto[]>;
-
   /**
    * @param body (optional)
    * @return Created
    */
   wishListItemPOST(body: CreateWishListItemDto | undefined): Observable<void>;
-
   /**
    * @param body (optional)
    * @return No Content
    */
   wishListItemPUT(body: UpdateWishListItemDto | undefined): Observable<void>;
-
   /**
    * @return OK
    */
   wishListItemGET(id: number): Observable<WishListItemDetailsDto>;
-
   /**
    * @return No Content
    */
@@ -699,9 +574,9 @@ export interface IMatLidStoreAPIServices {
 
 @Injectable()
 export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
-  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
   private http: HttpClient;
   private readonly baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
   constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
     this.http = http;
@@ -739,4634 +614,6 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
           if (response_ instanceof HttpResponseBase) {
             try {
               return this.processRegister(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return OK
-   */
-  login(body: AuthRequest | undefined): Observable<AuthResponse> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Account/login';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processLogin(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processLogin(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<AuthResponse>;
-            }
-          } else return _observableThrow(response_) as any as Observable<AuthResponse>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  addressAll(): Observable<AddressDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Address';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processAddressAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processAddressAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<AddressDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<AddressDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  addressPOST(body: CreateAddressDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Address';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processAddressPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processAddressPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  addressPUT(body: UpdateAddressDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Address';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processAddressPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processAddressPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  addressGET(id: number): Observable<AddressDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Address/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processAddressGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processAddressGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<AddressDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<AddressDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  addressDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Address/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processAddressDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processAddressDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  articleAll(): Observable<ArticleDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Article';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processArticleAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processArticleAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ArticleDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ArticleDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  articlePOST(body: CreateArticleCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Article';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processArticlePOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processArticlePOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  articlePUT(body: UpdateArticleCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Article';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processArticlePUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processArticlePUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  articleGET(id: number): Observable<ArticleDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Article/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processArticleGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processArticleGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ArticleDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ArticleDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  articleDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Article/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processArticleDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processArticleDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  authorName(authorName: string): Observable<ArticleDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Article/AuthorName/{authorName}';
-    if (authorName === undefined || authorName === null) throw new Error("The parameter 'authorName' must be defined.");
-    url_ = url_.replace('{authorName}', encodeURIComponent('' + authorName));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processAuthorName(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processAuthorName(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ArticleDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ArticleDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  categoryAll(): Observable<CategoryDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Category';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCategoryAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCategoryAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<CategoryDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<CategoryDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  categoryPOST(body: CreateCategoryCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Category';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCategoryPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCategoryPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  categoryPUT(body: UpdateCategoryCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Category';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCategoryPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCategoryPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  categoryGET(id: number): Observable<CategoryDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Category/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCategoryGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCategoryGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<CategoryDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<CategoryDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  categoryDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Category/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCategoryDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCategoryDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  commentAll(): Observable<CommentDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Comment';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCommentAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCommentAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<CommentDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<CommentDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  commentPOST(body: CreateCommentCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Comment';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCommentPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCommentPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  commentPUT(body: UpdateCommentCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Comment';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCommentPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCommentPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  commentGET(id: number): Observable<CommentDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Comment/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCommentGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCommentGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<CommentDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<CommentDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  commentDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Comment/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCommentDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCommentDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  article(articleId: number): Observable<CommentDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Comment/article/{articleId}';
-    if (articleId === undefined || articleId === null) throw new Error("The parameter 'articleId' must be defined.");
-    url_ = url_.replace('{articleId}', encodeURIComponent('' + articleId));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processArticle(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processArticle(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<CommentDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<CommentDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  discountAll(): Observable<DiscountDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Discount';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processDiscountAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processDiscountAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<DiscountDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<DiscountDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  discountPOST(body: CreateDiscountDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Discount';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processDiscountPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processDiscountPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  discountPUT(body: UpdateDiscountDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Discount';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processDiscountPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processDiscountPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  discountGET(id: number): Observable<DiscountDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Discount/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processDiscountGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processDiscountGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<DiscountDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<DiscountDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  discountDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Discount/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processDiscountDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processDiscountDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  code(code: string): Observable<DiscountDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Discount/code/{code}';
-    if (code === undefined || code === null) throw new Error("The parameter 'code' must be defined.");
-    url_ = url_.replace('{code}', encodeURIComponent('' + code));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processCode(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processCode(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<DiscountDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<DiscountDto>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  notificationAll(): Observable<NotificationDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Notification';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processNotificationAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processNotificationAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<NotificationDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<NotificationDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  notificationPOST(body: CreateNotificationDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Notification';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processNotificationPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processNotificationPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  notificationPUT(body: UpdateNotificationDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Notification';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processNotificationPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processNotificationPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  notificationGET(id: number): Observable<NotificationDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Notification/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processNotificationGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processNotificationGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<NotificationDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<NotificationDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  notificationDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Notification/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processNotificationDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processNotificationDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  user(userId: number): Observable<NotificationDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Notification/user/{userId}';
-    if (userId === undefined || userId === null) throw new Error("The parameter 'userId' must be defined.");
-    url_ = url_.replace('{userId}', encodeURIComponent('' + userId));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processUser(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processUser(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<NotificationDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<NotificationDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  orderAll(): Observable<OrderDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Order';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<OrderDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<OrderDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  orderPOST(body: CreateOrderCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Order';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  orderPUT(body: UpdateOrderCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Order';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  orderGET(id: number): Observable<OrderDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Order/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<OrderDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<OrderDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  orderDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Order/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  orderDetailAll(): Observable<OrderDetailDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderDetailAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderDetailAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<OrderDetailDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<OrderDetailDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  orderDetailPOST(body: CreateOrderDetailCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderDetailPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderDetailPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  orderDetailPUT(body: UpdateOrderDetailCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderDetailPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderDetailPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  orderDetailGET(id: number): Observable<OrderDetailDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderDetailGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderDetailGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<OrderDetailDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<OrderDetailDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  orderDetailDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processOrderDetailDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processOrderDetailDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  paymentAll(): Observable<PaymentDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Payment';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processPaymentAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processPaymentAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<PaymentDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<PaymentDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  paymentPOST(body: CreatePaymentCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Payment';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processPaymentPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processPaymentPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  paymentPUT(body: UpdatePaymentCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Payment';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processPaymentPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processPaymentPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  paymentGET(id: number): Observable<PaymentDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Payment/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processPaymentGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processPaymentGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<PaymentDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<PaymentDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  paymentDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Payment/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processPaymentDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processPaymentDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productAll(): Observable<ProductDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Product';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  productPOST(body: CreateProductCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Product';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  productPUT(body: UpdateProductCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Product';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productGET(id: number): Observable<ProductDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Product/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  productDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Product/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productColorAll(): Observable<ProductColorDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductColorAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductColorAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductColorDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductColorDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  productColorPOST(body: CreateProductColorDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductColorPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductColorPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  productColorPUT(body: UpdateProductColorDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductColorPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductColorPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productColorGET(id: number): Observable<ProductColorDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductColorGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductColorGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductColorDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductColorDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  productColorDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductColorDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductColorDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productImageAll(): Observable<ProductImageDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductImageAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductImageAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductImageDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductImageDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  productImagePOST(body: CreateProductImageDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductImagePOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductImagePOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  productImagePUT(body: UpdateProductImageDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductImagePUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductImagePUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productImageGET(id: number): Observable<ProductImageDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductImageGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductImageGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductImageDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductImageDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  productImageDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductImageDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductImageDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productOptionAll(): Observable<ProductOptionDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductOptionAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductOptionAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductOptionDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductOptionDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  productOptionPOST(body: CreateProductOptionDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductOptionPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductOptionPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  productOptionPUT(body: UpdateProductOptionDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductOptionPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductOptionPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productOptionGET(id: number): Observable<ProductOptionDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductOptionGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductOptionGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductOptionDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductOptionDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  productOptionDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductOptionDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductOptionDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productReviewAll(): Observable<ProductReviewDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductReviewAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductReviewAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductReviewDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductReviewDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  productReviewPOST(body: CreateProductReviewCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductReviewPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductReviewPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  productReviewPUT(body: UpdateProductReviewCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductReviewPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductReviewPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productReviewGET(id: number): Observable<ProductReviewDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductReviewGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductReviewGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductReviewDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductReviewDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  productReviewDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductReviewDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductReviewDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productTagAll(): Observable<ProductTagDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductTagAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductTagAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductTagDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductTagDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  productTagPOST(body: CreateProductTagDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductTagPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductTagPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  productTagPUT(body: UpdateProductTagDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductTagPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductTagPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  productTagGET(id: number): Observable<ProductTagDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductTagGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductTagGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ProductTagDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ProductTagDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  productTagDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processProductTagDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processProductTagDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  shipmentAll(): Observable<ShipmentDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShipmentAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShipmentAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ShipmentDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ShipmentDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  shipmentPOST(body: CreateShipmentCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShipmentPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShipmentPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  shipmentPUT(body: UpdateShipmentCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShipmentPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShipmentPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  shipmentGET(id: number): Observable<ShipmentDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShipmentGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShipmentGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ShipmentDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ShipmentDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  shipmentDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShipmentDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShipmentDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  shoppingCartAll(): Observable<ShoppingCartDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ShoppingCartDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ShoppingCartDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  shoppingCartPOST(body: CreateShoppingCartCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  shoppingCartPUT(body: UpdateShoppingCartCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  shoppingCartGET(id: number): Observable<ShoppingCartDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ShoppingCartDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ShoppingCartDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  shoppingCartDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  shoppingCartItemAll(): Observable<ShoppingCartItemDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartItemAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartItemAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ShoppingCartItemDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ShoppingCartItemDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  shoppingCartItemPOST(body: CreateShoppingCartItemCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartItemPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartItemPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  shoppingCartItemPUT(body: UpdateShoppingCartItemCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartItemPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartItemPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  shoppingCartItemGET(id: number): Observable<ShoppingCartItemDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartItemGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartItemGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<ShoppingCartItemDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<ShoppingCartItemDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  shoppingCartItemDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processShoppingCartItemDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processShoppingCartItemDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  supplierAll(): Observable<SupplierDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplierAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplierAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<SupplierDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<SupplierDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  supplierPOST(body: CreateSupplierDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplierPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplierPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  supplierPUT(body: UpdateSupplierDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplierPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplierPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  supplierGET(id: number): Observable<SupplierDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplierGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplierGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<SupplierDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<SupplierDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  supplierDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplierDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplierDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  supplyAll(): Observable<SupplyDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supply';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplyAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplyAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<SupplyDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<SupplyDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  supplyPOST(body: CreateSupplyDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supply';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplyPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplyPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  supplyPUT(body: UpdateSupplyDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supply';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplyPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplyPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  supplyGET(id: number): Observable<SupplyDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supply/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplyGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplyGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<SupplyDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<SupplyDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  supplyDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Supply/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processSupplyDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processSupplyDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  tagAll(): Observable<TagDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Tag';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processTagAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processTagAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<TagDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<TagDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  tagPOST(body: CreateTagDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Tag';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processTagPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processTagPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  tagPUT(body: UpdateTagDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Tag';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processTagPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processTagPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  tagGET(id: number): Observable<TagDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Tag/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processTagGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processTagGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<TagDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<TagDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  tagDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/Tag/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processTagDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processTagDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  userAll(): Observable<UserDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/User';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processUserAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processUserAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<UserDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<UserDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  userPOST(body: CreateUserCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/User';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processUserPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processUserPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  userPUT(body: UpdateUserCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/User';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processUserPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processUserPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  userGET(id: number): Observable<UserDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/User/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processUserGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processUserGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<UserDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<UserDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  userDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/User/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processUserDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processUserDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  wishListAll(): Observable<WishListDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishList';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<WishListDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<WishListDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  wishListPOST(body: CreateWishListCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishList';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  wishListPUT(body: UpdateWishListCommand | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishList';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  wishListGET(id: number): Observable<WishListDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishList/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<WishListDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<WishListDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  wishListDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishList/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListDELETE(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  wishListItemAll(): Observable<WishListItemDto[]> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem';
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListItemAll(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListItemAll(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<WishListItemDto[]>;
-            }
-          } else return _observableThrow(response_) as any as Observable<WishListItemDto[]>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return Created
-   */
-  wishListItemPOST(body: CreateWishListItemDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('post', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListItemPOST(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListItemPOST(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @param body (optional)
-   * @return No Content
-   */
-  wishListItemPUT(body: UpdateWishListItemDto | undefined): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem';
-    url_ = url_.replace(/[?&]$/, '');
-
-    const content_ = JSON.stringify(body);
-
-    let options_: any = {
-      body: content_,
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http
-      .request('put', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListItemPUT(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListItemPUT(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<void>;
-            }
-          } else return _observableThrow(response_) as any as Observable<void>;
-        })
-      );
-  }
-
-  /**
-   * @return OK
-   */
-  wishListItemGET(id: number): Observable<WishListItemDetailsDto> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({
-        Accept: 'text/plain',
-      }),
-    };
-
-    return this.http
-      .request('get', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListItemGET(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListItemGET(response_ as any);
-            } catch (e) {
-              return _observableThrow(e) as any as Observable<WishListItemDetailsDto>;
-            }
-          } else return _observableThrow(response_) as any as Observable<WishListItemDetailsDto>;
-        })
-      );
-  }
-
-  /**
-   * @return No Content
-   */
-  wishListItemDELETE(id: number): Observable<void> {
-    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem/{id}';
-    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace('{id}', encodeURIComponent('' + id));
-    url_ = url_.replace(/[?&]$/, '');
-
-    let options_: any = {
-      observe: 'response',
-      responseType: 'blob',
-      headers: new HttpHeaders({}),
-    };
-
-    return this.http
-      .request('delete', url_, options_)
-      .pipe(
-        _observableMergeMap((response_: any) => {
-          return this.processWishListItemDELETE(response_);
-        })
-      )
-      .pipe(
-        _observableCatch((response_: any) => {
-          if (response_ instanceof HttpResponseBase) {
-            try {
-              return this.processWishListItemDELETE(response_ as any);
             } catch (e) {
               return _observableThrow(e) as any as Observable<void>;
             }
@@ -5422,6 +669,46 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  login(body: AuthRequest | undefined): Observable<AuthResponse> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Account/login';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processLogin(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processLogin(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<AuthResponse>;
+            }
+          } else return _observableThrow(response_) as any as Observable<AuthResponse>;
+        })
+      );
   }
 
   protected processLogin(response: HttpResponseBase): Observable<AuthResponse> {
@@ -5485,6 +772,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     return _observableOf(null as any);
   }
 
+  /**
+   * @return OK
+   */
+  addressAll(): Observable<AddressDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Address';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processAddressAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processAddressAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<AddressDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<AddressDto[]>;
+        })
+      );
+  }
+
   protected processAddressAll(response: HttpResponseBase): Observable<AddressDto[]> {
     const status = response.status;
     const responseBlob =
@@ -5522,6 +844,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  addressPOST(body: CreateAddressDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Address';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processAddressPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processAddressPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processAddressPOST(response: HttpResponseBase): Observable<void> {
@@ -5571,6 +932,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  addressPUT(body: UpdateAddressDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Address';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processAddressPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processAddressPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processAddressPUT(response: HttpResponseBase): Observable<void> {
@@ -5624,6 +1024,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  addressGET(id: number): Observable<AddressDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Address/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processAddressGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processAddressGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<AddressDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<AddressDetailsDto>;
+        })
+      );
+  }
+
   protected processAddressGET(response: HttpResponseBase): Observable<AddressDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -5656,6 +1093,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  addressDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Address/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processAddressDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processAddressDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processAddressDELETE(response: HttpResponseBase): Observable<void> {
@@ -5700,6 +1172,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  articleAll(): Observable<ArticleDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Article';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processArticleAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processArticleAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ArticleDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ArticleDto[]>;
+        })
+      );
+  }
+
   protected processArticleAll(response: HttpResponseBase): Observable<ArticleDto[]> {
     const status = response.status;
     const responseBlob =
@@ -5737,6 +1244,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  articlePOST(body: CreateArticleCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Article';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processArticlePOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processArticlePOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processArticlePOST(response: HttpResponseBase): Observable<void> {
@@ -5786,6 +1332,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  articlePUT(body: UpdateArticleCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Article';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processArticlePUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processArticlePUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processArticlePUT(response: HttpResponseBase): Observable<void> {
@@ -5839,6 +1424,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  articleGET(id: number): Observable<ArticleDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Article/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processArticleGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processArticleGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ArticleDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ArticleDetailsDto>;
+        })
+      );
+  }
+
   protected processArticleGET(response: HttpResponseBase): Observable<ArticleDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -5871,6 +1493,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  articleDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Article/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processArticleDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processArticleDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processArticleDELETE(response: HttpResponseBase): Observable<void> {
@@ -5915,6 +1572,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  authorName(authorName: string): Observable<ArticleDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Article/AuthorName/{authorName}';
+    if (authorName === undefined || authorName === null) throw new Error("The parameter 'authorName' must be defined.");
+    url_ = url_.replace('{authorName}', encodeURIComponent('' + authorName));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processAuthorName(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processAuthorName(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ArticleDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ArticleDto[]>;
+        })
+      );
+  }
+
   protected processAuthorName(response: HttpResponseBase): Observable<ArticleDto[]> {
     const status = response.status;
     const responseBlob =
@@ -5954,6 +1648,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     return _observableOf(null as any);
   }
 
+  /**
+   * @return OK
+   */
+  categoryAll(): Observable<CategoryDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Category';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCategoryAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCategoryAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<CategoryDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<CategoryDto[]>;
+        })
+      );
+  }
+
   protected processCategoryAll(response: HttpResponseBase): Observable<CategoryDto[]> {
     const status = response.status;
     const responseBlob =
@@ -5991,6 +1720,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  categoryPOST(body: CreateCategoryCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Category';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCategoryPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCategoryPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processCategoryPOST(response: HttpResponseBase): Observable<void> {
@@ -6040,6 +1808,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  categoryPUT(body: UpdateCategoryCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Category';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCategoryPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCategoryPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processCategoryPUT(response: HttpResponseBase): Observable<void> {
@@ -6093,6 +1900,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  categoryGET(id: number): Observable<CategoryDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Category/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCategoryGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCategoryGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<CategoryDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<CategoryDetailsDto>;
+        })
+      );
+  }
+
   protected processCategoryGET(response: HttpResponseBase): Observable<CategoryDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -6125,6 +1969,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  categoryDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Category/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCategoryDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCategoryDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processCategoryDELETE(response: HttpResponseBase): Observable<void> {
@@ -6169,6 +2048,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  commentAll(): Observable<CommentDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Comment';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCommentAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCommentAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<CommentDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<CommentDto[]>;
+        })
+      );
+  }
+
   protected processCommentAll(response: HttpResponseBase): Observable<CommentDto[]> {
     const status = response.status;
     const responseBlob =
@@ -6206,6 +2120,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  commentPOST(body: CreateCommentCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Comment';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCommentPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCommentPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processCommentPOST(response: HttpResponseBase): Observable<void> {
@@ -6255,6 +2208,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  commentPUT(body: UpdateCommentCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Comment';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCommentPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCommentPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processCommentPUT(response: HttpResponseBase): Observable<void> {
@@ -6308,6 +2300,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  commentGET(id: number): Observable<CommentDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Comment/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCommentGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCommentGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<CommentDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<CommentDetailsDto>;
+        })
+      );
+  }
+
   protected processCommentGET(response: HttpResponseBase): Observable<CommentDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -6340,6 +2369,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  commentDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Comment/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCommentDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCommentDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processCommentDELETE(response: HttpResponseBase): Observable<void> {
@@ -6384,6 +2448,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  article(articleId: number): Observable<CommentDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Comment/article/{articleId}';
+    if (articleId === undefined || articleId === null) throw new Error("The parameter 'articleId' must be defined.");
+    url_ = url_.replace('{articleId}', encodeURIComponent('' + articleId));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processArticle(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processArticle(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<CommentDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<CommentDto[]>;
+        })
+      );
+  }
+
   protected processArticle(response: HttpResponseBase): Observable<CommentDto[]> {
     const status = response.status;
     const responseBlob =
@@ -6423,6 +2524,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     return _observableOf(null as any);
   }
 
+  /**
+   * @return OK
+   */
+  discountAll(): Observable<DiscountDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Discount';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processDiscountAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processDiscountAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<DiscountDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<DiscountDto[]>;
+        })
+      );
+  }
+
   protected processDiscountAll(response: HttpResponseBase): Observable<DiscountDto[]> {
     const status = response.status;
     const responseBlob =
@@ -6460,6 +2596,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  discountPOST(body: CreateDiscountDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Discount';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processDiscountPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processDiscountPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processDiscountPOST(response: HttpResponseBase): Observable<void> {
@@ -6509,6 +2684,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  discountPUT(body: UpdateDiscountDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Discount';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processDiscountPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processDiscountPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processDiscountPUT(response: HttpResponseBase): Observable<void> {
@@ -6562,6 +2776,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  discountGET(id: number): Observable<DiscountDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Discount/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processDiscountGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processDiscountGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<DiscountDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<DiscountDetailsDto>;
+        })
+      );
+  }
+
   protected processDiscountGET(response: HttpResponseBase): Observable<DiscountDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -6594,6 +2845,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  discountDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Discount/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processDiscountDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processDiscountDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processDiscountDELETE(response: HttpResponseBase): Observable<void> {
@@ -6638,6 +2924,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  code(code: string): Observable<DiscountDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Discount/code/{code}';
+    if (code === undefined || code === null) throw new Error("The parameter 'code' must be defined.");
+    url_ = url_.replace('{code}', encodeURIComponent('' + code));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCode(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCode(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<DiscountDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<DiscountDto>;
+        })
+      );
+  }
+
   protected processCode(response: HttpResponseBase): Observable<DiscountDto> {
     const status = response.status;
     const responseBlob =
@@ -6670,6 +2993,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return OK
+   */
+  notificationAll(): Observable<NotificationDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Notification';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processNotificationAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processNotificationAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<NotificationDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<NotificationDto[]>;
+        })
+      );
   }
 
   protected processNotificationAll(response: HttpResponseBase): Observable<NotificationDto[]> {
@@ -6709,6 +3067,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  notificationPOST(body: CreateNotificationDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Notification';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processNotificationPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processNotificationPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processNotificationPOST(response: HttpResponseBase): Observable<void> {
@@ -6758,6 +3155,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  notificationPUT(body: UpdateNotificationDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Notification';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processNotificationPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processNotificationPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processNotificationPUT(response: HttpResponseBase): Observable<void> {
@@ -6811,6 +3247,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  notificationGET(id: number): Observable<NotificationDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Notification/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processNotificationGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processNotificationGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<NotificationDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<NotificationDetailsDto>;
+        })
+      );
+  }
+
   protected processNotificationGET(response: HttpResponseBase): Observable<NotificationDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -6843,6 +3316,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  notificationDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Notification/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processNotificationDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processNotificationDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processNotificationDELETE(response: HttpResponseBase): Observable<void> {
@@ -6887,6 +3395,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  user(userId: number): Observable<NotificationDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Notification/user/{userId}';
+    if (userId === undefined || userId === null) throw new Error("The parameter 'userId' must be defined.");
+    url_ = url_.replace('{userId}', encodeURIComponent('' + userId));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUser(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUser(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<NotificationDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<NotificationDto[]>;
+        })
+      );
+  }
+
   protected processUser(response: HttpResponseBase): Observable<NotificationDto[]> {
     const status = response.status;
     const responseBlob =
@@ -6926,6 +3471,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     return _observableOf(null as any);
   }
 
+  /**
+   * @return OK
+   */
+  orderAll(): Observable<OrderDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Order';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<OrderDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<OrderDto[]>;
+        })
+      );
+  }
+
   protected processOrderAll(response: HttpResponseBase): Observable<OrderDto[]> {
     const status = response.status;
     const responseBlob =
@@ -6963,6 +3543,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  orderPOST(body: CreateOrderCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Order';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processOrderPOST(response: HttpResponseBase): Observable<void> {
@@ -7012,6 +3631,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  orderPUT(body: UpdateOrderCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Order';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processOrderPUT(response: HttpResponseBase): Observable<void> {
@@ -7065,6 +3723,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  orderGET(id: number): Observable<OrderDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Order/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<OrderDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<OrderDetailsDto>;
+        })
+      );
+  }
+
   protected processOrderGET(response: HttpResponseBase): Observable<OrderDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -7097,6 +3792,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  orderDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Order/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processOrderDELETE(response: HttpResponseBase): Observable<void> {
@@ -7141,6 +3871,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  orderDetailAll(): Observable<OrderDetailDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderDetailAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderDetailAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<OrderDetailDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<OrderDetailDto[]>;
+        })
+      );
+  }
+
   protected processOrderDetailAll(response: HttpResponseBase): Observable<OrderDetailDto[]> {
     const status = response.status;
     const responseBlob =
@@ -7178,6 +3943,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  orderDetailPOST(body: CreateOrderDetailCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderDetailPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderDetailPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processOrderDetailPOST(response: HttpResponseBase): Observable<void> {
@@ -7227,6 +4031,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  orderDetailPUT(body: UpdateOrderDetailCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderDetailPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderDetailPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processOrderDetailPUT(response: HttpResponseBase): Observable<void> {
@@ -7280,6 +4123,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  orderDetailGET(id: number): Observable<OrderDetailDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderDetailGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderDetailGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<OrderDetailDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<OrderDetailDetailsDto>;
+        })
+      );
+  }
+
   protected processOrderDetailGET(response: HttpResponseBase): Observable<OrderDetailDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -7312,6 +4192,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  orderDetailDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/OrderDetail/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderDetailDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderDetailDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processOrderDetailDELETE(response: HttpResponseBase): Observable<void> {
@@ -7356,6 +4271,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  paymentAll(): Observable<PaymentDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Payment';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processPaymentAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processPaymentAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<PaymentDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<PaymentDto[]>;
+        })
+      );
+  }
+
   protected processPaymentAll(response: HttpResponseBase): Observable<PaymentDto[]> {
     const status = response.status;
     const responseBlob =
@@ -7393,6 +4343,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  paymentPOST(body: CreatePaymentCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Payment';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processPaymentPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processPaymentPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processPaymentPOST(response: HttpResponseBase): Observable<void> {
@@ -7442,6 +4431,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  paymentPUT(body: UpdatePaymentCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Payment';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processPaymentPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processPaymentPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processPaymentPUT(response: HttpResponseBase): Observable<void> {
@@ -7495,6 +4523,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  paymentGET(id: number): Observable<PaymentDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Payment/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processPaymentGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processPaymentGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<PaymentDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<PaymentDetailsDto>;
+        })
+      );
+  }
+
   protected processPaymentGET(response: HttpResponseBase): Observable<PaymentDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -7527,6 +4592,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  paymentDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Payment/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processPaymentDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processPaymentDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processPaymentDELETE(response: HttpResponseBase): Observable<void> {
@@ -7571,6 +4671,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productAll(): Observable<ProductDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Product';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductDto[]>;
+        })
+      );
+  }
+
   protected processProductAll(response: HttpResponseBase): Observable<ProductDto[]> {
     const status = response.status;
     const responseBlob =
@@ -7608,6 +4743,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productPOST(body: CreateProductCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Product';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductPOST(response: HttpResponseBase): Observable<void> {
@@ -7657,6 +4831,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productPUT(body: UpdateProductCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Product';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductPUT(response: HttpResponseBase): Observable<void> {
@@ -7710,6 +4923,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productGET(id: number): Observable<ProductDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Product/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductDetailsDto>;
+        })
+      );
+  }
+
   protected processProductGET(response: HttpResponseBase): Observable<ProductDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -7742,6 +4992,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  productDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Product/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductDELETE(response: HttpResponseBase): Observable<void> {
@@ -7786,6 +5071,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productColorAll(): Observable<ProductColorDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductColorAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductColorAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductColorDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductColorDto[]>;
+        })
+      );
+  }
+
   protected processProductColorAll(response: HttpResponseBase): Observable<ProductColorDto[]> {
     const status = response.status;
     const responseBlob =
@@ -7823,6 +5143,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productColorPOST(body: CreateProductColorDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductColorPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductColorPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductColorPOST(response: HttpResponseBase): Observable<void> {
@@ -7872,6 +5231,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productColorPUT(body: UpdateProductColorDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductColorPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductColorPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductColorPUT(response: HttpResponseBase): Observable<void> {
@@ -7925,6 +5323,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productColorGET(id: number): Observable<ProductColorDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductColorGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductColorGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductColorDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductColorDetailsDto>;
+        })
+      );
+  }
+
   protected processProductColorGET(response: HttpResponseBase): Observable<ProductColorDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -7957,6 +5392,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  productColorDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductColor/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductColorDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductColorDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductColorDELETE(response: HttpResponseBase): Observable<void> {
@@ -8001,6 +5471,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productImageAll(): Observable<ProductImageDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductImageAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductImageAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductImageDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductImageDto[]>;
+        })
+      );
+  }
+
   protected processProductImageAll(response: HttpResponseBase): Observable<ProductImageDto[]> {
     const status = response.status;
     const responseBlob =
@@ -8038,6 +5543,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productImagePOST(body: CreateProductImageDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductImagePOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductImagePOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductImagePOST(response: HttpResponseBase): Observable<void> {
@@ -8087,6 +5631,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productImagePUT(body: UpdateProductImageDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductImagePUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductImagePUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductImagePUT(response: HttpResponseBase): Observable<void> {
@@ -8140,6 +5723,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productImageGET(id: number): Observable<ProductImageDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductImageGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductImageGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductImageDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductImageDetailsDto>;
+        })
+      );
+  }
+
   protected processProductImageGET(response: HttpResponseBase): Observable<ProductImageDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -8172,6 +5792,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  productImageDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductImage/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductImageDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductImageDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductImageDELETE(response: HttpResponseBase): Observable<void> {
@@ -8216,6 +5871,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productOptionAll(): Observable<ProductOptionDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductOptionAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductOptionAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductOptionDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductOptionDto[]>;
+        })
+      );
+  }
+
   protected processProductOptionAll(response: HttpResponseBase): Observable<ProductOptionDto[]> {
     const status = response.status;
     const responseBlob =
@@ -8253,6 +5943,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productOptionPOST(body: CreateProductOptionDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductOptionPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductOptionPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductOptionPOST(response: HttpResponseBase): Observable<void> {
@@ -8302,6 +6031,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productOptionPUT(body: UpdateProductOptionDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductOptionPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductOptionPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductOptionPUT(response: HttpResponseBase): Observable<void> {
@@ -8355,6 +6123,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productOptionGET(id: number): Observable<ProductOptionDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductOptionGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductOptionGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductOptionDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductOptionDetailsDto>;
+        })
+      );
+  }
+
   protected processProductOptionGET(response: HttpResponseBase): Observable<ProductOptionDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -8387,6 +6192,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  productOptionDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductOption/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductOptionDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductOptionDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductOptionDELETE(response: HttpResponseBase): Observable<void> {
@@ -8431,6 +6271,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productReviewAll(): Observable<ProductReviewDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductReviewAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductReviewAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductReviewDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductReviewDto[]>;
+        })
+      );
+  }
+
   protected processProductReviewAll(response: HttpResponseBase): Observable<ProductReviewDto[]> {
     const status = response.status;
     const responseBlob =
@@ -8468,6 +6343,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productReviewPOST(body: CreateProductReviewCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductReviewPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductReviewPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductReviewPOST(response: HttpResponseBase): Observable<void> {
@@ -8517,6 +6431,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productReviewPUT(body: UpdateProductReviewCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductReviewPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductReviewPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductReviewPUT(response: HttpResponseBase): Observable<void> {
@@ -8570,6 +6523,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productReviewGET(id: number): Observable<ProductReviewDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductReviewGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductReviewGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductReviewDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductReviewDetailsDto>;
+        })
+      );
+  }
+
   protected processProductReviewGET(response: HttpResponseBase): Observable<ProductReviewDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -8602,6 +6592,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  productReviewDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductReview/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductReviewDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductReviewDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductReviewDELETE(response: HttpResponseBase): Observable<void> {
@@ -8646,6 +6671,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productTagAll(): Observable<ProductTagDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductTagAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductTagAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductTagDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductTagDto[]>;
+        })
+      );
+  }
+
   protected processProductTagAll(response: HttpResponseBase): Observable<ProductTagDto[]> {
     const status = response.status;
     const responseBlob =
@@ -8683,6 +6743,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  productTagPOST(body: CreateProductTagDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductTagPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductTagPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductTagPOST(response: HttpResponseBase): Observable<void> {
@@ -8732,6 +6831,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  productTagPUT(body: UpdateProductTagDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductTagPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductTagPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductTagPUT(response: HttpResponseBase): Observable<void> {
@@ -8785,6 +6923,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  productTagGET(id: number): Observable<ProductTagDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductTagGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductTagGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ProductTagDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ProductTagDetailsDto>;
+        })
+      );
+  }
+
   protected processProductTagGET(response: HttpResponseBase): Observable<ProductTagDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -8817,6 +6992,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  productTagDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ProductTag/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processProductTagDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processProductTagDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processProductTagDELETE(response: HttpResponseBase): Observable<void> {
@@ -8861,6 +7071,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  shipmentAll(): Observable<ShipmentDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShipmentAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShipmentAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ShipmentDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ShipmentDto[]>;
+        })
+      );
+  }
+
   protected processShipmentAll(response: HttpResponseBase): Observable<ShipmentDto[]> {
     const status = response.status;
     const responseBlob =
@@ -8898,6 +7143,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  shipmentPOST(body: CreateShipmentCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShipmentPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShipmentPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processShipmentPOST(response: HttpResponseBase): Observable<void> {
@@ -8947,6 +7231,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  shipmentPUT(body: UpdateShipmentCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShipmentPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShipmentPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processShipmentPUT(response: HttpResponseBase): Observable<void> {
@@ -9000,6 +7323,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  shipmentGET(id: number): Observable<ShipmentDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShipmentGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShipmentGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ShipmentDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ShipmentDetailsDto>;
+        })
+      );
+  }
+
   protected processShipmentGET(response: HttpResponseBase): Observable<ShipmentDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -9032,6 +7392,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  shipmentDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Shipment/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShipmentDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShipmentDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processShipmentDELETE(response: HttpResponseBase): Observable<void> {
@@ -9076,6 +7471,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  shoppingCartAll(): Observable<ShoppingCartDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ShoppingCartDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ShoppingCartDto[]>;
+        })
+      );
+  }
+
   protected processShoppingCartAll(response: HttpResponseBase): Observable<ShoppingCartDto[]> {
     const status = response.status;
     const responseBlob =
@@ -9113,6 +7543,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  shoppingCartPOST(body: CreateShoppingCartCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processShoppingCartPOST(response: HttpResponseBase): Observable<void> {
@@ -9162,6 +7631,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  shoppingCartPUT(body: UpdateShoppingCartCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processShoppingCartPUT(response: HttpResponseBase): Observable<void> {
@@ -9215,6 +7723,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  shoppingCartGET(id: number): Observable<ShoppingCartDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ShoppingCartDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ShoppingCartDetailsDto>;
+        })
+      );
+  }
+
   protected processShoppingCartGET(response: HttpResponseBase): Observable<ShoppingCartDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -9247,6 +7792,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  shoppingCartDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCart/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processShoppingCartDELETE(response: HttpResponseBase): Observable<void> {
@@ -9291,6 +7871,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  shoppingCartItemAll(): Observable<ShoppingCartItemDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartItemAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartItemAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ShoppingCartItemDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ShoppingCartItemDto[]>;
+        })
+      );
+  }
+
   protected processShoppingCartItemAll(response: HttpResponseBase): Observable<ShoppingCartItemDto[]> {
     const status = response.status;
     const responseBlob =
@@ -9328,6 +7943,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  shoppingCartItemPOST(body: CreateShoppingCartItemCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartItemPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartItemPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processShoppingCartItemPOST(response: HttpResponseBase): Observable<void> {
@@ -9377,6 +8031,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  shoppingCartItemPUT(body: UpdateShoppingCartItemCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartItemPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartItemPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processShoppingCartItemPUT(response: HttpResponseBase): Observable<void> {
@@ -9430,6 +8123,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  shoppingCartItemGET(id: number): Observable<ShoppingCartItemDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartItemGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartItemGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<ShoppingCartItemDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<ShoppingCartItemDetailsDto>;
+        })
+      );
+  }
+
   protected processShoppingCartItemGET(response: HttpResponseBase): Observable<ShoppingCartItemDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -9462,6 +8192,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  shoppingCartItemDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/ShoppingCartItem/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processShoppingCartItemDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processShoppingCartItemDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processShoppingCartItemDELETE(response: HttpResponseBase): Observable<void> {
@@ -9506,6 +8271,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  supplierAll(): Observable<SupplierDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<SupplierDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<SupplierDto[]>;
+        })
+      );
+  }
+
   protected processSupplierAll(response: HttpResponseBase): Observable<SupplierDto[]> {
     const status = response.status;
     const responseBlob =
@@ -9543,6 +8343,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  supplierPOST(body: CreateSupplierDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processSupplierPOST(response: HttpResponseBase): Observable<void> {
@@ -9592,6 +8431,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  supplierPUT(body: UpdateSupplierDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processSupplierPUT(response: HttpResponseBase): Observable<void> {
@@ -9645,6 +8523,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  supplierGET(id: number): Observable<SupplierDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<SupplierDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<SupplierDetailsDto>;
+        })
+      );
+  }
+
   protected processSupplierGET(response: HttpResponseBase): Observable<SupplierDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -9677,6 +8592,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  supplierDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supplier/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processSupplierDELETE(response: HttpResponseBase): Observable<void> {
@@ -9721,6 +8671,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  supplyAll(): Observable<SupplyDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supply';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplyAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplyAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<SupplyDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<SupplyDto[]>;
+        })
+      );
+  }
+
   protected processSupplyAll(response: HttpResponseBase): Observable<SupplyDto[]> {
     const status = response.status;
     const responseBlob =
@@ -9758,6 +8743,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  supplyPOST(body: CreateSupplyDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supply';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplyPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplyPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processSupplyPOST(response: HttpResponseBase): Observable<void> {
@@ -9807,6 +8831,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  supplyPUT(body: UpdateSupplyDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supply';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplyPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplyPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processSupplyPUT(response: HttpResponseBase): Observable<void> {
@@ -9860,6 +8923,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  supplyGET(id: number): Observable<SupplyDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supply/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplyGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplyGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<SupplyDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<SupplyDetailsDto>;
+        })
+      );
+  }
+
   protected processSupplyGET(response: HttpResponseBase): Observable<SupplyDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -9892,6 +8992,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  supplyDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Supply/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplyDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplyDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processSupplyDELETE(response: HttpResponseBase): Observable<void> {
@@ -9936,6 +9071,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  tagAll(): Observable<TagDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Tag';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTagAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTagAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<TagDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<TagDto[]>;
+        })
+      );
+  }
+
   protected processTagAll(response: HttpResponseBase): Observable<TagDto[]> {
     const status = response.status;
     const responseBlob =
@@ -9973,6 +9143,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  tagPOST(body: CreateTagDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Tag';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTagPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTagPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processTagPOST(response: HttpResponseBase): Observable<void> {
@@ -10022,6 +9231,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  tagPUT(body: UpdateTagDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Tag';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTagPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTagPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processTagPUT(response: HttpResponseBase): Observable<void> {
@@ -10075,6 +9323,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  tagGET(id: number): Observable<TagDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Tag/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTagGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTagGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<TagDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<TagDetailsDto>;
+        })
+      );
+  }
+
   protected processTagGET(response: HttpResponseBase): Observable<TagDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -10107,6 +9392,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  tagDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/Tag/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTagDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTagDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processTagDELETE(response: HttpResponseBase): Observable<void> {
@@ -10151,6 +9471,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  userAll(): Observable<UserDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/User';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUserAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUserAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<UserDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<UserDto[]>;
+        })
+      );
+  }
+
   protected processUserAll(response: HttpResponseBase): Observable<UserDto[]> {
     const status = response.status;
     const responseBlob =
@@ -10188,6 +9543,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  userPOST(body: CreateUserCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/User';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUserPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUserPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processUserPOST(response: HttpResponseBase): Observable<void> {
@@ -10237,6 +9631,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  userPUT(body: UpdateUserCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/User';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUserPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUserPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processUserPUT(response: HttpResponseBase): Observable<void> {
@@ -10290,6 +9723,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  userGET(id: number): Observable<UserDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/User/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUserGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUserGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<UserDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<UserDetailsDto>;
+        })
+      );
+  }
+
   protected processUserGET(response: HttpResponseBase): Observable<UserDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -10322,6 +9792,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  userDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/User/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUserDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUserDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processUserDELETE(response: HttpResponseBase): Observable<void> {
@@ -10366,6 +9871,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  wishListAll(): Observable<WishListDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishList';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<WishListDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<WishListDto[]>;
+        })
+      );
+  }
+
   protected processWishListAll(response: HttpResponseBase): Observable<WishListDto[]> {
     const status = response.status;
     const responseBlob =
@@ -10403,6 +9943,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  wishListPOST(body: CreateWishListCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishList';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processWishListPOST(response: HttpResponseBase): Observable<void> {
@@ -10452,6 +10031,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  wishListPUT(body: UpdateWishListCommand | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishList';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processWishListPUT(response: HttpResponseBase): Observable<void> {
@@ -10505,6 +10123,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  wishListGET(id: number): Observable<WishListDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishList/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<WishListDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<WishListDetailsDto>;
+        })
+      );
+  }
+
   protected processWishListGET(response: HttpResponseBase): Observable<WishListDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -10537,6 +10192,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  wishListDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishList/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processWishListDELETE(response: HttpResponseBase): Observable<void> {
@@ -10581,6 +10271,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  wishListItemAll(): Observable<WishListItemDto[]> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListItemAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListItemAll(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<WishListItemDto[]>;
+            }
+          } else return _observableThrow(response_) as any as Observable<WishListItemDto[]>;
+        })
+      );
+  }
+
   protected processWishListItemAll(response: HttpResponseBase): Observable<WishListItemDto[]> {
     const status = response.status;
     const responseBlob =
@@ -10618,6 +10343,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return Created
+   */
+  wishListItemPOST(body: CreateWishListItemDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListItemPOST(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListItemPOST(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processWishListItemPOST(response: HttpResponseBase): Observable<void> {
@@ -10667,6 +10431,45 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return No Content
+   */
+  wishListItemPUT(body: UpdateWishListItemDto | undefined): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListItemPUT(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListItemPUT(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processWishListItemPUT(response: HttpResponseBase): Observable<void> {
@@ -10720,6 +10523,43 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
     }
   }
 
+  /**
+   * @return OK
+   */
+  wishListItemGET(id: number): Observable<WishListItemDetailsDto> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListItemGET(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListItemGET(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<WishListItemDetailsDto>;
+            }
+          } else return _observableThrow(response_) as any as Observable<WishListItemDetailsDto>;
+        })
+      );
+  }
+
   protected processWishListItemGET(response: HttpResponseBase): Observable<WishListItemDetailsDto> {
     const status = response.status;
     const responseBlob =
@@ -10752,6 +10592,41 @@ export class MatLidStoreAPIServices implements IMatLidStoreAPIServices {
       );
     }
     return _observableOf(null as any);
+  }
+
+  /**
+   * @return No Content
+   */
+  wishListItemDELETE(id: number): Observable<void> {
+    let url_ = this.baseUrl + '/MatLidStoreApi/WishListItem/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processWishListItemDELETE(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processWishListItemDELETE(response_ as any);
+            } catch (e) {
+              return _observableThrow(e) as any as Observable<void>;
+            }
+          } else return _observableThrow(response_) as any as Observable<void>;
+        })
+      );
   }
 
   protected processWishListItemDELETE(response: HttpResponseBase): Observable<void> {
@@ -10815,13 +10690,6 @@ export class AddressDetailsDto implements IAddressDetailsDto {
     }
   }
 
-  static fromJS(data: any): AddressDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new AddressDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -10833,6 +10701,13 @@ export class AddressDetailsDto implements IAddressDetailsDto {
       this.userId = _data['userId'];
       this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): AddressDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new AddressDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -10877,13 +10752,6 @@ export class AddressDto implements IAddressDto {
     }
   }
 
-  static fromJS(data: any): AddressDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new AddressDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -10894,6 +10762,13 @@ export class AddressDto implements IAddressDto {
       this.postalCode = _data['postalCode'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): AddressDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new AddressDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -10937,13 +10812,6 @@ export class ArticleDetailsDto implements IArticleDetailsDto {
     }
   }
 
-  static fromJS(data: any): ArticleDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ArticleDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -10958,6 +10826,13 @@ export class ArticleDetailsDto implements IArticleDetailsDto {
         for (let item of _data['comments']) this.comments!.push(CommentDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): ArticleDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ArticleDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11004,13 +10879,6 @@ export class ArticleDto implements IArticleDto {
     }
   }
 
-  static fromJS(data: any): ArticleDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ArticleDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -11020,6 +10888,13 @@ export class ArticleDto implements IArticleDto {
       this.publicationDate = _data['publicationDate'] ? new Date(_data['publicationDate'].toString()) : <any>undefined;
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): ArticleDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ArticleDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11055,18 +10930,18 @@ export class AuthRequest implements IAuthRequest {
     }
   }
 
-  static fromJS(data: any): AuthRequest {
-    data = typeof data === 'object' ? data : {};
-    let result = new AuthRequest();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.username = _data['username'];
       this.password = _data['password'];
     }
+  }
+
+  static fromJS(data: any): AuthRequest {
+    data = typeof data === 'object' ? data : {};
+    let result = new AuthRequest();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11088,17 +10963,22 @@ export class AuthResponse implements IAuthResponse {
   email?: string | undefined;
   fullName?: string | undefined;
   token?: string | undefined;
-  orders?: OrderDto[] | undefined;
-  productReviews?: ProductReviewDto[] | undefined;
-  wishLists?: WishListDto[] | undefined;
-  comments?: CommentDto[] | undefined;
-  notifications?: NotificationDto[] | undefined;
 
   constructor(data?: IAuthResponse) {
     if (data) {
       for (var property in data) {
         if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
       }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data['id'];
+      this.userName = _data['userName'];
+      this.email = _data['email'];
+      this.fullName = _data['fullName'];
+      this.token = _data['token'];
     }
   }
 
@@ -11109,36 +10989,6 @@ export class AuthResponse implements IAuthResponse {
     return result;
   }
 
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data['id'];
-      this.userName = _data['userName'];
-      this.email = _data['email'];
-      this.fullName = _data['fullName'];
-      this.token = _data['token'];
-      if (Array.isArray(_data['orders'])) {
-        this.orders = [] as any;
-        for (let item of _data['orders']) this.orders!.push(OrderDto.fromJS(item));
-      }
-      if (Array.isArray(_data['productReviews'])) {
-        this.productReviews = [] as any;
-        for (let item of _data['productReviews']) this.productReviews!.push(ProductReviewDto.fromJS(item));
-      }
-      if (Array.isArray(_data['wishLists'])) {
-        this.wishLists = [] as any;
-        for (let item of _data['wishLists']) this.wishLists!.push(WishListDto.fromJS(item));
-      }
-      if (Array.isArray(_data['comments'])) {
-        this.comments = [] as any;
-        for (let item of _data['comments']) this.comments!.push(CommentDto.fromJS(item));
-      }
-      if (Array.isArray(_data['notifications'])) {
-        this.notifications = [] as any;
-        for (let item of _data['notifications']) this.notifications!.push(NotificationDto.fromJS(item));
-      }
-    }
-  }
-
   toJSON(data?: any) {
     data = typeof data === 'object' ? data : {};
     data['id'] = this.id;
@@ -11146,26 +10996,6 @@ export class AuthResponse implements IAuthResponse {
     data['email'] = this.email;
     data['fullName'] = this.fullName;
     data['token'] = this.token;
-    if (Array.isArray(this.orders)) {
-      data['orders'] = [];
-      for (let item of this.orders) data['orders'].push(item.toJSON());
-    }
-    if (Array.isArray(this.productReviews)) {
-      data['productReviews'] = [];
-      for (let item of this.productReviews) data['productReviews'].push(item.toJSON());
-    }
-    if (Array.isArray(this.wishLists)) {
-      data['wishLists'] = [];
-      for (let item of this.wishLists) data['wishLists'].push(item.toJSON());
-    }
-    if (Array.isArray(this.comments)) {
-      data['comments'] = [];
-      for (let item of this.comments) data['comments'].push(item.toJSON());
-    }
-    if (Array.isArray(this.notifications)) {
-      data['notifications'] = [];
-      for (let item of this.notifications) data['notifications'].push(item.toJSON());
-    }
     return data;
   }
 }
@@ -11176,11 +11006,6 @@ export interface IAuthResponse {
   email?: string | undefined;
   fullName?: string | undefined;
   token?: string | undefined;
-  orders?: OrderDto[] | undefined;
-  productReviews?: ProductReviewDto[] | undefined;
-  wishLists?: WishListDto[] | undefined;
-  comments?: CommentDto[] | undefined;
-  notifications?: NotificationDto[] | undefined;
 }
 
 export class CategoryDetailsDto implements ICategoryDetailsDto {
@@ -11197,13 +11022,6 @@ export class CategoryDetailsDto implements ICategoryDetailsDto {
     }
   }
 
-  static fromJS(data: any): CategoryDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CategoryDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -11214,6 +11032,13 @@ export class CategoryDetailsDto implements ICategoryDetailsDto {
         for (let item of _data['products']) this.products!.push(ProductDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): CategoryDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CategoryDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11249,19 +11074,19 @@ export class CategoryDto implements ICategoryDto {
     }
   }
 
-  static fromJS(data: any): CategoryDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CategoryDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
       this.description = _data['description'];
     }
+  }
+
+  static fromJS(data: any): CategoryDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CategoryDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11297,13 +11122,6 @@ export class CommentDetailsDto implements ICommentDetailsDto {
     }
   }
 
-  static fromJS(data: any): CommentDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CommentDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -11315,6 +11133,13 @@ export class CommentDetailsDto implements ICommentDetailsDto {
       this.article = _data['article'] ? ArticleDto.fromJS(_data['article']) : <any>undefined;
       this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): CommentDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CommentDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11358,13 +11183,6 @@ export class CommentDto implements ICommentDto {
     }
   }
 
-  static fromJS(data: any): CommentDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CommentDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -11374,6 +11192,13 @@ export class CommentDto implements ICommentDto {
       this.articleId = _data['articleId'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): CommentDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CommentDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11413,13 +11238,6 @@ export class CreateAddressDto implements ICreateAddressDto {
     }
   }
 
-  static fromJS(data: any): CreateAddressDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateAddressDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.street = _data['street'];
@@ -11429,6 +11247,13 @@ export class CreateAddressDto implements ICreateAddressDto {
       this.postalCode = _data['postalCode'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): CreateAddressDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateAddressDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11463,17 +11288,17 @@ export class CreateArticleCommand implements ICreateArticleCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.article = _data['article'] ? CreateArticleDto.fromJS(_data['article']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateArticleCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateArticleCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.article = _data['article'] ? CreateArticleDto.fromJS(_data['article']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -11502,13 +11327,6 @@ export class CreateArticleDto implements ICreateArticleDto {
     }
   }
 
-  static fromJS(data: any): CreateArticleDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateArticleDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.title = _data['title'];
@@ -11517,6 +11335,13 @@ export class CreateArticleDto implements ICreateArticleDto {
       this.publicationDate = _data['publicationDate'] ? new Date(_data['publicationDate'].toString()) : <any>undefined;
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): CreateArticleDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateArticleDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11549,17 +11374,17 @@ export class CreateCategoryCommand implements ICreateCategoryCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.category = _data['category'] ? CreateCategoryDto.fromJS(_data['category']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateCategoryCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateCategoryCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.category = _data['category'] ? CreateCategoryDto.fromJS(_data['category']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -11585,18 +11410,18 @@ export class CreateCategoryDto implements ICreateCategoryDto {
     }
   }
 
-  static fromJS(data: any): CreateCategoryDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateCategoryDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.name = _data['name'];
       this.description = _data['description'];
     }
+  }
+
+  static fromJS(data: any): CreateCategoryDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateCategoryDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11623,17 +11448,17 @@ export class CreateCommentCommand implements ICreateCommentCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.comment = _data['comment'] ? CreateCommentDto.fromJS(_data['comment']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateCommentCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateCommentCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.comment = _data['comment'] ? CreateCommentDto.fromJS(_data['comment']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -11662,13 +11487,6 @@ export class CreateCommentDto implements ICreateCommentDto {
     }
   }
 
-  static fromJS(data: any): CreateCommentDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateCommentDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.content = _data['content'];
@@ -11677,6 +11495,13 @@ export class CreateCommentDto implements ICreateCommentDto {
       this.articleId = _data['articleId'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): CreateCommentDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateCommentDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11712,13 +11537,6 @@ export class CreateDiscountDto implements ICreateDiscountDto {
     }
   }
 
-  static fromJS(data: any): CreateDiscountDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateDiscountDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.code = _data['code'];
@@ -11726,6 +11544,13 @@ export class CreateDiscountDto implements ICreateDiscountDto {
       this.startDate = _data['startDate'] ? new Date(_data['startDate'].toString()) : <any>undefined;
       this.endDate = _data['endDate'] ? new Date(_data['endDate'].toString()) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): CreateDiscountDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateDiscountDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11759,13 +11584,6 @@ export class CreateNotificationDto implements ICreateNotificationDto {
     }
   }
 
-  static fromJS(data: any): CreateNotificationDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateNotificationDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.message = _data['message'];
@@ -11773,6 +11591,13 @@ export class CreateNotificationDto implements ICreateNotificationDto {
       this.isRead = _data['isRead'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): CreateNotificationDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateNotificationDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11803,17 +11628,17 @@ export class CreateOrderCommand implements ICreateOrderCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.order = _data['order'] ? CreateOrderDto.fromJS(_data['order']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateOrderCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateOrderCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.order = _data['order'] ? CreateOrderDto.fromJS(_data['order']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -11838,17 +11663,17 @@ export class CreateOrderDetailCommand implements ICreateOrderDetailCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.orderDetail = _data['orderDetail'] ? CreateOrderDetailDto.fromJS(_data['orderDetail']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateOrderDetailCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateOrderDetailCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.orderDetail = _data['orderDetail'] ? CreateOrderDetailDto.fromJS(_data['orderDetail']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -11876,13 +11701,6 @@ export class CreateOrderDetailDto implements ICreateOrderDetailDto {
     }
   }
 
-  static fromJS(data: any): CreateOrderDetailDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateOrderDetailDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.productId = _data['productId'];
@@ -11890,6 +11708,13 @@ export class CreateOrderDetailDto implements ICreateOrderDetailDto {
       this.unitPrice = _data['unitPrice'];
       this.orderId = _data['orderId'];
     }
+  }
+
+  static fromJS(data: any): CreateOrderDetailDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateOrderDetailDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11924,13 +11749,6 @@ export class CreateOrderDto implements ICreateOrderDto {
     }
   }
 
-  static fromJS(data: any): CreateOrderDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateOrderDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.orderDate = _data['orderDate'] ? new Date(_data['orderDate'].toString()) : <any>undefined;
@@ -11942,6 +11760,13 @@ export class CreateOrderDto implements ICreateOrderDto {
         for (let item of _data['orderDetails']) this.orderDetails!.push(CreateOrderDetailDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): CreateOrderDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateOrderDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -11977,17 +11802,17 @@ export class CreatePaymentCommand implements ICreatePaymentCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.payment = _data['payment'] ? CreatePaymentDto.fromJS(_data['payment']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreatePaymentCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreatePaymentCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.payment = _data['payment'] ? CreatePaymentDto.fromJS(_data['payment']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -12015,13 +11840,6 @@ export class CreatePaymentDto implements ICreatePaymentDto {
     }
   }
 
-  static fromJS(data: any): CreatePaymentDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreatePaymentDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.paymentMethod = _data['paymentMethod'];
@@ -12029,6 +11847,13 @@ export class CreatePaymentDto implements ICreatePaymentDto {
       this.paymentDate = _data['paymentDate'] ? new Date(_data['paymentDate'].toString()) : <any>undefined;
       this.orderId = _data['orderId'];
     }
+  }
+
+  static fromJS(data: any): CreatePaymentDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreatePaymentDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12061,19 +11886,19 @@ export class CreateProductColorDto implements ICreateProductColorDto {
     }
   }
 
-  static fromJS(data: any): CreateProductColorDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateProductColorDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.colorName = _data['colorName'];
       this.colorHexCode = _data['colorHexCode'];
       this.productId = _data['productId'];
     }
+  }
+
+  static fromJS(data: any): CreateProductColorDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateProductColorDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12102,17 +11927,17 @@ export class CreateProductCommand implements ICreateProductCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.product = _data['product'] ? CreateProductDto.fromJS(_data['product']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateProductCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateProductCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.product = _data['product'] ? CreateProductDto.fromJS(_data['product']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -12140,13 +11965,6 @@ export class CreateProductDto implements ICreateProductDto {
     }
   }
 
-  static fromJS(data: any): CreateProductDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateProductDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.name = _data['name'];
@@ -12154,6 +11972,13 @@ export class CreateProductDto implements ICreateProductDto {
       this.price = _data['price'];
       this.categoryId = _data['categoryId'];
     }
+  }
+
+  static fromJS(data: any): CreateProductDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateProductDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12186,19 +12011,19 @@ export class CreateProductImageDto implements ICreateProductImageDto {
     }
   }
 
-  static fromJS(data: any): CreateProductImageDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateProductImageDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.imageUrl = _data['imageUrl'];
       this.imageDescription = _data['imageDescription'];
       this.productId = _data['productId'];
     }
+  }
+
+  static fromJS(data: any): CreateProductImageDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateProductImageDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12229,19 +12054,19 @@ export class CreateProductOptionDto implements ICreateProductOptionDto {
     }
   }
 
-  static fromJS(data: any): CreateProductOptionDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateProductOptionDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.name = _data['name'];
       this.value = _data['value'];
       this.productId = _data['productId'];
     }
+  }
+
+  static fromJS(data: any): CreateProductOptionDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateProductOptionDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12270,19 +12095,19 @@ export class CreateProductReviewCommand implements ICreateProductReviewCommand {
     }
   }
 
-  static fromJS(data: any): CreateProductReviewCommand {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateProductReviewCommand();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.productReview = _data['productReview']
         ? CreateProductReviewDto.fromJS(_data['productReview'])
         : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): CreateProductReviewCommand {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateProductReviewCommand();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12311,13 +12136,6 @@ export class CreateProductReviewDto implements ICreateProductReviewDto {
     }
   }
 
-  static fromJS(data: any): CreateProductReviewDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateProductReviewDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.rating = _data['rating'];
@@ -12326,6 +12144,13 @@ export class CreateProductReviewDto implements ICreateProductReviewDto {
       this.productId = _data['productId'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): CreateProductReviewDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateProductReviewDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12360,19 +12185,19 @@ export class CreateProductTagDto implements ICreateProductTagDto {
     }
   }
 
-  static fromJS(data: any): CreateProductTagDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateProductTagDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.tagName = _data['tagName'];
       this.productId = _data['productId'];
       this.tagId = _data['tagId'];
     }
+  }
+
+  static fromJS(data: any): CreateProductTagDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateProductTagDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12401,17 +12226,17 @@ export class CreateShipmentCommand implements ICreateShipmentCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.shipment = _data['shipment'] ? CreateShipmentDto.fromJS(_data['shipment']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateShipmentCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateShipmentCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.shipment = _data['shipment'] ? CreateShipmentDto.fromJS(_data['shipment']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -12439,13 +12264,6 @@ export class CreateShipmentDto implements ICreateShipmentDto {
     }
   }
 
-  static fromJS(data: any): CreateShipmentDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateShipmentDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.shippingMethod = _data['shippingMethod'];
@@ -12455,6 +12273,13 @@ export class CreateShipmentDto implements ICreateShipmentDto {
         : <any>undefined;
       this.orderId = _data['orderId'];
     }
+  }
+
+  static fromJS(data: any): CreateShipmentDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateShipmentDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12487,17 +12312,17 @@ export class CreateShoppingCartCommand implements ICreateShoppingCartCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.shoppingCart = _data['shoppingCart'] ? CreateShoppingCartDto.fromJS(_data['shoppingCart']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateShoppingCartCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateShoppingCartCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.shoppingCart = _data['shoppingCart'] ? CreateShoppingCartDto.fromJS(_data['shoppingCart']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -12522,17 +12347,17 @@ export class CreateShoppingCartDto implements ICreateShoppingCartDto {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.userId = _data['userId'];
+    }
+  }
+
   static fromJS(data: any): CreateShoppingCartDto {
     data = typeof data === 'object' ? data : {};
     let result = new CreateShoppingCartDto();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.userId = _data['userId'];
-    }
   }
 
   toJSON(data?: any) {
@@ -12557,19 +12382,19 @@ export class CreateShoppingCartItemCommand implements ICreateShoppingCartItemCom
     }
   }
 
-  static fromJS(data: any): CreateShoppingCartItemCommand {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateShoppingCartItemCommand();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.shoppingCartItem = _data['shoppingCartItem']
         ? CreateShoppingCartItemDto.fromJS(_data['shoppingCartItem'])
         : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): CreateShoppingCartItemCommand {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateShoppingCartItemCommand();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12597,13 +12422,6 @@ export class CreateShoppingCartItemDto implements ICreateShoppingCartItemDto {
     }
   }
 
-  static fromJS(data: any): CreateShoppingCartItemDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateShoppingCartItemDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.productId = _data['productId'];
@@ -12611,6 +12429,13 @@ export class CreateShoppingCartItemDto implements ICreateShoppingCartItemDto {
       this.price = _data['price'];
       this.shoppingCartId = _data['shoppingCartId'];
     }
+  }
+
+  static fromJS(data: any): CreateShoppingCartItemDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateShoppingCartItemDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12643,19 +12468,19 @@ export class CreateSupplierDto implements ICreateSupplierDto {
     }
   }
 
-  static fromJS(data: any): CreateSupplierDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateSupplierDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.name = _data['name'];
       this.contactEmail = _data['contactEmail'];
       this.contactPhone = _data['contactPhone'];
     }
+  }
+
+  static fromJS(data: any): CreateSupplierDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateSupplierDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12687,13 +12512,6 @@ export class CreateSupplyDto implements ICreateSupplyDto {
     }
   }
 
-  static fromJS(data: any): CreateSupplyDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateSupplyDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.productId = _data['productId'];
@@ -12701,6 +12519,13 @@ export class CreateSupplyDto implements ICreateSupplyDto {
       this.quantity = _data['quantity'];
       this.price = _data['price'];
     }
+  }
+
+  static fromJS(data: any): CreateSupplyDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateSupplyDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12731,17 +12556,17 @@ export class CreateTagDto implements ICreateTagDto {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.name = _data['name'];
+    }
+  }
+
   static fromJS(data: any): CreateTagDto {
     data = typeof data === 'object' ? data : {};
     let result = new CreateTagDto();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.name = _data['name'];
-    }
   }
 
   toJSON(data?: any) {
@@ -12766,17 +12591,17 @@ export class CreateUserCommand implements ICreateUserCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.user = _data['user'] ? CreateUserDto.fromJS(_data['user']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateUserCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateUserCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.user = _data['user'] ? CreateUserDto.fromJS(_data['user']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -12818,13 +12643,6 @@ export class CreateUserDto implements ICreateUserDto {
     }
   }
 
-  static fromJS(data: any): CreateUserDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateUserDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -12846,6 +12664,13 @@ export class CreateUserDto implements ICreateUserDto {
       this.lastName = _data['lastName'];
       this.phone = _data['phone'];
     }
+  }
+
+  static fromJS(data: any): CreateUserDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateUserDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12904,17 +12729,17 @@ export class CreateWishListCommand implements ICreateWishListCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.wishList = _data['wishList'] ? CreateWishListDto.fromJS(_data['wishList']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): CreateWishListCommand {
     data = typeof data === 'object' ? data : {};
     let result = new CreateWishListCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.wishList = _data['wishList'] ? CreateWishListDto.fromJS(_data['wishList']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -12940,18 +12765,18 @@ export class CreateWishListDto implements ICreateWishListDto {
     }
   }
 
-  static fromJS(data: any): CreateWishListDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateWishListDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.name = _data['name'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): CreateWishListDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateWishListDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -12979,18 +12804,18 @@ export class CreateWishListItemDto implements ICreateWishListItemDto {
     }
   }
 
-  static fromJS(data: any): CreateWishListItemDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new CreateWishListItemDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.productId = _data['productId'];
       this.wishListId = _data['wishListId'];
     }
+  }
+
+  static fromJS(data: any): CreateWishListItemDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new CreateWishListItemDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13021,13 +12846,6 @@ export class DiscountDetailsDto implements IDiscountDetailsDto {
     }
   }
 
-  static fromJS(data: any): DiscountDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new DiscountDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13036,6 +12854,13 @@ export class DiscountDetailsDto implements IDiscountDetailsDto {
       this.startDate = _data['startDate'] ? new Date(_data['startDate'].toString()) : <any>undefined;
       this.endDate = _data['endDate'] ? new Date(_data['endDate'].toString()) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): DiscountDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new DiscountDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13072,13 +12897,6 @@ export class DiscountDto implements IDiscountDto {
     }
   }
 
-  static fromJS(data: any): DiscountDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new DiscountDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13087,6 +12905,13 @@ export class DiscountDto implements IDiscountDto {
       this.startDate = _data['startDate'] ? new Date(_data['startDate'].toString()) : <any>undefined;
       this.endDate = _data['endDate'] ? new Date(_data['endDate'].toString()) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): DiscountDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new DiscountDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13124,13 +12949,6 @@ export class NotificationDetailsDto implements INotificationDetailsDto {
     }
   }
 
-  static fromJS(data: any): NotificationDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new NotificationDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13140,6 +12958,13 @@ export class NotificationDetailsDto implements INotificationDetailsDto {
       this.userId = _data['userId'];
       this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): NotificationDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new NotificationDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13178,13 +13003,6 @@ export class NotificationDto implements INotificationDto {
     }
   }
 
-  static fromJS(data: any): NotificationDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new NotificationDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13193,6 +13011,13 @@ export class NotificationDto implements INotificationDto {
       this.isRead = _data['isRead'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): NotificationDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new NotificationDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13231,13 +13056,6 @@ export class OrderDetailDetailsDto implements IOrderDetailDetailsDto {
     }
   }
 
-  static fromJS(data: any): OrderDetailDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new OrderDetailDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13248,6 +13066,13 @@ export class OrderDetailDetailsDto implements IOrderDetailDetailsDto {
       this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
       this.order = _data['order'] ? OrderDto.fromJS(_data['order']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): OrderDetailDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new OrderDetailDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13288,13 +13113,6 @@ export class OrderDetailDto implements IOrderDetailDto {
     }
   }
 
-  static fromJS(data: any): OrderDetailDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new OrderDetailDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13303,6 +13121,13 @@ export class OrderDetailDto implements IOrderDetailDto {
       this.unitPrice = _data['unitPrice'];
       this.orderId = _data['orderId'];
     }
+  }
+
+  static fromJS(data: any): OrderDetailDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new OrderDetailDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13341,13 +13166,6 @@ export class OrderDetailsDto implements IOrderDetailsDto {
     }
   }
 
-  static fromJS(data: any): OrderDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new OrderDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13361,6 +13179,13 @@ export class OrderDetailsDto implements IOrderDetailsDto {
         for (let item of _data['orderDetails']) this.orderDetails!.push(OrderDetailDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): OrderDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new OrderDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13404,13 +13229,6 @@ export class OrderDto implements IOrderDto {
     }
   }
 
-  static fromJS(data: any): OrderDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new OrderDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13419,6 +13237,13 @@ export class OrderDto implements IOrderDto {
       this.orderStatus = _data['orderStatus'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): OrderDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new OrderDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13456,13 +13281,6 @@ export class PaymentDetailsDto implements IPaymentDetailsDto {
     }
   }
 
-  static fromJS(data: any): PaymentDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new PaymentDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13472,6 +13290,13 @@ export class PaymentDetailsDto implements IPaymentDetailsDto {
       this.orderId = _data['orderId'];
       this.order = _data['order'] ? OrderDto.fromJS(_data['order']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): PaymentDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new PaymentDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13510,13 +13335,6 @@ export class PaymentDto implements IPaymentDto {
     }
   }
 
-  static fromJS(data: any): PaymentDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new PaymentDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13525,6 +13343,13 @@ export class PaymentDto implements IPaymentDto {
       this.paymentDate = _data['paymentDate'] ? new Date(_data['paymentDate'].toString()) : <any>undefined;
       this.orderId = _data['orderId'];
     }
+  }
+
+  static fromJS(data: any): PaymentDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new PaymentDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13563,13 +13388,6 @@ export class ProblemDetails implements IProblemDetails {
     }
   }
 
-  static fromJS(data: any): ProblemDetails {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProblemDetails();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       for (var property in _data) {
@@ -13581,6 +13399,13 @@ export class ProblemDetails implements IProblemDetails {
       this.detail = _data['detail'];
       this.instance = _data['instance'];
     }
+  }
+
+  static fromJS(data: any): ProblemDetails {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProblemDetails();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13622,13 +13447,6 @@ export class ProductColorDetailsDto implements IProductColorDetailsDto {
     }
   }
 
-  static fromJS(data: any): ProductColorDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductColorDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13637,6 +13455,13 @@ export class ProductColorDetailsDto implements IProductColorDetailsDto {
       this.productId = _data['productId'];
       this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): ProductColorDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductColorDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13672,13 +13497,6 @@ export class ProductColorDto implements IProductColorDto {
     }
   }
 
-  static fromJS(data: any): ProductColorDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductColorDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13686,6 +13504,13 @@ export class ProductColorDto implements IProductColorDto {
       this.colorHexCode = _data['colorHexCode'];
       this.productId = _data['productId'];
     }
+  }
+
+  static fromJS(data: any): ProductColorDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductColorDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13725,13 +13550,6 @@ export class ProductDetailsDto implements IProductDetailsDto {
     }
   }
 
-  static fromJS(data: any): ProductDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13757,6 +13575,13 @@ export class ProductDetailsDto implements IProductDetailsDto {
         for (let item of _data['productReviews']) this.productReviews!.push(ProductReviewDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): ProductDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13815,13 +13640,6 @@ export class ProductDto implements IProductDto {
     }
   }
 
-  static fromJS(data: any): ProductDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13830,6 +13648,13 @@ export class ProductDto implements IProductDto {
       this.price = _data['price'];
       this.categoryId = _data['categoryId'];
     }
+  }
+
+  static fromJS(data: any): ProductDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13866,13 +13691,6 @@ export class ProductImageDetailsDto implements IProductImageDetailsDto {
     }
   }
 
-  static fromJS(data: any): ProductImageDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductImageDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13881,6 +13699,13 @@ export class ProductImageDetailsDto implements IProductImageDetailsDto {
       this.productId = _data['productId'];
       this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): ProductImageDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductImageDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13916,13 +13741,6 @@ export class ProductImageDto implements IProductImageDto {
     }
   }
 
-  static fromJS(data: any): ProductImageDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductImageDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13930,6 +13748,13 @@ export class ProductImageDto implements IProductImageDto {
       this.imageDescription = _data['imageDescription'];
       this.productId = _data['productId'];
     }
+  }
+
+  static fromJS(data: any): ProductImageDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductImageDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -13964,13 +13789,6 @@ export class ProductOptionDetailsDto implements IProductOptionDetailsDto {
     }
   }
 
-  static fromJS(data: any): ProductOptionDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductOptionDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -13979,6 +13797,13 @@ export class ProductOptionDetailsDto implements IProductOptionDetailsDto {
       this.productId = _data['productId'];
       this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): ProductOptionDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductOptionDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14014,13 +13839,6 @@ export class ProductOptionDto implements IProductOptionDto {
     }
   }
 
-  static fromJS(data: any): ProductOptionDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductOptionDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14028,6 +13846,13 @@ export class ProductOptionDto implements IProductOptionDto {
       this.value = _data['value'];
       this.productId = _data['productId'];
     }
+  }
+
+  static fromJS(data: any): ProductOptionDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductOptionDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14065,13 +13890,6 @@ export class ProductReviewDetailsDto implements IProductReviewDetailsDto {
     }
   }
 
-  static fromJS(data: any): ProductReviewDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductReviewDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14083,6 +13901,13 @@ export class ProductReviewDetailsDto implements IProductReviewDetailsDto {
       this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
       this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): ProductReviewDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductReviewDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14126,13 +13951,6 @@ export class ProductReviewDto implements IProductReviewDto {
     }
   }
 
-  static fromJS(data: any): ProductReviewDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductReviewDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14142,6 +13960,13 @@ export class ProductReviewDto implements IProductReviewDto {
       this.productId = _data['productId'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): ProductReviewDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductReviewDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14181,13 +14006,6 @@ export class ProductTagDetailsDto implements IProductTagDetailsDto {
     }
   }
 
-  static fromJS(data: any): ProductTagDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductTagDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14197,6 +14015,13 @@ export class ProductTagDetailsDto implements IProductTagDetailsDto {
       this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
       this.tag = _data['tag'] ? TagDto.fromJS(_data['tag']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): ProductTagDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductTagDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14234,13 +14059,6 @@ export class ProductTagDto implements IProductTagDto {
     }
   }
 
-  static fromJS(data: any): ProductTagDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ProductTagDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14248,6 +14066,13 @@ export class ProductTagDto implements IProductTagDto {
       this.productId = _data['productId'];
       this.tagId = _data['tagId'];
     }
+  }
+
+  static fromJS(data: any): ProductTagDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ProductTagDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14278,19 +14103,19 @@ export class RegisterUserCommand implements IRegisterUserCommand {
     }
   }
 
-  static fromJS(data: any): RegisterUserCommand {
-    data = typeof data === 'object' ? data : {};
-    let result = new RegisterUserCommand();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.registrationUser = _data['registrationUser']
         ? RegistrationRequest.fromJS(_data['registrationUser'])
         : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): RegisterUserCommand {
+    data = typeof data === 'object' ? data : {};
+    let result = new RegisterUserCommand();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14320,13 +14145,6 @@ export class RegistrationRequest implements IRegistrationRequest {
     }
   }
 
-  static fromJS(data: any): RegistrationRequest {
-    data = typeof data === 'object' ? data : {};
-    let result = new RegistrationRequest();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.username = _data['username'];
@@ -14336,6 +14154,13 @@ export class RegistrationRequest implements IRegistrationRequest {
       this.firstName = _data['firstName'];
       this.lastName = _data['lastName'];
     }
+  }
+
+  static fromJS(data: any): RegistrationRequest {
+    data = typeof data === 'object' ? data : {};
+    let result = new RegistrationRequest();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14375,13 +14200,6 @@ export class ShipmentDetailsDto implements IShipmentDetailsDto {
     }
   }
 
-  static fromJS(data: any): ShipmentDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ShipmentDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14393,6 +14211,13 @@ export class ShipmentDetailsDto implements IShipmentDetailsDto {
       this.orderId = _data['orderId'];
       this.order = _data['order'] ? OrderDto.fromJS(_data['order']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): ShipmentDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ShipmentDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14433,13 +14258,6 @@ export class ShipmentDto implements IShipmentDto {
     }
   }
 
-  static fromJS(data: any): ShipmentDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ShipmentDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14450,6 +14268,13 @@ export class ShipmentDto implements IShipmentDto {
         : <any>undefined;
       this.orderId = _data['orderId'];
     }
+  }
+
+  static fromJS(data: any): ShipmentDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ShipmentDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14487,13 +14312,6 @@ export class ShoppingCartDetailsDto implements IShoppingCartDetailsDto {
     }
   }
 
-  static fromJS(data: any): ShoppingCartDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ShoppingCartDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14504,6 +14322,13 @@ export class ShoppingCartDetailsDto implements IShoppingCartDetailsDto {
       }
       this.user = _data['user'] ? UserDto.fromJS(_data['user']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): ShoppingCartDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ShoppingCartDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14539,13 +14364,6 @@ export class ShoppingCartDto implements IShoppingCartDto {
     }
   }
 
-  static fromJS(data: any): ShoppingCartDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ShoppingCartDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14555,6 +14373,13 @@ export class ShoppingCartDto implements IShoppingCartDto {
         for (let item of _data['shoppingCartItems']) this.shoppingCartItems!.push(ShoppingCartItemDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): ShoppingCartDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ShoppingCartDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14592,13 +14417,6 @@ export class ShoppingCartItemDetailsDto implements IShoppingCartItemDetailsDto {
     }
   }
 
-  static fromJS(data: any): ShoppingCartItemDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ShoppingCartItemDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14609,6 +14427,13 @@ export class ShoppingCartItemDetailsDto implements IShoppingCartItemDetailsDto {
       this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
       this.shoppingCart = _data['shoppingCart'] ? ShoppingCartDto.fromJS(_data['shoppingCart']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): ShoppingCartItemDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ShoppingCartItemDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14649,13 +14474,6 @@ export class ShoppingCartItemDto implements IShoppingCartItemDto {
     }
   }
 
-  static fromJS(data: any): ShoppingCartItemDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new ShoppingCartItemDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14664,6 +14482,13 @@ export class ShoppingCartItemDto implements IShoppingCartItemDto {
       this.price = _data['price'];
       this.shoppingCartId = _data['shoppingCartId'];
     }
+  }
+
+  static fromJS(data: any): ShoppingCartItemDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new ShoppingCartItemDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14700,13 +14525,6 @@ export class SupplierDetailsDto implements ISupplierDetailsDto {
     }
   }
 
-  static fromJS(data: any): SupplierDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new SupplierDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14718,6 +14536,13 @@ export class SupplierDetailsDto implements ISupplierDetailsDto {
         for (let item of _data['products']) this.products!.push(ProductDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): SupplierDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new SupplierDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14756,13 +14581,6 @@ export class SupplierDto implements ISupplierDto {
     }
   }
 
-  static fromJS(data: any): SupplierDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new SupplierDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14770,6 +14588,13 @@ export class SupplierDto implements ISupplierDto {
       this.contactEmail = _data['contactEmail'];
       this.contactPhone = _data['contactPhone'];
     }
+  }
+
+  static fromJS(data: any): SupplierDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new SupplierDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14804,13 +14629,6 @@ export class SupplyDetailsDto implements ISupplyDetailsDto {
     }
   }
 
-  static fromJS(data: any): SupplyDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new SupplyDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14819,6 +14637,13 @@ export class SupplyDetailsDto implements ISupplyDetailsDto {
       this.quantity = _data['quantity'];
       this.price = _data['price'];
     }
+  }
+
+  static fromJS(data: any): SupplyDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new SupplyDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14855,13 +14680,6 @@ export class SupplyDto implements ISupplyDto {
     }
   }
 
-  static fromJS(data: any): SupplyDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new SupplyDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14870,6 +14688,13 @@ export class SupplyDto implements ISupplyDto {
       this.quantity = _data['quantity'];
       this.price = _data['price'];
     }
+  }
+
+  static fromJS(data: any): SupplyDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new SupplyDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14905,13 +14730,6 @@ export class TagDetailsDto implements ITagDetailsDto {
     }
   }
 
-  static fromJS(data: any): TagDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new TagDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -14925,6 +14743,13 @@ export class TagDetailsDto implements ITagDetailsDto {
         for (let item of _data['articles']) this.articles!.push(ArticleDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): TagDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new TagDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -14962,18 +14787,18 @@ export class TagDto implements ITagDto {
     }
   }
 
-  static fromJS(data: any): TagDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new TagDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
     }
+  }
+
+  static fromJS(data: any): TagDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new TagDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15006,13 +14831,6 @@ export class UpdateAddressDto implements IUpdateAddressDto {
     }
   }
 
-  static fromJS(data: any): UpdateAddressDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateAddressDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15023,6 +14841,13 @@ export class UpdateAddressDto implements IUpdateAddressDto {
       this.postalCode = _data['postalCode'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): UpdateAddressDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateAddressDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15059,17 +14884,17 @@ export class UpdateArticleCommand implements IUpdateArticleCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.article = _data['article'] ? UpdateArticleDto.fromJS(_data['article']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateArticleCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateArticleCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.article = _data['article'] ? UpdateArticleDto.fromJS(_data['article']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -15099,13 +14924,6 @@ export class UpdateArticleDto implements IUpdateArticleDto {
     }
   }
 
-  static fromJS(data: any): UpdateArticleDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateArticleDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15115,6 +14933,13 @@ export class UpdateArticleDto implements IUpdateArticleDto {
       this.publicationDate = _data['publicationDate'] ? new Date(_data['publicationDate'].toString()) : <any>undefined;
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): UpdateArticleDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateArticleDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15149,17 +14974,17 @@ export class UpdateCategoryCommand implements IUpdateCategoryCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.category = _data['category'] ? UpdateCategoryDto.fromJS(_data['category']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateCategoryCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateCategoryCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.category = _data['category'] ? UpdateCategoryDto.fromJS(_data['category']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -15186,19 +15011,19 @@ export class UpdateCategoryDto implements IUpdateCategoryDto {
     }
   }
 
-  static fromJS(data: any): UpdateCategoryDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateCategoryDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
       this.description = _data['description'];
     }
+  }
+
+  static fromJS(data: any): UpdateCategoryDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateCategoryDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15227,17 +15052,17 @@ export class UpdateCommentCommand implements IUpdateCommentCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.comment = _data['comment'] ? UpdateCommentDto.fromJS(_data['comment']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateCommentCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateCommentCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.comment = _data['comment'] ? UpdateCommentDto.fromJS(_data['comment']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -15267,13 +15092,6 @@ export class UpdateCommentDto implements IUpdateCommentDto {
     }
   }
 
-  static fromJS(data: any): UpdateCommentDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateCommentDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15283,6 +15101,13 @@ export class UpdateCommentDto implements IUpdateCommentDto {
       this.articleId = _data['articleId'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): UpdateCommentDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateCommentDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15321,13 +15146,6 @@ export class UpdateDiscountDto implements IUpdateDiscountDto {
     }
   }
 
-  static fromJS(data: any): UpdateDiscountDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateDiscountDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15336,6 +15154,13 @@ export class UpdateDiscountDto implements IUpdateDiscountDto {
       this.startDate = _data['startDate'] ? new Date(_data['startDate'].toString()) : <any>undefined;
       this.endDate = _data['endDate'] ? new Date(_data['endDate'].toString()) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): UpdateDiscountDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateDiscountDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15372,13 +15197,6 @@ export class UpdateNotificationDto implements IUpdateNotificationDto {
     }
   }
 
-  static fromJS(data: any): UpdateNotificationDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateNotificationDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15387,6 +15205,13 @@ export class UpdateNotificationDto implements IUpdateNotificationDto {
       this.isRead = _data['isRead'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): UpdateNotificationDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateNotificationDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15419,17 +15244,17 @@ export class UpdateOrderCommand implements IUpdateOrderCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.order = _data['order'] ? UpdateOrderDto.fromJS(_data['order']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateOrderCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateOrderCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.order = _data['order'] ? UpdateOrderDto.fromJS(_data['order']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -15454,17 +15279,17 @@ export class UpdateOrderDetailCommand implements IUpdateOrderDetailCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.orderDetail = _data['orderDetail'] ? UpdateOrderDetailDto.fromJS(_data['orderDetail']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateOrderDetailCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateOrderDetailCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.orderDetail = _data['orderDetail'] ? UpdateOrderDetailDto.fromJS(_data['orderDetail']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -15493,13 +15318,6 @@ export class UpdateOrderDetailDto implements IUpdateOrderDetailDto {
     }
   }
 
-  static fromJS(data: any): UpdateOrderDetailDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateOrderDetailDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15508,6 +15326,13 @@ export class UpdateOrderDetailDto implements IUpdateOrderDetailDto {
       this.unitPrice = _data['unitPrice'];
       this.orderId = _data['orderId'];
     }
+  }
+
+  static fromJS(data: any): UpdateOrderDetailDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateOrderDetailDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15545,13 +15370,6 @@ export class UpdateOrderDto implements IUpdateOrderDto {
     }
   }
 
-  static fromJS(data: any): UpdateOrderDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateOrderDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15564,6 +15382,13 @@ export class UpdateOrderDto implements IUpdateOrderDto {
         for (let item of _data['orderDetails']) this.orderDetails!.push(UpdateOrderDetailDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): UpdateOrderDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateOrderDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15601,17 +15426,17 @@ export class UpdatePaymentCommand implements IUpdatePaymentCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.payment = _data['payment'] ? UpdatePaymentDto.fromJS(_data['payment']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdatePaymentCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdatePaymentCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.payment = _data['payment'] ? UpdatePaymentDto.fromJS(_data['payment']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -15640,13 +15465,6 @@ export class UpdatePaymentDto implements IUpdatePaymentDto {
     }
   }
 
-  static fromJS(data: any): UpdatePaymentDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdatePaymentDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15655,6 +15473,13 @@ export class UpdatePaymentDto implements IUpdatePaymentDto {
       this.paymentDate = _data['paymentDate'] ? new Date(_data['paymentDate'].toString()) : <any>undefined;
       this.orderId = _data['orderId'];
     }
+  }
+
+  static fromJS(data: any): UpdatePaymentDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdatePaymentDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15690,13 +15515,6 @@ export class UpdateProductColorDto implements IUpdateProductColorDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductColorDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductColorDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15704,6 +15522,13 @@ export class UpdateProductColorDto implements IUpdateProductColorDto {
       this.colorHexCode = _data['colorHexCode'];
       this.productId = _data['productId'];
     }
+  }
+
+  static fromJS(data: any): UpdateProductColorDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateProductColorDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15734,17 +15559,17 @@ export class UpdateProductCommand implements IUpdateProductCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.product = _data['product'] ? UpdateProductDto.fromJS(_data['product']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateProductCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateProductCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.product = _data['product'] ? UpdateProductDto.fromJS(_data['product']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -15773,13 +15598,6 @@ export class UpdateProductDto implements IUpdateProductDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15788,6 +15606,13 @@ export class UpdateProductDto implements IUpdateProductDto {
       this.price = _data['price'];
       this.categoryId = _data['categoryId'];
     }
+  }
+
+  static fromJS(data: any): UpdateProductDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateProductDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15823,13 +15648,6 @@ export class UpdateProductImageDto implements IUpdateProductImageDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductImageDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductImageDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15837,6 +15655,13 @@ export class UpdateProductImageDto implements IUpdateProductImageDto {
       this.imageDescription = _data['imageDescription'];
       this.productId = _data['productId'];
     }
+  }
+
+  static fromJS(data: any): UpdateProductImageDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateProductImageDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15870,13 +15695,6 @@ export class UpdateProductOptionDto implements IUpdateProductOptionDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductOptionDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductOptionDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15884,6 +15702,13 @@ export class UpdateProductOptionDto implements IUpdateProductOptionDto {
       this.value = _data['value'];
       this.productId = _data['productId'];
     }
+  }
+
+  static fromJS(data: any): UpdateProductOptionDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateProductOptionDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15914,19 +15739,19 @@ export class UpdateProductReviewCommand implements IUpdateProductReviewCommand {
     }
   }
 
-  static fromJS(data: any): UpdateProductReviewCommand {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductReviewCommand();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.productReview = _data['productReview']
         ? UpdateProductReviewDto.fromJS(_data['productReview'])
         : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): UpdateProductReviewCommand {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateProductReviewCommand();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -15956,13 +15781,6 @@ export class UpdateProductReviewDto implements IUpdateProductReviewDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductReviewDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductReviewDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -15972,6 +15790,13 @@ export class UpdateProductReviewDto implements IUpdateProductReviewDto {
       this.productId = _data['productId'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): UpdateProductReviewDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateProductReviewDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16009,13 +15834,6 @@ export class UpdateProductTagDto implements IUpdateProductTagDto {
     }
   }
 
-  static fromJS(data: any): UpdateProductTagDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateProductTagDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16023,6 +15841,13 @@ export class UpdateProductTagDto implements IUpdateProductTagDto {
       this.productId = _data['productId'];
       this.tagId = _data['tagId'];
     }
+  }
+
+  static fromJS(data: any): UpdateProductTagDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateProductTagDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16053,17 +15878,17 @@ export class UpdateShipmentCommand implements IUpdateShipmentCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.shipment = _data['shipment'] ? UpdateShipmentDto.fromJS(_data['shipment']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateShipmentCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateShipmentCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.shipment = _data['shipment'] ? UpdateShipmentDto.fromJS(_data['shipment']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -16092,13 +15917,6 @@ export class UpdateShipmentDto implements IUpdateShipmentDto {
     }
   }
 
-  static fromJS(data: any): UpdateShipmentDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateShipmentDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16109,6 +15927,13 @@ export class UpdateShipmentDto implements IUpdateShipmentDto {
         : <any>undefined;
       this.orderId = _data['orderId'];
     }
+  }
+
+  static fromJS(data: any): UpdateShipmentDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateShipmentDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16143,17 +15968,17 @@ export class UpdateShoppingCartCommand implements IUpdateShoppingCartCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.shoppingCart = _data['shoppingCart'] ? UpdateShoppingCartDto.fromJS(_data['shoppingCart']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateShoppingCartCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateShoppingCartCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.shoppingCart = _data['shoppingCart'] ? UpdateShoppingCartDto.fromJS(_data['shoppingCart']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -16179,18 +16004,18 @@ export class UpdateShoppingCartDto implements IUpdateShoppingCartDto {
     }
   }
 
-  static fromJS(data: any): UpdateShoppingCartDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateShoppingCartDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): UpdateShoppingCartDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateShoppingCartDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16217,19 +16042,19 @@ export class UpdateShoppingCartItemCommand implements IUpdateShoppingCartItemCom
     }
   }
 
-  static fromJS(data: any): UpdateShoppingCartItemCommand {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateShoppingCartItemCommand();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.shoppingCartItem = _data['shoppingCartItem']
         ? UpdateShoppingCartItemDto.fromJS(_data['shoppingCartItem'])
         : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): UpdateShoppingCartItemCommand {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateShoppingCartItemCommand();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16258,13 +16083,6 @@ export class UpdateShoppingCartItemDto implements IUpdateShoppingCartItemDto {
     }
   }
 
-  static fromJS(data: any): UpdateShoppingCartItemDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateShoppingCartItemDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16273,6 +16091,13 @@ export class UpdateShoppingCartItemDto implements IUpdateShoppingCartItemDto {
       this.price = _data['price'];
       this.shoppingCartId = _data['shoppingCartId'];
     }
+  }
+
+  static fromJS(data: any): UpdateShoppingCartItemDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateShoppingCartItemDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16308,13 +16133,6 @@ export class UpdateSupplierDto implements IUpdateSupplierDto {
     }
   }
 
-  static fromJS(data: any): UpdateSupplierDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateSupplierDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16322,6 +16140,13 @@ export class UpdateSupplierDto implements IUpdateSupplierDto {
       this.contactEmail = _data['contactEmail'];
       this.contactPhone = _data['contactPhone'];
     }
+  }
+
+  static fromJS(data: any): UpdateSupplierDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateSupplierDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16356,13 +16181,6 @@ export class UpdateSupplyDto implements IUpdateSupplyDto {
     }
   }
 
-  static fromJS(data: any): UpdateSupplyDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateSupplyDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16371,6 +16189,13 @@ export class UpdateSupplyDto implements IUpdateSupplyDto {
       this.quantity = _data['quantity'];
       this.price = _data['price'];
     }
+  }
+
+  static fromJS(data: any): UpdateSupplyDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateSupplyDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16404,18 +16229,18 @@ export class UpdateTagDto implements IUpdateTagDto {
     }
   }
 
-  static fromJS(data: any): UpdateTagDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateTagDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
     }
+  }
+
+  static fromJS(data: any): UpdateTagDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateTagDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16442,17 +16267,17 @@ export class UpdateUserCommand implements IUpdateUserCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.user = _data['user'] ? UpdateUserDto.fromJS(_data['user']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateUserCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateUserCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.user = _data['user'] ? UpdateUserDto.fromJS(_data['user']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -16494,13 +16319,6 @@ export class UpdateUserDto implements IUpdateUserDto {
     }
   }
 
-  static fromJS(data: any): UpdateUserDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateUserDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16522,6 +16340,13 @@ export class UpdateUserDto implements IUpdateUserDto {
       this.lastName = _data['lastName'];
       this.phone = _data['phone'];
     }
+  }
+
+  static fromJS(data: any): UpdateUserDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateUserDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16580,17 +16405,17 @@ export class UpdateWishListCommand implements IUpdateWishListCommand {
     }
   }
 
+  init(_data?: any) {
+    if (_data) {
+      this.wishList = _data['wishList'] ? UpdateWishListDto.fromJS(_data['wishList']) : <any>undefined;
+    }
+  }
+
   static fromJS(data: any): UpdateWishListCommand {
     data = typeof data === 'object' ? data : {};
     let result = new UpdateWishListCommand();
     result.init(data);
     return result;
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.wishList = _data['wishList'] ? UpdateWishListDto.fromJS(_data['wishList']) : <any>undefined;
-    }
   }
 
   toJSON(data?: any) {
@@ -16617,19 +16442,19 @@ export class UpdateWishListDto implements IUpdateWishListDto {
     }
   }
 
-  static fromJS(data: any): UpdateWishListDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateWishListDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): UpdateWishListDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateWishListDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16660,19 +16485,19 @@ export class UpdateWishListItemDto implements IUpdateWishListItemDto {
     }
   }
 
-  static fromJS(data: any): UpdateWishListItemDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UpdateWishListItemDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
       this.wishListId = _data['wishListId'];
     }
+  }
+
+  static fromJS(data: any): UpdateWishListItemDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UpdateWishListItemDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16712,13 +16537,6 @@ export class UserDetailsDto implements IUserDetailsDto {
     }
   }
 
-  static fromJS(data: any): UserDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UserDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16749,6 +16567,13 @@ export class UserDetailsDto implements IUserDetailsDto {
         for (let item of _data['notifications']) this.notifications!.push(NotificationDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): UserDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UserDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16815,13 +16640,6 @@ export class UserDto implements IUserDto {
     }
   }
 
-  static fromJS(data: any): UserDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new UserDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16831,6 +16649,13 @@ export class UserDto implements IUserDto {
       this.lastName = _data['lastName'];
       this.phone = _data['phone'];
     }
+  }
+
+  static fromJS(data: any): UserDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new UserDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16869,13 +16694,6 @@ export class WishListDetailsDto implements IWishListDetailsDto {
     }
   }
 
-  static fromJS(data: any): WishListDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new WishListDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16887,6 +16705,13 @@ export class WishListDetailsDto implements IWishListDetailsDto {
         for (let item of _data['wishListItems']) this.wishListItems!.push(WishListItemDto.fromJS(item));
       }
     }
+  }
+
+  static fromJS(data: any): WishListDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new WishListDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16924,19 +16749,19 @@ export class WishListDto implements IWishListDto {
     }
   }
 
-  static fromJS(data: any): WishListDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new WishListDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
       this.name = _data['name'];
       this.userId = _data['userId'];
     }
+  }
+
+  static fromJS(data: any): WishListDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new WishListDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -16969,13 +16794,6 @@ export class WishListItemDetailsDto implements IWishListItemDetailsDto {
     }
   }
 
-  static fromJS(data: any): WishListItemDetailsDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new WishListItemDetailsDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
@@ -16984,6 +16802,13 @@ export class WishListItemDetailsDto implements IWishListItemDetailsDto {
       this.product = _data['product'] ? ProductDto.fromJS(_data['product']) : <any>undefined;
       this.wishList = _data['wishList'] ? WishListDto.fromJS(_data['wishList']) : <any>undefined;
     }
+  }
+
+  static fromJS(data: any): WishListItemDetailsDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new WishListItemDetailsDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -17018,19 +16843,19 @@ export class WishListItemDto implements IWishListItemDto {
     }
   }
 
-  static fromJS(data: any): WishListItemDto {
-    data = typeof data === 'object' ? data : {};
-    let result = new WishListItemDto();
-    result.init(data);
-    return result;
-  }
-
   init(_data?: any) {
     if (_data) {
       this.id = _data['id'];
       this.productId = _data['productId'];
       this.wishListId = _data['wishListId'];
     }
+  }
+
+  static fromJS(data: any): WishListItemDto {
+    data = typeof data === 'object' ? data : {};
+    let result = new WishListItemDto();
+    result.init(data);
+    return result;
   }
 
   toJSON(data?: any) {
@@ -17054,7 +16879,6 @@ export class ApiException extends Error {
   response: string;
   headers: { [key: string]: any };
   result: any;
-  protected isApiException = true;
 
   constructor(message: string, status: number, response: string, headers: { [key: string]: any }, result: any) {
     super();
@@ -17065,6 +16889,8 @@ export class ApiException extends Error {
     this.headers = headers;
     this.result = result;
   }
+
+  protected isApiException = true;
 
   static isApiException(obj: any): obj is ApiException {
     return obj.isApiException === true;

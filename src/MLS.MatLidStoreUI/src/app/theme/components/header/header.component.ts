@@ -10,32 +10,35 @@ import { filter } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit {
   public logoUrl = '/assets/Images/MatLidStore_Logo.png';
-  public isLoggedIn = this.accountServices.isLoggedIn();
+  public isLoggedIn = false;
+  public isLoginPage = false; // Kiểm tra xem có đang ở trang đăng nhập không
   isMenuOpened = false;
   isMenuProductOpened = false;
   currentRoute = '';
 
   constructor(
-    private accountServices: AccountService,
+    private accountService: AccountService,
     private router: Router
   ) {}
-  ngOnInit() {
-    this.isLoggedIn = this.accountServices.isLoggedIn();
+
+  ngOnInit(): void {
+    this.isLoggedIn = this.accountService.isLoggedIn();
+
+    // Theo dõi thay đổi URL
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       this.updateCurrentRoute();
+      this.isLoginPage = this.currentRoute === '/login'; // Kiểm tra xem có phải trang đăng nhập không
     });
+
     this.updateCurrentRoute();
+    this.isLoginPage = this.currentRoute === '/login';
   }
 
-  private updateCurrentRoute(): void {
-    this.currentRoute = this.router.url || '';
-  }
-
-  toggleMenu() {
+  toggleMenu(): void {
     this.isMenuOpened = !this.isMenuOpened;
   }
 
-  toggleProductMenu() {
+  toggleProductMenu(): void {
     this.isMenuProductOpened = !this.isMenuProductOpened;
     const button = document.querySelector('.toggle-product-menu-button') as HTMLButtonElement;
     if (button) {
@@ -43,15 +46,12 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  logoutClick() {
-    this.router.navigate(['/login']).then(() => {
-      this.isMenuOpened = false;
-      this.isMenuProductOpened = false;
-      this.accountServices.setLoggedIn(false);
-    });
+  logoutClick(): void {
+    this.accountService.removeCurrentUser(); // Xóa token và đăng xuất
+    this.router.navigate(['/login']);
   }
 
-  loginClick() {
+  loginClick(): void {
     if (this.currentRoute === '/login') {
       this.router.navigate(['/register']).then(() => {
         this.isMenuOpened = false;
@@ -66,11 +66,16 @@ export class HeaderComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event'])
-  onClick(event: Event) {
+  onClick(event: Event): void {
     if (this.isClickOutside(event.target as HTMLElement)) {
       this.isMenuOpened = false;
       this.isMenuProductOpened = false;
     }
+  }
+
+  // Helpers
+  private updateCurrentRoute(): void {
+    this.currentRoute = this.router.url || '';
   }
 
   private isClickOutside(target: HTMLElement): boolean {
