@@ -125,6 +125,6 @@ public class AuthService : IAuthService
 
     private async Task<bool> UserExists(string username)
     {
-        return !await _userManager.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
+        return await _userManager.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
     }
 }

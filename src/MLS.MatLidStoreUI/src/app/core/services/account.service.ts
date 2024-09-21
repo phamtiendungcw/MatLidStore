@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import jwtDecode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
 import { AuthResponse } from '../data/mls-data.service';
-import jwtDecode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',

@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { AppAdminRoutingModule } from './app-admin-routing.module';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
-import { PagesModule } from '../../theme/pages/pages.module';
-import { ThemeModule } from 'src/app/theme/theme.module';
 import { RouterModule } from '@angular/router';
+import { ThemeModule } from 'src/app/theme/theme.module';
+import { PagesModule } from '../../theme/pages/pages.module';
+import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { AppAdminRoutingModule } from './app-admin-routing.module';
 
 @NgModule({
   declarations: [AdminHomeComponent],
