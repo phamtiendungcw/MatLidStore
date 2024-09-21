@@ -27,11 +27,11 @@ export class HeaderComponent implements OnInit {
     // Theo dõi thay đổi URL
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       this.updateCurrentRoute();
-      this.isLoginPage = this.currentRoute === '/login'; // Kiểm tra xem có phải trang đăng nhập không
+      this.isLoginPage = this.currentRoute === '/account/login'; // Kiểm tra xem có phải trang đăng nhập không
     });
 
     this.updateCurrentRoute();
-    this.isLoginPage = this.currentRoute === '/login';
+    this.isLoginPage = this.currentRoute === '/account/login';
   }
 
   toggleMenu(): void {
@@ -48,17 +48,17 @@ export class HeaderComponent implements OnInit {
 
   logoutClick(): void {
     this.accountService.removeCurrentUser(); // Xóa token và đăng xuất
-    this.router.navigate(['/login']);
+    this.router.navigate(['/account/login']);
   }
 
   loginClick(): void {
-    if (this.currentRoute === '/login') {
-      this.router.navigate(['/register']).then(() => {
+    if (this.currentRoute === '/account/login') {
+      this.router.navigate(['/account/register']).then(() => {
         this.isMenuOpened = false;
         this.isMenuProductOpened = false;
       });
     } else {
-      this.router.navigate(['/login']).then(() => {
+      this.router.navigate(['/account/login']).then(() => {
         this.isMenuOpened = false;
         this.isMenuProductOpened = false;
       });
@@ -87,6 +87,6 @@ export class HeaderComponent implements OnInit {
   }
 
   getHeaderText(): string {
-    return this.currentRoute === '/login' ? 'Đăng ký' : 'Đăng nhập';
+    return this.currentRoute === '/account/login' ? 'Đăng ký' : 'Đăng nhập';
   }
 }

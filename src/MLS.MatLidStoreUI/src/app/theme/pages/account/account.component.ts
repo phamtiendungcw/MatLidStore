@@ -13,6 +13,8 @@ export class AccountComponent {
   model: AuthRequest = new AuthRequest();
   user: AuthResponse | null = null;
   showPassword = false;
+  loading = false;
+  errorMessage: string | null = null;
 
   constructor(
     private matlidstoreapi: MatLidStoreAPIServices,
@@ -25,26 +27,37 @@ export class AccountComponent {
   }
 
   loginClick(): void {
+    this.errorMessage = null;
+
     if (!this.model.username || !this.model.password) {
-      console.error('User name and password are required');
+      this.errorMessage = 'User name and password are required';
+      console.error(this.errorMessage);
       return;
     }
+
+    this.loading = true;
 
     this.matlidstoreapi.login(this.model).subscribe({
       next: (response: AuthResponse) => {
         this.user = response;
         console.log('User: ', this.user);
         this.accountService.setCurrentUser(this.user);
-        // Cập nhật trạng thái đăng nhập
         this.loggedIn = this.accountService.isLoggedIn();
         console.log('Logged In: ', this.loggedIn);
+
         if (this.loggedIn) {
-          // Điều hướng tới dashboard nếu đăng nhập thành công
-          this.router.navigate(['/admin/home/dashboard']).then(r => r.valueOf());
+          this.router.navigate(['/admin/home/dashboard']).then(() => {
+            this.loading = false;
+          });
+        } else {
+          this.errorMessage = 'Failed to log in. Please try again.';
+          this.loading = false;
         }
       },
       error: error => {
-        console.error('Login failed: ', error);
+        this.errorMessage = 'Login failed: ' + error.message;
+        console.error(this.errorMessage);
+        this.loading = false;
       },
       complete: () => console.log('Login request completed.'),
     });
