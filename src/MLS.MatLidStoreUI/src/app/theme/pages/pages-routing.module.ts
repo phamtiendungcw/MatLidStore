@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { WelcomeComponent } from './welcome/welcome.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent }, // Hiển thị Dashboard cho admin

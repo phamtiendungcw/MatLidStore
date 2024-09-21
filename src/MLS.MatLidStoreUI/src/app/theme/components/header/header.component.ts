@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { AccountService } from 'src/app/core/services/account.service';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AccountService } from 'src/app/core/services/account.service';
 
 @Component({
   selector: 'app-header',
