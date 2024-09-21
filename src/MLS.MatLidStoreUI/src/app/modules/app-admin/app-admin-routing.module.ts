@@ -8,7 +8,7 @@ const routes: Routes = [
     component: AdminHomeComponent,
     children: [
       {
-        path: 'login',
+        path: 'account',
         loadChildren: () => import('src/app/theme/pages/account/account.module').then(m => m.AccountModule),
       }, // Lazy load account module cho login
       { path: 'home', loadChildren: () => import('src/app/theme/pages/pages.module').then(m => m.PagesModule) }, // Lazy load pages module cho dashboard
