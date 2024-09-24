@@ -1,0 +1,48 @@
+.form-container {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.input-field {
+  border: 1px solid #bbdefb;
+  padding: 12px;
+  font-size: 15px;
+  color: #2c3e50;
+  border-radius: 6px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: #2d9cdb;
+  }
+}
+
+.input-field.password {
+  padding-right: 40px; /* Adds space for the toggle button */
+}
+
+.relative {
+  position: relative;
+}
+
+button {
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+button.toggle-password {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 0 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

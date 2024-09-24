@@ -13,7 +13,7 @@ export class RegistrationResponse {
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss', '../../../styles/motion-tailwind.css'],
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
   model: RegistrationRequest = new RegistrationRequest();
