@@ -1,0 +1,77 @@
+.table-container {
+  margin: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+      background-color: #007bff; // Màu nền cho tiêu đề
+      color: white;
+
+      th {
+        padding: 15px;
+        text-align: left;
+        font-weight: bold;
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f2f2f2; // Màu nền cho hàng chẵn
+        }
+
+        td {
+          padding: 15px;
+          border-bottom: 1px solid #ddd;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: #f1f1f1; // Màu nền khi hover
+          }
+        }
+      }
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 20px;
+      font-size: 1.2em;
+      color: #888;
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+
+    button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+
+      &.edit {
+        background-color: #28a745; // Màu xanh lá cho nút chỉnh sửa
+      }
+
+      &.delete {
+        background-color: #dc3545; // Màu đỏ cho nút xóa
+      }
+
+      &.view {
+        background-color: #17a2b8; // Màu cyan cho nút xem
+      }
+
+      &:hover {
+        opacity: 0.9; // Giảm độ đậm khi hover
+      }
+    }
+  }
+}
