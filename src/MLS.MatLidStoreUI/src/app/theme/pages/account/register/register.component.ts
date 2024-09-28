@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MatLidStoreAPIServices, RegisterUserCommand, RegistrationRequest } from 'src/app/core/data/mls-data.service';
 
 export class RegistrationResponse {
@@ -21,7 +22,8 @@ export class RegisterComponent {
 
   constructor(
     private matlidstoreapi: MatLidStoreAPIServices,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   togglePassword(): void {
@@ -44,9 +46,11 @@ export class RegisterComponent {
         console.log('Registration successful');
         // Redirect or show success message
         this.router.navigate(['/account/login']);
+        this.toastr.success('Registration successful', 'Success');
       },
       error: error => {
         console.error('Registration failed: ', error);
+        this.toastr.error('Registration failed', 'Error');
       },
     });
   }
