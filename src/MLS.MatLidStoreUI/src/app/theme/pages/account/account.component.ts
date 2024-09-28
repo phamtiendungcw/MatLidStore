@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthRequest, AuthResponse, MatLidStoreAPIServices } from 'src/app/core/data/mls-data.service';
 import { AccountService } from 'src/app/core/services/account.service';
 
@@ -19,7 +20,8 @@ export class AccountComponent {
   constructor(
     private matlidstoreapi: MatLidStoreAPIServices,
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private toastr: ToastrService
   ) {}
 
   togglePassword(): void {
@@ -32,6 +34,7 @@ export class AccountComponent {
     if (!this.model.username || !this.model.password) {
       this.errorMessage = 'User name and password are required';
       console.error(this.errorMessage);
+      this.toastr.error(this.errorMessage, 'Login Error');
       return;
     }
 
@@ -43,20 +46,22 @@ export class AccountComponent {
         console.log('User: ', this.user);
         this.accountService.setCurrentUser(this.user);
         this.loggedIn = this.accountService.isLoggedIn();
-        console.log('Logged In: ', this.loggedIn);
 
         if (this.loggedIn) {
           this.router.navigate(['/admin/home/dashboard']).then(() => {
+            this.toastr.success('Logged in successfully', 'Login Success');
             this.loading = false;
           });
         } else {
           this.errorMessage = 'Failed to log in. Please try again.';
+          this.toastr.error(this.errorMessage, 'Login Error');
           this.loading = false;
         }
       },
       error: error => {
         this.errorMessage = 'Login failed: ' + error.message;
         console.error(this.errorMessage);
+        this.toastr.error(this.errorMessage, 'Login Error');
         this.loading = false;
       },
       complete: () => console.log('Login request completed.'),

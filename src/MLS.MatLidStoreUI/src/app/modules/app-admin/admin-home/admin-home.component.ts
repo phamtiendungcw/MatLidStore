@@ -20,7 +20,7 @@ export class AdminHomeComponent implements OnInit {
       this.router.navigate(['/admin/home/dashboard']);
     } else {
       this.accountService.removeCurrentUser();
-
+      this.accountService.setLoggedIn(false);
       // Không điều hướng nếu đang ở trang login hoặc register
       if (currentUrl !== '/account/login' && currentUrl !== '/account/register') {
         this.router.navigate(['/account/login']);
@@ -30,11 +30,9 @@ export class AdminHomeComponent implements OnInit {
     this.accountService.loggerIn$.subscribe(isLoggedIn => {
       if (isLoggedIn) {
         this.router.navigate(['/admin/home/dashboard']);
-      } else {
+      } else if (currentUrl !== '/account/register') {
         // Chỉ điều hướng đến trang đăng nhập nếu không phải là trang đăng ký
-        if (currentUrl !== '/account/register') {
-          this.router.navigate(['/account/login']);
-        }
+        this.router.navigate(['/account/login']);
       }
     });
   }
