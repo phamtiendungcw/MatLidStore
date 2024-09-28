@@ -43,18 +43,6 @@ export class TableComponent<T extends Entity> implements OnInit {
     }
   }
 
-  private getAllMethod(): (() => Observable<T[]>) | undefined {
-    switch (this.entityName) {
-      case 'Address':
-        return () => this.entityService.getAllAddresses() as unknown as Observable<T[]>; // Ép kiểu
-      case 'AppUser':
-        return () => this.entityService.getAllAppUsers() as unknown as Observable<T[]>; // Ép kiểu
-      // Thêm các trường hợp cho các thực thể khác
-      default:
-        return undefined;
-    }
-  }
-
   editEntity(id: number): void {
     this.router.navigate([`/${this.entityName.toLowerCase()}/edit`, id]);
   }
@@ -75,6 +63,22 @@ export class TableComponent<T extends Entity> implements OnInit {
     }
   }
 
+  viewEntity(id: number): void {
+    this.router.navigate([`/${this.entityName.toLowerCase()}/view`, id]);
+  }
+
+  private getAllMethod(): (() => Observable<T[]>) | undefined {
+    switch (this.entityName) {
+      case 'Address':
+        return () => this.entityService.getAllAddresses() as unknown as Observable<T[]>; // Ép kiểu
+      case 'AppUser':
+        return () => this.entityService.getAllAppUsers() as unknown as Observable<T[]>; // Ép kiểu
+      // Thêm các trường hợp cho các thực thể khác
+      default:
+        return undefined;
+    }
+  }
+
   private getDeleteMethod(): ((id: number) => Observable<void>) | undefined {
     switch (this.entityName) {
       case 'Address':
@@ -85,9 +89,5 @@ export class TableComponent<T extends Entity> implements OnInit {
       default:
         return undefined;
     }
-  }
-
-  viewEntity(id: number): void {
-    this.router.navigate([`/${this.entityName.toLowerCase()}/view`, id]);
   }
 }

@@ -73,6 +73,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  getHeaderText(): string {
+    return this.currentRoute === '/account/login' ? 'Đăng ký' : 'Đăng nhập';
+  }
+
   // Helpers
   private updateCurrentRoute(): void {
     this.currentRoute = this.router.url || '';
@@ -84,9 +88,5 @@ export class HeaderComponent implements OnInit {
       !target.closest('.toggle-menu-button') &&
       !target.closest('.toggle-product-menu-button')
     );
-  }
-
-  getHeaderText(): string {
-    return this.currentRoute === '/account/login' ? 'Đăng ký' : 'Đăng nhập';
   }
 }
