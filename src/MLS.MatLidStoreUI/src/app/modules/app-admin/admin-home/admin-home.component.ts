@@ -17,7 +17,7 @@ export class AdminHomeComponent implements OnInit {
 
     if (token && !this.accountService.isTokenExpired(token)) {
       this.accountService.setLoggedIn(true);
-      this.router.navigate(['/admin/home/dashboard']);
+      this.router.navigate(['/admin']);
     } else {
       this.accountService.removeCurrentUser();
       this.accountService.setLoggedIn(false);
@@ -29,7 +29,7 @@ export class AdminHomeComponent implements OnInit {
 
     this.accountService.loggerIn$.subscribe(isLoggedIn => {
       if (isLoggedIn) {
-        this.router.navigate(['/admin/home/dashboard']);
+        this.router.navigate(['/admin']);
       } else if (currentUrl !== '/account/register') {
         // Chỉ điều hướng đến trang đăng nhập nếu không phải là trang đăng ký
         this.router.navigate(['/account/login']);

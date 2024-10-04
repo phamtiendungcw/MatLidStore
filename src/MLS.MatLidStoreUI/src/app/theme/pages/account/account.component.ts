@@ -48,7 +48,7 @@ export class AccountComponent {
         this.loggedIn = this.accountService.isLoggedIn();
 
         if (this.loggedIn) {
-          this.router.navigate(['/admin/home/dashboard']).then(() => {
+          this.router.navigate(['/admin']).then(() => {
             this.toastr.success('Logged in successfully', 'Login Success');
             this.loading = false;
           });
