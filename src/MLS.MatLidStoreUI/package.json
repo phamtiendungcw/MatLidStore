@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.{ts,html}\"",
     "lint": "eslint \"src/**/*.{ts,html}\"",
     "lint:fix": "prettier --write \"src/**/*.{ts,html}\" --ignore-unknown && eslint \"src/**/*.{ts,html}\" --fix",
-    "prepare": "husky install"
+    "prepare": "if [ -d .git ]; then husky install; fi"
   },
   "private": true,
   "dependencies": {
