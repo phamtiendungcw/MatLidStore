@@ -32,7 +32,7 @@ jobs:
 
   frontend:
     runs-on: ubuntu-latest
-    needs: backend # Chạy frontend sau khi backend hoàn tất
+    needs: backend
 
     steps:
     - uses: actions/checkout@v3
@@ -45,6 +45,10 @@ jobs:
     - name: Install dependencies
       run: npm install
       working-directory: ./src/MLS.MatLidStoreUI
+
+    - name: Install Husky
+      run: npx husky install
+      working-directory: ../
 
     - name: Build Angular application
       run: npm run build
