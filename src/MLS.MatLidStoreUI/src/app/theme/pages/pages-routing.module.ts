@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ServerErrorComponent } from './server-error/server-error.component';
+import { UserInfoComponent } from './user-info/user-info.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: 'user-info', component: UserInfoComponent },
+  { path: 'welcome', component: WelcomeComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'server-error', component: ServerErrorComponent },
   { path: '**', component: NotfoundComponent, pathMatch: 'full' },
 ];

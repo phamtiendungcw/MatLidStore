@@ -1,51 +1,36 @@
 import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
+
 import { AuthResponse } from '../data/mls-data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
-  private loggedInSubject = new BehaviorSubject<boolean>(false);
-  loggerIn$ = this.loggedInSubject.asObservable();
-
-  // Current user BehaviorSubject to store user details
-  private currentUserSubject = new BehaviorSubject<AuthResponse | null>(null);
+  // Người dùng hiện tại BehaviorSubject để lưu trữ chi tiết người dùng
+  private readonly currentUserSubject = new BehaviorSubject<AuthResponse | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
   constructor() {
-    // Check if there's a token in localStorage when service is initialized
-    const storedUser = localStorage.getItem('user');
+    // Kiểm tra xem có mã thông báo trong localStorage khi dịch vụ được khởi chạy không
+    const storedUser = localStorage.getItem('usr');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       this.currentUserSubject.next(parsedUser);
-      this.setLoggedIn(true);
     }
-  }
-
-  // Hàm để thay đổi trạng thái đăng nhập
-  setLoggedIn(isLoggedIn: boolean): void {
-    this.loggedInSubject.next(isLoggedIn);
-  }
-
-  // Hàm để lấy trạng thái đăng nhập
-  isLoggedIn(): boolean {
-    return this.loggedInSubject.value;
   }
 
   // Hàm để set current user
   setCurrentUser(user: AuthResponse): void {
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('usr', JSON.stringify(user));
     this.currentUserSubject.next(user);
-    this.setLoggedIn(true);
   }
 
   // Hàm để remove current user (đăng xuất)
   removeCurrentUser(): void {
-    localStorage.removeItem('user');
+    localStorage.removeItem('usr');
     this.currentUserSubject.next(null);
-    this.setLoggedIn(false);
   }
 
   // Hàm để lấy current user

@@ -17039,7 +17039,7 @@ function blobToText(blob: any): Observable<string> {
       observer.complete();
     } else {
       let reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = (event) => {
         observer.next((event.target as any).result);
         observer.complete();
       };

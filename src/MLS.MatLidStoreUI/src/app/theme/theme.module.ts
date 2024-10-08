@@ -1,19 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
+import { AdminNavbarComponent } from './components/navbars/admin-navbar/admin-navbar.component';
+import { ClientNavbarComponent } from './components/navbars/client-navbar/client-navbar.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
-import { SearchInputComponent } from './components/search-input/search-input.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TableComponent } from './components/table/table.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, PaginationComponent, SearchInputComponent, TableComponent],
+  declarations: [
+    AdminNavbarComponent,
+    ClientNavbarComponent,
+    FooterComponent,
+    HeaderComponent,
+    PaginationComponent,
+    SidebarComponent,
+    TableComponent,
+  ],
   imports: [
     CommonModule,
-    RouterLink,
+    FontAwesomeModule,
     NgbModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
@@ -28,12 +39,13 @@ import { TableComponent } from './components/table/table.component';
     }),
   ],
   exports: [
-    NgbModule,
-    ToastrModule,
-    HeaderComponent,
+    AdminNavbarComponent,
+    ClientNavbarComponent,
+    FontAwesomeModule,
     FooterComponent,
+    HeaderComponent,
     PaginationComponent,
-    SearchInputComponent,
+    SidebarComponent,
     TableComponent,
   ],
 })

@@ -1,14 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ThemeModule } from '../../theme.module';
 import { AccountRoutingModule } from './account-routing.module';
-import { AccountComponent } from './account.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { RegisterPageComponent } from './register-page/register-page.component';
 
 @NgModule({
-  declarations: [AccountComponent, RegisterComponent],
-  imports: [CommonModule, FormsModule, ThemeModule, AccountRoutingModule],
+  declarations: [LoginPageComponent, RegisterPageComponent],
+  imports: [AccountRoutingModule, CommonModule, ThemeModule],
 })
 export class AccountModule {}
