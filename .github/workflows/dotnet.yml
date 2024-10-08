@@ -37,7 +37,7 @@ jobs:
 
       - name: Install Husky
         run: npx husky install
-        working-directory: ./src/MLS.MatLidStoreUI
+        working-directory: ../
 
       - name: Build
         run: dotnet build --no-restore
