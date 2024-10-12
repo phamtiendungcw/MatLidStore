@@ -1,6 +1,3 @@
-# This workflow will build a .NET project and deploy the Angular frontend to GitHub Pages.
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: Full Solution CI
 
 on:
@@ -10,60 +7,63 @@ on:
     branches: [ "master" ]
 
 jobs:
-  backend:
+  build-backend:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build Backend
-      run: dotnet build --no-restore
+      - name: Build Backend
+        run: dotnet build --no-restore
 
-    - name: Test Backend
-      run: dotnet test --no-build --verbosity normal
+      - name: Test Backend
+        run: dotnet test --no-build --verbosity normal
 
-  frontend:
+  build-frontend:
     runs-on: ubuntu-latest
-    needs: backend
+    needs: build-backend
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.17.0'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.17.0'
 
-    - name: Install dependencies
-      run: npm install
-      working-directory: ./src/MLS.MatLidStoreUI
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./src/MLS.MatLidStoreUI
 
-    - name: Install Angular CLI
-      run: npm install -g @angular/cli@16.2.16
-      working-directory: ./src/MLS.MatLidStoreUI
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli@16.2.16
+        working-directory: ./src/MLS.MatLidStoreUI
 
-    - name: Install Husky
-      run: echo "Skipping Husky installation"
-      working-directory: ../
+      - name: Build Angular application
+        run: ng build --configuration production --output-path docs --base-href /MatLidStore/
+        working-directory: ./src/MLS.MatLidStoreUI
 
-    - name: Build Angular application
-      run: ng build --configuration production --output-path docs --base-href /MatLidStore/
-      working-directory: ./src/MLS.MatLidStoreUI
+      - name: Test Angular application
+        run: ng test --watch=false --bail
+        working-directory: ./src/MLS.MatLidStoreUI
 
-    - name: Test Angular application
-      run: echo "Skipping tests as no .spec.ts files are present"
-      working-directory: ./src/MLS.MatLidStoreUI
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-frontend
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./src/MLS.MatLidStoreUI/docs
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+        with:
+          publish_dir: ./src/MLS.MatLidStoreUI/docs
+          github_token: ${{ secrets.GITHUB_TOKEN }}
