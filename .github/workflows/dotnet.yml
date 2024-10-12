@@ -46,6 +46,10 @@ jobs:
       run: npm install
       working-directory: ./src/MLS.MatLidStoreUI
 
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+      working-directory: ./src/MLS.MatLidStoreUI
+
     - name: Install Husky
       run: echo "Skipping Husky installation"
       working-directory: ../
