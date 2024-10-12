@@ -47,8 +47,8 @@ jobs:
       working-directory: ./src/MLS.MatLidStoreUI
 
     - name: Install Husky
-      run: npx husky install
-      working-directory: ./src/MLS.MatLidStoreUI
+      run: echo "Skipping Husky installation"
+      working-directory: ../
 
     - name: Build Angular application
       run: ng build --configuration production --output-path ../../docs --base-href /MatLidStore/
@@ -56,12 +56,10 @@ jobs:
 
     - name: Test Angular application
       run: echo "Skipping tests as no .spec.ts files are present"
-      # run: npm run test -- --watch=false
       working-directory: ./src/MLS.MatLidStoreUI
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs
-        publish_branch: gh-pages
+        publish_dir: ./src/MLS.MatLidStoreUI/dist
