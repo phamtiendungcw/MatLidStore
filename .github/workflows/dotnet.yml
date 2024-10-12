@@ -44,7 +44,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18.17.0'
+        node-version: '20'
 
     - name: Install dependencies
       run: npm install
@@ -76,5 +76,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
-          publish_dir: ./src/MLS.MatLidStoreUI/docs
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}  # Sử dụng 'token' thay cho 'publish_dir'
+          timeout: 10m  # Thời gian tối đa cho triển khai
+          artifact_name: 'my-artifact'  # Tên của artifact
+          preview: false  # Tắt preview nếu không cần
