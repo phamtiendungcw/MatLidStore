@@ -8,6 +8,10 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+    
+permissions:
+  id-token: write
+  contents: write
 
 jobs:
   build-backend:
@@ -73,3 +77,4 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           publish_dir: ./src/MLS.MatLidStoreUI/docs
+          github_token: ${{ secrets.GITHUB_TOKEN }}
