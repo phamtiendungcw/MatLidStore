@@ -1,3 +1,6 @@
+# This workflow will build a .NET project and deploy the Angular frontend to GitHub Pages.
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
 name: Full Solution CI
 
 on:
@@ -70,4 +73,3 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           publish_dir: ./src/MLS.MatLidStoreUI/docs
-          github_token: ${{ secrets.GITHUB_TOKEN }}
