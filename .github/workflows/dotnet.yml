@@ -68,7 +68,7 @@ jobs:
       working-directory: ./src/MLS.MatLidStoreUI
 
     - name: Upload production-ready build files
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: github-pages
         path: ./src/MLS.MatLidStoreUI/docs
@@ -81,7 +81,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Download production files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: github-pages
           path: ./src/MLS.MatLidStoreUI/docs
