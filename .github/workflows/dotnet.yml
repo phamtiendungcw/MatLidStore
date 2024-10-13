@@ -8,10 +8,11 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-    
+
 permissions:
-  id-token: write
   contents: write
+  pages: write 
+  id-token: write
 
 jobs:
   build-backend:
@@ -66,12 +67,29 @@ jobs:
       run: echo "Skipping tests as no .spec.ts files are present"
       working-directory: ./src/MLS.MatLidStoreUI
 
+    - name: Upload production-ready build files
+      uses: actions/upload-artifact@v3
+      with:
+        name: production-files
+        path: ./src/MLS.MatLidStoreUI/docs
+
   deploy:
     runs-on: ubuntu-latest
     needs: build-frontend
 
     steps:
       - uses: actions/checkout@v3
+
+      # Tải xuống artifact chứa build files đã được upload
+      - name: Download production files
+        uses: actions/download-artifact@v3
+        with:
+          name: production-files
+          path: ./src/MLS.MatLidStoreUI/docs
+
+      # Tạo file .nojekyll để tắt Jekyll
+      - name: Create .nojekyll file
+        run: echo > ./src/MLS.MatLidStoreUI/docs/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
