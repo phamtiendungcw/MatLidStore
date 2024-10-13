@@ -60,12 +60,18 @@ jobs:
       working-directory: ../
 
     - name: Build Angular application
-      run: ng build
+      run: ng build --configuration production --output-path dist --base-href /MatLidStore/
       working-directory: ./src/MLS.MatLidStoreUI
 
     - name: Test Angular application
       run: echo "Skipping tests as no .spec.ts files are present"
       working-directory: ./src/MLS.MatLidStoreUI
+
+    - name: Remove symlinks in dist folder
+      run: find ./src/MLS.MatLidStoreUI/dist -type l -exec rm {} \;
+
+    - name: Check dist folder size
+      run: du -sh ./src/MLS.MatLidStoreUI/dist
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v4
@@ -92,7 +98,7 @@ jobs:
           path: ./src/MLS.MatLidStoreUI/dist
 
       - name: Create .nojekyll file
-        run: echo > ./src/MLS.MatLidStoreUI/docs/.nojekyll
+        run: echo > ./src/MLS.MatLidStoreUI/dist/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
