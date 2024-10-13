@@ -95,23 +95,26 @@ jobs:
     needs: build-frontend
 
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Download production files
-        uses: actions/download-artifact@v4
-        with:
-          name: github-pages
-          path: ./src/MLS.MatLidStoreUI/docs
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
 
-      - name: Verify downloaded artifacts
-        run: |
-          echo "Artifacts downloaded:"
-          ls -la ./src/MLS.MatLidStoreUI/docs
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./src/MLS.MatLidStoreUI
 
-      - name: Create .nojekyll file
-        run: echo > ./src/MLS.MatLidStoreUI/docs/.nojekyll
+    - name: Build Angular application
+      run: ng build --configuration production --output-path dist --base-href /MatLidStore/
+      working-directory: ./src/MLS.MatLidStoreUI
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create .nojekyll file
+      run: echo > ./src/MLS.MatLidStoreUI/dist/.nojekyll
+
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: ./src/MLS.MatLidStoreUI/dist
