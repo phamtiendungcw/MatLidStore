@@ -60,7 +60,7 @@ jobs:
       working-directory: ../
 
     - name: Build Angular application with production settings
-      run: ng build --configuration production --output-path dist --base-href /MatLidStore/
+      run: ng build --configuration production --output-path docs --base-href /MatLidStore/
       working-directory: ./src/MLS.MatLidStoreUI
 
     - name: Test Angular application
@@ -68,27 +68,27 @@ jobs:
       working-directory: ./src/MLS.MatLidStoreUI
 
     - name: Remove symlinks in dist folder
-      run: find ./src/MLS.MatLidStoreUI/dist -type l -exec rm {} \;
+      run: find ./src/MLS.MatLidStoreUI/docs -type l -exec rm {} \;
 
     - name: Check total artifact size
-      run: du -sh ./src/MLS.MatLidStoreUI/dist
+      run: du -sh ./src/MLS.MatLidStoreUI/docs
 
     - name: Clean up unnecessary files before upload
       run: |
-        find ./src/MLS.MatLidStoreUI/dist -name '*.map' -type f -delete
-        find ./src/MLS.MatLidStoreUI/dist -name '*.test.js' -type f -delete
-        find ./src/MLS.MatLidStoreUI/dist -name 'node_modules' -type d -exec rm -rf {} +
+        find ./src/MLS.MatLidStoreUI/docs -name '*.map' -type f -delete
+        find ./src/MLS.MatLidStoreUI/docs -name '*.test.js' -type f -delete
+        find ./src/MLS.MatLidStoreUI/docs -name 'node_modules' -type d -exec rm -rf {} +
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v4
       with:
         name: github-pages
-        path: ./src/MLS.MatLidStoreUI/dist
+        path: ./src/MLS.MatLidStoreUI/docs
 
     - name: Verify uploaded artifacts
       run: |
         echo "Artifacts uploaded:"
-        ls -la ./src/MLS.MatLidStoreUI/dist
+        ls -la ./src/MLS.MatLidStoreUI/docs
 
   deploy:
     runs-on: ubuntu-latest
@@ -101,15 +101,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github-pages
-          path: ./src/MLS.MatLidStoreUI/dist
+          path: ./src/MLS.MatLidStoreUI/docs
 
       - name: Verify downloaded artifacts
         run: |
           echo "Artifacts downloaded:"
-          ls -la ./src/MLS.MatLidStoreUI/dist
+          ls -la ./src/MLS.MatLidStoreUI/docs
 
       - name: Create .nojekyll file
-        run: echo > ./src/MLS.MatLidStoreUI/dist/.nojekyll
+        run: echo > ./src/MLS.MatLidStoreUI/docs/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
