@@ -60,7 +60,7 @@ jobs:
       working-directory: ../
 
     - name: Build Angular application
-      run: ng build --configuration production --output-path docs --base-href /MatLidStore/
+      run: ng build
       working-directory: ./src/MLS.MatLidStoreUI
 
     - name: Test Angular application
@@ -71,7 +71,12 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: github-pages
-        path: ./src/MLS.MatLidStoreUI/docs
+        path: ./src/MLS.MatLidStoreUI/dist
+
+    - name: List uploaded artifacts
+      run: |
+        echo "Artifacts uploaded:"
+        ls -la ./src/MLS.MatLidStoreUI/dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -84,7 +89,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github-pages
-          path: ./src/MLS.MatLidStoreUI/docs
+          path: ./src/MLS.MatLidStoreUI/dist
 
       - name: Create .nojekyll file
         run: echo > ./src/MLS.MatLidStoreUI/docs/.nojekyll
