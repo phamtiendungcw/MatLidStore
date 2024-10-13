@@ -59,7 +59,7 @@ jobs:
       run: echo "Skipping Husky installation"
       working-directory: ../
 
-    - name: Build Angular application
+    - name: Build Angular application with production settings
       run: ng build --configuration production --output-path dist --base-href /MatLidStore/
       working-directory: ./src/MLS.MatLidStoreUI
 
@@ -70,8 +70,13 @@ jobs:
     - name: Remove symlinks in dist folder
       run: find ./src/MLS.MatLidStoreUI/dist -type l -exec rm {} \;
 
-    - name: Check dist folder size
-      run: du -sh ./src/MLS.MatLidStoreUI/dist
+    - name: Check detailed dist folder size
+      run: du -ah ./src/MLS.MatLidStoreUI/dist
+
+    - name: Clean up large unnecessary files
+      run: |
+        find ./src/MLS.MatLidStoreUI/dist -name '*.map' -type f -delete
+        find ./src/MLS.MatLidStoreUI/dist -name 'node_modules' -type d -exec rm -rf {} +
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v4
