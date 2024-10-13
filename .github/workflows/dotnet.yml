@@ -91,18 +91,6 @@ jobs:
       run: ng build --configuration production --output-path docs --base-href /MatLidStore/
       working-directory: ./src/MLS.MatLidStoreUI
 
-    - name: Upload production-ready build files
-      uses: actions/upload-artifact@v4
-      with:
-        name: github-pages
-        path: ./src/MLS.MatLidStoreUI/docs
-
-    - name: Download production files
-      uses: actions/download-artifact@v4
-      with:
-        name: github-pages
-        path: ./src/MLS.MatLidStoreUI/docs
-
     - name: Check artifact size and content
       run: |
         echo "Size of docs directory:"
@@ -134,4 +122,3 @@ jobs:
       uses: actions/deploy-pages@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./src/MLS.MatLidStoreUI/docs
