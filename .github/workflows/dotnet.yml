@@ -70,12 +70,13 @@ jobs:
     - name: Remove symlinks in dist folder
       run: find ./src/MLS.MatLidStoreUI/dist -type l -exec rm {} \;
 
-    - name: Check detailed dist folder size
-      run: du -ah ./src/MLS.MatLidStoreUI/dist
+    - name: Check total artifact size
+      run: du -sh ./src/MLS.MatLidStoreUI/dist
 
-    - name: Clean up large unnecessary files
+    - name: Clean up unnecessary files before upload
       run: |
         find ./src/MLS.MatLidStoreUI/dist -name '*.map' -type f -delete
+        find ./src/MLS.MatLidStoreUI/dist -name '*.test.js' -type f -delete
         find ./src/MLS.MatLidStoreUI/dist -name 'node_modules' -type d -exec rm -rf {} +
 
     - name: Upload production-ready build files
@@ -84,7 +85,7 @@ jobs:
         name: github-pages
         path: ./src/MLS.MatLidStoreUI/dist
 
-    - name: List uploaded artifacts
+    - name: Verify uploaded artifacts
       run: |
         echo "Artifacts uploaded:"
         ls -la ./src/MLS.MatLidStoreUI/dist
@@ -101,6 +102,11 @@ jobs:
         with:
           name: github-pages
           path: ./src/MLS.MatLidStoreUI/dist
+
+      - name: Verify downloaded artifacts
+        run: |
+          echo "Artifacts downloaded:"
+          ls -la ./src/MLS.MatLidStoreUI/dist
 
       - name: Create .nojekyll file
         run: echo > ./src/MLS.MatLidStoreUI/dist/.nojekyll
