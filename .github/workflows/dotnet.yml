@@ -59,32 +59,8 @@ jobs:
       run: echo "Skipping Husky installation"
       working-directory: ../
 
-    - name: Build Angular application with production settings
-      run: ng build
-      working-directory: ./src/MLS.MatLidStoreUI
-
     - name: Test Angular application
       run: echo "Skipping tests as no .spec.ts files are present"
-      working-directory: ./src/MLS.MatLidStoreUI
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-frontend
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-
-    - name: Install Angular CLI
-      run: npm install -g @angular/cli@16.2.16
-      working-directory: ./src/MLS.MatLidStoreUI
-
-    - name: Install dependencies
-      run: npm install
       working-directory: ./src/MLS.MatLidStoreUI
 
     - name: Build Angular application
@@ -117,6 +93,25 @@ jobs:
 
     - name: Create .nojekyll file
       run: echo > ./src/MLS.MatLidStoreUI/docs/.nojekyll
+
+    - name: Upload production-ready build files
+      uses: actions/upload-artifact@v4
+      with:
+        name: github-pages
+        path: ./src/MLS.MatLidStoreUI/docs
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-frontend
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Download production files
+      uses: actions/download-artifact@v4
+      with:
+        name: github-pages
+        path: ./src/MLS.MatLidStoreUI/docs
 
     - name: Deploy to GitHub Pages
       uses: actions/deploy-pages@v4
