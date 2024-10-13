@@ -95,7 +95,7 @@ jobs:
       run: echo > ./src/MLS.MatLidStoreUI/docs/.nojekyll
 
     - name: Upload production-ready build files
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-pages-artifact@v1
       with:
         name: github-pages
         path: ./src/MLS.MatLidStoreUI/docs
