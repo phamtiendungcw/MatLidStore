@@ -13,7 +13,7 @@ public static class PersistenceServiceRegistration
 {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<MatLidStoreDatabaseContext>(options => { options.UseOracle(configuration.GetConnectionString("MatLidOracleDBConnectionString")); });
+        services.AddDbContext<MatLidStoreDatabaseContext>(options => { options.UseSqlServer(configuration.GetConnectionString("MatLidSqlServerDBConnectionString")); });
         services.AddCors(options => { options.AddPolicy("MatLidStoreUI", b => b.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod()); });
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IAddressRepository, AddressRepository>();

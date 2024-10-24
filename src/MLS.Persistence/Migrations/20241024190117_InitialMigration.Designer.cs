@@ -3,16 +3,16 @@ using System;
 using MLS.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Oracle.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
 namespace MLS.Persistence.Migrations
 {
     [DbContext(typeof(MatLidStoreDatabaseContext))]
-    [Migration("20240906001721_InitialMigration")]
+    [Migration("20241024190117_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,24 +22,24 @@ namespace MLS.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "6.0.32")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -52,18 +52,18 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -75,16 +75,16 @@ namespace MLS.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("NVARCHAR2(450)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("NVARCHAR2(450)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -96,10 +96,10 @@ namespace MLS.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -109,16 +109,16 @@ namespace MLS.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("NVARCHAR2(450)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("NVARCHAR2(450)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -129,46 +129,46 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR2(20)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("State")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR2(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -181,28 +181,28 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("NVARCHAR2(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("NVARCHAR2(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("\"NormalizedName\" IS NOT NULL");
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("MATLID_Roles", (string)null);
 
@@ -210,14 +210,14 @@ namespace MLS.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "e7ccec54-5f48-4905-b6bd-dd383425983c",
+                            ConcurrencyStamp = "1bc3b83b-32c5-40e1-844b-b446b817d9cc",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "a5d5aa57-f246-4963-9ee9-cc59aa99edbb",
+                            ConcurrencyStamp = "34bbfea0-6f2c-41b0-bc72-d87c4d61e344",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -227,72 +227,72 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("NVARCHAR2(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TIMESTAMP(7) WITH TIME ZONE");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("NVARCHAR2(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("NVARCHAR2(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("RAW(2000)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("NVARCHAR2(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -302,7 +302,7 @@ namespace MLS.Persistence.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
-                        .HasFilter("\"NormalizedUserName\" IS NOT NULL");
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("MATLID_Users", (string)null);
 
@@ -311,7 +311,7 @@ namespace MLS.Persistence.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e2a5f5ed-2cbd-4f4d-963f-ce3219b370c1",
+                            ConcurrencyStamp = "33697c3d-8096-441e-aee8-e575e434725c",
                             Email = "admin@matlidstore.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -320,7 +320,7 @@ namespace MLS.Persistence.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MATLIDSTORE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO5SpcGZzImwF02FEsD3wLJS7w5HZMKE2vtLC9ypveTVM3dzXciNHZ+RwzrnvLYj9A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDtq7OeT3Aw4bE46ORL+VMaUdYmJXMmoah9qHB1a4W3i8scI/+elonFMbcuj+yr3IQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin"
@@ -329,7 +329,7 @@ namespace MLS.Persistence.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1dfcfb5f-37fa-43fe-9267-825015a87195",
+                            ConcurrencyStamp = "8f4c70fe-dd8d-480f-b2b5-94164650db10",
                             Email = "user@matlidstore.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -338,7 +338,7 @@ namespace MLS.Persistence.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@MATLIDSTORE.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAENnyPtpu2SiM/63dkL3MPk7zHhceW96MEJrG9BgklN4OmUtXeM2lskZMOg5aLgoCxg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKYPRcaOKZAH1TbkDivcLJAKkCOSNkW+qdPKfX4YOW0+u4OyCmuYxlqIyXW6H9I8Fw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "user"
@@ -349,42 +349,42 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("AuthorUserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(2000)
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("PublicationDate")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("TagId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -399,28 +399,28 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("NVARCHAR2(200)");
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -431,37 +431,37 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("ArticleId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("CommenterId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR2(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -476,32 +476,32 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Percentage")
                         .HasColumnType("decimal(3,2)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -512,32 +512,32 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsRead")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -550,32 +550,32 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("OrderDate")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("OrderStatus")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR2(20)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -588,30 +588,30 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -626,32 +626,32 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("AmountPaid")
                         .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR2(20)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -664,28 +664,28 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,4)");
@@ -693,16 +693,16 @@ namespace MLS.Persistence.Migrations
                     b.Property<string>("Sku")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("StockQuantity")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int?>("SupplierId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -717,31 +717,31 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ColorHexCode")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ColorName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -754,31 +754,31 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ImageDescription")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("NVARCHAR2(300)");
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("NVARCHAR2(200)");
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -791,31 +791,31 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -828,35 +828,35 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ReviewDate")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ReviewText")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR2(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -871,29 +871,29 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("TagId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<string>("TagName")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR2(20)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -908,34 +908,34 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EstimatedDeliveryDate")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<string>("ShippingMethod")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("TrackingNumber")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -948,21 +948,21 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -975,30 +975,30 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("ShoppingCartId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -1013,31 +1013,31 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ContactEmail")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ContactPhone")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -1048,30 +1048,30 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("SupplierId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -1086,23 +1086,23 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -1113,26 +1113,26 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1145,24 +1145,24 @@ namespace MLS.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("NUMBER(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TIMESTAMP(7)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("WishListId")
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
