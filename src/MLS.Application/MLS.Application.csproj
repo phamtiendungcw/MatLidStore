@@ -1,64 +1,64 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Features\Address\**" />
-    <Compile Remove="Features\Discount\**" />
-    <Compile Remove="Features\Notification\**" />
-    <Compile Remove="Features\ProductColor\**" />
-    <Compile Remove="Features\ProductImage\**" />
-    <Compile Remove="Features\ProductOption\**" />
-    <Compile Remove="Features\ProductTag\**" />
-    <Compile Remove="Features\Supplier\**" />
-    <Compile Remove="Features\Supply\**" />
-    <Compile Remove="Features\Tag\**" />
-    <Compile Remove="Features\WishListItem\**" />
-    <EmbeddedResource Remove="Features\Address\**" />
-    <EmbeddedResource Remove="Features\Discount\**" />
-    <EmbeddedResource Remove="Features\Notification\**" />
-    <EmbeddedResource Remove="Features\ProductColor\**" />
-    <EmbeddedResource Remove="Features\ProductImage\**" />
-    <EmbeddedResource Remove="Features\ProductOption\**" />
-    <EmbeddedResource Remove="Features\ProductTag\**" />
-    <EmbeddedResource Remove="Features\Supplier\**" />
-    <EmbeddedResource Remove="Features\Supply\**" />
-    <EmbeddedResource Remove="Features\Tag\**" />
-    <EmbeddedResource Remove="Features\WishListItem\**" />
-    <None Remove="Features\Address\**" />
-    <None Remove="Features\Discount\**" />
-    <None Remove="Features\Notification\**" />
-    <None Remove="Features\ProductColor\**" />
-    <None Remove="Features\ProductImage\**" />
-    <None Remove="Features\ProductOption\**" />
-    <None Remove="Features\ProductTag\**" />
-    <None Remove="Features\Supplier\**" />
-    <None Remove="Features\Supply\**" />
-    <None Remove="Features\Tag\**" />
-    <None Remove="Features\WishListItem\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Features\Address\**" />
+		<Compile Remove="Features\Discount\**" />
+		<Compile Remove="Features\Notification\**" />
+		<Compile Remove="Features\ProductColor\**" />
+		<Compile Remove="Features\ProductImage\**" />
+		<Compile Remove="Features\ProductOption\**" />
+		<Compile Remove="Features\ProductTag\**" />
+		<Compile Remove="Features\Supplier\**" />
+		<Compile Remove="Features\Supply\**" />
+		<Compile Remove="Features\Tag\**" />
+		<Compile Remove="Features\WishListItem\**" />
+		<EmbeddedResource Remove="Features\Address\**" />
+		<EmbeddedResource Remove="Features\Discount\**" />
+		<EmbeddedResource Remove="Features\Notification\**" />
+		<EmbeddedResource Remove="Features\ProductColor\**" />
+		<EmbeddedResource Remove="Features\ProductImage\**" />
+		<EmbeddedResource Remove="Features\ProductOption\**" />
+		<EmbeddedResource Remove="Features\ProductTag\**" />
+		<EmbeddedResource Remove="Features\Supplier\**" />
+		<EmbeddedResource Remove="Features\Supply\**" />
+		<EmbeddedResource Remove="Features\Tag\**" />
+		<EmbeddedResource Remove="Features\WishListItem\**" />
+		<None Remove="Features\Address\**" />
+		<None Remove="Features\Discount\**" />
+		<None Remove="Features\Notification\**" />
+		<None Remove="Features\ProductColor\**" />
+		<None Remove="Features\ProductImage\**" />
+		<None Remove="Features\ProductOption\**" />
+		<None Remove="Features\ProductTag\**" />
+		<None Remove="Features\Supplier\**" />
+		<None Remove="Features\Supply\**" />
+		<None Remove="Features\Tag\**" />
+		<None Remove="Features\WishListItem\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MLS.Domain\MLS.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\MLS.Domain\MLS.Domain.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="FluentValidation" Version="11.10.0" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
-    <PackageReference Include="MediatR" Version="12.3.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+		<PackageReference Include="FluentValidation" Version="11.10.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
+		<PackageReference Include="MediatR" Version="12.4.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Wishlist\Commands\CreateWishListCommand\" />
-    <Folder Include="Features\Wishlist\Commands\DeleteWishListCommand\" />
-    <Folder Include="Features\Wishlist\Commands\UpdateWishListCommand\" />
-    <Folder Include="Features\Wishlist\Queries\GetAllWishLists\" />
-    <Folder Include="Features\Wishlist\Queries\GetWishListDetails\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Features\Wishlist\Commands\CreateWishListCommand\" />
+		<Folder Include="Features\Wishlist\Commands\DeleteWishListCommand\" />
+		<Folder Include="Features\Wishlist\Commands\UpdateWishListCommand\" />
+		<Folder Include="Features\Wishlist\Queries\GetAllWishLists\" />
+		<Folder Include="Features\Wishlist\Queries\GetWishListDetails\" />
+	</ItemGroup>
 
 </Project>
