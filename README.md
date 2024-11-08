@@ -1,35 +1,28 @@
 # MATLID - Modern Artistic Trends in Lifestyle & Design
 
-Welcome to MATLID, where we explore modern artistic trends in lifestyle and design!
+Welcome to **MATLID**, your destination for exploring cutting-edge artistic trends in lifestyle, fashion, design, and home decor!
 
 ## About MATLID
 
-MATLID is a dynamic platform dedicated to curating and showcasing the latest trends in lifestyle and design. From fashion to home decor, we celebrate creativity and innovation that enhances everyday living.
+MATLID is a dynamic platform dedicated to curating and showcasing the latest trends in lifestyle and design. We focus on promoting creativity and innovation in everyday living, from fashion to home decor. Whether you’re a designer, artist, or enthusiast, MATLID is your go-to place for inspiration and trendsetting ideas.
 
 ## Features
 
-- **Trendy Collections:** Explore curated collections of modern lifestyle products and designs.
-- **Inspiration Gallery:** Get inspired by our gallery featuring the work of talented designers and artists.
-- **Blog:** Dive deeper into the world of lifestyle and design with our insightful blog posts and articles.
-- **Community Engagement:** Join our community to share ideas, tips, and experiences with like-minded individuals.
-
-## How to Use
-
-1. **Explore:** Browse our website to discover the latest trends and collections.
-2. **Get Inspired:** Check out our inspiration gallery for ideas and creativity.
-3. **Connect:** Join our community and engage with fellow enthusiasts.
-4. **Stay Updated:** Follow us on social media for the latest news and updates.
+- **Trendy Collections**: Curated collections of modern lifestyle products and designs.
+- **Inspiration Gallery**: A visual gallery featuring the works of talented designers and artists.
+- **Blog**: Dive deep into the world of lifestyle and design with insightful articles and blog posts.
+- **Community Engagement**: Join a thriving community to share ideas, tips, and experiences with like-minded individuals.
 
 ## Key Features
 
 - **Explore Artistic Trends**: Stay updated with the latest trends in art and design.
-- **Creative Community**: Connect with other artists and designers, share, and discuss new ideas.
-- **In-depth Articles**: Read detailed articles analyzing trends in art and lifestyle.
-- **Ratings and Comments**: Rate and comment on articles and trends, and participate in community discussions.
+- **Creative Community**: Connect with artists and designers, exchange ideas, and collaborate.
+- **In-depth Articles**: Read detailed articles analyzing trends in art, fashion, and lifestyle.
+- **Ratings and Comments**: Engage with content by rating and commenting on articles and trends.
 
 ## Architecture and Technologies Used
 
-The MATLID project is built using advanced technologies to ensure high performance, security, and easy maintenance. Below are the languages and architectures used:
+MATLID is powered by modern technologies to provide a smooth user experience, scalability, and security. Here’s an overview of the stack:
 
 ### Frontend
 
@@ -50,25 +43,22 @@ The MATLID project is built using advanced technologies to ensure high performan
 ### Application Architecture
 
 #### CQRS (Command Query Responsibility Segregation)
-
-CQRS helps separate the write (Command) and read (Query) operations in the application, providing clear separation between data processing logic and data retrieval logic. Entities like Product, Order, User, Article, etc., are implemented using the CQRS pattern with Data Transfer Objects (DTOs) for CRUD operations.
+CQRS helps separate write (Command) and read (Query) operations, making the application more efficient and scalable. It helps maintain a clear distinction between data processing and retrieval.
 
 #### Repository Pattern
-
-The Repository Pattern is used to manage data access, creating an abstraction layer between the application and the database, making maintenance and expansion of the application easier.
+The Repository Pattern abstracts the data access layer, making it easier to maintain and extend the application’s data management.
 
 #### Validators
-
-FluentValidation is used for data validation, ensuring that the data sent to the server is always valid and reliable.
+FluentValidation is used to ensure data integrity by validating user inputs before they are processed by the server.
 
 ## Installation and Running the Project
 
 ### System Requirements
 
-- .NET 6 SDK
-- Angular version 16.2.0
-- Node.js (latest version)
-- SQL Server | Oracle database
+- **.NET 6 SDK**
+- **Angular version 16.2.0**
+- **Node.js** (latest version)
+- **SQL Server | Oracle database**
 
 ### Installation
 
@@ -76,40 +66,50 @@ FluentValidation is used for data validation, ensuring that the data sent to the
    ```bash
    git clone https://github.com/phamtiendungcw/MatLidStore.git
    cd MatLidStore
+   ```
 
 2. **Install dependencies for Backend**
    ```bash
    cd MLS.Api
    dotnet restore
+   ```
 
-4. **Install dependencies for Frontend**
+3. **Install dependencies for Frontend**
    ```bash
    cd ../MLS.MatLidStoreUI
    npm install
+   ```
 
 ## Running the Application
-1. Run Backend
+
+1. **Run the Backend**
    ```bash
    cd MLS.Api
    dotnet run
+   ```
 
-3. Run Frontend
+2. **Run the Frontend**
    ```bash
    cd ../MLS.MatLidStoreUI
    ng serve
+   ```
 
 ## Access the Application
 
-Open your browser and go to https://localhost:4200 to start exploring MATLIDSTORE.
+Open your browser and navigate to [https://localhost:4200](https://localhost:4200) to start exploring MATLIDSTORE.
 
 ## Contribute
 
-We welcome contributions from designers, artists, and enthusiasts passionate about modern artistic trends. If you'd like to collaborate or contribute to MATLID, please reach out to us.
+We welcome contributions from everyone passionate about modern artistic trends. If you'd like to contribute, please follow the instructions in our [Contributing Guidelines](CONTRIBUTING.md).
+
+## License
+
+This project is licensed under the GNU GENERAL PUBLIC LICENSE. See the [LICENSE](LICENSE) file for more details.
 
 ## Contact Us
 
-- **Website:** [www.matlid.com](https://www.matlid.com)
-- **Email:** info@matlid.com
-- **Email:** phamtiendungcw@gmail.com
+- **Website**: [www.matlid.com](https://www.matlid.com)
+- **Email**: [info@matlid.com](mailto:info@matlid.com)
+- **Email**: [phamtiendungcw@gmail.com](mailto:phamtiendungcw@gmail.com)
 
-Thank you for visiting MATLID - Where Art Meets Lifestyle!
+Thank you for visiting MATLID – Where Art Meets Lifestyle!
