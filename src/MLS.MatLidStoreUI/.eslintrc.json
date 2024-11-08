@@ -1,10 +1,17 @@
 {
-  "ignorePatterns": ["projects/**/*"],
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
   "root": true,
-  "plugins": ["unused-imports", "simple-import-sort"],
+  "plugins": [
+    "unused-imports",
+    "simple-import-sort"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -12,15 +19,23 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
-        "@angular-eslint/sort-ngmodule-metadata-arrays": ["error", {}],
-        "quotes": ["error", "single"],
+        "@angular-eslint/sort-ngmodule-metadata-arrays": [
+          "error",
+          {}
+        ],
+        "quotes": [
+          "error",
+          "single"
+        ],
         "simple-import-sort/exports": "error",
         "simple-import-sort/imports": "error",
         "unused-imports/no-unused-imports": "error"
       }
     },
     {
-      "files": ["*.html"],
+      "files": [
+        "*.html"
+      ],
       "extends": [
         "plugin:@angular-eslint/template/recommended",
         "plugin:@angular-eslint/template/accessibility",
@@ -32,12 +47,18 @@
           {
             "alphabetical": false,
             "order": [
-              "STRUCTURAL_DIRECTIVE", // e.g. `*ngIf="true"`, `*ngFor="let item of items"`
-              "TEMPLATE_REFERENCE", // e.g. `<input #inputRef>`
-              "ATTRIBUTE_BINDING", // e.g. `<input required>`, `id="3"`
-              "INPUT_BINDING", // e.g. `[id]="3"`, `[attr.colspan]="colspan"`, [style.width.%]="100", [@triggerName]="expression", `bind-id="handleChange()"`
-              "TWO_WAY_BINDING", // e.g. `[(id)]="id"`, `bindon-id="id"
-              "OUTPUT_BINDING" // e.g. `(idChange)="handleChange()"`, `on-id="handleChange()"`
+              "STRUCTURAL_DIRECTIVE",
+              // e.g. `*ngIf="true"`, `*ngFor="let item of items"`
+              "TEMPLATE_REFERENCE",
+              // e.g. `<input #inputRef>`
+              "ATTRIBUTE_BINDING",
+              // e.g. `<input required>`, `id="3"`
+              "INPUT_BINDING",
+              // e.g. `[id]="3"`, `[attr.colspan]="colspan"`, [style.width.%]="100", [@triggerName]="expression", `bind-id="handleChange()"`
+              "TWO_WAY_BINDING",
+              // e.g. `[(id)]="id"`, `bindon-id="id"
+              "OUTPUT_BINDING"
+              // e.g. `(idChange)="handleChange()"`, `on-id="handleChange()"`
             ]
           }
         ],
