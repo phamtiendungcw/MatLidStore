@@ -1,0 +1,27 @@
+@charset "UTF-8";
+/*!
+ * Project: MatLidStore (https://github.com/phamtiendungcw/matlidstore)
+ * File: sidebar.component.scss
+ * Author: phamtiendungcw (https://github.com/phamtiendungcw)
+ * Contact: Pham Tien Dung (phamtiendungcw@gmail.com)
+ * Last Modified: Thứ Bảy, 09-11-2024 | 03:02 SA
+ * --------
+ * Copyright © 2023 - 2024 Pham Tien Dung, MatLidStore Ltd. All rights reserved.
+ * --------
+ * Description:
+ *   This file is part of the MLS.MatLidStoreUI project.
+ *   Unauthorized copying or distribution of this file, via any medium, is strictly prohibited.
+ * --------
+ * License: Proprietary and confidential.
+ */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 16rem; /* 64 * 0.25rem */
+  background-color: #2d3748; /* bg-gray-800 */
+  color: #fff; /* text-white */
+}
+
+/*# sourceMappingURL=sidebar.component.css.map */

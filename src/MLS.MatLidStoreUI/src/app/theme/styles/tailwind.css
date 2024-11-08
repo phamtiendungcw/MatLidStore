@@ -1,15 +1,16 @@
 /*
- * Project: MatLidStore(https://github.com/phamtiendungcw/matlidstore)
+ * Project: MatLidStore (https://github.com/phamtiendungcw/matlidstore)
  * File: tailwind.css
- * Author: phamtiendungcw(https://github.com/phamtiendungcw)
- * Created on: 15:29, 07/11/2024
- *
- * Copyright (c) 2024 Pham Tien Dung. All rights reserved.
- *
+ * Author: phamtiendungcw (https://github.com/phamtiendungcw)
+ * Contact: Pham Tien Dung (phamtiendungcw@gmail.com)
+ * Last Modified: Thứ Bảy, 09-11-2024 | 02:47 SA
+ * --------
+ * Copyright © 2023 - 2024 Pham Tien Dung, MatLidStore Ltd. All rights reserved.
+ * --------
  * Description:
  *   This file is part of the MLS.MatLidStoreUI project.
  *   Unauthorized copying or distribution of this file, via any medium, is strictly prohibited.
- *
+ * --------
  * License: Proprietary and confidential.
  */
 
@@ -70,15 +71,16 @@ Improve consistency of default fonts in all browsers. (https://github.com/sindre
 */
 
 body {
-  font-family: system-ui,
-  -apple-system,
+  font-family:
+    system-ui,
+    -apple-system,
     /* Firefox supports this but not yet `system-ui` */ "Segoe UI",
-  Roboto,
-  Helvetica,
-  Arial,
-  sans-serif,
-  "Apple Color Emoji",
-  "Segoe UI Emoji";
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
 }
 
 /*
@@ -348,20 +350,21 @@ ul {
  */
 
 html {
-  font-family: ui-sans-serif,
-  system-ui,
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  Roboto,
-  "Helvetica Neue",
-  Arial,
-  "Noto Sans",
-  sans-serif,
-  "Apple Color Emoji",
-  "Segoe UI Emoji",
-  "Segoe UI Symbol",
-  "Noto Color Emoji"; /* 1 */
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji"; /* 1 */
   line-height: 1.5; /* 2 */
 }
 
@@ -3371,7 +3374,8 @@ select {
   --tw-numeric-figure: var(--tw-empty, /*!*/ /*!*/);
   --tw-numeric-spacing: var(--tw-empty, /*!*/ /*!*/);
   --tw-numeric-fraction: var(--tw-empty, /*!*/ /*!*/);
-  font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction);
+  font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing)
+    var(--tw-numeric-fraction);
 }
 
 .normal-nums {
@@ -3599,7 +3603,8 @@ select {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .transform-gpu {
@@ -3610,7 +3615,8 @@ select {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  transform: translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate))
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .transform-none {
