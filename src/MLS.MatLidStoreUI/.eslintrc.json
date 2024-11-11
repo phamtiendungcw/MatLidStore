@@ -47,18 +47,18 @@
           {
             "alphabetical": false,
             "order": [
+              // e.g. `*ngIf="true"`, `*ngFor="let item of items"`,
               "STRUCTURAL_DIRECTIVE",
-              // e.g. `*ngIf="true"`, `*ngFor="let item of items"`
+              // e.g. `<input #inputRef>`,
               "TEMPLATE_REFERENCE",
-              // e.g. `<input #inputRef>`
+              // e.g. `<input required>`, `id="3"`,
               "ATTRIBUTE_BINDING",
-              // e.g. `<input required>`, `id="3"`
+              // e.g. `[id]="3"`, `[attr.colspan]="colspan"`, [style.width.%]="100", [@triggerName]="expression", `bind-id="handleChange()"`,
               "INPUT_BINDING",
-              // e.g. `[id]="3"`, `[attr.colspan]="colspan"`, [style.width.%]="100", [@triggerName]="expression", `bind-id="handleChange()"`
+              // e.g. `[(id)]="id"`, `bindon-id="id",
               "TWO_WAY_BINDING",
-              // e.g. `[(id)]="id"`, `bindon-id="id"
+              // e.g. `(idChange)="handleChange()"`, `on-id="handleChange()"`,
               "OUTPUT_BINDING"
-              // e.g. `(idChange)="handleChange()"`, `on-id="handleChange()"`
             ]
           }
         ],

@@ -3,7 +3,7 @@
  * File: account.module.ts
  * Author: phamtiendungcw (https://github.com/phamtiendungcw)
  * Contact: Pham Tien Dung (phamtiendungcw@gmail.com)
- * Last Modified: Thứ Bảy, 09-11-2024 | 02:57 SA
+ * Last Modified: Thứ Hai, 11-11-2024 | 10:23 SA
  * --------
  * Copyright © 2023 - 2024 Pham Tien Dung, MatLidStore Ltd. All rights reserved.
  * --------
@@ -14,7 +14,7 @@
  * License: Proprietary and confidential.
  */
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { ThemeModule } from '../../theme.module';
@@ -24,6 +24,6 @@ import { RegisterPageComponent } from './register-page/register-page.component';
 
 @NgModule({
   declarations: [LoginPageComponent, RegisterPageComponent],
-  imports: [AccountRoutingModule, CommonModule, ThemeModule],
+  imports: [AccountRoutingModule, CommonModule, NgOptimizedImage, ThemeModule],
 })
 export class AccountModule {}
