@@ -3,7 +3,7 @@
   ~ File: login-page.component.html
   ~ Author: phamtiendungcw (https://github.com/phamtiendungcw)
   ~ Contact: Pham Tien Dung (phamtiendungcw@gmail.com)
-  ~ Last Modified: Thứ Bảy, 09-11-2024 | 03:02 SA
+  ~ Last Modified: Thứ Hai, 11-11-2024 | 02:47 CH
   ~ --------
   ~ Copyright © 2023 - 2024 Pham Tien Dung, MatLidStore Ltd. All rights reserved.
   ~ --------
@@ -17,7 +17,13 @@
 <div class="pt:mt-0 mx-auto flex flex-col items-center justify-center px-6 pt-8 md:h-screen">
   <div class="mb-4 flex flex-col items-center lg:mb-6" href="#">
     <a href="#">
-      <img alt="MatLidStore Logo" class="mb-2 h-16" src="src/assets/images/MatLidStore_Logo.png" />
+      <img
+        alt="MatLidStore Logo"
+        class="mb-2 h-16"
+        ngSrc="/assets/Images/MatLidStore_Logo.png"
+        height="80"
+        width="80"
+      />
     </a>
     <span class="text-center text-2xl font-bold">Modern Artistic Trends in Lifestyle & Design</span>
   </div>
@@ -34,28 +40,28 @@
             name="username"
             placeholder="Nhập tên người dùng của bạn"
             required
-            type="username"
+            type="text"
           />
         </div>
         <div>
           <label class="mb-2 block text-sm font-medium text-gray-700" for="password">Mật khẩu</label>
           <div class="relative">
             <input
-              [type]="showPassword ? 'text' : 'password'"
               class="input-pw w-full rounded-lg border border-gray-300 p-3 focus:outline-none focus:ring-2 focus:ring-cyan-600"
               id="password"
               name="password"
               placeholder="Nhập mật khẩu của bạn"
               required
+              [type]="showPassword ? 'text' : 'password'"
             />
             <button
-              (click)="togglePasswordVisibility()"
-              [title]="showPassword ? 'Ẩn mật khẩu' : 'Hiển thị mật khẩu'"
               aria-label="Toggle password visibility"
               class="absolute inset-y-0 right-0 px-3 py-2"
               type="button"
+              [title]="showPassword ? 'Ẩn mật khẩu' : 'Hiển thị mật khẩu'"
+              (click)="togglePasswordVisibility()"
             >
-              <fa-icon [icon]="showPassword ? faEyeSlash : faEye" class="text-gray-500 hover:text-gray-800"></fa-icon>
+              <fa-icon class="text-gray-500 hover:text-gray-800" [icon]="showPassword ? faEyeSlash : faEye"></fa-icon>
             </button>
           </div>
         </div>
